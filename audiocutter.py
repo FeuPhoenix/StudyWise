@@ -37,9 +37,9 @@ def deletePath(s): # Dangerous! Watch out!
         print ("Deletion of the directory %s failed" % s)
         print(OSError)
 
-
-INPUT_FILE = '8min.mp4'
-OUTPUT_FILE = '8min_altered.mp4'
+#Parameters
+INPUT_FILE = 'example.mp4'
+OUTPUT_FILE = 'example_altered.mp4'
 SILENT_THRESHOLD = 0.03
 SOUNDED_SPEED = 1.0
 SILENT_SPEED = 5.0
@@ -93,8 +93,8 @@ hasLoudAudio = np.zeros((audioFrameCount)) # array of booleans, True if audio fr
 for i in range(audioFrameCount): # check if audio frame has loud audio
     start = int(i*samplesPerFrame)
     end = min(int((i+1)*samplesPerFrame),audioSampleCount)
-    audiochunks = audioData[start:end] 
-    maxchunksVolume = float(getMaxVolume(audiochunks))/maxAudioVolume 
+    audiochunks = audioData[start:end] # audio data for a given frame
+    maxchunksVolume = float(getMaxVolume(audiochunks))/maxAudioVolume # max volume of audio data for a given frame
     if maxchunksVolume >= SILENT_THRESHOLD:
         hasLoudAudio[i] = 1
 
@@ -115,35 +115,34 @@ outputPointer = 0
 
 lastExistingFrame = None 
 # for each chunk, speed up or slow down audio to match video frame rate
-for chunk in chunks:
+for chunk in chunks: 
     audioChunk = audioData[int(chunk[0]*samplesPerFrame):int(chunk[1]*samplesPerFrame)] #audioData is an array that has a start (chunk[0]) and end (chunk[1]) point, we multiply by samplesPerFrame to get the audio data for that chunk
     sFile = TEMP_FOLDER+"/tempStart.wav"
     eFile = TEMP_FOLDER+"/tempEnd.wav" 
     wavfile.write(sFile,SAMPLE_RATE,audioChunk)
-    with WavReader(sFile) as reader:
-        with WavWriter(eFile, reader.channels, reader.samplerate) as writer:
-            tsm = phasevocoder(reader.channels, speed=NEW_SPEED[int(chunk[2])])
-            tsm.run(reader, writer)
-    _, alteredAudioData = wavfile.read(eFile)
+    with WavReader(sFile) as reader: # read audio file
+        with WavWriter(eFile, reader.channels, reader.samplerate) as writer: # write audio file
+            tsm = phasevocoder(reader.channels, speed=NEW_SPEED[int(chunk[2])]) # time-scale modification
+            tsm.run(reader, writer) 
+    _, alteredAudioData = wavfile.read(eFile) 
     leng = alteredAudioData.shape[0]
-    endPointer = outputPointer+leng
+    endPointer = outputPointer+leng 
     outputAudioData = np.concatenate((outputAudioData,alteredAudioData/maxAudioVolume)) # combine audio data for all chunks
 
     # smooth out transitiion's audio by quickly fading in/out
-
-    if leng < AUDIO_FADE_ENVELOPE_SIZE:
+    if leng < AUDIO_FADE_ENVELOPE_SIZE: 
         outputAudioData[outputPointer:endPointer] = 0 # audio is less than 0.01 sec, let's just remove it.
     else:
-        premask = np.arange(AUDIO_FADE_ENVELOPE_SIZE)/AUDIO_FADE_ENVELOPE_SIZE
-        mask = np.repeat(premask[:, np.newaxis],2,axis=1) # make the fade-envelope mask stereo
-        outputAudioData[outputPointer:outputPointer+AUDIO_FADE_ENVELOPE_SIZE] *= mask
-        outputAudioData[endPointer-AUDIO_FADE_ENVELOPE_SIZE:endPointer] *= 1-mask
+        premask = np.arange(AUDIO_FADE_ENVELOPE_SIZE)/AUDIO_FADE_ENVELOPE_SIZE # create fade-envelope mask
+        mask = np.repeat(premask[:, np.newaxis],2,axis=1)
+        outputAudioData[outputPointer:outputPointer+AUDIO_FADE_ENVELOPE_SIZE] *= mask # fade in
+        outputAudioData[endPointer-AUDIO_FADE_ENVELOPE_SIZE:endPointer] *= 1-mask 
 
-    startOutputFrame = int(math.ceil(outputPointer/samplesPerFrame))
+    startOutputFrame = int(math.ceil(outputPointer/samplesPerFrame)) 
     endOutputFrame = int(math.ceil(endPointer/samplesPerFrame))
     for outputFrame in range(startOutputFrame, endOutputFrame): # copy frames from input video to output video
-        inputFrame = int(chunk[0]+NEW_SPEED[int(chunk[2])]*(outputFrame-startOutputFrame)) 
-        didItWork = copyFrame(inputFrame,outputFrame) 
+        inputFrame = int(chunk[0]+NEW_SPEED[int(chunk[2])]*(outputFrame-startOutputFrame))
+        didItWork = copyFrame(inputFrame,outputFrame)
         if didItWork:
             lastExistingFrame = inputFrame
         else:
