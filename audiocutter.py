@@ -7,7 +7,9 @@ import re
 import math
 from shutil import copyfile, rmtree
 import os
+import time
 
+start_time = time.time()
 
 def getMaxVolume(s): # get max volume of a given audio file (we also find the min volume because audio signals signals can have negative values)
     maxv = float(np.max(s))
@@ -38,8 +40,8 @@ def deletePath(s): # Dangerous! Watch out!
         print(OSError)
 
 #Parameters
-INPUT_FILE = 'example.mp4'
-OUTPUT_FILE = 'example_altered.mp4'
+INPUT_FILE = 'smlexample.mp4'
+OUTPUT_FILE = 'smlexample_altered.mp4'
 SILENT_THRESHOLD = 0.03
 SOUNDED_SPEED = 1.0
 SILENT_SPEED = 5.0
@@ -154,4 +156,18 @@ wavfile.write(TEMP_FOLDER+"/audioNew.wav",SAMPLE_RATE,outputAudioData) # write a
 
 command = "ffmpeg -framerate "+str(frameRate)+" -i "+TEMP_FOLDER+"/newFrame%06d.jpg -i "+TEMP_FOLDER+"/audioNew.wav -strict -2 "+OUTPUT_FILE # combine frames and audio to create output video
 subprocess.call(command, shell=True)
+# After everything is done, calculate the time taken
+end_time = time.time()
+execution_time = end_time - start_time
+
+# Calculate the reduction in video length
+original_duration = float(audioSampleCount) / sampleRate
+new_duration = float(outputPointer) / sampleRate
+reduction_percentage = ((original_duration - new_duration) / original_duration) * 100
+
+# Print statistics
+print("Process finished in {:.2f} seconds".format(execution_time))
+print("Original video duration: {:.2f} seconds".format(original_duration))
+print("New video duration: {:.2f} seconds".format(new_duration))
+print("Percentage reduction in video length: {:.2f}%".format(reduction_percentage))
 deletePath(TEMP_FOLDER)
