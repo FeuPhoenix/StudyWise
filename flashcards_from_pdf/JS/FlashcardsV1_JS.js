@@ -135,7 +135,7 @@ $('ul.tabs').each(function() {
       cards[j] = temp;
     }
     return cards;
-  } //returns a randomly re-ordered cardsay
+  } 
 
 
   function displayCard(index) {
@@ -153,7 +153,7 @@ var isMissed = false;
 
 
 function loadCards() {
-  return fetch('/flashcards_from_pdf/JS/flash_cards.json')
+  return fetch('/StudyWise/flashcards_from_pdf/JS/flash_cards.json')
     .then(response => response.json())
     .then(data => {
       fullCards = data.map(card => ({ ...card, status: "unread" }));

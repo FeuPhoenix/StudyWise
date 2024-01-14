@@ -1,122 +1,70 @@
 [
     {
+        "front": "Q1: What is the purpose of using viewpoints and views in software architecture?",
+        "back": "A1: The purpose is to structure the architectural description into pieces and provide templates for developing each view."
+    },
+    {
+        "front": "Q2: How does the use of viewpoints and views simplify dealing with complex architectural structures?",
+        "back": "A2: By breaking down the architectural description into views and providing guidance through viewpoints, it becomes easier to understand and manage complex architectural structures."
+    },
+    {
+        "front": "Q3: What are views used to describe in software architecture?",
+        "back": "A3: Views are used to describe different aspects of the system, such as the functional structure, deployment environment, and development constraints."
+    },
+    {
+        "front": "Q4: What do viewpoints provide to the architect in software architecture?",
+        "back": "A4: Viewpoints provide guidance to the architect by defining what each view should or may contain, how to represent it, how to develop it, and potential problems and their solutions."
+    },
+    {
+        "front": "Q5: How is the architectural description composed in software architecture?",
+        "back": "A5: The architectural description is made up of a set of views, each structured according to a specific viewpoint."
+    },
+    {
         "front": "1. What is the relationship between view and viewpoint?",
-        "back": "The relationship between view and viewpoint is similar to that of object and class."
+        "back": "- The relationship between view and viewpoint is similar to that of object and class."
     },
     {
-        "front": "2. How do viewpoints and views help in organizing the process and the produced artifacts?",
-        "back": "Using viewpoints and views helps to organize both the process being followed and the artifacts produced. Viewpoints provide implicit structure and explicit guidance, while views serve as an organization of the architectural description."
+        "front": "1. What is the 4+1 viewpoint model?",
+        "back": "The 4+1 viewpoint model is a software architecture approach described by Philippe Kruchten and the Rational Corporation in 1995. "
     },
     {
-        "front": "3. When did the concept of architectural viewpoints originate?",
-        "back": "The concept of architectural viewpoints has academic roots back in the 1970s from David Parnas and more recently in the 1990s from Dewayne Perry and Alex Wolf."
+        "front": "3. What is the Reference Model of Open Distributed Processing (RM-ODP)?",
+        "back": "The Reference Model of Open Distributed Processing (RM-ODP) is an ISO standard used to describe distributed object systems."
     },
     {
-        "front": "4. When did widespread awareness of viewpoints start to spread?",
-        "back": "Widespread awareness of viewpoints started to spread in the mid-1990s."
+        "front": "1. What is the purpose of defining sets of viewpoints for software architecture?",
+        "back": "- The purpose of defining sets of viewpoints for software architecture is to provide a structured and comprehensive way of capturing and analyzing different aspects of a system's architecture."
     },
     {
-        "front": "5. Have there been any sets of viewpoints developed?",
-        "back": "Yes, since the mid-1990s, a number of sets of viewpoints have been developed."
+        "front": "2. How did Christine Hofmeister, Rod Nord, and Dilip Soni define their set of viewpoints?",
+        "back": "- They defined their set of viewpoints for real-time and embedded systems based on the way Siemens software architects worked, and documented it in their book \"Applied Software Architecture\" in 1999."
     },
     {
-        "front": "Q: Who published the article titled \"4+1 \u2013 Philippe Kruchten and the Rational Corporation\"?",
-        "back": "A: V. Ambriola and G. Tortora"
+        "front": "4. Are the sets of viewpoints by Christine Hofmeister, Rod Nord, and Dilip Soni, and Jeff Garland and Richard Anthony based on the same principles?",
+        "back": "- Based on the information provided, it is not clear if the sets of viewpoints are based on the same principles. Further details would be needed to determine this."
     },
     {
-        "front": "Q: When was the article \"4+1 \u2013 Philippe Kruchten and the Rational Corporation\" published?",
-        "back": "A: In 1995"
+        "front": "7. Which notation is used as the base description across the views in the set of viewpoints by Jeff Garland and Richard Anthony?",
+        "back": "- The set of viewpoints by Jeff Garland and Richard Anthony uses UML as the base description notation across the views."
     },
     {
-        "front": "Q: Where was the article \"4+1 \u2013 Philippe Kruchten and the Rational Corporation\" published?",
-        "back": "A: In IEEE Software"
+        "front": "8. Are the sets of viewpoints by Christine Hofmeister, Rod Nord, and Dilip Soni, and Eoin Woods et al based on the same set?",
+        "back": "- Based on the information provided, it is not clear if the sets of viewpoints by Christine Hofmeister, Rod Nord, and Dilip Soni, and Eoin Woods et al are based on the same set. Further details would be needed to determine this."
     },
     {
-        "front": "Q: What is the reference model for describing distributed object systems?",
-        "back": "A: Reference Model of Open Distributed Processing (RM-ODP)"
+        "front": "Q: What is the basis of ISO Standard 42010?",
+        "back": "A: The basis of ISO Standard 42010 is a conceptual model for how viewpoints and views relate to each other and their environment."
     },
     {
-        "front": "Q: When was the Reference Model of Open Distributed Processing (RM-ODP) published?",
-        "back": "A: It was published in 1995"
+        "front": "Q: What is ISO Standard 42010?",
+        "back": "A: ISO Standard 42010 is a development of the previous IEEE Standard 1471."
     },
     {
-        "front": "Q: Who published the Reference Model of Open Distributed Processing (RM-ODP)?",
-        "back": "A: Kerry Raymond et al."
+        "front": "Q: What is the previous standard that ISO Standard 42010 is based on?",
+        "back": "A: ISO Standard 42010 is based on the previous standard, IEEE Standard 1471."
     },
     {
-        "front": "Q: What is the purpose of the Reference Model of Open Distributed Processing (RM-ODP)?",
-        "back": "A: To describe distributed object systems"
-    },
-    {
-        "front": "Q: What is the name of the book that includes the Reference Model of Open Distributed Processing (RM-ODP)?",
-        "back": "A: \"Software Architecture: Foundations, Theory, and Practice\""
-    },
-    {
-        "front": "Q: Who are the authors of the book \"Software Architecture: Foundations, Theory, and Practice\"?",
-        "back": "A: Richard N. Taylor, Nenad Medvidovic, and Eric M. Dashofy"
-    },
-    {
-        "front": "Q: Who defined a set for real-time and embedded systems?",
-        "back": "A: Christine Hofmeister, Rod Nord, and Dilip Soni."
-    },
-    {
-        "front": "Q: When was the set for real-time and embedded systems documented?",
-        "back": "A: It was documented in their book \"Applied Software Architecture\" in 1999."
-    },
-    {
-        "front": "Q: Where can I find more details about Christine Hofmeister, Rod Nord, and Dilip Soni's set?",
-        "back": "A: You can find more details in the online version of their book."
-    },
-    {
-        "front": "Q: Who defined a set of viewpoints for information systems?",
-        "back": "A: Jeff Garland and Richard Anthony."
-    },
-    {
-        "front": "Q: What was the base description notation used in Jeff Garland and Richard Anthony's set?",
-        "back": "A: UML was used as the base description notation across the views."
-    },
-    {
-        "front": "Q: When was the set for information systems documented?",
-        "back": "A: It was documented in their book \"Large Scale Software Architecture.\""
-    },
-    {
-        "front": "Q: Where can I find more details about Jeff Garland and Richard Anthony's set?",
-        "back": "A: You can find more details in the online version of their book."
-    },
-    {
-        "front": "Q: Who defined a set of viewpoints based on the 4+1 set?",
-        "back": "A: Eoin Woods et al."
-    },
-    {
-        "front": "Q: Where can I find more details about Eoin Woods et al's set?",
-        "back": "A: The details can be found in the book \"Software Architecture: Foundations, Theory, and Practice.\""
-    },
-    {
-        "front": "1. What is the focus of the book \"Software Systems Architecture: Working With Stakeholders Using Viewpoints and Perspectives\"?",
-        "back": "- The focus of the book is on information systems and is practitioner-focused."
-    },
-    {
-        "front": "2. When was the book \"Software Systems Architecture: Working With Stakeholders Using Viewpoints and Perspectives\" published?",
-        "back": "- The book was published in 2005."
-    },
-    {
-        "front": "3. Is the book based on the authors' own experience?",
-        "back": "- Yes, the book is based on the authors' own experience."
-    },
-    {
-        "front": "4. What ISO standard is the basis for the conceptual model in the book?",
-        "back": "- The conceptual model in the book is based on ISO Standard 42010."
-    },
-    {
-        "front": "5. What was the previous standard that ISO Standard 42010 is a development of?",
-        "back": "- ISO Standard 42010 is a development of the previous IEEE Standard 1471."
-    },
-    {
-        "front": "6. What book is referenced for more details on the ISO standard and the conceptual model?",
-        "back": "- The book \"Software Architecture: Foundations, Theory, and Practice\" by Richard N. Taylor, Nenad Medvidovic, and Eric M. Dashofy is referenced for more details."
-    },
-    {
-        "front": "7. What is the permission status for the reprinted book mentioned?",
-        "back": "- The reprinted book is reprinted with permission from John Wiley & Sons, Inc."
+        "front": "Q: What does the conceptual model in ISO Standard 42010 relate to?",
+        "back": "A: The conceptual model in ISO Standard 42010 relates to how viewpoints and views relate to each other and their environment, including systems, architects, and stakeholders."
     }
 ]
