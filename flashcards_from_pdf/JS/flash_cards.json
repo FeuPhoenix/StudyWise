@@ -1,0 +1,122 @@
+[
+    {
+        "front": "1. What is the relationship between view and viewpoint?",
+        "back": "The relationship between view and viewpoint is similar to that of object and class."
+    },
+    {
+        "front": "2. How do viewpoints and views help in organizing the process and the produced artifacts?",
+        "back": "Using viewpoints and views helps to organize both the process being followed and the artifacts produced. Viewpoints provide implicit structure and explicit guidance, while views serve as an organization of the architectural description."
+    },
+    {
+        "front": "3. When did the concept of architectural viewpoints originate?",
+        "back": "The concept of architectural viewpoints has academic roots back in the 1970s from David Parnas and more recently in the 1990s from Dewayne Perry and Alex Wolf."
+    },
+    {
+        "front": "4. When did widespread awareness of viewpoints start to spread?",
+        "back": "Widespread awareness of viewpoints started to spread in the mid-1990s."
+    },
+    {
+        "front": "5. Have there been any sets of viewpoints developed?",
+        "back": "Yes, since the mid-1990s, a number of sets of viewpoints have been developed."
+    },
+    {
+        "front": "Q: Who published the article titled \"4+1 \u2013 Philippe Kruchten and the Rational Corporation\"?",
+        "back": "A: V. Ambriola and G. Tortora"
+    },
+    {
+        "front": "Q: When was the article \"4+1 \u2013 Philippe Kruchten and the Rational Corporation\" published?",
+        "back": "A: In 1995"
+    },
+    {
+        "front": "Q: Where was the article \"4+1 \u2013 Philippe Kruchten and the Rational Corporation\" published?",
+        "back": "A: In IEEE Software"
+    },
+    {
+        "front": "Q: What is the reference model for describing distributed object systems?",
+        "back": "A: Reference Model of Open Distributed Processing (RM-ODP)"
+    },
+    {
+        "front": "Q: When was the Reference Model of Open Distributed Processing (RM-ODP) published?",
+        "back": "A: It was published in 1995"
+    },
+    {
+        "front": "Q: Who published the Reference Model of Open Distributed Processing (RM-ODP)?",
+        "back": "A: Kerry Raymond et al."
+    },
+    {
+        "front": "Q: What is the purpose of the Reference Model of Open Distributed Processing (RM-ODP)?",
+        "back": "A: To describe distributed object systems"
+    },
+    {
+        "front": "Q: What is the name of the book that includes the Reference Model of Open Distributed Processing (RM-ODP)?",
+        "back": "A: \"Software Architecture: Foundations, Theory, and Practice\""
+    },
+    {
+        "front": "Q: Who are the authors of the book \"Software Architecture: Foundations, Theory, and Practice\"?",
+        "back": "A: Richard N. Taylor, Nenad Medvidovic, and Eric M. Dashofy"
+    },
+    {
+        "front": "Q: Who defined a set for real-time and embedded systems?",
+        "back": "A: Christine Hofmeister, Rod Nord, and Dilip Soni."
+    },
+    {
+        "front": "Q: When was the set for real-time and embedded systems documented?",
+        "back": "A: It was documented in their book \"Applied Software Architecture\" in 1999."
+    },
+    {
+        "front": "Q: Where can I find more details about Christine Hofmeister, Rod Nord, and Dilip Soni's set?",
+        "back": "A: You can find more details in the online version of their book."
+    },
+    {
+        "front": "Q: Who defined a set of viewpoints for information systems?",
+        "back": "A: Jeff Garland and Richard Anthony."
+    },
+    {
+        "front": "Q: What was the base description notation used in Jeff Garland and Richard Anthony's set?",
+        "back": "A: UML was used as the base description notation across the views."
+    },
+    {
+        "front": "Q: When was the set for information systems documented?",
+        "back": "A: It was documented in their book \"Large Scale Software Architecture.\""
+    },
+    {
+        "front": "Q: Where can I find more details about Jeff Garland and Richard Anthony's set?",
+        "back": "A: You can find more details in the online version of their book."
+    },
+    {
+        "front": "Q: Who defined a set of viewpoints based on the 4+1 set?",
+        "back": "A: Eoin Woods et al."
+    },
+    {
+        "front": "Q: Where can I find more details about Eoin Woods et al's set?",
+        "back": "A: The details can be found in the book \"Software Architecture: Foundations, Theory, and Practice.\""
+    },
+    {
+        "front": "1. What is the focus of the book \"Software Systems Architecture: Working With Stakeholders Using Viewpoints and Perspectives\"?",
+        "back": "- The focus of the book is on information systems and is practitioner-focused."
+    },
+    {
+        "front": "2. When was the book \"Software Systems Architecture: Working With Stakeholders Using Viewpoints and Perspectives\" published?",
+        "back": "- The book was published in 2005."
+    },
+    {
+        "front": "3. Is the book based on the authors' own experience?",
+        "back": "- Yes, the book is based on the authors' own experience."
+    },
+    {
+        "front": "4. What ISO standard is the basis for the conceptual model in the book?",
+        "back": "- The conceptual model in the book is based on ISO Standard 42010."
+    },
+    {
+        "front": "5. What was the previous standard that ISO Standard 42010 is a development of?",
+        "back": "- ISO Standard 42010 is a development of the previous IEEE Standard 1471."
+    },
+    {
+        "front": "6. What book is referenced for more details on the ISO standard and the conceptual model?",
+        "back": "- The book \"Software Architecture: Foundations, Theory, and Practice\" by Richard N. Taylor, Nenad Medvidovic, and Eric M. Dashofy is referenced for more details."
+    },
+    {
+        "front": "7. What is the permission status for the reprinted book mentioned?",
+        "back": "- The reprinted book is reprinted with permission from John Wiley & Sons, Inc."
+    }
+]
