@@ -1,0 +1,142 @@
+SWE411 Principles of Software Architecture Dr. Nissreen El-Saber
+--- Page Break ---
+
+WEEK 5
+MORE INTO VIEWS AND VIEWPOINTS
+--- Page Break ---
+
+RECALL VIEW AND VIEWPOINT
+The use of Viewpoints and Views is an existing approach, that we have used
+successfully, for dealing with complex architectural structures.
+Both ideas are simple but have proved to be effective:
+ Views are used to structure the architectural description into a number of pieces,
+each describing one aspect of the system (the functional structure, the deployment
+environment, the development constraints and so on). The architectural description is
+made up of a set of views.
+ Viewpoints provide templates for the views and as such a particular viewpoint is
+used to develop each view. A viewpoint provides the architect with guidance by
+defining what the corresponding view should or may contain, how to represent it, how
+to go about developing it, potential problems to be aware of and their solution, and
+so on.
+3
+--- Page Break ---
+
+The relationship between view and viewpoint is similar to that of object and class.
+Using viewpoints and views helps to organise both the process being followed (the
+viewpoints providing implcit structure and explicit guidance) and the artefacts produced
+(the views being an organisation of the architectural description).
+--- Page Break ---
+
+PIONEERS
+The architectural viewpoints idea isn‘t all that new, having academic roots back in
+the 1970s from David Parnas and more recently in the 1990s from Dewayne Perry
+and Alex Wolf. Widespread awareness of viewpoints started to spread in the mid-
+1990s and since then a number of sets of viewpoints have been developed.
+ David Parnas
+ Alexander L. Wolf
+ Dewayne E. Perry
+ Dewayne E. Perry, Alexander L. Wolf, 1992, Foundations for the Study of
+Software Architecture, ACM SIGSOFT SOFTWARE ENGINEERING NOTES vol 17 no
+4. (in the resources).
+ David Garlan and Mary Shaw, 1993, An Introduction to Software Architecture,
+Advances in Software Engineering and Knowledge Engineering, Volume I, edited by
+V. Ambriola and G. Tortora, World Scientific Publishing Company, New Jersey. (in
+the resources).
+--- Page Break ---
+
+SAMPLE SETS OF VIEWPOINTS
+ 4+1 – Philippe Kruchten and the Rational Corporation, published in
+IEEE Software in 1995, probably the earliest mainstream description.
+6
+Software Architecture: Foundations, Theory, and Practice; Richard N. Taylor, Nenad Medvidovic, and Eric M. Dashofy; © 2008 John Wiley & Sons, Inc. Reprinted with permission.
+--- Page Break ---
+
+SAMPLE SETS OF VIEWPOINTS
+ Reference Model of Open Distributed Processing (RM-ODP) is an ISO
+standard for describing distributed object systems and their viewpoint set
+was published as part of the standard in 1995 too.
+Kerry Raymond et al. (eds.),
+Reference Model of Open
+Distributed Processing (RM-
+ODP): Introduction. 1995.
+Open Distributed Processing
+Springer Science + Business
+Media Dordrecht. (in
+resources)
+7
+Software Architecture: Foundations, Theory, and Practice; Richard N. Taylor, Nenad Medvidovic, and Eric M. Dashofy; © 2008 John Wiley & Sons, Inc. Reprinted with permission.
+--- Page Break ---
+
+SAMPLE SETS OF VIEWPOINTS
+• Christine Hofmeister, Rod Nord and Dilip Soni defined a set for real-
+time and embedded systems while working at Siemens Research, based on
+the way that Siemens software architects worked. Documented in their book
+“Applied Software Architecture” in 1999.
+For more details, see
+the online version of
+the book:
+https://www.google.c
+om.eg/books/edition/
+Applied_Software_Ar
+chitecture/3klAPCIB3h
+QC?hl=es&gbpv=1&
+dq=inauthor:%22Chris
+tine+Hofmeister%22&
+printsec=frontcover
+8
+--- Page Break ---
+
+… SAMPLE VIEWPOINTS
+ Jeff Garland and Richard Anthony defined
+a set of viewpoints for information systems,
+using UML as the base description notation
+across the views, documenting the set in their
+book “Large Scale Software Architecture” in
+2003.
+For more details, see the online version of the book:
+https://www.google.com.eg/books/edition/Large_Scal
+e_Software_Architecture/_2oQLLSqZ88C?hl=es&gbpv
+=1&dq=large+scale+software+architecture&printsec=
+frontcover
+9
+Software Architecture: Foundations, Theory, and Practice; Richard N. Taylor, Nenad Medvidovic, and Eric M. Dashofy; © 2008 John Wiley & Sons, Inc. Reprinted with permission.
+--- Page Break ---
+
+… SAMPLE VIEWPOINTS
+ Eoin Woods et al defined a set of viewpoints, based on the 4+1 set in the book
+“Software Systems Architecture: Working With Stakeholders Using Viewpoints and
+Perspectives” in 2005. Conceptually, our set is like G & A’s, being practitioner focused, the
+result of our own experience and aimed at information systems, although the set is a lot
+smaller.
+For more details, see the
+online version of the book:
+https://www.google.com.eg/
+books/edition/Software_Sys
+tems_Architecture/ka4QO9k
+XQFUC?hl=es&gbpv=1&dq
+=Software+Systems+Archite
+cture:+Working+With+Stak
+eholders+Using+Viewpoints
++and+Perspectives&printsec
+=frontcover
+10
+--- Page Break ---
+
+… SAMPLE VIEWPOINTS
+ A Conceptual model for how viewpoints
+and views relate to each other and their
+environment (systems, architects, stakeholders
+and so on) forms the basis of ISO Standard
+42010 (which is a development of the
+previous IEEE Standard 1471).
+For more details, see the online version:
+https://www.iso.org/standard/74393.html
+http://www.iso-architecture.org/ieee-1471/cm/
+11
+--- Page Break ---
+
+QUESTIONS?
+12
+Software Architecture: Foundations, Theory, and Practice; Richard N. Taylor, Nenad Medvidovic, and Eric M. Dashofy; © 2008 John Wiley & Sons, Inc. Reprinted with permission.
+--- Page Break ---
+
