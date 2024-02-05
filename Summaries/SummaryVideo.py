@@ -1,3 +1,4 @@
+from datetime import timedelta
 import json
 import openai
 import re
@@ -23,7 +24,30 @@ headers = {
   
 
 
+def milliseconds_to_hms(ms):
+    ms=int(ms)
+    seconds = int(ms / 1000)
+    return str(timedelta(seconds=seconds))
 
+def generate_concise_title(headline, api_key):
+  while True:
+    try:
+        headers = {"Authorization": f"Bearer {api_key}"}
+        openai.api_key = api_key
+        response = openai.ChatCompletion.create(
+                        model="gpt-3.5-turbo",
+                        messages=[
+                            {"role": "system", "content": "You are a helpful assistant."},
+                            {"role": "user", "content": f"Convert this headline into a concise title: \"{headline}\""}
+                        ]
+                    )
+        return response['choices'][0]['message']['content'].strip()
+        
+    
+    except openai.error.RateLimitError as e:
+        print("Rate limit exceeded, waiting to retry...")
+        time.sleep(20)
+  
 def read_text_file(file_path):
     with open(file_path, 'r') as file:
         return file.read()
@@ -122,7 +146,23 @@ def main():
  with open(json_file_path, 'w') as json_file:
         json.dump(summary_data, json_file, indent=4)
         print(f"Long summary has been successfully saved to {json_file_path}.") 
+ text=Readjsonfile(json_chapters)
+ 
 
+ processed_chapters = []
+ for chapter in text:
+    start_hms = milliseconds_to_hms(chapter['start'])
+    end_hms = milliseconds_to_hms(chapter['end'])
+    concise_title = generate_concise_title(chapter['headline'], api_key)
+    
+    processed_chapters.append({
+        'start': start_hms,
+        'end': end_hms,
+        'concise_title': concise_title
+    })
+
+ with open('ProccessedChapters.json', 'w') as outfile:
+    json.dump(processed_chapters, outfile, indent=4)
 if __name__ == "__main__":
   main()
 

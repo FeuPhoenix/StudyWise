@@ -54,7 +54,7 @@ def get_Topics_from_gpt3(text, api_key, max_topics=1
                     model="gpt-3.5-turbo",
                     messages=[
                         {"role": "system", "content": "You are a helpful assistant."},
-                        {"role": "user", "content": f"You are provided with sentences, starting time of the sentence in millisecond, and the ending time of the sentence in millisecond transcribed from an audio file in chunks.\n{chunk}"},
+                        {"role": "user", "content": f"You are provided with sentences, starting time of the sentence in millisecond and the ending time of the sentence in millisecond transcribed from an audio file in chunks.\n{chunk}"},
                         {"role": "user", "content": f"I need you to provide a maximum of {max_topics} concise topics based on the sentences and write the starting and ending time of the topics only in the following format hour:minute:second."},
                     ]
                 )
