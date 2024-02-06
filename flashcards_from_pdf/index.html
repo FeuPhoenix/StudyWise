@@ -1,0 +1,56 @@
+<head>
+  <title>Flashcards</title>
+  <link rel="icon" href="images/StudyWise Logo V2 round.png" type="image/x-icon">
+  <link href='https://fonts.googleapis.com/css?family=Oxygen:400' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="CSS/style.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdn.rawgit.com/nnattawat/flip/master/dist/jquery.flip.min.js"></script>
+</head>
+  
+<body>
+  <!--Folder-->
+  <ul id = "tabs"class="tabs">
+    <li id="quiz"><a href="#tab1">Quiz Mode</a>
+    </li>
+    <li id="study"><a href="#tab2">Study Mode</a>
+  </ul>
+  <div class="folder">
+    <h1>Windows Command Line Prompts</h1>
+    <div id="howMany" class="howMany"></div>
+    <div id="tab1">
+      <!--Card-->
+
+      <div class="card">
+        <div id="front" class="front">
+        </div>
+        <div id="back" class="back">
+        </div>
+      </div>
+
+      <br>
+      <button id="fail" type="button">Missed It</button>
+      <button id="success" type="button">Got It!</button>
+
+
+      <div id="successRate"></div>
+      <div id ="block">
+      <div id="progress">
+        <div id="percent">Card 1 of 10</div>
+        <div id="bar"></div>
+        <div id="bg-bar"></div>
+      </div>
+      </div>
+        <button id="missed" type="button">Retry Missed</button>
+        <button id="full" type="button">Retry Full Set</button>
+    </div>
+    <div id='tab2'>
+      <div id="studyCards">
+      </div>
+    </div>
+    
+  </div>
+  <script src="JS/FlashcardsV1_JS.js"></script>
+  <!--end of folder-->
+</body>
+
+<footer>© StudyWise</footer>

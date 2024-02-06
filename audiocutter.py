@@ -7,7 +7,10 @@ import re
 import math
 from shutil import copyfile, rmtree
 import os
+import time
+import shutil
 
+start_time = time.time()
 
 def getMaxVolume(s): # get max volume of a given audio file (we also find the min volume because audio signals signals can have negative values)
     maxv = float(np.max(s))
@@ -24,11 +27,17 @@ def copyFrame(inputFrame,outputFrame): # copy frame inputFrame and save it as ou
         print(str(outputFrame+1)+" time-altered frames saved.")
     return True
 
-def createPath(s): # create directory structure for a given path
+def createPath(s): # Create directory structure for a given path
     try:
-        os.mkdir(s)
+        if os.path.exists(s):
+            # Remove folder, along with contents if it already exists
+            deletePath(s)
+        # Create the folder, including any necessary directories
+        os.makedirs(s)
     except OSError:
-        assert False, "Creation of the directory %s failed. (The TEMP folder may already exist. Delete or rename it, and try again.)"
+        # Raise an exception with a message if there's an error
+        print(f"Creation of the directory {s} failed.")
+        print(OSError)
 
 def deletePath(s): # Dangerous! Watch out!
     try:
@@ -37,9 +46,20 @@ def deletePath(s): # Dangerous! Watch out!
         print ("Deletion of the directory %s failed" % s)
         print(OSError)
 
+def getFileNameFromPath(input_string):
+    # Find the last occurrence of '/'
+    last_slash_index = input_string.rfind('/')
+    
+    # Slice the string from the character after the last '/'
+    # If '/' is not found, rfind returns -1, and slicing starts from index 0
+    result_string = input_string[last_slash_index + 1:]
+    
+    return result_string
+
 #Parameters
-INPUT_FILE = 'example.mp4'
-OUTPUT_FILE = 'example_altered.mp4'
+INPUT_FILE = "assets/input_files/videos/Speech_to_Text_using_Python_-_Fast_and_Accurate-(144p).mp4"
+FILE_NAME= getFileNameFromPath(INPUT_FILE)
+OUTPUT_FILE = 'assets/output_files/videos/'+FILE_NAME+'_AUDIOCUT.mp4'
 SILENT_THRESHOLD = 0.03
 SOUNDED_SPEED = 1.0
 SILENT_SPEED = 5.0
@@ -51,9 +71,11 @@ NEW_SPEED = [SILENT_SPEED, SOUNDED_SPEED]
 
 assert INPUT_FILE != None , "you forgot to put an input file"
 
-AUDIO_FADE_ENVELOPE_SIZE = 400 # smooth out transitiion's audio by quickly fading in/out
+# smooth out transitiion's audio by quickly fading in/out
+AUDIO_FADE_ENVELOPE_SIZE = 400 
 
-TEMP_FOLDER = "TEMP"  # Example temporary folder path in Colab
+# Example temporary folder path in Colab
+TEMP_FOLDER = "assets/output_files/Temp_Files/TEMP"  
 createPath(TEMP_FOLDER)
 
 command = "ffmpeg -i "+INPUT_FILE+" -qscale:v "+str(FRAME_QUALITY)+" "+TEMP_FOLDER+"/frame%06d.jpg -hide_banner" # extract frames from input video
@@ -152,6 +174,41 @@ for chunk in chunks:
 
 wavfile.write(TEMP_FOLDER+"/audioNew.wav",SAMPLE_RATE,outputAudioData) # write audio data to file
 
+
+
+
+
+
+
+
+
+# OUTPUT VIDEO CREATION
 command = "ffmpeg -framerate "+str(frameRate)+" -i "+TEMP_FOLDER+"/newFrame%06d.jpg -i "+TEMP_FOLDER+"/audioNew.wav -strict -2 "+OUTPUT_FILE # combine frames and audio to create output video
 subprocess.call(command, shell=True)
+# After everything is done, calculate the time taken
+end_time = time.time()
+execution_time = end_time - start_time
+
+# Calculate the reduction in video length
+original_duration = float(audioSampleCount) / sampleRate
+new_duration = float(outputPointer) / sampleRate
+reduction_percentage = ((original_duration - new_duration) / original_duration) * 100
+
+# Print statistics
+print("Process finished in {:.2f} seconds".format(execution_time))
+print("Original video duration: {:.2f} seconds".format(original_duration))
+print("New video duration: {:.2f} seconds".format(new_duration)+" (saved in {OUTPUT_FILE})")
+print("Percentage reduction in video length: {:.2f}%".format(reduction_percentage))
+
+# Takes a Video Frame and saves it to the output video's path 
+# to be used as the video's poster/thumbnail when displaying in html
+SAVED_FRAME = 'assets/output_files/Temp_Files/TEMP/frame000069.jpg'
+VIDEO_POSTER_PATH = 'assets/output_files/videos/frame000069.jpg'
+shutil.copy(SAVED_FRAME, VIDEO_POSTER_PATH)
+
+os.rename(VIDEO_POSTER_PATH, 'assets/output_files/videos/(Video-Poster)_'+FILE_NAME+'.jpg')
+
+# ↓ Uncomment if you need to keep Temp Files (and comment deletePath below)
+# os.rename(TEMP_FOLDER, "assets/output_files/Temp_Files/"+FILE_NAME+"_Processing-Files")
+
 deletePath(TEMP_FOLDER)

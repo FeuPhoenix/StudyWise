@@ -1,0 +1,151 @@
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;900;1000&display=swap');html {
+    font-family: 'Cairo', sans-serif;
+    font-size: 21;
+    line-height: 2rem;
+}
+
+:root {
+    --primaryFontFamily: 'Cairo', sans-serif;
+    --primaryFontSize: 21px;
+    --primaryFontColor: #F7EBE8;
+    --secondaryFontColor: #D4DBE8;
+    --transparent: rgba(0, 0, 0, 0);;
+    --primaryBorderRadius: 9px;
+}
+
+body {
+    background-color: #01163A;
+    font-family: var(--primaryFontFamily);
+    font-size: var(--primaryFontSize);
+    color: var(--primaryFontColor);
+    font-weight: 400;
+}
+
+button {
+    font-family: var(--primaryFontFamily);
+    font-size: var(--primaryFontSize);
+    font-weight: 500;
+    line-height: 26px;
+
+    background:rgba(11, 61, 101, 0.75);
+    color: var(--primaryFontColor);
+}
+
+.main-navbar{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    margin: auto;
+    margin-top: 2%;
+    width: 85%;
+    height: 60px;
+    
+    background: linear-gradient(#023D98, #040F22, #022964);
+    border: solid 2px #506387;
+    border-radius: 30px;
+}
+
+.navbar-logo {
+    height: 100px;
+    position: relative;
+    display: inline-block;
+}
+
+.navbar-btns {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    
+    position: relative;
+    left: 5%;
+
+    width: 50%;
+    height: inherit;
+}
+
+.main-navbar a {
+    height: inherit;
+    text-decoration: none;
+}
+
+.main-navbar button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--primaryFontColor);
+    background-color: var(--transparent);
+    font-style: inherit;
+
+    cursor: pointer;
+    border: none;
+    min-width: 200px;
+    width: 100%;
+    height: inherit;
+    transition: ease 150ms;
+}
+
+.main-navbar button:hover {
+    height: 100%;
+    font-size: 25px;
+    border: 3px solid #D4DBE8;
+    background: radial-gradient(61.54% 61.54% at 50% 50%, rgba(11, 61, 101, 0.75) 62.9%, #14598F 100%);
+}
+
+.page-content {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    margin: auto;
+    margin-top: 2%;
+    width: 85%;
+    height: 80%;
+    flex-shrink: 0;
+}
+
+.back-btn {
+    display: inline;
+    height: 2.2rem;
+    width: 2.2rem;
+    border: 2px solid #506387;
+    border-radius: 50px;
+    cursor: pointer;
+    margin: 10px 0 0 10px;
+    transition: ease 100ms;
+
+    font-size: 30px;
+}
+
+.back-btn:hover {
+    scale: 110%;
+    font-size: 31px;
+    background:rgba(11, 61, 101, 1);
+}
+
+.main-frame {
+    width: 100%;
+    height: 100%;
+    flex-shrink: 0;
+    transition: ease 150ms;
+
+    border-radius: var(--primaryBorderRadius);
+    border: 2px solid #506387;
+
+    background: radial-gradient(65.13% 77.87% at 118.98% 0%, #0A2F66 0%, #131F38 100%);
+}
+
+/* =========ABDELRAHMAN'S STYLING HERE========= */
+
+@media screen and (max-width = 900px) {
+    .sidebar-title{
+        font-size: 1.4rem;
+    }
+}
+
+@media screen and (max-width = 767.5px) {
+    
+}
