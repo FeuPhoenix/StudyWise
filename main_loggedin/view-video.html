@@ -5,6 +5,9 @@
         <link rel="stylesheet" href="https://unpkg.com/plyr@3/dist/plyr.css">
         <link rel="stylesheet" href="css/view-video-style.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+        <link rel="stylesheet" href="css/flashcard-style.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdn.rawgit.com/nnattawat/flip/master/dist/jquery.flip.min.js"></script>
     </head>
     <body>
         <div class="main-navbar">
@@ -34,20 +37,58 @@
                     </div>
                 </div>
             </div> <!-- Main Frame end -->
-            <div class="sidebar">
-                <div class="sidebar-title">
-                    Video Toolbar
-                </div>
-                <div class="sidebar-menu">
-                    <button>Switch to Audio</button>
-                    <button>Generate Flashcards</button>
+            <div class="sidebar-viewer">
 
+                <div class="flashcards">
+                    <h1>Quiz mode</h1>
+                    <div class="folder">
+                        <div id="howMany" class="howMany"></div>
+                        <div id="flshcard-quiz-mode">
+                        <!--Card-->
+                    
+                            <div class="card">
+                                <div id="front" class="front">
+                                </div>
+                                <div id="back" class="back">
+                                </div>
+                            </div>
+                    
+                            <br>
+                            <button id="fail" type="button">Missed It</button>
+                            <button id="success" type="button">Got It!</button>
+                        
+                        
+                            <div id="successRate"></div>
+                            <div id ="block">
+                                <div id="progress">
+                                    <div id="percent">Card 1 of 10</div>
+                                    <div id="bar"></div>
+                                    <div id="bg-bar"></div>
+                                </div>
+                            </div>
+                                <button id="missed" type="button">Retry Missed</button>
+                                <button id="full" type="button">Retry Full Set</button>
+                        </div>
+                    </div> <!-- Folder End -->
+                </div> <!-- Flashcards End -->
+
+            </div> <!-- Sidebar End -->
+                <!-- <div class="sidebar-title">
+                    Video Toolbar
+                </div> -->
+                <div class="sidebar-menu">
+                    <button class="flashcard-btn" onclick="showHideFlashcards()"><h3> Flashcards </h3><img src="assets/images/flashcard-img.png" alt="Flashcards!"></button>
+                    <button></button>
+                    <button></button>
+                    <button></button>
+                    <button></button>
+                    <button></button>
                 </div>
-            </div> <!-- Sidebar end -->
         </div>
         <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=es6,Array.prototype.includes,CustomEvent,Object.entries,Object.values,URL"></script>
         <script src="https://unpkg.com/plyr@3"></script>
         <script src="js/videoView.js"></script>
+        <script src="js/FlashcardsV1_JS.js"></script>
         <!-- <script src="https://cdn.plyr.io/3.7.8/demo.js" crossorigin="anonymous"></script> -->
     </body>
 </html>

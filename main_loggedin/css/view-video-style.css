@@ -17,7 +17,6 @@ body {
     background-color: #01163A;
     font-family: var(--primaryFontFamily);
     font-size: var(--primaryFontSize);
-    color: var(--primaryFontColor);
     font-weight: 400;
 }
 
@@ -128,7 +127,7 @@ button {
 }
 
 .main-frame {
-    width: 71%;
+    width: 55%;
     height: 100%;
     flex-shrink: 0;
 
@@ -138,11 +137,12 @@ button {
     background: radial-gradient(65.13% 77.87% at 118.98% 0%, #0A2F66 0%, #131F38 100%);
 }
 
-.sidebar {
+.sidebar-viewer {
     display: flex;
     flex-direction: column;
+    align-items: center;
 
-    width: 27%;
+    width: 37%;
     height: 100%;
     flex-shrink: 0;
 
@@ -152,7 +152,23 @@ button {
     background: linear-gradient(270deg, #0A2F66 -27.93%, #131F38 100%);
 }
 
-.sidebar-title{
+.flashcards {
+    transition: ease-in-out 150ms;
+
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+
+    align-items: center;
+    justify-content: center;
+}
+
+.flashcards h1 {
+    justify-self: flex-start;
+    color: var(--primaryFontColor);
+}
+
+/* .sidebar-title{
     display: flex;
     justify-content: center;
     align-items: center;
@@ -162,34 +178,43 @@ button {
     
     color: var(--secondaryFontColor);
     font-family: Cairo;
-    font-size: 1.8rem;
+    font-size: 1rem;
     font-weight: 700;
-}
+} */
+
+/* .sidebar {
+    width: 6%;
+    height: 100%;
+} */
 
 .sidebar-menu{
     display: flex;
     flex-direction: column;
     align-content: center;
-    align-self: center;
+    align-items: center;
 
-    padding: 10px 0 10px 0;
-    width: 88%;
-    height: 73%;
+    width: 6%;
+    height: 100%;
 
     border-radius: var(--primaryBorderRadius);
     border: 2px solid #506387;
-    background: #040F22;
+    background: linear-gradient(270deg, #0A2F66 -27.93%, #131F38 100%);
 }
 
 .sidebar-menu button{
-    width: 90%;
-    height: 65px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    width: 80%;
+    height: 4vw;
     font-size: var(--primaryFontSize);
-    margin: 10px auto 10px auto;
+    margin: 10px auto 0 auto;
 
     border-radius: 6px;
     border: 3px solid #D4DBE8;
-    background: #14223C;
+    background: #0d121b;
     cursor: pointer;
 
     transition: ease-in-out 150ms;
@@ -197,8 +222,35 @@ button {
 
 .sidebar-menu button:hover{
     background: radial-gradient(61.54% 61.54% at 50% 50%, rgba(0, 0, 0, 0.50) 62.9%, #022964 100%);
-    font-size: 22px;
+    font-size: 25px;
 }
+
+.flashcard-btn h3 {
+    transition: linear 100ms;
+    font-size: 1px;
+    position: absolute;
+    visibility: hidden;
+}
+
+.flashcard-btn:hover h3 {
+    width: 6rem;
+    font-size: 1.2rem;
+    background-color: #0d121b63;
+    border-radius: 9px;
+    margin-left: -10rem;
+    visibility: visible;
+}
+
+.flashcard-btn img {
+    transition: ease-in-out 150ms;
+    max-width: 2rem;
+}
+
+.flashcard-btn:hover img {
+    max-width: 2.2rem;
+}
+
+
 
 .video-container{
     display: block;
