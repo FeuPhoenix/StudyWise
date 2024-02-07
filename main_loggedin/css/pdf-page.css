@@ -183,4 +183,62 @@ button {
 
 .file-upload-btn:hover {
     background: radial-gradient(61.54% 61.54% at 50% 50%, rgba(11, 61, 101, 0.75) 62.9%, #14598F 100%);
+}/* studywise-features-style.css */
+
+/* Add these styles to the existing CSS file or create a new one */
+
+.page-content {
+    display: flex;
+    justify-content: space-between;
+    margin: auto;
+    margin-top: 2%;
+    width: 85%;
+    height: 80%;
+    flex-shrink: 0;
+}
+
+.pdf-section {
+    width: 60%;
+    height: 100%;
+    border-radius: var(--primaryBorderRadius);
+    border: 5px dotted #506387;
+    background: radial-gradient(65.13% 77.87% at 118.98% 0%, #0A2F66 0%, #131F38 100%);
+}
+
+.choices-section {
+    width: 35%;
+    display: flex;
+    flex-direction: column;
+}
+
+.choice {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    background: rgba(11, 61, 101, 0.75); /* Background color for choices */
+    padding: 10px; /* Add padding for better visual */
+    border-radius: 5px; /* Add border-radius for rounded corners */
+}
+
+.choice-icon {
+    width: 50px;
+    height: 50px;
+    margin-right: 15px;
+}
+
+.choice-details {
+    color: var(--primaryFontColor);
+}
+
+.choice-details h2 {
+    font-size: 1.5rem;
+    margin-bottom: 5px;
+}
+
+.choice-details p {
+    font-size: 1rem;
+}
+
+@media screen and (max-width: 900px) {
+    /* Adjust styles for smaller screens if needed */
 }
