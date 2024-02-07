@@ -6,13 +6,14 @@ var successCounter = 0;
 var failCounter = 0;
 var isMissed = false;
 
-function showHideFlashcards() {
-  var flashcardsElement = document.querySelector('.flashcards');
-    
-    if (flashcardsElement.style.display === 'none') {
-        flashcardsElement.style.display = 'flex';
+function toggleFlashcards(btn) {
+
+    if (flashcardsElement.style.scale === '0') {
+        flashcardsElement.style.scale = '100%';
+        btn.classList.add('active');
     } else {
-        flashcardsElement.style.display = 'none';
+        flashcardsElement.style.scale = '0';
+        btn.classList.remove('active');
     }
 }
 

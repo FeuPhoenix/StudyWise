@@ -141,12 +141,30 @@ def format_flash_cards(qa_pairs):
             formatted_cards.append({'front': question, 'back': answer})
     return formatted_cards
 
-def save_flash_cards_to_file(formatted_cards, filename):
-    with open(filename, 'w') as file:
+def filenameFromPath(filepath):
+    parts = filepath.rsplit('/', 1)
+
+    if len(parts) == 1: # If no '/' was found, return empty string
+        return ""
+
+    filename_parts = parts[-1].rsplit('.', 1)
+
+    if len(filename_parts) == 1:
+        return parts[-1]
+
+    return filename_parts[0] # Return the filename alone (assuming it was between the last '/' and the last '.')
+
+# Example usage:
+
+def save_flash_cards_to_file(formatted_cards, filepath):
+    with open(filepath, 'w') as file:
         json.dump(formatted_cards, file, indent=4)
 
-def main(file_path, output_file, content_type = ''):
+def runFlashcards(file_path, content_type = ''):
     content = []
+
+    filename = filenameFromPath(file_path)
+    output_path='assets/output_files/flashcards/'+filename+'_flashcards.json' 
 
     if content_type == '':
         if file_path.endswith('.pdf'):
@@ -159,16 +177,5 @@ def main(file_path, output_file, content_type = ''):
     
     qa_pairs = generate_qa_pairs_with_chatgpt(content, content_type)
     formatted_cards = format_flash_cards(qa_pairs)
-    save_flash_cards_to_file(formatted_cards, output_file)
-    print(f"Flash cards saved to {output_file}")
-
-inputFilePath = 'assets/input files/text-based/'
-inputFileName = 'Speech to Text using Python - Fast and Accurate-(144p)_transcribed_text.txt'
-inputFile = inputFilePath+inputFileName
-
-outputFilePath = 'assets/output files/flashcards/'
-outputFileName = inputFileName+'_flashcards'
-outputFile = outputFilePath+outputFileName+'.json'
-
-main(inputFile, outputFile, 'TRANSCRIPT')
-print(f"Flash cards saved to {outputFile}")
+    save_flash_cards_to_file(formatted_cards, output_path)
+    print(f"Flash cards saved to {output_path}")

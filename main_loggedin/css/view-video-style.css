@@ -127,8 +127,9 @@ button {
 }
 
 .main-frame {
-    width: 55%;
-    height: 100%;
+    width: -webkit-fill-available;
+    max-width: 60%;
+    min-height: 100%;
     flex-shrink: 0;
 
     border-radius: var(--primaryBorderRadius);
@@ -137,13 +138,23 @@ button {
     background: radial-gradient(65.13% 77.87% at 118.98% 0%, #0A2F66 0%, #131F38 100%);
 }
 
+.video-container{
+    display: block;
+    box-shadow: 0px 0px 33px 33px rgba(0, 0, 0, 0.33);
+    margin: 0.5rem auto auto auto;
+
+	width: 85%;
+}
+
 .sidebar-viewer {
     display: flex;
     flex-direction: column;
     align-items: center;
 
-    width: 37%;
-    height: 100%;
+    width: -webkit-fill-available;
+    max-width: 37%;
+    margin: auto 1% auto 1%;
+    min-height: 100%;
     flex-shrink: 0;
 
     border-radius: var(--primaryBorderRadius);
@@ -158,6 +169,7 @@ button {
     display: flex;
     flex-direction: column;
     width: 100%;
+    scale: 100%;
 
     align-items: center;
     justify-content: center;
@@ -168,17 +180,31 @@ button {
     color: var(--primaryFontColor);
 }
 
+.flashcards-title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    user-select: none;
+    margin: 15px 10px 20px 10px;
+    
+    color: var(--secondaryFontColor);
+    font-family: Cairo;
+    font-size: 2rem;
+    font-weight: 700;
+}
+
 /* .sidebar-title{
     display: flex;
     justify-content: center;
     align-items: center;
     text-align: center;
     user-select: none;
-    height: 5rem;
+    margin: 15px 10px 20px 10px;
     
     color: var(--secondaryFontColor);
     font-family: Cairo;
-    font-size: 1rem;
+    font-size: 2rem;
     font-weight: 700;
 } */
 
@@ -193,8 +219,9 @@ button {
     align-content: center;
     align-items: center;
 
-    width: 6%;
-    height: 100%;
+    min-width: 6%;
+    min-height: 100%;
+    height: ;
 
     border-radius: var(--primaryBorderRadius);
     border: 2px solid #506387;
@@ -225,6 +252,12 @@ button {
     font-size: 25px;
 }
 
+.flashcard-btn.active img{
+    background: radial-gradient(61.54% 61.54% at 50% 50%, rgba(0, 0, 0, 0.50) 62.9%, #022964 100%);
+    font-size: 25px;
+    max-width: 2.2rem;
+}
+
 .flashcard-btn h3 {
     transition: linear 100ms;
     font-size: 1px;
@@ -250,14 +283,24 @@ button {
     max-width: 2.2rem;
 }
 
+.video-summary {
+    padding: 20px;
+    margin: auto;
+    line-height: 1rem;
+}
 
-
-.video-container{
-    display: block;
-    box-shadow: 0px 0px 33px 33px rgba(0, 0, 0, 0.33);
-    margin: 0.5rem auto auto auto;
-
-	width: 85%;
+.video-summary-title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    user-select: none;
+    margin: 15px 10px 30px 10px;
+    
+    color: var(--secondaryFontColor);
+    font-family: Cairo;
+    font-size: 2rem;
+    font-weight: 700;
 }
 
 @media screen and (max-width = 900px) {

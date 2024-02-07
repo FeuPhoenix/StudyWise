@@ -40,7 +40,7 @@
             <div class="sidebar-viewer">
 
                 <div class="flashcards">
-                    <h1>Quiz mode</h1>
+                    <h1 class="flashcards-title">Flashcards</h1>
                     <div class="folder">
                         <div id="howMany" class="howMany"></div>
                         <div id="flshcard-quiz-mode">
@@ -57,8 +57,6 @@
                             <button id="fail" type="button">Missed It</button>
                             <button id="success" type="button">Got It!</button>
                         
-                        
-                            <div id="successRate"></div>
                             <div id ="block">
                                 <div id="progress">
                                     <div id="percent">Card 1 of 10</div>
@@ -72,12 +70,26 @@
                     </div> <!-- Folder End -->
                 </div> <!-- Flashcards End -->
 
+                <div class="video-summary">
+                    <h1 class="video-summary-title">Video Sumary</h1>
+                    <p>
+                        git log --merge. The git log --merge command helps to produce the list of commits that are causing the conflict.
+                        git diff. ...
+                        git checkout. ...
+                        git reset --mixed. ...
+                        git merge --abort. ...
+                        git reset. ...
+                        Starting the Merge Process. ...
+                        During the Merge Process.
+                    </p>
+                </div>
+
             </div> <!-- Sidebar End -->
                 <!-- <div class="sidebar-title">
                     Video Toolbar
                 </div> -->
                 <div class="sidebar-menu">
-                    <button class="flashcard-btn" onclick="showHideFlashcards()"><h3> Flashcards </h3><img src="assets/images/flashcard-img.png" alt="Flashcards!"></button>
+                    <button class="flashcard-btn" onclick="toggleFlashcards(this)"><h3> Flashcards </h3><img src="assets/images/flashcards.png" alt="Flashcards!"></button>
                     <button></button>
                     <button></button>
                     <button></button>
