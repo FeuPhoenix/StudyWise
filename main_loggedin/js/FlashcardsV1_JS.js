@@ -7,13 +7,26 @@ var failCounter = 0;
 var isMissed = false;
 
 function toggleFlashcards(btn) {
+  var mainElement = document.querySelector('.flashcards');
 
-    if (flashcardsElement.style.scale === '0') {
-        flashcardsElement.style.scale = '100%';
-        btn.classList.add('active');
+    if (mainElement.style.display === 'none') {
+      mainElement.style.display = 'flex';
+      btn.classList.add('active');
     } else {
-        flashcardsElement.style.scale = '0';
-        btn.classList.remove('active');
+      mainElement.style.display = 'none';
+      btn.classList.remove('active');
+    }
+}
+
+function toggleSummary(btn) {
+  var mainElement = document.querySelector('.video-summary');
+
+    if (mainElement.style.display === 'none') {
+      mainElement.style.display = 'block';
+      btn.classList.add('active');
+    } else {
+      mainElement.style.display = 'none';
+      btn.classList.remove('active');
     }
 }
 

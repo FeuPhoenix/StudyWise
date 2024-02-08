@@ -60,7 +60,8 @@ button {
     position: relative;
     left: 5%;
 
-    width: 50%;
+    width: fit-content;
+    max-width: 70%;
     height: inherit;
 }
 
@@ -175,6 +176,11 @@ button {
     justify-content: center;
 }
 
+
+.flashcards.active {
+    display: flex;
+}
+
 .flashcards h1 {
     justify-self: flex-start;
     color: var(--primaryFontColor);
@@ -283,7 +289,30 @@ button {
     max-width: 2.2rem;
 }
 
+.summary-btn.active img{
+    background: radial-gradient(61.54% 61.54% at 50% 50%, rgba(0, 0, 0, 0.50) 62.9%, #022964 100%);
+    font-size: 25px;
+    max-width: 2.2rem;
+}
+
+.summary-btn h3 {
+    transition: linear 100ms;
+    font-size: 1px;
+    position: absolute;
+    visibility: hidden;
+}
+
+.summary-btn:hover h3 {
+    width: 6rem;
+    font-size: 1.2rem;
+    background-color: #0d121b63;
+    border-radius: 9px;
+    margin-left: -10rem;
+    visibility: visible;
+}
+
 .video-summary {
+    color: var(--primaryFontColor);
     padding: 20px;
     margin: auto;
     line-height: 1rem;
@@ -297,7 +326,7 @@ button {
     user-select: none;
     margin: 15px 10px 30px 10px;
     
-    color: var(--secondaryFontColor);
+    color: var(--primaryFontColor);
     font-family: Cairo;
     font-size: 2rem;
     font-weight: 700;
@@ -311,4 +340,69 @@ button {
 
 @media screen and (max-width = 767.5px) {
     
+}
+
+.popup-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black background */
+    z-index: 1; /* Ensure the popup overlay is on top */
+}
+
+.popup-prompt {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    background: radial-gradient(65.13% 77.87% at 118.98% 0%, #0A2F66 0%, #131F38 100%);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Shadow effect */
+    z-index: 2; /* Ensure the popup is on top of the overlay */
+}
+
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 20px;
+    cursor: pointer;
+    background: transparent;
+    border: none;
+    outline: none;
+}
+
+.popup-content {
+    text-align: center;
+    max-width: 15rem;
+}
+
+.popup-content button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--primaryFontColor);
+    background-color: ;
+    font-style: inherit;
+
+    cursor: pointer;
+    border: none;
+    min-width: 200px;
+    margin: 10px auto auto auto;
+    width: 100%;
+    height: 2rem;
+    transition: ease 150ms;
+}
+
+.popup-content button:hover {
+    font-size: 25px;
+    border: 3px solid #D4DBE8;
+    background: radial-gradient(61.54% 61.54% at 50% 50%, rgba(11, 61, 101, 0.75) 62.9%, #14598F 100%);
 }
