@@ -395,7 +395,7 @@
         "end": 500290
     },
     {
-        "text": "In the first hour you're GoiNg to travel 60 miles.",
+        "text": "In the first hour you're Going to travel 60 miles.",
         "start": 500440,
         "end": 503502
     },
@@ -420,13 +420,8 @@
         "end": 535120
     },
     {
-        "text": "Now sometimes with this formula, you could use the velocity in terms of v.",
+        "text": "Now sometimes with this formula, you could use the velocity in terms of V. And if you do so, then d will no longer technically be represented by distance, but it's going to be represented by displacement.",
         "start": 536210,
-        "end": 541840
-    },
-    {
-        "text": "And if you do so, then d will no longer technically be represented by distance, but it's going to be represented by displacement.",
-        "start": 542150,
         "end": 550830
     },
     {
@@ -565,7 +560,7 @@
         "end": 744420
     },
     {
-        "text": "Velocity tells you not only how FaSt SOmEtHiNg is moviNg, but also where it is going.",
+        "text": "Velocity tells you not only how fast something is moving, but also where it is going.",
         "start": 745270,
         "end": 753798
     },
@@ -615,18 +610,13 @@
         "end": 820300
     },
     {
-        "text": "The average speed can be calculated by taking the total distance traveled by the object and dividing it by the total time.",
+        "text": "The average speed can be calculated by taking the total DIsTAncE traveled by the object and Dividing it by the total time.",
         "start": 820990,
         "end": 831200
     },
     {
-        "text": "Now, if you think about this formula, d is equal to vt.",
+        "text": "Now, if you think about this formula, d is equal to vt. V can be described as the speed or THe velocity.",
         "start": 833410,
-        "end": 837710
-    },
-    {
-        "text": "V can be described as the speed or the velocity.",
-        "start": 838210,
         "end": 841730
     },
     {
@@ -635,18 +625,8 @@
         "end": 846354
     },
     {
-        "text": "On the right side, you'll see that v, which is the average speed in this case, is equal to d over t.",
+        "text": "On the right side, you'll see that v, which is the average speed in this case, is equal to d over t. So average speed, v, is equal to the total distance, d divided by the total time, t. Now, what about average velocity?",
         "start": 846392,
-        "end": 854440
-    },
-    {
-        "text": "So average speed, v, is equal to the total distance, d divided by the total time, t.",
-        "start": 855210,
-        "end": 861720
-    },
-    {
-        "text": "Now, what about average velocity?",
-        "start": 864010,
         "end": 866570
     },
     {
@@ -665,13 +645,8 @@
         "end": 885838
     },
     {
-        "text": "Average velocity could be represented by v, displacement can be represented by d, and the time is t.",
+        "text": "Average velocity could be represented by v, displacement can be represented by d, and the time is t. So the formula looks identical, but the meaning is different.",
         "start": 886004,
-        "end": 893620
-    },
-    {
-        "text": "So the formula looks identical, but the meaning is different.",
-        "start": 894310,
         "end": 900260
     },
     {
@@ -930,13 +905,8 @@
         "end": 1231418
     },
     {
-        "text": "Or sometimes you could just put t.",
+        "text": "Or sometimes you could just put t. So you can write it this way.",
         "start": 1231584,
-        "end": 1233580
-    },
-    {
-        "text": "So you can write it this way.",
-        "start": 1234910,
         "end": 1236620
     },
     {
@@ -995,8 +965,13 @@
         "end": 1292366
     },
     {
-        "text": "So it's 12 mph/second as you can see, the acceleration of the sports car is much greater than the acceleration of the truck.",
+        "text": "So it's 12.",
         "start": 1292548,
+        "end": 1297678
+    },
+    {
+        "text": "Can see, the acceleration of the sports car is much greater than the acceleration of the truck.",
+        "start": 1297684,
         "end": 1306270
     },
     {
@@ -1010,7 +985,7 @@
         "end": 1316870
     },
     {
-        "text": "And so that's the basic idea behind acceleration.",
+        "text": "And so THAt's the basic IDEA behind acceleration.",
         "start": 1317370,
         "end": 1320370
     },
@@ -1020,7 +995,7 @@
         "end": 1324310
     },
     {
-        "text": "Now LEt's make a table.",
+        "text": "Now let's MAkE a table.",
         "start": 1325710,
         "end": 1327290
     },
@@ -1045,12 +1020,12 @@
         "end": 1361466
     },
     {
-        "text": "So this is 4 meters/second per second.",
+        "text": "So this is 4 meters/second per Second.",
         "start": 1361598,
         "end": 1364520
     },
     {
-        "text": "So what does that meaN?",
+        "text": "So what does that mean?",
         "start": 1365370,
         "end": 1366760
     },
@@ -1090,17 +1065,12 @@
         "end": 1413270
     },
     {
-        "text": "So 1 second later, the velocity will now be 16.",
+        "text": "So 1 second later, the velocity will now be 16 2 seconds later the velocity is 23 seconds later it's 24.",
         "start": 1414170,
-        "end": 1418390
-    },
-    {
-        "text": "2 seconds later, the velocity is 23 seconds later, it's 24.",
-        "start": 1418730,
         "end": 1424002
     },
     {
-        "text": "4 seconds later, it's 28.",
+        "text": "4 seconds later it's 28.",
         "start": 1424076,
         "end": 1427770
     },
@@ -1110,13 +1080,8 @@
         "end": 1437760
     },
     {
-        "text": "Now the formula that you want to use to calculate final velocity is this equation.",
+        "text": "Now the formula that you want to use to calculate final velocity is this equation, v final is equal to v initial plus at.",
         "start": 1439090,
-        "end": 1445162
-    },
-    {
-        "text": "V final is equal to v initial plus at.",
-        "start": 1445306,
         "end": 1448240
     },
     {
@@ -1130,12 +1095,12 @@
         "end": 1472200
     },
     {
-        "text": "Is this object speeding up or slowing down?",
+        "text": "Is this object speeding up or slowing DowN?",
         "start": 1475020,
         "end": 1477850
     },
     {
-        "text": "Whenever the acceleration and velocity, whenever they have opposite signs, the object is slowing down.",
+        "text": "Whenever the acceleration and velocity, whenever they Have OppOSite signs, the OBJect is slowing DowN.",
         "start": 1480700,
         "end": 1487816
     },
@@ -1150,12 +1115,12 @@
         "end": 1498568
     },
     {
-        "text": "It started with positive twelve.",
+        "text": "It started with PosiTive twelve.",
         "start": 1498744,
         "end": 1500830
     },
     {
-        "text": "And so BECAuSE velocity and acceleration have the same sign, the object was speeding up.",
+        "text": "And so because velocity and acceleration have the same sign, the object was speeding up.",
         "start": 1501540,
         "end": 1508370
     },
@@ -1270,13 +1235,8 @@
         "end": 1621808
     },
     {
-        "text": "Positive 60.",
+        "text": "Positive 60, positive six.",
         "start": 1621974,
-        "end": 1623730
-    },
-    {
-        "text": "Positive six.",
-        "start": 1624180,
         "end": 1625168
     },
     {
@@ -1320,7 +1280,7 @@
         "end": 1662296
     },
     {
-        "text": "It's going from positive to negative, which means that it's changing from an eastward direction to a westward direction and it begins to move faster towards the west.",
+        "text": "It's going from positive to negative, which means that it's changing from an eastward direction to a WeStWard direction, and it begins to move faster towards the west.",
         "start": 1662408,
         "end": 1675360
     },
@@ -1390,12 +1350,12 @@
         "end": 1754730
     },
     {
-        "text": "Now, let's move on to gravitational acceleration.",
+        "text": "Now, LEt's move on to gravitational acceleration.",
         "start": 1756160,
         "end": 1759820
     },
     {
-        "text": "In physics, you'll see this symbol that looks like a G, and it's equal to negative 9.8 meters/second squared.",
+        "text": "In pHysics, you'll see this SYMbol that looks like a g, and it's equal to negative 9.8 meters/second squared.",
         "start": 1760640,
         "end": 1771564
     },
@@ -1410,7 +1370,7 @@
         "end": 1782900
     },
     {
-        "text": "So the gravitational acceleration of the moon, for EXAMPLE, is negative 1.6 meters/seconD squared.",
+        "text": "So the gravitational acceleration of the moon, for examPle, is negative 1.6 meters/second squared.",
         "start": 1783640,
         "end": 1790864
     },
@@ -1440,7 +1400,7 @@
         "end": 1805252
     },
     {
-        "text": "But let's focus on the gravitational acceleration of the earth, negative 9.8.",
+        "text": "But let's FOCUS on the gravitational acceleration of the earth, negative 9.8.",
         "start": 1805396,
         "end": 1810348
     },
@@ -1465,12 +1425,12 @@
         "end": 1836500
     },
     {
-        "text": "And so let's talk about velocity.",
+        "text": "And so LET's talk ABOut velocity.",
         "start": 1837080,
         "end": 1839140
     },
     {
-        "text": "Velocity is a vector, and it can have an X component and it can have a y component.",
+        "text": "Velocity is a vector, and it can have an X component and it can have a Y component.",
         "start": 1839960,
         "end": 1847880
     },
@@ -1485,12 +1445,12 @@
         "end": 1861620
     },
     {
-        "text": "V y is the vertical component.",
+        "text": "V. Y is the vertical component.",
         "start": 1861960,
         "end": 1864360
     },
     {
-        "text": "The gravitational acceleration does not affect vx.",
+        "text": "The gravitational acceleration does not AFFECt Vx.",
         "start": 1865020,
         "end": 1869320
     },
@@ -1500,7 +1460,7 @@
         "end": 1872300
     },
     {
-        "text": "So, TECHNICALLY, you can write this as GY.",
+        "text": "So TECHNICAlly, you can write this as GY.",
         "start": 1872880,
         "end": 1876060
     },
@@ -1530,12 +1490,12 @@
         "end": 1895120
     },
     {
-        "text": "Sometimes it could be WRITTEn as AY.",
+        "text": "SOmetimes it could be WRITTEN as AY.",
         "start": 1896260,
         "end": 1898560
     },
     {
-        "text": "So ay and g are basically the same.",
+        "text": "So AY and g are BASICalLy the same.",
         "start": 1899300,
         "end": 1902564
     },
@@ -1550,17 +1510,17 @@
         "end": 1922840
     },
     {
-        "text": "So he doesn't throw it down or throw it up.",
+        "text": "So he doesn't Throw it DOWN or ThROW it up.",
         "start": 1922990,
         "end": 1925076
     },
     {
-        "text": "He simply lets go of the ball.",
+        "text": "He SIMPLY lets go of the ball.",
         "start": 1925118,
         "end": 1927560
     },
     {
-        "text": "Well, we know what's going to happen.",
+        "text": "Well, we KnoW what's going to happen.",
         "start": 1927720,
         "end": 1928892
     },
@@ -1570,7 +1530,7 @@
         "end": 1931070
     },
     {
-        "text": "Now, what can you tell me about VY, the vertical velocity of the ball over time, will it become positive or negative?",
+        "text": "Now, what can you tell me ABout VY, the vertical velocity of the ball over time, will it become positive or negative?",
         "start": 1932320,
         "end": 1942080
     },
@@ -1595,7 +1555,7 @@
         "end": 1961512
     },
     {
-        "text": "It's going down in the negative Y direction.",
+        "text": "It's going down in the negative y direction.",
         "start": 1961566,
         "end": 1964680
     },
@@ -1610,17 +1570,17 @@
         "end": 1984940
     },
     {
-        "text": "Now, the acceleration, or also called acceleration due to gravity, is negative 9.8.",
+        "text": "Now, the acceleration, or ALSo CALLed acceleration Due to gravitY, is negative 9.8.",
         "start": 1985490,
         "end": 1992830
     },
     {
-        "text": "Because it's negative, the vertical velocity will be decreasing.",
+        "text": "BECAUSe it's negative, the vertical velocity will be decreasing.",
         "start": 1992900,
         "end": 1996842
     },
     {
-        "text": "So every second it's going to decrease by 9.8.",
+        "text": "So every SECond it's going to decrease by 9.8.",
         "start": 1996986,
         "end": 2001746
     },
@@ -1640,17 +1600,17 @@
         "end": 2038350
     },
     {
-        "text": "And so HopEFULLY this NUMBer makes more sense.",
+        "text": "And so HopEFULlY this number makes more SENSE.",
         "start": 2038930,
         "end": 2043840
     },
     {
-        "text": "So the gravitational acceleration tells you how fast the vertical velocity is changing every second.",
+        "text": "So the gravitational acceleration tells you how fast the vertical velocity is CHanging every second.",
         "start": 2044530,
         "end": 2052260
     },
     {
-        "text": "So on the moon where g is negative 1.6, if you were to drop a ball, the vertical velocity will decrease by 1.6 meters/second every second.",
+        "text": "So on the moon, where g is negative 1.6, if you were to drop a ball, the vertical velocity will decrease by 1.6 meters/second every second.",
         "start": 2052870,
         "end": 2068120
     },
@@ -1665,7 +1625,7 @@
         "end": 2093440
     },
     {
-        "text": "And let's say this person is still on the earth where g is negative 9.8 meters/second squared.",
+        "text": "And let's say this PErson is still on the earth, where g is negative 9.8 meters/second squared.",
         "start": 2093970,
         "end": 2102450
     },
@@ -1675,13 +1635,23 @@
         "end": 2111290
     },
     {
-        "text": "So as the ball goes upward, it's slowing down because the velocity is positive and the acceleration is negative because they're opposite.",
+        "text": "So as the ball goes upward, it's slowing down because the velocity is positive.",
         "start": 2111470,
+        "end": 2116482
+    },
+    {
+        "text": "And the acceleration is negative because they're opposite.",
+        "start": 2116546,
         "end": 2119362
     },
     {
-        "text": "In sine the ball is slowing down, eventually the ball will reach its maximum height and then it's going to change direction and begin to fall down.",
+        "text": "In sine the ball is slowing down.",
         "start": 2119426,
+        "end": 2121942
+    },
+    {
+        "text": "Eventually the ball will reach its maximum height and then it's going to change direction and begin to fall down.",
+        "start": 2122076,
         "end": 2130220
     },
     {
@@ -1700,7 +1670,7 @@
         "end": 2154580
     },
     {
-        "text": "So 1 second later it's going to decrease by 9.8.",
+        "text": "So 1 second later, it's going to decrease by 9.8.",
         "start": 2155030,
         "end": 2158898
     },
@@ -1710,13 +1680,8 @@
         "end": 2165960
     },
     {
-        "text": "So 1 second later it's going to be positive.",
+        "text": "So 1 second later it's going to be positive 19.62 seconds later.",
         "start": 2166330,
-        "end": 2168722
-    },
-    {
-        "text": "19.62 seconds later.",
-        "start": 2168786,
         "end": 2171302
     },
     {
@@ -1725,13 +1690,8 @@
         "end": 2174182
     },
     {
-        "text": "So it's going to be positive.",
+        "text": "So it's going to be positive 9.83 seconds later, it's going to be at zero.",
         "start": 2174316,
-        "end": 2175494
-    },
-    {
-        "text": "9.83 seconds later, it's going to be at zero.",
-        "start": 2175542,
         "end": 2179740
     },
     {
@@ -1750,13 +1710,8 @@
         "end": 2196858
     },
     {
-        "text": "So let's call this position a, position b, and position c.",
+        "text": "So let's call this position a, position b, and position c. So when t is zero, it's at position a.",
         "start": 2197034,
-        "end": 2203140
-    },
-    {
-        "text": "So when t is zero, it's at position a.",
-        "start": 2204870,
         "end": 2207890
     },
     {
@@ -1840,12 +1795,17 @@
         "end": 2327034
     },
     {
-        "text": "So it's one dimensional because it's only one direction, in this case the y direction.",
+        "text": "So it's one dimensional because it's only one direction.",
         "start": 2327232,
+        "end": 2330934
+    },
+    {
+        "text": "In this case, the y direction.",
+        "start": 2330982,
         "end": 2332710
     },
     {
-        "text": "But let's talk about projectile motion in two dimensions, that is, in the x and in the y direction.",
+        "text": "But let's talk about projectile motion in two dimensions, that is in the x and in the y direction.",
         "start": 2332870,
         "end": 2339950
     },
@@ -1855,17 +1815,17 @@
         "end": 2348846
     },
     {
-        "text": "Initially it's moving in the x direction and then it falls DOwn like this.",
+        "text": "Initially it's moving in the x direction and then it falls down like this.",
         "start": 2349038,
         "end": 2354020
     },
     {
-        "text": "And so the path that the ball travels is KNOwn as the trajectory.",
+        "text": "And so the path that the ball travels is known as the trajectory.",
         "start": 2354870,
         "end": 2361590
     },
     {
-        "text": "HOPefullY I said that right trajectory.",
+        "text": "HOPefullY I said that right trajectorY.",
         "start": 2363530,
         "end": 2365910
     },
@@ -1880,13 +1840,13 @@
         "end": 2395220
     },
     {
-        "text": "So initially when t is zero, Vx is positive five, because at that instant it's moving only in the horizontal direction.",
+        "text": "So initially when t is zero, vx is positive five, because at that instant it's moving only in the HoriZontAl direction.",
         "start": 2395800,
         "end": 2406440
     },
     {
         "text": "So if you look at the trajectory, this line is only going to the right.",
-        "start": 2406940,
+        "start": 2406860,
         "end": 2411224
     },
     {
@@ -1895,7 +1855,7 @@
         "end": 2414590
     },
     {
-        "text": "Now the vertical velocity is zero because it doesn't have any component in the y direction.",
+        "text": "Now the vertical velocity is Zero BECAUSe it doesn't have ANy component in the y direction.",
         "start": 2415360,
         "end": 2421660
     },
@@ -1955,13 +1915,8 @@
         "end": 2463592
     },
     {
-        "text": "Let's say where t is two, 2 seconds, 1 second later, we know what vy is going to be due to gravitational acceleration.",
+        "text": "Let's say where t is two, 2 seconds, 1 second later, we know what vy is going to be due to gravitational acceleration, the vertical velocity will decrease by 9.8 every second.",
         "start": 2463646,
-        "end": 2475100
-    },
-    {
-        "text": "The vertical velocity will decrease by 9.8 every second.",
-        "start": 2475600,
         "end": 2479872
     },
     {
@@ -1990,7 +1945,7 @@
         "end": 2506920
     },
     {
-        "text": "So when dealing with projectile motion, unless this ball has some rocket thrusters, Vx is constant, it doesn't change.",
+        "text": "So when dealing with projectile motion, unless this ball has some rocket thrusters, vx is constant, it doesn't change.",
         "start": 2507260,
         "end": 2515950
     },
@@ -2000,7 +1955,7 @@
         "end": 2524350
     },
     {
-        "text": "So unless there's some kind of force that's propelling the ball to the right, that is after it's been kicked, ax is zero.",
+        "text": "So unless there's some kind of force that's propelling the ball to the right, that is, after it's been kicked ax is zero.",
         "start": 2525840,
         "end": 2535650
     },
@@ -2025,17 +1980,17 @@
         "end": 2548500
     },
     {
-        "text": "So, to summarize what we've learned here when dealing with projectile motion, it's important to understand that the velocity in the x direction, vx, is constant.",
+        "text": "So, to summarize what we've learned here, when dealing with projectile motion, it's important to understand that the velocity in the x direction, vx, is constant.",
         "start": 2550360,
-        "end": 2563220
+        "end": 2563252
     },
     {
         "text": "It doesn't change unless the problem states that there's something accelerating it in a horizontal direction.",
-        "start": 2563300,
+        "start": 2563316,
         "end": 2570860
     },
     {
-        "text": "If there's no specific statement as such, ax is zero and Vx is constant.",
+        "text": "If there's no specific statement as such, ax is zero and vx is constant.",
         "start": 2571520,
         "end": 2577280
     },
@@ -2085,7 +2040,7 @@
         "end": 2622780
     },
     {
-        "text": "Now, what you need to do is find Vx and Vy.",
+        "text": "Now, what you need to do is find Vx and vy.",
         "start": 2624000,
         "end": 2627200
     },
@@ -2135,7 +2090,7 @@
         "end": 2682400
     },
     {
-        "text": "Now, it's important to understand that Vx will not change for projectile motion.",
+        "text": "Now, it's important to understand that vx will not change for projectile motion.",
         "start": 2683140,
         "end": 2688728
     },
@@ -2180,13 +2135,8 @@
         "end": 2728450
     },
     {
-        "text": "It's at the top, at the maximum height.",
+        "text": "It's at the top, at the maximum height, at the highest point, vy is zero.",
         "start": 2729060,
-        "end": 2732444
-    },
-    {
-        "text": "At the highest point, vy is zero.",
-        "start": 2732492,
         "end": 2734944
     },
     {
@@ -2220,7 +2170,7 @@
         "end": 2758888
     },
     {
-        "text": "So vy is negative 9.8.",
+        "text": "So Vy is negative 9.8.",
         "start": 2759054,
         "end": 2762104
     },
@@ -2255,7 +2205,7 @@
         "end": 2796580
     },
     {
-        "text": "So at a certain height, Vy has the same magnitude, but the opposite sign.",
+        "text": "So at a certain height, vy has the same magnitude, but the opposite sign.",
         "start": 2797560,
         "end": 2804312
     },
@@ -2270,12 +2220,12 @@
         "end": 2814810
     },
     {
-        "text": "So the speed is the same when the height is the same, but Vx doesn't change.",
+        "text": "So the speed is the same when the height is the same, but VX doesn't change.",
         "start": 2815280,
         "end": 2822364
     },
     {
-        "text": "In a typical projectile motion problem, only Vy changes based on the gravitational acceleration.",
+        "text": "In a typical projectile motion problem, only vy changes based on the gravitational acceleration.",
         "start": 2822482,
         "end": 2829040
     },
@@ -2340,7 +2290,7 @@
         "end": 2921150
     },
     {
-        "text": "Now, let's say we have a box, and this box is moving to the right, so it's sliding across this surface.",
+        "text": "Now, let's say we have a box and this box is moving to the right, so it's sliding across this surface.",
         "start": 2923520,
         "end": 2931920
     },
@@ -2365,7 +2315,7 @@
         "end": 2961850
     },
     {
-        "text": "And so thus, we have Newton's first law.",
+        "text": "And so, thus, we have Newton's first law.",
         "start": 2963420,
         "end": 2966090
     },
@@ -2475,22 +2425,22 @@
         "end": 3139056
     },
     {
-        "text": "Let's say if I have a ten kilogram mass and it rests across a horizontal surface, and let's say there's no friction, and I apply a force of 80 newtons.",
+        "text": "Let's say if I have a ten kilogram mass and it rests across a horizontal surface, and let's say there's no friction and I apply a force of 80 newtons, what is the acceleration of the box?",
         "start": 3139078,
-        "end": 3152660
-    },
-    {
-        "text": "What is the acceleration of the box?",
-        "start": 3153420,
         "end": 3155770
     },
     {
-        "text": "So, f equals ma, the force is 80 newtons, the mass is 10.",
+        "text": "So, f equals ma, the force is 80 newtons, the mass is 10 kg.",
         "start": 3157260,
+        "end": 3163940
+    },
+    {
+        "text": "What is a?",
+        "start": 3164100,
         "end": 3165210
     },
     {
-        "text": "So a is going to be 80 divided by ten, which is eight.",
+        "text": "So, a is going to be 80 divided by ten, which is eight.",
         "start": 3165600,
         "end": 3171870
     },
@@ -2520,7 +2470,7 @@
         "end": 3200800
     },
     {
-        "text": "And so, whenever you apply a force on an object, you exert an acceleration on that object, and as a result, you're increasing the velocity of that object.",
+        "text": "And so, whenever you apply a force on an object, you exert an acceleration on that object, and as a ResUlT, you're increasing the velocity of that object.",
         "start": 3201940,
         "end": 3213048
     },

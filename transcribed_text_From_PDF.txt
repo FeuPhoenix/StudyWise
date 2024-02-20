@@ -1,0 +1,890 @@
+ReceivedJuly5,2021,acceptedJuly19,2021,dateofpublicationJuly26,2021,dateofcurrentversionJuly30,2021.
+DigitalObjectIdentifier10.1109/ACCESS.2021.3099427
+FCN-LectureNet: Extractive Summarization of
+Whiteboard and Chalkboard Lecture Videos
+KENNYDAVILA 1,FEIXU 2,SRIRANGARAJSETLUR2,(SeniorMember,IEEE),
+ANDVENUGOVINDARAJU 2,(Fellow,IEEE)
+1FacultaddeIngenieria,UniversidadTecnológicaCentroamericana,Tegucigalpa11101,Honduras
+2DepartmentofComputerScienceandEngineering,UniversityatBuffalo,Buffalo,NY14260,USA
+Correspondingauthor:KennyDavila(kenny.davila@unitec.edu.hn)
+ThisworkwassupportedinpartbytheNationalScienceFoundationunderGrant 1640867(OAC/DMR).
+ABSTRACT Recordingandsharingofeducationalorlecturevideoshasincreasedinrecentyears.Within
+these recordings, we find a large number of math-oriented lectures and tutorials which attract students of
+alllevels.Manyofthetopicscoveredbytheserecordingsarebetterexplainedusinghandwrittencontenton
+whiteboardsorchalkboards.Hence,wefindlargenumbersoflecturevideosthatfeaturetheinstructorwriting
+onasurface.Inthiswork,weproposeanovelmethodforextractionandsummarizationofthehandwritten
+content found in such videos. Our method is based on a fully convolutional network, FCN-LectureNet,
+whichcanextractthehandwrittencontentfromthevideoasbinaryimages.Thesearefurtheranalyzedto
+identifytheuniqueandstableunitsofcontenttoproduceaspatial-temporalindexofhandwrittencontent.
+Asignalwhichapproximatescontentdeletioneventsisthenbuiltusinginformationfromthespatial-temporal
+index.Thepeaksofthissignalareusedtocreatetemporalsegmentsofthelecturebasedonthenotionthat
+sub-topics change when large portions of content are deleted. Finally, we use these segments to create an
+extractivesummaryofthehandwrittencontentbasedonkey-frames.Thiswillfacilitatecontent-basedsearch
+andretrievaloftheselecturevideos.Inthiswork,wealsoextendtheAccessMathdatasettocreateanovel
+dataset for benchmarking of lecture video summarization called LectureMath. Our experiments on both
+datasets show that our novel method can outperform existing methods especially on the larger and more
+challengingdataset.Ourcodeanddataarepubliclyavailable.
+INDEX TERMS Fully convolutional networks, handwritten text detection, image binarization, lecture
+videos,videosummarization.
+I. INTRODUCTION other fields. In this work, we aim to extract handwritten
+Advances in technology for easy recording and sharing of content from lecture and tutorial videos of math-oriented
+videos and increased interest in online learning had led to courses. This will facilitate intelligent downstream Infor-
+an explosive growth in educational or lecture videos. The mation Retrieval applications such as search, browsing and
+COVID-19 pandemic has forced the education enterprise to navigationoflecturevideos.
+embraceremotelearningasanecessityandthishasresulted Given that the existing volume of lecture videos keeps
+in the creation of more lecture recordings than ever before. growingdaily,itisimportanttodevelopmethodsthatallow
+Within all of these recordings, we find a large number of bothstudentsandteacherstoquicklyfindvideosofinterest
+math-orientedlecturesandtutorialswhichattractstudentsof fromamongtheseaofoptions.Traditionalindexingmethods
+differentlevelswhoarelookingforbetterexplanationsoftop- are based on metadata which is far too limited to cover
+icsoftheirinterest.Thesetopicsareusuallybetterexplained everything that is explained in a lecture video. Many recent
+byusinghandwritingonsurfacessuchaswhiteboards,chalk- methods use either the speaker transcripts or automatically
+boards, paper and even electronic devices as opposed to extracted ones using automated speech recognition (ASR)
+non-interactive slide presentations which are dominant in to index lecture videos. For slide-based lectures, it is also
+commontoidentifytheuniqueslides(key-frames)andthen
+The associate editor coordinating the review of this manuscript and apply OCR techniques that can recognize keywords from
+approvingitforpublicationwasVivekKumarSehgal . slideimagesfortext-basedindexingandretrievalofvideos.
+VOLUME9,2021 ThisworkislicensedunderaCreativeCommonsAttribution4.0License.Formoreinformation,seehttps://creativecommons.org/licenses/by/4.0/ 104469K.Davilaetal.:FCN-LectureNet:ExtractiveSummarizationofWhiteboardandChalkboardLectureVideos
+FIGURE1. ExtractionofhandwrittencontentfromlecturevideoframeusingFCN-LectureNet.Thisexampleshowsasuccessfulextractionofthe
+handwrittencontentfromtwodifferentkindsofchalkboardwithinthesameimage.
+However, when it comes to math-oriented lectures where for browsing of entire lecture video collections (e.g. from a
+mostofthecontentishandwritten,thesemethodswouldfail learningmanagementsystem)byallowingtheusertoquickly
+tocoverimportantideassincethemathematicalexpressions seethroughthecontentofeachlectureasaseriesofimages.
+are not necessarily narrated on the audio, and recognition Then,advancednavigationcanbeachievedbyallowingthe
+systemsstillstrugglewithhandwrittenmathematicalexpres- usertoclickonasymbolfromakey-frameoruseasetofthem
+sion recognition even when the step-wise stroke drawing as queries, and the system can use the timelines to take the
+informationisavailable[1].Asmallsetofslide-likeimages usertothepartofthevideowherethesefirst[2].Thesetime-
+thatsummarizetheentirelecturevideocontentcanbeusedto lines also facilitate the dynamic generation of video skims,
+createbothtextandmath-basedindexes.Thisallowssystems query-basedsummariesofthelecture,andthereconstruction
+to efficiently re-index the images whenever the recognition oftheoriginalvideowithoutincludingthespeaker[3].From
+methodsimprovewithouttheneedofre-processingtheorig- theuserperspective,thesummaryisnotareplacementtothe
+inalvideos.Inthiswork,weaimtogenerateextractivesum- originalvideosbutratherausefulcomplement.
+mariesofthehandwrittencontentinlecturevideosintheform Inthiswork,weproposeanimprovedmethodforextrac-
+ofkey-frameswhichcanbeusedlatertosupportindexingand tionofthehandwrittencontentfromlecturevideosfeaturing
+retrievalapplications. whiteboardsandchalkboards(seeFigure1).Ournewmethod
+Wemakethedistinctionbetweenextractiveandabstractive is based on a fully convolutional network (FCN) architec-
+summaries, where extractive summary refers to creating a ture, FCN-LectureNet (see Figure 3), which has 3 branches
+completebutconciserepresentation(losslesscompression)of for: background estimation, handwritten text mask predic-
+agiventarget,inthiscasealecturevideo,whereasabstractive tionandhandwrittencontentbinarization(seeFigure4).To
+summaryreferstoashorterversionofthetargetwithinten- increasetheamountoftrainingandevaluationdataavailable,
+tional loss of information retaining only the most relevant we extended the LectureMath dataset [4] to include lecture
+portions. General video summarization methods typically video summary annotations following the AccessMath pro-
+produce abstractive summaries. However, in this work we tocol [3]. This effectively increased the available data from
+aretargetingdownstreamapplicationssuchascontent-based 12 whiteboard videos (AccessMath dataset [5]) to a total
+indexingandretrievaloflecturevideos.Inthatsense,choos- of 34 lecture videos including both whiteboards and chalk-
+ing an arbitrary set of key-frames that has low coverage of boards.Wealsousetransferlearninganddataaugmentation
+thelecturevideocontentwillaffecttheabilityoftheretrieval techniques to furtherimprove the performance of ourhand-
+systemtofindmatchesifcontentislost.Also,simplyselect- written content extraction network. To improve the quality
+ingalargesetofframes(e.g.byuniformsampling)willhave ofthefinalsummaries,weprovideabrandnewmethodfor
+high coverage but will affect the efficiency of the indexing lecture video segmentation based on estimations of content
+system and might lead to many redundant matches. In this deletion events. This segmentation works better and faster
+work,wewanttogenerateextractivesummariesthatusethe thanexistingbaselines[3],[6],[7].
+smallestpossiblenumberofkey-frames(highcompression) Using typical binarization metrics, our experiments show
+that include 100% of the handwritten content (high recall) thatthebinarykey-framesproducedusingournetworkareof
+withaslittleextranoiseaspossible(highprecision). higherqualitythanpreviousmethodsthatrelyonimagepro-
+A byproduct of analyzing the handwritten content for cessing[3].Wealsoshowthatournovelmethodfortemporal
+extractive summarization is the ability to provide a time- segmentation combined with FCN-LectureNet produces the
+line for each unique content element which can be used best lecture video summarization results on both datasets.
+for browsing and navigation. The key-frames can be used Finally, to better understand the contribution of the novel
+104470 VOLUME9,2021K.Davilaetal.:FCN-LectureNet:ExtractiveSummarizationofWhiteboardandChalkboardLectureVideos
+handwritten content extractor and temporal segmentation networkstodirectlypredicttherelevanceofvideoframes[13]
+method to the overall lecture video summarization process, ordeeprecurrentnetworkstopredicttherelevanceofentire
+westudytheeffectofreplacingpartsofolderpipelinesbyour video portions [11], [14], [15]. Some works create video
+newmethodsandwefoundthereplacementgenerallyleads skims by treating key-shot selection as object detection by
+tobetterresults. usingtemporalregionproposalstoidentifythepotentialloca-
+Inthiswork,wemakethefollowingcontributions: tions of key-shots [10]. Other approaches tackle a variation
+ofthevideosummarizationproblembydynamicallycreating
+1) Manually annotating lecture videos with summariza-
+query-basedsummaries[16].
+tiongroundtruthtoextendtheLectureMathdataset[4].
+Many recent works in video summarization are trained
+2) A method for extraction of handwritten content from
+andtestedusingtheTVSum[17]andSumME[18]datasets.
+lecture videos which, unlike existing methods, can
+These datasets are relatively small (≤ 50 videos), and have
+be applied to a wider range of videos (whiteboards
+shortvideos.Otherrecentworksdealwitheducationalvideos
+andchalkboards)withouttheneedforcompleximage
+(e.g.cookingvideos,doityourselftutorials,etc.)whichcan
+pre-processing.
+be10-15minuteslongwhenedited,andaround1hourwhen
+3) Amethodfortemporalsegmentationoflecturevideos
+unedited[9],andarevisuallydiverse.OurnovelLectureMath
+basedonadirectestimationofcontentdeletions.
+datasetisconsistentwiththeselengths,butthemainfocusis
+4) An evaluation showing that our novel method outper-
+onthewhiteboard/chalkboardcontent.Inthatsense,ageneric
+formsexistingmethodsonthenewdataset.
+method based on how much the raw image changes, might
+Our annotation and evaluation tools, lecture video sum-
+over-segment the video because speaker motions typically
+marization code, and novel datasets is publicly available at:
+accountformostpixelchanges,andalsounder-segmentdue
+https://github.com/kdavila/lecturemath.
+tothefactthathandwrittencontentchangesrepresentavery
+smallfractionoftheentireimage.
+II. RELATEDWORK Video summarization methods are evaluated using differ-
+In this work, we extract handwritten content from lec- ent protocols based on the dataset and type of summary
+ture videos for key-frame based extractive summarization. generated. In this work, we follow the evaluation protocol
+As such, it falls at the intersection of video summarization, proposed by Davila and Zanibbi [3]. This protocol aims to
+text detection and lecture video analysis. We will provide a be more objective than matching user given summaries and
+shortreviewofthese3areashere. is based on fixed training and testing sets. Since the goal is
+toextractallhandwrittencontentfromthevideo,thedataset
+A. VIDEOSUMMARIZATION providesasmallsetofidealkey-frameswith100%coverage
+Givenaninputvideo,thegoalofvideosummarizationmeth- ofthehandwrittencontent.Summarizationmethodsarethen
+ods is to produce a compact but meaningful representation evaluated by their ability to successfully extract all of this
+of its content. According to Huetal. [8], videos can be content using a small set of frames with low redundancy.
+summarizedmainlyintwoways:usingasmallsetofthemost Binarization is used to automatically measure how much of
+relevantframes(alsoknownaskey-frames)tocreateastory the handwritten content is correctly extracted by matching
+board,orbyproducingashorterversionofthevideowhich connectedcomponents(CCs)withouttheneedforhandwrit-
+keeps the most relevant clips (also known as video skims). ingrecognition.
+Ourworkfallswithinthefirstcategory.
+Forvideosummariesbasedonkey-frames,acommonidea
+is to use a neural network to predict the relevance of each B. SCENETEXTDETECTION
+frame in a sequence, and then simply select those that have Most of the recent scene text detection methods are based
+thehighestrelevancetocreatethesummary[9].Supervised on deep learning [19]. Earlier works used deep networks
+modelsneedidealsummariesforthetrainingvideostolearn to learn features to replace heuristic-based features, while
+to predict this relevance [9]. For unsupervised models, this recent works try to solve text detection and recognition
+targetisnotavailableanddifferentstrategiessuchastraining end-to-end [19]. Some notable works have adapted general
+forvideoreconstructionfromselectedkey-frameshavebeen object detection network architectures for scene text detec-
+proposedinthepast[9]. tion.Liaoetal.[20]proposedtheTextBoxessystemwhichis
+Skim-based methods commonly summarize videos by basedontheSSDarchitecture[21]andpredictstextregions
+scoring video shots and selecting the most relevant ones. in images using predefined boxes of different aspect ratios.
+Many of these methods use knapsack to pick the best shots Zhouetal. [22] proposed the EAST system which is based
+thatcoveruptoamaximumlengthoftheoriginalvideo(typ- onaU-NETstylearchitecture[23],wherefeaturemapsare
+ically,15%[10]).Deepconvolutionalnetworksaretypically usedtodirectlypredictifthereistextateachlocationalong
+usedtoextractfeaturestodescribeindividualvideoframes, withitscorrespondingquadrilateralregion.Othermethodsin
+and video shots can be represented using aggregations of thisfamilyhaveusedR-CNN[24]styleframeworkswithtwo
+frame-level representations such as the average feature vec- phases,oneforlocalizationoftextcandidatesandthesecond
+tor[11]orrepresentativevector[12].Othermethodsusedeep forregionofinterest(ROI)pooling[19].
+VOLUME9,2021 104471K.Davilaetal.:FCN-LectureNet:ExtractiveSummarizationofWhiteboardandChalkboardLectureVideos
+To deal with challenges such as long and/or curved text, 1) IMAGE-BASEDANALYSISFORCONTENTEXTRACTION
+morerecentmethodsfocusondetectingtextpieces(e.g.com- For slide-based videos, the extraction of the content is
+ponent, character and pixel) and then assemble these into usually done by simply relying on out-of-the-box OCR
+textregions[19].SegLink[25]worksatthecomponent-level systems[33],[34]. However, slides are different from both
+by producing bounding boxes of parts of words and links scanned documents and scene text images and some meth-
+between boxes that belong to the same word. Methods that ods rely on training end-to-end detection and recognition
+work at the pixel-level treat the text detection problem as systems.
+instance segmentation and are typically based on fully con- For whiteboard and chalkboard videos, extraction of the
+volutionalnetworks[19].ThePixelLinksystem[26]predicts handwritten content has been done using specialized meth-
+which pixels are text and also which of their neighboring ods. Earlier methods were mostly based on combinations
+pixelsbelongtothesametextregion.ThePSENet[27]uses of heuristic-based image processing techniques and lim-
+convolutional features extracted with FPN [28] and an iter- ited machine learning [3], [35]. Banerjeeetal. [35] used
+ative framework which grows text regions from their inner- a combination of densely sampled SIFT features to iden-
+most pixels allowing the network to accurately separate the tify handwriting regions followed by K-means clustering
+individualtextregioninstances.Anotherideaistocombine to further separate handwriting from background pixels.
+regionleveldetectionwithmaskcoefficientsthatmappixels Davilaetal.[3]firstuseheuristicstoidentifythewhiteboard
+tospecifictextregions[29].Inthispaper,weproposeamodel region, and after processing the image, they use hystere-
+that predicts a pixel-level mask of text regions. However, sis between Otsu’s binarization and a patch-based Random
+wedonotperformsegmentationofindividualinstances. Forests(RF)binarizertoproduceabinaryimageofthehand-
+General scene text detection is challenging due to a vari- writtenwhiteboardcontent.Weevaluatetheperformanceof
+ety of reasons. For example, text in the wild can appear in thismethodonournewlecturevideodataset.
+multiplelanguages,fonts,colors,andshapes[19].Itcanalso More recent works are based on deep learning. One
+have complex backgrounds, objects with text-like shapes, typical idea is to take methods originally designed for gen-
+andinadequateilluminationfortextrecognition[19].Onthe eral text detection and re-train them for handwriting detec-
+other hand, handwritten text in images of whiteboards and tion. This includes methods such as SegLink [25], [36],
+chalkboardshavelessdiversebackgrounds,butillumination TextBoxes [31], EAST [32] and PSENet [7]. The Lecture-
+conditions and image quality still pose a challenge in many VideoDBdataset[37]includesimagesextractedfromlecture
+cases.Unlikemachineprintedtextfoundinsometextdetec- videosbasedonwhiteboards,chalkboards,slides,andpaper.
+tion datasets [30], handwritten text is irregular, of varying Their goal was to develop a benchmark for detection and
+quality(readability)andstylethusmakingithardertorecog- recognition of content from these sources, and the EAST
+nizethanmachineprintedtext.Dirtychalkboardsandwhite- system [22] was used as a baseline, but math regions are
+boardssufferfromlowcontrastbetweenthehandwrittentext not annotated or evaluated. In our work, we analyze the
+and the background and might contain readable traces from handwritten text in context using full lecture videos which
+previous handwriting. In addition, lecture videos include alsocontainalotofmathematicalexpressions.
+content mixtures of handwriting (printed text, cursive text,
+mathematical expressions, drawings, etc.) which standard
+handwritingrecognitionsystemswouldstruggletorecognize. 2) AUDIO-BASEDANALYSIS
+Finally, methods for scene text detection work with still Manyrecentworksanalyzetheaudiooraudiotranscriptsof
+images,butthequalityoftextinvideosvariesacrossframes, lecture videos with different objectives such as topic-wise
+and out-of-the-box text detectors might produce inconsis- segmentationofthelecture.Thevideoisusuallydividedinto
+tent results across frames requiring additional temporal small segments (e.g. by using voice activity detection [38])
+refinements[31],[32]. ortemporalwindows.Then,existingtranscriptsorautomatic
+speech recognition (ASR) are used to create an embedding
+foreachsegmentbasedonmethodslikebagsofwords[39],
+C. LECTUREVIDEOANALYSIS word2vec [38]–[40], and TF-IDF [41]. Some methods also
+Lecture video analysis includes multiple applications built consideradditionalacousticfeatures[38],[40].Theembed-
+around lecture videos such as content extraction, indexing, dings of contiguous audio segments are then compared and
+summarization,searchandnavigation.Existingmethodsfor if the distance is too large then both segments are assumed
+each application usually differ based on the type of the tobelongtodifferenttopicsandthereforethevideoissplit.
+target video. Here, we distinguish between two common Alternatively, small segments with high similarity can be
+typesoflecturevideos:slide-based(mostlymachineprinted clusteredtogetherinabottom-upfashion[41].Afewmethods
+text) and whiteboard/chalkboard based (mostly handwritten rely on local search (e.g. using genetic algorithms) to iden-
+text). We exclude from this analysis other kinds of edu- tify the temporal splits that optimize one or multiple objec-
+cational videos where the speaker does not rely on either tive functions [38], [40]. Other usage of audio transcripts
+handwriting or slides to teach about a topic (e.g. cooking of lecture videos include summaries based on word clouds
+tutorials). with support for advanced key-word based navigation [42],
+104472 VOLUME9,2021K.Davilaetal.:FCN-LectureNet:ExtractiveSummarizationofWhiteboardandChalkboardLectureVideos
+FIGURE2. Overallarchitectureofourlecturevideosummarizationapproach.Westartbysamplingthevideoat1framepersecond.The
+handwrittencontentisthenextractedfromeachframeusingourFCN-LectureNet.Then,aspatial-temporalindexisbuiltbasedontheanalysisof
+thehandwrittenCCs[3].Afterwards,anestimationofthetimeswhenthecontentiswrittenordeletedisusedfortemporalsegmentationofthe
+lecturevideo.Finally,key-framesaregeneratedforeachtemporalsegment[3]tocreatethelecturevideosummary.
+abstractivetextuallecturevideosummaries[43],generation handwrittencontentitself,themethodworkswellaslongas
+of mappings between lecture video segments and text book writeractionsarepresentandcanbeidentifiedonthevideo.
+sub-sections [41] and semantic annotation of lecture videos In this work, we propose a new method for lecture video
+for recommender systems [44]. None of the lecture video summarization. In addition, we also show the effect of
+summarization methods evaluated in this work use audio using our novel FCN-LectureNet in combination with the
+signalsortranscripts. action-based summarization framework [6] and the origi-
+nal[3]andweightedconflictminimizationalgorithm[7].
+3) MULTI-MODALANALYSIS
+Othermodelshaveusedmultiplemodalitiesforlecturevideo III. METHODOLOGY
+analysis. For slide-based videos, one idea is to process the Wepresentanovelmethodforextractivelecturevideosum-
+imagetoidentifythetimesatwhicheachuniqueslideappears marization. A FCN is first used for handwritten content
+on the video [45], and also to further extract the text they extractionfromlecturevideoframes.Stablehandwrittencon-
+contain [34]. The slide information can be further used to tent is then identified to build a spatial-temporal index [3].
+createhigh-levelsemanticlecturevideosegmentsbyanalyz- We then use the estimated timeline of the content to create
+ing the corresponding audio transcripts (and slide text [34]) anaccumulateddeleted-contentsignal,anditspeaksarethen
+usingLDA-basedtopicmodeling[34]ordomainknowledge used to create temporal video segments. Finally, the lecture
+graphs [45]. Other idea is to combine the information from videosummaryiscreatedbyusingthespatial-temporalindex
+multiple modalities such as audio, image and transcripts to togenerateonekey-framepertemporalsegment.Thearchi-
+learn to predict the relevance of short lecture segments to tectureoftheproposedmethodisillustratedinFigure2.
+producevideosummariesinafashionsimilartogeneralvideo
+summarizationmethods[46].
+A. HANDWRITTENCONTENTEXTRACTION
+Thehandwrittencontentextractionprocesssamples1video
+4) EXTRACTIVECONTENTSUMMARIZATION frame per second, and binarizes each one of them using
+Afewworksforsummarizationofwhiteboard-basedlecture a FCN we call FCN-LectureNet (see Figure 3). This
+videoshaveusedtheAccessMathdataset[5].Thegoalisto network uses an encoder-decoder architecture with skip
+produceashortsummaryofthelecturevideothatcontainsall connections in a U-NET style [23], and has three branches
+ofthehandwrittencontentusingasmallsetofkey-frames. for:binarization,text-maskestimationandbackgroundesti-
+Davila and Zanibbi proposed the use of conflict mini- mation. FCN-LectureNet architecture is inspired by both
+mization [3]. The algorithm detects portions of handwritten the image processing used by the ML-Binarizer by Davila
+content (individual CCs) that should not be on the same and Zanibbi [3], and other works which have used U-NETs
+temporal segment (e.g. they are in conflict), and greedily pretrained network for specific image processing opera-
+findssplitpointsthatminimizestheconflicts.Kotaetal.[7] tions [47]. However, instead of cascading U-NETs like
+modified the conflict minimization algorithm to work with Kangetal. [47], we use separated branches and rely on
+entire regions of handwritten content instead of CCs. They explicitoperationssuchassubtractionandmultiplicationof
+introducedaweightingsystemthatprioritizeseparatingcon- theiroutputs(seeFigure4).Similartothewayimageprocess-
+tentregionsthatlookverydifferentwhileoccupyingthesame ing can be used to estimate and subtract the background of
+space.Inthiswork,CCsaretargetedbecausetheyprovidea animageforbinarization[3],weuseonebranchpre-trained
+finercontentrepresentation(mostlyatthesymbollevel),and forestimationofthemedianfilteredimageandsubtractthis
+they are easier to track than full content regions which are from the input. To improve the network precision, we also
+oftenpartiallyoccludedbythespeaker.Anotheradvantageis trainanotherbranchforpixel-leveltextdetectionandretrain
+thatitallowstonavigatetothespecifictimeagivensymbol ittopredicthandwritingtextmasksbyusingdilatedground
+(e.g.singleCC)iswrittenonthevideo[2]. truthbinaryimages.Wemultiplythebackgroundsubtracted
+AnotherrecentworkbyXuetal.[6]tookaverydifferent images by these text masks to remove non-text background
+approachbasedonspeakeractions.Thelectureissegmented elements.Theresultingimageisthenconcatenatedwiththe
+intimebasedonerasingevents.Afterwards,key-framesare convolutional maps produced by the main network as the
+selected considering the moments when the speaker writes inputforthebinarizationbranch.Theoutputsofeachbranch
+or goes out of the image. Despite never looking at the areillustratedinFigure7.
+VOLUME9,2021 104473K.Davilaetal.:FCN-LectureNet:ExtractiveSummarizationofWhiteboardandChalkboardLectureVideos
+FIGURE4. ArchitectureofthethreebranchesofFCN-LectureNet.The
+FIGURE3. OverallarchitectureofFCN-LectureNet.Thenetworkreceives convolutionalfeaturesareusedtoestimateboththebackgroundanda
+anRGBimage,whichisthenprocessedbythesharedU-NETstyle binarymaskfortextregions.Thesearethencombinedwiththeoriginal
+subnetwork.Theresultingfeaturesareusedbythreeseparatebranches inputtocreateadifferenceimagewhichisthenfedtoeachconvolutional
+thatattemptbackgroundestimation,textmaskestimationandimage blockinthebinarizationbranch.Thefinaloutputofthemainbranchis
+binarization. thebinarizedimageofthehandwrittentextoftheinputimage.
+FCN-LectureNethasatotalof15.8Mtrainableparameters. a significant amount of handwriting. The sampler will do a
+In contrast, our dataset has less than 200 key-frames for limited number of attempts (currently 5) to find a random
+training. Therefore, we rely on transfer learning to improve patchthatmeetsthisrequirement,oritwillkeepthelastone
+the network performance. First, we use a large-scale image in case of failure. To increase the chances of finding such
+dataset to pre-train the shared layers and the background patches,trainingimagesandtheirgroundtrutharecroppedto
+estimation branch by using mean squared error (MSE) loss keeponlytherectangularareacontainingallhandwritingplus
+andmedianfilteredimagesastargets.Alltrainedbatchnor- amarginof10pixels.Theforeground-focusedtrainingtrades
+malization layers are frozen after this step. Second, we use off some pixel-wise precision for a gain in recall. Finally,
+amedium-scaletextdetectiondatasetthatincludesirregular we apply a last round of foreground-focused training with
+shapedtexttopre-trainthetextdetectionmaskandbinariza- reduced learning rate (from 0.01 to 0.001). In our experi-
+tion branches using the Binary Cross Entropy (BCE) loss. ments, we perform an ablation study to show the effect of
+Note that the binarization branch receives an inverted text addingorremovingstepsfromthistrainingprotocol.
+detectionmaskasthetarget,andthebackgroundestimation To increase the robustness of our network, we use data
+branchisstilltrainedusingthesamestrategyasbefore.The augmentation based on random changes such as flips, color
+remaining batch normalization layers are also frozen after and luminosity changes and Gaussian noise. To improve
+thisstep.Finally,thenetworkistrainedforbinarizationusing the performance of the network on chalkboards, we invert
+thegroundtruthkey-framesandtheirbinaryversionsasthe the color of input images (mostly whiteboards) with 50%
+targets. All branches are trained in this step, but only the chanceduringthebinarizationtraining.Weobservedthatthis
+binarization and the text mask branches receive supervision colorinversionaugmentationallowedthenetworktolearnto
+usingBCElossandtheircorrespondingtargets. extracthandwrittencontentfromchalkboardsevenwhenthe
+In all training steps, we use randomly sampled patches networkistrainedusingwhiteboardsalone.
+of 256 × 256 and group them into batches of size 8.
+These patches are relatively small considering that binary B. SPATIAL–TEMPORALINDEXCONSTRUCTION
+key-frames are on average 1080p. After training with these ThebinaryimagesproducedbyFCN-LectureNetarefurther
+patches,ournetworklearnstoextractthehandwrittencontent analyzed to identify unique and stable CCs that effectively
+withhighpixel-wiseprecisionbutlowerrecall.Weuseaddi- representhandwriting.Thisprocessallowsustoidentifyand
+tionalforeground-focusedtrainingepochswhereweforcethe remove unstable false positives which usually come from
+patch sampling mechanism to prefer patches that contain at regular patterns (e.g. striped shirts, printed text, etc.) that
+least5%handwritingpixels.Notethathandwrittentracesare appear on the speaker which FCN-LectureNet captured as
+ratherthinonaverageand5%actuallyrepresentsapatchwith handwritingcandidates.
+104474 VOLUME9,2021K.Davilaetal.:FCN-LectureNet:ExtractiveSummarizationofWhiteboardandChalkboardLectureVideos
+We modified the method proposed by Davila and
+Zanibbi [3] to perform this process. The input is a set of
+binary images and the output is a spatial-temporal index of
+thestableCCsfoundinthevideo.Thestabilityanalysisfirst
+identifies CCs that appear across multiple frames sharing
+roughly the same pixels, that is 85% pixel-wise recall and
+precision(theoriginalused92.5%[3]).Then,theidentified
+uniquestableCCsaregroupedintotracklets.Mosttracklets
+representindividualsymbols,butduetotheusageofcursive
+FIGURE5. Thedeleteeventdetectionsignal.Theplotshowstheframes
+handwritingandunderlines,onetrackletcansometimesrep- wherecontentisadded(orangeline)ordeleted(blueline).The
+accumulateddeletedeventssignal(ingreen)growswithcontiguous
+resent multiple symbols. These tracklets define the timeline
+frameswherecontentisdeleted,butitisreseteverytimeanewwriting
+of each group of symbols, recording when they appear, are eventstarts.Thepeaksofthissignalaredetectedandusedassplitpoint
+modified, and disappear. The output spatial-temporal index candidates.Thissignalisforthefollowingvideo(29.97fps):
+https://www.youtube.com/watch?v=YW8b2Nvt9dE.
+issimplyacollectionofthesetrackletswhichcanbeusedto
+reconstruct the entire video. Note that reconstructed frames
+canrecoverhandwrittencontentwhichexistsatagiventime
+butisoccludedbythespeakerintheoriginalframe.
+Theoriginalmethod[3]wasdesignedforuneditedvideos
+and assumed that content had to be explicitly erased before
+addingnewcontentonthesamespace.However,wemodified
+thealgorithmtohandlesharptransitionsineditedvideos.The
+algorithm now only merges tracklets if the CC that appears
+laterinthevideohasatleast50%recallofthepixelsfromthe
+CCthatappearsearlierinthevideo.Thisstillgroupselements
+whose shape evolves slowly as the speaker edits them, but
+willpreventgroupingmostelementsthatdonotrepresentthe
+FIGURE6. Peakgroupingforimprovedsplitpointselection.Forthe
+samecontentbutoccupythesamespacewithinasmalltime segment[S,E],agreedyalgorithmwouldtrytosplitatthehighestpeak
+windowduetoasharptransition. markedbyline5.However,basedonaminimumlengththreshold,any
+splitswithin[S,T1]or[T2,E](including5)wouldberejectedandthe
+algorithmwouldstop.Thehighest-valuedvalidcandidatewithin[T1,T2]
+C. TEMPORALSEGMENTATION isatT2−1whichisnotideal.Toavoidit,thesignalisgroupedbypeaks
+To create a lecture video summary, we first need to divide (shownincolors)thatbecomethesplitcandidates(lines1to5).Inthis
+example,ourgreedyalgorithmwillchoose4asthefinalsplitpointfor
+thevideointosemantictemporalsegmentsthatgrouprelated
+thissegmentandwillcontinuetorecursivelysplittheresultingsegments
+content.Forwhiteboard/chalkboardvideos,theseusuallycor- [S,4)and[4,E].
+respondtointervalswherethespeakeraddsnewcontentand
+thenexplainsit.Amajorcontenterasingeventtypicallysig- signal of cumulative deleted content which represents how
+nalstheendofalecturesub-topic.MethodslikeAMPose[6] muchcontenthasbeendeletedinagiventemporalsegment,
+work by directly identifying erasing events using speaker illustrated in Figure 5. The accumulation is reset to 0 every
+actions. However, edited lecture videos typically omit the timeanewwritingeventisalsodetectedusingthesametrack-
+erasingactionsanddifferentsignalsarerequiredtosegment lets.Thecontentismeasuredbasedonthearea(inpixels)that
+thesevideos.Notethattransitionscreatedbythesevideoedits itsboundingboxoccupiedontheimageanditisnormalized
+represent good split points, but for lecture videos they are bythesizeoftheframe.
+notassharpasgeneralmulti-shotvideos,andthereforethey Weusethepeaksofthecumulativedeleteeventssignalto
+arealothardertodetectusingtraditionallocalsegmentation identify both sharp and slow transitions. We apply a greedy
+methodsbasedonframedifferencing. algorithm similar to the content conflict minimization [3]
+InspiredbyAMPose[6],weproposeanovelmethodfor which aims to recursively identify the best split point in a
+temporal video segmentation based on detection of major givenlecturesegments.Italsoidentifiesexplicitlythepeaks
+contentdeletionevents.However,wedonotlookatexplicit of the signal (see Figure 6) and chooses the best valid split
+speaker erasing actions like AM Pose [6] because these are point for a given segment. A split point is valid only if its
+uncommon in edited videos. Instead, we use tracklets from signal value is above a certain threshold and the segments
+the spatial-temporal index to identify times when a lot of it creates are both longer than a minimum length (currently
+content disappears. A similar approach was proposed by 3seconds).Thealgorithmisthencalledrecursivelyoneach
+Lietal. [48] to detect transitions on slide-based videos by resulting video segment. The recursion stops when no valid
+identifying when multiple local feature tracklets disappear split points are found in a segment. An advantage of this
+at once. However, our method needs to work with unedited algorithm over conflict minimization [3] is that the range
+videos where content disappears gradually over multiple of the signal can be normalized per video allowing to find
+frames covering many seconds. For this reason, we built a thresholdsthatworkwellacrossdifferentvideos.Incontrast,
+VOLUME9,2021 104475K.Davilaetal.:FCN-LectureNet:ExtractiveSummarizationofWhiteboardandChalkboardLectureVideos
+TABLE1. AcomparisonbetweentheAccessMath[5]andLectureMath specifictopicsprovidingtheoryandexamples.Amongstthe
+datasets.Weproviderelevantattributesfortrainingandtestingsplits.For sources, some were selected from channels with millions
+LectureMath,wealsoconsiderwhethereachvideoiseditedorunedited.
+of subscribers showing that there is a high demand for this
+type of videos. Unlike the typical university recordings of
+lectures,mostofthesevideosarerecordedwiththeintention
+of making the content available online and the recording is
+focusedonthewhiteboard/chalkboardwithoutanaudienceor
+focusonthespeakerexceptforsomeintros.Thelevelofzoom
+is also consistent in these videos. Many of these videos are
+editedbytheirauthorsandremoveerasingandlongwriting
+events.Itisalsocommonforthesevideostocontaincredits
+andadvertisingofthesourceatthebeginningandendingof
+eachvideo.Someofthesevideosalsoconstantlydisplaythe
+channellogosforshortperiodsoftime.
+In this work, we extended the LectureMath dataset by
+adding all annotations for lecture video summarization fol-
+lowing the same protocol from AccessMath [3]. Depending
+we found that conflict minimization usually needs smaller
+on the length of a given lecture video, adding these annota-
+thresholdsoneditedvideosthanonuneditedvideos.
+tions can take up to 20 hours of annotation work per video,
+and we produced new annotations for 22 videos. Note that
+D. KEY-FRAMESELECTION short edited videos can contain the same amount of hand-
+After temporal segmentation, the final summary is created written content than many long unedited videos, and it can
+by generating key-frames to represent each video segment. takethesameamountoftimetoannotatethemdespitebeing
+Here we adopt the same method by Davila and Zanibbi [3] much shorter. The extended dataset allows us to evaluate
+whichusesthespatial-temporalindexofCCstofindallCC theextractivesummarizationofhandwrittencontentonboth
+groupsthatco-existedwithinagiventemporalsegment,and whiteboardaswellaschalkboardvideos.
+assemblesthemintoabinaryframe.
+V. EXPERIMENTS
+IV. DATASETS Differentsetsofexperimentswerecarriedouttoevaluateour
+The original AccessMath dataset [5] includes a total newly proposed method for handwritten content extraction
+of 12 whiteboard-based lecture videos from simulated lin- andtheimprovedversionofthelecturevideosummarization
+ear algebra classes. These are unedited videos that include approach. In this section, we will describe each of these
+writing and erasing events simulating a class except for the experiments.
+lackofinteractionwithstudents.Alllectureswererecorded
+usingafixedcameraat1080p.Theoriginalannotationspro- A. HANDWRITTENCONTENTEXTRACTION
+videdideallecturevideosegmentswiththeircorresponding We evaluated the performance of the proposed FCN-
+key-frames both in RGB and binary. For the binary key- LectureNetforextractionofhandwrittencontentusingboth
+frames, further annotations are provided about unique CCs the AccessMath [3] and LectureMath datasets. We rely on
+that are shared across ideal key-frames (the repeated con- transfer learning to train our network following the train-
+tent). Using these annotations one can count how much of ing protocol described earlier in Section III-A. The first
+theoriginalhandwrittencontentissuccessfullyrecoveredby stage of pre-training for the background estimation branch
+anextractivesummarizationmethod[3].Moredetailsabout is done using the MS-COCO 2017 training dataset [50]
+AccessMathcanbefoundinTable1. (118,287images).Thesecondstageofpre-trainingusestext
+Later on, we extended the AccessMath dataset to include detection data to train all branches, and it is done using the
+annotations of the speaker actions [6] for the 5 train- Large-scaleStreetView(LSVT)dataset[30].Weusethefully
+ing videos. In a follow-up work for speaker action anal- annotated subset of this dataset which contains 30K images
+ysis, we created an extended version of the AccessMath with English/Chinese text. These images contain many text
+called LectureMath which contains videos from multiple regionswitharbitrarilyrotatedorshapedtext,andusespoly-
+sources [4]. Note that only speaker actions were annotated gons instead of simple quadrilaterals to cover these shapes.
+ontheoriginalLectureMathdataset. Since our goal is not to perform region-level text detection,
+A summary of the characteristics of the LectureMath we simply render these polygons to create binary masks
+dataset can be found in Table 1. A total of 7 sources are for the text regions without any separation of individual
+consideredwithbothright-handedandleft-handedspeakers. textregioninstances.Wealsoremoved10imagesthatwere
+All videos are recorded using fixed cameras, but the qual- smallerthan256pixelsineitherwidthorheight.Weselected
+ity varies. The sources selected are from YouTube channels thisdatasetbecauseofitsscale,diversityofbackgroundsand
+oriented towards tutorial-like math lectures which focus on the fact that many street signs are designed to have a high
+104476 VOLUME9,2021K.Davilaetal.:FCN-LectureNet:ExtractiveSummarizationofWhiteboardandChalkboardLectureVideos
+TABLE2. ComparisonofdifferentbinarizationmethodsusingDIBCOmetrics[49]overtheoriginalAccessMathdataset[5].Allnumbersaretheaverage
+overthetestkeyframes(77binarykeyframesfrom7whiteboardvideos).
+TABLE3. AblationstudyandcomparisonofdifferentbinarizationmethodsusingDIBCOmetricsoverthenovelLectureMathdataset.Thetoprows
+representtheoriginalmethodusedbyAccessMath[3].ThebottomrowsrepresenttheablationstudyforFCN-LectureNet.Allnumbersaretheaverage
+overthetestkeyframes(161binarykeyframesfrom17whiteboard/chalkboardvideos).Med-PT=pre-trainingforestimationofmedianfilteredimage,
+TD-PT=pre-trainingfortextdetection,Reg-T=regulartraining,Fg-T=foreground-focusedtraining,Fg-T-RLR=foreground-focusedtrainingwithreduced
+learningrate.
+contrastbetweentextandtheirbackgroundcolor,similarto the DL Binarizer [32] without hysteresis and the highest
+whiteboards and chalkboards. Then, the network is trained pseudo-recallisachievedbytheRF-basedmethod[3].These
+for binarization using either the AccessMath dataset or the methods,especiallytheDLBinarizer,producethickertraces
+LectureMathdataset. onaverage.However,whenitcomestobothstandardpreci-
+One of our goals is being able to extract the handwritten sionandpseudo-precision,ourFCN-LectureNetisfarbetter
+contentfromlecturevideoswiththehighestquality.Tomea- thanpreviousmethods.Thisismostlyduetothefactthatour
+sure the quality of the binarized content, we followed the network directly learns not just to binarize the handwriting,
+sameevaluationprotocolusedbyKotaetal.[32]wherethe but it also implicitly uses text detection which helps it to
+metrics and tools from H-DIBCO [49] were used. These ignoremostofthebackgroundobjectsandeventhespeaker.
+metrics try to approximate human perception of quality on Other methods cannot remove the background and depend
+binaryimage[51].First,weconsiderthepeaksignaltonoise on explicit text detection [32] or traditional heuristics for
+ratio(PSNR)whichmeasureshowclosethebinaryimageis estimationoftheROI[3].Thesepreviousmethodsalsotake
+tothegroundtruth(higherisbetter).Second,wealsoconsider as input the background subtracted image [3] to simplify
+thedistancereciprocaldistortion(DRD)whichestimatesthe thespaceonwhichtheylearntobinarizeimages.Theyalso
+distortioncausedbytheflippedpixels(lowerisbetter).Third, require a post-processing step using hysteresis to combine
+we use the raw pixel-wise recall, precision and F1-score. therawmachinelearningoutputwithOtsu’sbinarizationto
+Finally, we include the pixel-wise pseudo recall, precision improve the final image quality. Our FCN-LectureNet can
+and F1-score which is a weighted metric that considers the handlefullRGBimagesasinputwithoutanyadditionalpre
+thickness of connected components in the neighborhood of or post processing requirements. With only slightly lower
+eachpixel.Byusingthesemetrics,wecanalsodirectlycom- recall but far better precision, our model is able to achieve
+pareournewmodelwiththeoneproposedbyKotaetal.[32] thehighestF1andpseudo-F1valuesforbinarization.
+whichisalsobasedonfullyconvolutionalnetworksusingthe On the LectureMath dataset, our method also achieves
+AccessMathdataset(seeTable2). betterPSNRandDRDthantheRF-basedbinarizer[3].Note
+Tomakeafaircomparisonbetweenourmethodandexist- thattheimageprocessingusedbytheRF[3]andtheDLbina-
+ing baselines on the AccessMath dataset, we fine tune our rizer[32]originallyassumesthatallimagesarewhiteboards.
+network using only the available images on this dataset. ToproperlyusetheRFbinarizerontheLectureMathdataset,
+Our method achieves better PSNR and DRD than both wehadtomodifythemethodbyaddingaframebackground
+the RF-based binarizer [3] and the DL Binarizer [32] classifier(BG-Class)whichcanidentifyifthebackgroundis
+(see Table 2). The highest standard recall is achieved by eitherlight(whiteboards)ordark(chalkboards).Thisallows
+VOLUME9,2021 104477K.Davilaetal.:FCN-LectureNet:ExtractiveSummarizationofWhiteboardandChalkboardLectureVideos
+the method to correctly decide which pixels to use as text we add another stage of foreground-focused training with a
+candidates after background subtraction (see Appendix I). reducedlearningrate(Med-PT+TD-PT+Reg-T+Fg-T+
+The RF binarizer produces three binary images [3]: Otsu’s Fg-RLR).ThefinalPSNRandDRDmetricsarejustslightly
+binarization,RF binarization,andhysteresistocombinethe worseforthiscondition,andbothstandardandpseudorecall
+previoustwo.Allthreeoutputsarecomparedinthetoprows are improved but there is a loss of precision (especially the
+of Table 3. Same as earlier, these binary images have lower pseudo measure) which leads to a lower pseudo-F1 score.
+precisionmetricssincethebackgroundisnottotallyremoved Ourgoalistostillextractasmuchhandwrittencontentpixels
+bythismethod.However,westillnoteanincreaseofthefinal as we can with high precision as a secondary goal, so we
+precisionvalueprobablyduetotheadditionaltrainingimages keep this last configuration which provides the second best
+whichmightimprovethecorrectclassificationofbackground recall after the TD-PT + Reg-T + Fg-T condition but with
+pixels. PSNR and DRD also improve for this baseline, but muchhigherprecision.TheFCN-LectureNetresultsreported
+thereisalossofpixel-levelrecall. inTable2alsousesthisfullconfigurationaswell.
+On the other hand, different versions of FCN-LectureNet We make some observations from using different types
+getbetterresultsforallmetrics.Ourablationstudyshowing of pretraining on our network. After running the Med-PT,
+the effect of each pre-training or training stage is shown in theoutputsofthebackgroundestimatorbranchdonotfully
+thebottomrowsofTable3.Eachtrainingstageusesafixed resemble a median filter but are blurry enough to be con-
+number of epochs, where we sample one patch with data sideredanestimationofthebackground.Whenwetrainthe
+augmentationperkey-frameperepoch.Wehave169training network for binarization, we stop adding any kind of direct
+key-framesandwemakeeachstagehave200epochswhich supervisiontothisbranchallowingthenetworktochangethe
+meansthatthenetworkseesatotalof33,800patchesforeach background estimation to whatever produces better results.
+stageofbinarizationtraining. In practice, we note that the estimation shifts from a blurry
+The simplest version, a single stage of regular training image, to a modified version of the input where text has a
+(Reg-T),alreadygetsbetterPSNRandDRDvaluesthanthe strongboundaryandthecolorofthehandwritingisinverted.
+best condition of the baseline (hysteresis of RF and Otsu). Forwhiteboards,thisstepwillproduceaversionwherehand-
+Recall,however,islowerthanbaselinebutprecisionismuch writinglookswhite.Forchalkboards,thehandwritinglooks
+higher thus making the standard F1 just slighly lower and black instead. This effect is illustrated in Figure 7. These
+pseudo F1 slighly higher than the baseline. Then, adding results make sense since the subtraction operation affects
+the pre-training for text detection (TD-PT + Reg-T) sim- the input given to the binarization branch (see Figure 4).
+ply improves all metrics, especially DRD and recall (both We hypothesize that the network is simply trying to learn a
+standard and pseudo). To increase recall, we add a second subtractedimagethatfurtherincreasesthecontrastbetween
+stageofforegroundfocusedtrainingtothepreviouscondition thetextandbackgroundforeasierbinarization.
+(TD-PT + Reg-T + Fg-T), and we notice that indeed most Finally, we use a single laptop to compare our network
+metricsimprove,especiallyrecallwhichachievesitshighest to the baseline. We measured the time required to binarize
+value,butsomeprecisionislostintheprocess. alltrainingkey-framesusingeachmethod.Wewereableto
+The next test goes back to the start and simply adds confirm that our FCN-LectureNet is approximately 3 times
+a pretraining for the background estimation branch using fasterthantheRF-basedbinarizer[3].Itisimportanttokeep
+the median filtered version of the input as the target inmindthatthisnetworkalsotakescareofbackgroundand
+(Med-PT + Reg-T). We observe that this version achieves speakerremovalinasinglestep,whilethebaselinerequires
+higher precision than pretraining for text detection, and we additionalcomputationstoproduceasimilarbinaryimage.
+hypothesize that this is probably due to the diversity of the
+imagesusedtopretraintheconvolutionalfilterswhichmight B. TEMPORALVIDEOSEGMENTATION
+lead to better classification of background pixels. On the Weevaluatedtheperformanceofdifferentstrategiesfortem-
+otherhand,recallislowerthanTD-PT+Reg-T.Afterthis, poralsegmentationoflecturevideos.Forthispurpose,wedis-
+wetryusingbothtypesofpretraining,startingwithMed-PT tinguish between the unedited and edited videos since all
+followed by TD-PT and Reg-T (Med-PT + TD-PT + temporalsegmentationmethodsperformdifferentlyoneach
+Reg-T).Thisversionismorebalancedthanusingpretraining type. All methods considered work with the same sampling
+alone, and has lower recall than TD-PT+ Reg-T and lower rate of frames (1 frame per second), but they use different
+precision than Med-PT + Reg-T, but it still achieves better information to determine where to split the video. The first
+DRD. We then add a round of foreground-focused training two methods we consider are our variations of the conflict
+(Med-PT + TD-PT + Reg-T + Fg-T) and we note that minimization algorithms [3], with and without weights for
+this leads to the best numbers for most metrics. PSNR and conflicts(seeAppendixII).Withoutthesechanges,theorig-
+DRDimprove,andbothpseudoandstandardprecisionhave inal method performs poorly on edited videos. The third
+good improvements. Standard recall improves slightly but methodisAMPoseasdescribedintheoriginalpaper[6].The
+pseudo recall is better leading to the highest pseudo-F1 of fourthmethodisAMPosebutusing2S-AGCNtopredictthe
+all configurations. Finally, to try to further increase recall, speaker actions [4] instead of the original RF with motion
+104478 VOLUME9,2021K.Davilaetal.:FCN-LectureNet:ExtractiveSummarizationofWhiteboardandChalkboardLectureVideos
+FIGURE7. ExampleoftheoutputsproducedbytheFCN-LectureNetbranchesonwhiteboardsandchalkboards.Awhiteboardexampleisshown
+in(a)-(f)whilechalkboardsareshownin(g)-(l).Thesystemtakestheinputimage(a,g)andproducesthreeoutputs:Backgroundestimation(e,k);
+Textmaskestimation(f,l);andthebinarizedimage(d,j).Wealsoillustratetheinitialoutputsproducedbythebackgroundestimationbranchafter
+pretrainingonCOCO[50](b,h),andalsotheinitialoutputsproducedbythetextmaskestimationbranchafterpretrainingonLSVT[30](c,i).
+features. Finally, we consider our novel method based on ofthismetricovereachsetofvideos.
+deletioneventdetection(seeSectionIII-C). (cid:80) argmax IoU(i,j)
+segD mif ef ne tr sen pt rm ode utr ci ec ds a br ye u es ae cd ht mo ee tv ha ol du .ate Thth ee fiq ru sa tli mty eto rf icth ie
+s SIoU(S GT,S PR)=
+i∈SGT
+j∈ |SSPR
+|
+(1)
+GT
+the average number of predicted segments, where the ideal
+values are given by the ground truth. For LectureMath, Many methods that deal with videos having sharp transi-
+this is an average of 9.10, 8.14, and 8.71 on unedited, tionsusemetricsbasedonmatchesbetweengroundtruthand
+edited and all videos respectively. The second metric is the predictedsplitpoints.Forvideoscontainingslowtransitions,
+segment-wiseIoUwhichmeasurestheaverageIoUbetween humanannotatorscouldstilleasilyagreeonashortrangeof
+each ground truth segment and its best matching predicted frames where the ideal boundary between segments should
+segment (highest IoU). For a given set of ground truth seg- belocated.However,foruneditedlecturevideos,itbecomes
+ments S GT and a set of predicted segments S PR, the SIoU muchhardertoagreeonidealsplitpointsbetweensemantic
+canbecomputedusingEquation1.Weconsidertheaverage lecturesegments.Thisisbecauseattimesthespeakermight
+VOLUME9,2021 104479K.Davilaetal.:FCN-LectureNet:ExtractiveSummarizationofWhiteboardandChalkboardLectureVideos
+TABLE4. Comparisonofdifferentsegmentationmethodsusing AMPose[6]producebetterF1ofsplitmatchesforunedited
+segmentationmetricsoverthenovelLectureMathtestdataset. videos, but the proposed method outperforms them both on
+edited videos. Note that the weighted conflict minimization
+performsworsethantheoriginaldespitegettingbetterresults
+on the training data (possibly due to over-fitting). For AM
+Pose,thedifferenceinSIoUbetweenbothversionsisrather
+small. Overall, the proposed method has the best average
+SIoU,splitmatchRecallandF1ontheentiretestcollection,
+butthereisclearroomforimprovementonuneditedvideos
+toavoidover-segmentation.
+In terms of running time, one needs to take into account
+that each method requires different elements to produce the
+signalsusedforsegmentation.Theslowestmethodispossibly
+AMPosebecauseitrequiresrunninganadditionalposeesti-
+matoroneachframeofthevideofollowedbyrunningaclas-
+sifierofthespeakeractions.Oncethesestepsarecomplete,
+the segmentation is a relatively fast process. On the other
+hand,bothconflictminimizationandournewmethodrequire
+the pre-computation of the spatial-temporal index. Building
+thisstructureisgenerallyaslowprocessthattakesafewmin-
+finish an explanation, erase content while talking, and keep utespervideo,butnotasslowasrunningaposedetectoron
+talkingforawhilebeforestartwritingmorecontentaboutthe everyframe.Followingthis,bothsignals(conflictresolution
+nexttopic.Arguably,agoodsplitpointistheexactmoment perframeandaccumulateddeletionevents)canbeefficiently
+when deleting finishes before the explanation of the new computed using the spatial-temporal index. However, using
+topicbegins.However,anypointbetweenthestartingofthe the same hardware, we noted that temporal segmentation
+deleting event until the beginning of the next writing event using the novel method is 5 to 10 times faster than conflict
+could work well as split points for visual summarization minimization. This is due to the fact that deletion events
+sincenokey-frameshouldbeextractedfromthissubsegment. are estimated once and the recursion is run over the same
+These subsegments are also typically removed from edited signal,whileminimizationofconflictsrequiresrecomputing
+lecturevideoscreatingsharpertransitions.Here,weconsider thenumberofconflictsthatcanberesolvedperframeateach
+a predicted split point to match the ground truth split point depthoftherecursion.
+if it falls within a range of 10% the average ground-truth
+segmentlength.Weusethismatchingcriteriatocomputesplit C. VIDEOSUMMARIZATION
+recall,precisionandF1.Weenforce1-to-1matchesbetween To evaluate the summaries produced by our method and
+thegroundtruthsplitsandpredictedsplitsandcomputethese existingbaselines,weusethebinarykey-framesofthedataset
+metrics. and follow the protocol originally proposed by Davila and
+All of the segmentation evaluation metrics are reported Zanibbi[3].Weconsidertheaveragenumberofframespro-
+in Table 4. It can be seen that in terms of SIoU, most seg- ducedbyeachsummarizationmethodwithitscorresponding
+mentationmethodsstrugglewitheditedvideos.Inparticular, standard deviation. Smaller averages are generally better as
+the methods that rely on explicit action detection fail badly longasthemethodisnotunder-segmenting.Theremaining
+on these videos which do not contain such events. Conflict metrics are based on matching CCs between the predicted
+minimization works better but not as well as on unedited summary and the ground truth summaries. A ground truth
+videos.Incontrast,ourproposedmodelmanagestoproduce CCismatchedbyasummaryCCifthepixel-wiserecalland
+the best SIoU metrics on both edited and unedited videos. precision are both above 50%. This can be very strict espe-
+Intermsofsplitmatchingmetrics,thedeletioneventdetec- ciallyforsmallerCCs.Theevaluationtoolconsidersmatches
+tion segmentation also achieves the highest recall values on between elements that occupy the same space on the image
+both types of video, but the values are considerably lower (within asmall window) atroughly thesame time basedon
+for edited videos. In terms of split precision, the AM Pose thetemporalinformationofeachsummarykey-frame.From
+methods achieves the best values for unedited videos, but thesematches,wecomputetheaveragerecallandprecision
+for edited videos we cannot consider the higher precision for all videos in the test set. We also compute the harmonic
+values to be better since the average number of predicted mean (F1) of these average recall and precision quantities.
+segments is too small with low SIoU which indicates that Wecomputetwoversionsofthemetric,globalandlocal(per-
+thismethodisunder-segmentingforthesevideos.Forthepro- frame).Theglobalmetricconsidersuniquecontentelements
+posedmethod,theprecisionlevelisgoodforeditedvideos, as annotated in the ground truth, i.e. a symbol repeated on
+butitisconsiderablylowforuneditedvideoswhichmeansit multiple ground truth keyframes needs to be matched only
+isover-segmentingthem.Bothconflictminimization[3]and by one summary key-frame. The average per frame metrics
+104480 VOLUME9,2021K.Davilaetal.:FCN-LectureNet:ExtractiveSummarizationofWhiteboardandChalkboardLectureVideos
+TABLE5. ComparisonofdifferentlecturevideosummarizationmethodsbasedontheAccessMathtestdataset[5](7videos).
+TABLE6. ComparisonofdifferentlecturevideosummarizationmethodsbasedontheLectureMathtestdataset(17videos).
+representbothprecisionandrecallattheindividualsummary considertwobaselines:themethodbyDavilaandZanibbi[3]
+key-frame level. So, for the time interval represented by a and AM Pose [6]. Both of these methods use the same
+summarykey-frame,recallisameasureofhowmuchofthe frame binarizer [3], Hyst(RF, Otsu), which, as described in
+expectedcontentisinthesummaryandprecisionisameasure Section V-A, had to be adapted to classify backgrounds
+ofhowmuchofthecontentinthesummaryisreallyexpected first (BG-Class). See Appendix I for more details. The
+tobepresentintheimage. main difference between these methods is the summariza-
+We start by comparing the performance of our proposed tion itself where one method uses our modified version
+methodagainstexistingbaselinesontheAccessMathdataset. of conflict minimization [3] (see Appendix II) while the
+Thisallowsustocompareagainstallpublishedmethods[3], other uses speaker actions classified by RF and motion
+[6], [7], [31], [32], [52]. Apart from the proposed method, features [6] or using an approach based on graph convo-
+wealsoevaluateonevariationwhichusesconflictminimiza- lutional network (2S-AGCN [53]) [4]. For these baselines,
+tionfortemporalsegmentation.Theresultsforthiscompar- weconsideredaversionwherethesummarizationmethodis
+ison are shown in Table 5. The compression metrics for the retained,butthebinarizationmethodisreplacedbyournovel
+methodsbasedonFCN-LectureNetarecomparabletoprevi- FCN-LectureNet. Finally, we consider using the complete
+ousmethods[3]exceptforAMPose[6]andthesummarizer pipelineofthemethodproposedinthiswork.
+basedonPSENet[7].Intermsofglobalrecall,precisionand The results for lecture video summarization on the Lec-
+F1, the novel method achieves comparable metrics, higher tureMathtestdatasetareshowninTable6.Intermsofcon-
+than most conditions especially in terms of precision. It is tent extraction, we can see that the same baselines perform
+importanttokeepinmindthatFCN-LectureNetdoescontent better in terms of precision and F1 for both global and per
+detection,binarizationandremovalofbackgroundelements framemetricswhenFCN-LectureNetisusedinsteadoftheir
+usingasinglestep(anetwork),whilemanyofthesebaselines originalcontentextractionmethod.Inparticular,theoriginal
+require multiple steps for filtering of background elements method by Davila and Zanibbi [3] performs badly in terms
+and image preprocessing for binarization. In other words, ofprecisionduetothefactthattheROIestimationheuristics
+our novel pipeline is simpler and faster than most of these are broken in the larger dataset. In this case, we decided to
+methods,yetitachievessimilarresultsonthesmalldataset. simplyturnofftheROIestimationinsteadoftryingtofixit
+Thesecondlecturevideosummarizationevaluationisper- sincethatisaresearchproblemonitsown.FCN-LectureNet
+formed using the novel LectureMath dataset. As previously is trained to detect and binarize handwriting, and it learns
+discussed in Section IV, this dataset is not just larger, but toremovemostbackgroundelementswithoutanestimation
+is also more challenging due to the inclusion of multiple ofanROIrepresentingthewhiteboard/chalkboard.Similarly,
+sources, chalkboards and edited videos. Our extension of theAMPosemethod[6]reliesonspeakeractionstoestimate
+the LectureMath dataset does not include annotations of thehandwritingregionbutthishaslowerprecisionthanmeth-
+regions of content required by some of the published meth- ods which process handwriting directly. However, by using
+ods [7], [31], [32]. Based on the annotations available, we FCN-LectureNet, the AM Pose method gets a considerable
+VOLUME9,2021 104481K.Davilaetal.:FCN-LectureNet:ExtractiveSummarizationofWhiteboardandChalkboardLectureVideos
+boostinprecision.Inmostcases,usingFCN-LectureNetalso input for the binarization process. The original method was
+leadstohigherrecallvalues. onlytestedusingwhiteboards,butauthorsnotedthatitcould
+In terms of temporal segmentation and summarization, beadaptedtoworkonchalkboardstoobyselectingadifferent
+wecanseethattheoverallbestsummaries(higherrecalland set of pixels from the background subtracted image. For
+F1scores)areobtainedwhenusingtheproposedfullpipeline. whiteboards,thesystemextractsthenegativepixelsbecause
+TheAMposemethodprovidesabettersegmentationonthe thesearedarkerthanthewhiteboardcolor.Forchalkboards,
+smallerdataset,butthemodelbasedonconflictminimization thesystemshouldextractthepositivepixelsinsteadbecause
+generalizesbetteronthelargerdataset.Thisisnotasurprise thesearelighterthanthechalkboardcolor.
+since edited videos do not contain erasing actions required Our novel dataset includes both whiteboards and chalk-
+by the AM Pose method. Compared to conflict minimiza- boards. To use the method by Davila and Zanibbi [3] as a
+tion, the proposed delete event detection method tends to baseline,weneededawaytoautomaticallyselectwhetherthe
+producemoresegments,especiallyoneditedvideos,leading inputimageisawhiteboardorachalkboard.Forthispurpose,
+toahighernumberofframespersummaryinaverage.Still, we had to implement a simple but very effective method to
+the higher quality of the splits produced for edited videos classifyeachframeashavingeitherlightordarkbackground.
+leadstoslightlybetterglobalrecall,precisionandF1metrics. Weuse90%ofthetotalimagewidthandheighttoextracta
+centercropoftheimage,andweuseittoextractthemedian
+VI. CONCLUSION valuesofeachcolorchannelasfeatures.Removingthisouter
+In this work, we present a novel method for summariza- borderhelpstoexcludemultiplebackgroundobjectsfromthe
+tionofwhiteboard/chalkboardlecturevideos.Ourmethodis mediancolorcomputation.
+basedonaFCNarchitecturewhichextractsthehandwritten We train a linear SVM classifier using the normalized
+content from video images with good recall and precision color-based features. This simple classifier has a very high
+as shown by our experiments. Compared to existing base- accuracy,andonceweremovetheborder,trainingandtesting
+lines,ourcontentextractorisfasterandsimpler.Itcombines accuraciesbecome100%ontheLectureMathdataset.Weuse
+several steps (background estimation, text detection, back- this frame background classifier (BG-Class) in all of our
+groundremoval,textbinarization)intoasinglenetwork,and experimentsinvolvingtheusageoftheRF-basedbinarizer[3]
+existing baselines were improved upon by simply adopting and the LectureMath dataset. We do not use this classi-
+thisnetwork.Wealsoproposedanovelmethodfortemporal fier when FCN-LectureNet is used for handwritten content
+segmentationoflecturevideoswhichisfasterthanprevious extraction.Notethateditedvideosmightcontainframeswith
+methodsandcandealbetterwithchallengingeditedvideos. mixed dark and light backgrounds, and the RF-based bina-
+Finally, we also contribute a novel dataset, LectureMath, rization method [3] can only extract either the light or dark
+which is not just larger but also presents more challenges textandwillfailtoextracttheother.TheFCN-LectureNetis
+than the AccessMath dataset such as the inclusion of more morerobustwhenhandlingthesecases.
+speakers,chalkboards,andshorteranddensereditedvideos. Thebackgroundsubtractedimageisthenbinarizedusing
+Our annotation and evaluation tools, lecture video summa- both Otsu’s binarization method and a RF based method
+rization code, and novel datasets is publicly available at: to classify pixels as either foreground or background using
+https://github.com/kdavila/lecturemath. windows of 7 × 7 pixels centered around each pixel. The
+In the future, we would like to explore the possibility of finalbinaryimageisobtainedthroughhysteresis,takingthe
+usingdeeplearningtodirectlypredicttherelevanceofframes Otsu’sbinarizationimageasthehighconfidencebinary(low
+(e.g. by adding another branch to FCN-LectureNet) in the recall, high precision) and the RF binarization image as the
+samewayrecentworksforgeneralvideosummarizationhave low confidence binary (high recall, low precision). The low
+done.Wewouldliketofurtherextendourdatasettoinclude confidence image is used as the base and all CCs which do
+evenmorelecturesbasedonhandwritingsuchasthosewhere not appear on the high confidence image are then removed
+the speaker’s full body is not typically visible in the video, toproducethefinalbinaryimage.Inparallel,theframework
+but only the hand. We would like to consider other modal- byDavilaandZanibbi[3]usespixel-leveltemporalstatistics
+ities such as the lecture audio in order to improve temporal to identify a ROI (e.g. the whiteboard). In the final step,
+segmentationandalsotocomplementcontent-basedindexing theestimatedROIisusedtoremoveextraelementsfromthe
+of lecture videos. Finally, while recognition of handwritten binaryimagesthatmostlikelybelongtothebackground.
+contentinthewildishard,wewouldliketoexploreexplicit
+classificationbetweentext,mathandgraphicssothatout-of- APPENDIXII. WEIGHTEDCONFLICTMINIMIZATION
+the-boxclassifierforeachofthesecanbeputtotestonour The conflict minimization algorithm [3] detects portions of
+dataset. handwrittencontentthatoccupythesamespaceonthewhite-
+board at different times in the video, and therefore they are
+APPENDIXI. MODIFIEDRANDOMFORESTBINARIZER considered to be in conflict and must be put into different
+The RF-based binarizer by Davila and Zanibbi [3] uses temporal video segments. Any split made after the older
+medianfilterstoestimateandremovethebackgroundofeach contentdisappearsandbeforethenewercontentappearswill
+video frame. The result is an edge-like image which is the resolvetheirconflict.Basedonthisidea,themethodcounts
+104482 VOLUME9,2021K.Davilaetal.:FCN-LectureNet:ExtractiveSummarizationofWhiteboardandChalkboardLectureVideos
+the number of conflicts that can be resolved at each frame [4] F.Xu,K.Davila,S.Setlur,andV.Govindaraju,‘‘Skeleton-basedmethods
+of a given video segment and greedily chooses the frame forspeakeractionclassificationonlecturevideos,’’inProc.Int.Work-
+shopsChallengesPatternRecognit.(ICPR),A.D.Bimbo,R.Cucchiara,
+which has the highest number of conflict resolutions and
+S. Sclaroff, G. M. Farinella, T. Mei, M. Bertini, H. J. Escalante, and
+splitsthevideothere.Itisarecursivealgorithmanditstops R.Vezzani,Eds.Cham,Switzerland:Springer,2021,pp.250–264.
+whentheinputsegmentiseithertooshortordoesnotcontain [5] K.Davila,A.Agarwal,R.Gaborski,R.Zanibbi,andS.Ludi,‘‘Access-
+math:Indexingandretrievingvideosegmentscontainingmathexpressions
+enough conflicts to resolve. We made two changes to the
+basedonvisualsimilarity,’’inProc.IEEEWesternNewYorkImagePro-
+originalconflictminimizationalgorithm[3].Thefirstchange cess.Workshop(WNYIPW),Nov.2013,pp.14–17.
+alters the way in which the greedy split selection works, [6] F.Xu,K.Davila,S.Setlur,andV.Govindaraju,‘‘Contentextractionfrom
+lecture video via speaker action classification based on pose informa-
+and the second is conflict weighting which was originally
+tion,’’inProc.Int.Conf.DocumentAnal.Recognit.(ICDAR),Sep.2019,
+suggestedbyKotaetal.[7]. pp.1047–1054.
+Theoriginalconflictminimizationonlysplitsattheframe [7] B.U.Kota,A.Stone,K.Davila,S.Setlur,andV.Govindaraju,‘‘Auto-
+matedwhiteboardlecturevideosummarizationbycontentregiondetection
+wheremostconflictscanberesolved.Itrejectsthesplitand
+andrepresentation,’’inProc.25thInt.Conf.PatternRecognit.(ICPR),
+stops if segmenting at this frame leads to the creation of Jan.2021,pp.10704–10711.
+a temporal segment with length below a given threshold. [8] W.Hu,N.Xie,L.Li,X.Zeng,andS.Maybank,‘‘Asurveyonvisual
+content-based video indexing and retrieval,’’ IEEE Trans. Syst., Man,
+However, edited videos typically contain credits and other
+Cybern.C,Appl.Rev.,vol.41,no.6,pp.797–819,Nov.2011.
+animationsrepresentingveryshortsegmentswithverysharp [9] E.Apostolidis,E.Adamantidou,A.I.Metsai,V.Mezaris,andI.Patras,
+split points near the boundaries of the video. These clips ‘‘Video summarization using deep neural networks: A survey,’’ 2021,
+arXiv:2101.06072.[Online].Available:http://arxiv.org/abs/2101.06072
+can cause the algorithm to under-segment due to very early
+[10] W.Zhu,J.Lu,J.Li,andJ.Zhou,‘‘DSNet:Aflexibledetect-to-summarize
+stopping. Our solution is to allow the algorithm to continue networkforvideosummarization,’’IEEETrans.ImageProcess.,vol.30,
+splitting by choosing from the next best candidates (see pp.948–962,2021.
+[11] L.Feng,Z.Li,Z.Kuang,andW.Zhang,‘‘Extractivevideosummarizer
+Figure6)similarlytohowwedoitforourownDeleteEvent
+withmemoryaugmentedneuralnetworks,’’inProc.26thACMInt.Conf.
+detection signal (see Section III-C). All of our experiments Multimedia,Oct.2018,pp.976–983.
+involvingconflictminimizationusedthismodification. [12] V.K.Vivekraj,D.Sen,andB.Raman,‘‘Vectororderingandregression
+Kotaetal. [7] modified the conflict minimization algo-
+learning-basedrankingfordynamicsummarisationofuservideos,’’IET
+ImageProcess.,vol.14,no.15,pp.3941–3956,Dec.2020.
+rithm to work with entire regions of handwritten content
+[13] E.Apostolidis,E.Adamantidou,A.I.Metsai,V.Mezaris,andI.Patras,
+instead of CCs. A weighting system is introduced to deal ‘‘Unsupervised video summarization via attention-driven adversarial
+withthefactthatmostconflictingregionshavedifferentsizes learning,’’inProc.Int.Conf.MultimediaModeling.Cham,Switzerland:
+Springer,2020,pp.492–504.
+andmightsharehandwrittencontent.Theseweightscombine
+[14] S.Lal,S.Duggal,andI.Sreedevi,‘‘Onlinevideosummarization:Predict-
+visual features and spatial overlap to prioritize separating ingfuturetobettersummarizepresent,’’inProc.IEEEWinterConf.Appl.
+contentregionsthatlookverydifferentwhileoccupyingthe Comput.Vis.(WACV),Jan.2019,pp.471–480.
+[15] G.YalinizandN.Ikizler-Cinbis,‘‘Usingindependentlyrecurrentnetworks
+same space. Here, we adopt a similar idea that combines
+for reinforcement learning based unsupervised video summarization,’’
+spatialandshape-basedweightswhilealsoaddinganewtem- MultimediaToolsAppl.,vol.80,pp.1–21,Feb.2021.
+poralweightingschemeaswell.Spatialweightsarebasedon [16] S.Xiao,Z.Zhao,Z.Zhang,Z.Guan,andD.Cai,‘‘Query-biasedself-
+attentivenetworkforquery-focusedvideosummarization,’’IEEETrans.
+theareasoftheelementsinconflicts,andwhileKotaetal.[7]
+ImageProcess.,vol.29,pp.5889–5899,2020.
+usedtheareaofintersection,wealsoexperimentedwiththeir [17] Y.Song,J.Vallmitjana,A.Stent,andA.Jaimes,‘‘TVSum:Summarizing
+unionandIoUandfoundthatuniongavebetterresults.Shape webvideosusingtitles,’’inProc.IEEEConf.Comput.Vis.PatternRecog-
+nit.(CVPR),Jun.2015,pp.5179–5187.
+weights prioritize splitting dissimilar elements, and while
+[18] M.Gygli,H.Grabner,H.Riemenschneider,andL.VanGool,‘‘Creating
+Kotaetal. [7] used feature-based matching for overlapping summariesfromuservideos,’’inProc.Eur.Conf.Comput.Vis.Cham,
+sub-regions, we simply use w = 1 − pIoU, where pIoU Switzerland:Springer,2014,pp.505–520.
+s
+[19] S.Long,X.He,andC.Yao,‘‘Scenetextdetectionandrecognition:The
+represents the pixel-wise IoU of CCs in conflict. Finally,
+deeplearningera,’’Int.J.Comput.Vis.,vol.129,no.1,pp.161–184,2020.
+temporalweightsshouldprioritizesplittingelementsthatare [20] M.Liao,B.Shi,X.Bai,X.Wang,andW.Liu,‘‘TextBoxes:Afasttext
+furtherawayfromeachotherintime.Here,wesimplyusethe detectorwithasingledeepneuralnetwork,’’inProc.AAAIConf.Artif.
+Intell.,2017,vol.31,no.1,pp.4161–4167.
+lengthofthegapbetweentheconflictingelements.Thefinal
+[21] W. Liu, D. Anguelov, D. Erhan, C. Szegedy, S. Reed, C.-Y. Fu, and
+weightofaconflictisthemultiplicationofthespatial,shape A.C.Berg,‘‘SSD:SingleshotMultiBoxdetector,’’inProc.Eur.Conf.
+andtemporalweights. Comput.Vis.Cham,Switzerland:Springer,2016,pp.21–37.
+[22] X.Zhou,C.Yao,H.Wen,Y.Wang,S.Zhou,W.He,andJ.Liang,‘‘EAST:
+Anefficientandaccuratescenetextdetector,’’inProc.IEEEConf.Comput.
+Vis.PatternRecognit.(CVPR),Jul.2017,pp.5551–5560.
+REFERENCES
+[23] O.Ronneberger,P.Fischer,andT.Brox,‘‘U-Net:Convolutionalnetworks
+for biomedical image segmentation,’’ in Proc. Int. Conf. Med. Image
+[1] M.Mahdavi,R.Zanibbi,H.Mouchere,C.Viard-Gaudin,andU.Garain,
+Comput.Comput.-Assist.Intervent.Cham,Switzerland:Springer,2015,
+‘‘ICDAR2019CROHME+TFD:Competitiononrecognitionofhand-
+pp.234–241.
+writtenmathematicalexpressionsandtypesetformuladetection,’’inProc.
+[24] R.Girshick,‘‘FastR-CNN,’’inProc.IEEEInt.Conf.Comput.Vis.(ICCV),
+Int.Conf.DocumentAnal.Recognit.(ICDAR),Sep.2019,pp.1533–1538.
+Dec.2015,pp.1440–1448.
+[2] K. Davila and R. Zanibbi, ‘‘Visual search engine for handwritten and [25] B.Shi,X.Bai,andS.Belongie,‘‘Detectingorientedtextinnaturalimages
+typesetmathinlecturevideosandLATEXnotes,’’inProc.16thInt.Conf. bylinkingsegments,’’inProc.IEEEConf.Comput.Vis.PatternRecognit.
+FrontiersHandwritingRecognit.(ICFHR),Aug.2018,pp.50–55. (CVPR),Jul.2017,pp.2550–2558.
+[3] K.DavilaandR.Zanibbi,‘‘Whiteboardvideosummarizationviaspatio- [26] D.Deng,H.Liu,X.Li,andD.Cai,‘‘PixelLink:Detectingscenetextvia
+temporalconflictminimization,’’inProc.14thIAPRInt.Conf.Document instancesegmentation,’’inProc.AAAIConf.Artif.Intell.,vol.32,no.1,
+Anal.Recognit.(ICDAR),Nov.2017,pp.355–362. 2018,pp.6773–6780.
+VOLUME9,2021 104483K.Davilaetal.:FCN-LectureNet:ExtractiveSummarizationofWhiteboardandChalkboardLectureVideos
+[27] W. Wang, E. Xie, X. Li, W. Hou, T. Lu, G. Yu, and S. Shao, ‘‘Shape [51] C.TensmeyerandT.Martinez,‘‘Historicaldocumentimagebinarization:
+robusttextdetectionwithprogressivescaleexpansionnetwork,’’inProc. Areview,’’SocialNetw.Comput.Sci.,vol.1,no.3,pp.1–26,May2020.
+IEEE/CVF Conf. Comput. Vis. Pattern Recognit. (CVPR), Jun. 2019, [52] C.ChoudaryandT.Liu,‘‘Summarizationofvisualcontentininstructional
+pp.9336–9345. videos,’’IEEETrans.Multimedia,vol.9,no.7,pp.1443–1455,Nov.2007.
+[28] T.-Y.Lin,P.Dollár,R.Girshick,K.He,B.Hariharan,andS.Belongie, [53] L. Shi, Y. Zhang, J. Cheng, and H. Lu, ‘‘Two-stream adaptive graph
+‘‘Feature pyramid networks for object detection,’’ in Proc. IEEE Conf. convolutionalnetworksforskeleton-basedactionrecognition,’’inProc.
+Comput.Vis.PatternRecognit.(CVPR),Jul.2017,pp.2117–2125. IEEE/CVF Conf. Comput. Vis. Pattern Recognit. (CVPR), Jun. 2019,
+[29] P.Yang,G.Yang,X.Gong,P.Wu,X.Han,J.Wu,andC.Chen,‘‘Instance pp.12018–12027.
+segmentationnetworkwithself-distillationforscenetextdetection,’’IEEE
+Access,vol.8,pp.45825–45836,2020.
+[30] Y. Sun, J. Liu, W. Liu, J. Han, E. Ding, and J. Liu, ‘‘Chinese street KENNY DAVILA was born in San Pedro Sula,
+viewtext:Large-scalechinesetextreadingwithpartiallysupervisedlearn- Honduras,in1987.HereceivedtheB.E.degreein
+ing,’’ in Proc. IEEE/CVF Int. Conf. Comput. Vis. (ICCV), Oct. 2019, computingsystemsengineeringfromUniversidad
+pp.9086–9095. TecnológicaCentroamericana(UNITEC),Teguci-
+[31] B.U.Kota,K.Davila,A.Stone,S.Setlur,andV.Govindaraju,‘‘Auto- galpa,Honduras,in2009,andtheM.Sc.degreein
+mateddetectionofhandwrittenwhiteboardcontentinlecturevideosfor computerscienceandthePh.D.degreeincomput-
+summarization,’’inProc.16thInt.Conf.FrontiersHandwritingRecognit. ingandinformationsciencesfromRochesterInsti-
+(ICFHR),Aug.2018,pp.19–24. tute of Technology (RIT), Rochester, NY, USA,
+[32] B.U.Kota,K.Davila,A.Stone,S.Setlur,andV.Govindaraju,‘‘Gener-
+in2013and2017,respectively.
+alized framework for summarization of fixed-camera lecture videos by
+In2017,hejoinedtheCenterforUnifiedBio-
+detecting and binarizing handwritten content,’’ Int. J. Document Anal.
+metricsandSensors(CUBS),UniversityatBuffalo,asaPostdoctoralAsso-
+Recognit.,vol.22,no.3,pp.221–233,2019.
+[33] M.R.Rahman,S.Shah,andJ.Subhlok,‘‘Visualsummarizationoflec- ciate. In 2021, he became a Faculty Member at UNITEC. His current
+turevideosegmentsforenhancednavigation,’’inProc.IEEEInt.Symp. researchinterestsincludechartmining,lecturevideoanalysis,handwriting
+Multimedia(ISM),Dec.2020,pp.154–157. recognition,andmathematicalinformationretrieval.
+[34] M.HusainandS.M.Meena,‘‘Multimodalfusionofspeechandtextusing
+semi-supervisedLDAforindexinglecturevideos,’’inProc.Nat.Conf.
+FEI XU received the bachelor’s degree in elec-
+Commun.(NCC),Feb.2019,pp.1–6.
+[35] P.Banerjee,U.Bhattacharya,andB.B.Chaudhuri,‘‘Automaticdetection trical engineering from the Zhejiang University
+ofhandwrittentextsfromvideoframesoflectures,’’inProc.14thInt.Conf. City College, Zhejiang, China, in 2012, and the
+FrontiersHandwritingRecognit.,Sep.2014,pp.627–632. master’sdegreeincomputersciencefromtheUni-
+[36] W.Jia,Z.Zhong,L.Sun,andQ.Huo,‘‘ACNN-basedapproachtodetecting versityatBuffalo,NY,USA,in2015,wheresheis
+textfromimagesofwhiteboardsandhandwrittennotes,’’inProc.16thInt. currentlypursuingthePh.D.degreewiththeCen-
+Conf.FrontiersHandwritingRecognit.(ICFHR),Aug.2018,pp.1–6. terforUnifiedBiometricsandSensors(CUBS).
+[37] K.Dutta,M.Mathew,P.Krishnan,andC.V.Jawahar,‘‘Localizingand Her research interests include pattern recog-
+recognizing text in lecture videos,’’ in Proc. 16th Int. Conf. Frontiers
+nition and computer vision, especially oriented
+HandwritingRecognit.(ICFHR),Aug.2018,pp.235–240.
+towards video processing. Her current research
+[38] E.R.SoaresandE.Barrére,‘‘Anoptimizationmodelfortemporalvideo
+projects include human action recognition and affective computing. She
+lecturesegmentationusingword2vecandacousticfeatures,’’inProc.25th
+BrazillianSymp.MultimediaWeb,Oct.2019,pp.513–520. receivedtheBestStudentPaperAwardattheInternationalConferenceon
+[39] D.GalanopoulosandV.Mezaris,‘‘Temporallecturevideofragmentation DocumentAnalysisandRecognition(ICDAR)2019.
+usingwordembeddings,’’inProc.Int.Conf.MultimediaModeling.Cham,
+Switzerland:Springer,2019,pp.254–265. SRIRANGARAJSETLUR(SeniorMember,IEEE)
+[40] D.ChandandH.Oğul,‘‘Aframeworkforlecturevideosegmentationfrom
+iscurrentlythePrincipalResearchScientistatthe
+extractedspeechcontent,’’inProc.IEEE19thWorldSymp.Appl.Mach.
+Center for Unified Biometrics and Sensors, and
+Intell.Informat.(SAMI),Jan.2021,pp.299–304.
+[41] S. Horovitz and Y. Ohayon, ‘‘Boocture: Automatic educational videos theCo-DirectoroftheNSFCenterforIdentifica-
+hierarchicalindexingwitheBooks,’’inProc.IEEEInt.Conf.Teaching, tionTechnologyResearch,UniversityatBuffalo
+Assessment,Learn.Eng.(TALE),Dec.2020,pp.482–489. (TheStateUniversityofNewYork).Hehasover
+[42] W.Zhu,J.Zang,andH.Tobita,‘‘Wordy:Interactivewordcloudtosumma- 60 publications on topics, such as handwriting
+rizeandbrowseonlinevideostoenhanceeLearning,’’inProc.IEEE/SICE recognition,historicaldocumentprocessing,chart
+Int.Symp.Syst.Integr.(SII),Jan.2020,pp.879–884. infographicsprocessing,faceandotherbiometric
+[43] M.B.AndraandT.Usagawa,‘‘Automaticlecturevideocontentsumma-
+recognitiontechnologies,andaffectivecomputing,
+rizationwithattention-basedrecurrentneuralnetwork,’’inProc.Int.Conf.
+andcoauthoredthefirsteditedbookonOCRofindicscripts.Hisresearch
+Artif.Intell.Inf.Technol.(ICAIIT),Mar.2019,pp.54–59.
+interests include machine learning applications in the fields of document
+[44] L. L. Dias, E. Barrére, and J. F. de Souza, ‘‘The impact of semantic
+annotationtechniquesoncontent-basedvideolecturerecommendation,’’ analysisandrecognitionandbiometrics.Hehasheldleadershippositions
+J.Inf.Sci.,earlyaccess,Jun.2020,Art.no.0165551520931732. inseveralacademicconferencesinbothdocumentanalysisandbiometrics.
+[45] A.DasandP.P.Das,‘‘Incorporatingdomainknowledgetoimprovetopic
+segmentationoflongMOOClecturevideos,’’2020,arXiv:2012.07589. VENU GOVINDARAJU (Fellow, IEEE) is cur-
+[Online].Available:http://arxiv.org/abs/2012.07589
+rentlyaSUNYDistinguishedProfessorofcom-
+[46] J.A.Ghauria,S.Hakimova,andR.Ewertha,‘‘Classificationofimportant
+puter science and engineering and the Founding
+segmentsineducationalvideosusingmultimodalfeatures,’’inProc.Work-
+DirectoroftheCenterforUnifiedBiometricsand
+shops(CIKMW),2020.[Online].Available:http://ceur-ws.org/Vol-2699/
+[47] S.Kang,B.K.Iwana,andS.Uchida,‘‘CascadingmodularU-Netsfordoc- Sensors,UniversityatBuffalo(TheStateUniver-
+umentimagebinarization,’’inProc.Int.Conf.DocumentAnal.Recognit. sityofNewYork).Heholdsfourpatents.Hecoau-
+(ICDAR),Sep.2019,pp.675–680. thoredover425scientificarticles.Hehasreceived
+[48] K.Li,J.Wang,H.Wang,andQ.Dai,‘‘Structuringlecturevideosbyauto- severalmajorprofessionalsocietyawards.Hewas
+maticprojectionscreenlocalizationandanalysis,’’IEEETrans.Pattern a recipient of the IEEE Technical Achievement
+Anal.Mach.Intell.,vol.37,no.6,pp.1233–1246,Jun.2015. Award.HeisafellowoftheAssociationofCom-
+[49] I.Pratikakis,K.Zagoris,G.Barlas,andB.Gatos,‘‘ICFHR2016hand-
+puting Machinery, the American Association for the Advancement of
+writtendocumentimagebinarizationcontest(H-DIBCO2016),’’inProc.
+Science,theInternationalAssociationofPatternRecognition,andtheInter-
+15th Int. Conf. Frontiers Handwriting Recognit. (ICFHR), Oct. 2016,
+nationalSocietyofOpticsandPhotonics.Hehasservedasthegeneralchair
+pp.619–623.
+[50] T.-Y.Lin,M.Maire,S.Belongie,J.Hays,P.Perona,D.Ramanan,P.Dollár, andinotherleadershippositionsforanumberofconferencesintheareas
+and C. L. Zitnick, ‘‘Microsoft COCO: Common objects in context,’’ ofdocumentanalysisandbiometrics.HehasservedasthePresidentforthe
+in Proc. Eur. Conf. Comput. Vis. Cham, Switzerland: Springer, 2014, IEEEBiometricsCouncil.
+pp.740–755.
+104484 VOLUME9,2021

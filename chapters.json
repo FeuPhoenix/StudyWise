@@ -11,13 +11,13 @@
     },
     {
         "start": 399190,
-        "end": 611910,
-        "headline": "Speed tells us how fast something is moving every second"
+        "end": 1063350,
+        "headline": "Speed and velocity describe how fast something is moving, but there's a difference"
     },
     {
-        "start": 613610,
+        "start": 1063500,
         "end": 1117450,
-        "headline": "Speed is a scalar quantity and velocity is a vector quantity"
+        "headline": "The average velocity is negative 2 meters/second"
     },
     {
         "start": 1119550,
@@ -27,36 +27,21 @@
     {
         "start": 1451110,
         "end": 1754730,
-        "headline": "Whenever acceleration and velocity have same sign, the object is speeding up"
+        "headline": "If acceleration and velocity share the same sign, the object is speeding up"
     },
     {
         "start": 1756160,
-        "end": 1836500,
-        "headline": "Now, let's move on to gravitational acceleration. It varies for different planets and other very large objects"
-    },
-    {
-        "start": 1837080,
         "end": 2266710,
-        "headline": "The gravitational acceleration affects the vertical velocity. It doesn't affect the horizontal velocity"
+        "headline": "A negative gravitational acceleration can decrease the velocity of a moving object"
     },
     {
         "start": 2268410,
-        "end": 2786224,
-        "headline": "The next topic that you want to be familiar with is something called projectile motion"
-    },
-    {
-        "start": 2786422,
         "end": 2829040,
-        "headline": "If the trajectory is symmetrical, velocities have opposite signs"
+        "headline": "When dealing with projectile motion, friction is usually ignored"
     },
     {
         "start": 2830740,
-        "end": 3093168,
-        "headline": "An object at rest will remain at rest unless acted on by a force"
-    },
-    {
-        "start": 3093344,
         "end": 3216420,
-        "headline": "The net force of an object is equal to the mass times the acceleration"
+        "headline": "An object at rest will remain at rest unless acted on by a force"
     }
 ]

@@ -1,4 +1,5 @@
 import json
+import time
 import openai
 import re
 import pdfplumber
@@ -16,10 +17,10 @@ def split_text(text, max_chunk_size=3800):  # Reduced max_chunk_size for safety
     sentences = re.split(r'(?<=[.!?]) +', text)
     current_chunk = ""
     for sentence in sentences:
-        # Check if adding the next sentence would exceed the max chunk size
+        # Check if adding the next sentence would exceed the max chunk size EZ
         if len(current_chunk) + len(sentence) > max_chunk_size:
             yield current_chunk
-            current_chunk = sentence  # Start a new chunk
+            current_chunk = sentence  # Start a new chunk EZ
         else:
             current_chunk += " " + sentence
     yield current_chunk  # Yield the last chunk
@@ -81,18 +82,20 @@ def extract_text_from_pdf_plumber(pdf_path, txt_file_path):
                 if text:
                     txt_file.write(text)
                     
-                    # Optionally, add a page break in the text file
-                    txt_file.write('\n--- Page Break ---\n\n')
+                    #  add a page break in the text file
+            print(f"Text extracted and saved to {txt_file_path}")           
     
-    print(f"Text extracted and saved to {txt_file_path}")
+   
+def main():
+    PDFFile="FCN-LectureNet_Extractive_Summarization_of_Whiteboard_and_Chalkboard_Lecture_Videos_1.pdf"
+    text_file_path = 'Summaries/transcribed_text_From_PDF.txt'
+    json_file_path = 'Summaries/Long_summary_From_PDF.json'
 
-PDFFile='Summaries/test.pdf'
-text_file_path = 'Summaries/transcribed_text_From_PDF.txt'
-json_file_path = 'Summaries/Long_summary_From_PDF.json'
+    api_key = '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'
+    extract_text_from_pdf_plumber(PDFFile,text_file_path)
+    text = read_text_file(text_file_path)
+    summary = get_Long_summary_from_gpt3(text, api_key)
 
-api_key = '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'
-extract_text_from_pdf_plumber(PDFFile,text_file_path)
-text = read_text_file(text_file_path)
-summary = get_Long_summary_from_gpt3(text, api_key)
-
-create_json_with_Long_summary(json_file_path, summary)
+    create_json_with_Long_summary(json_file_path, summary)
+if __name__ == '__main__':
+    main()

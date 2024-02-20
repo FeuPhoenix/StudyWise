@@ -2,61 +2,46 @@
     {
         "start": "0:00:02",
         "end": "0:05:09",
-        "concise_title": "\"Exploring Distance and Displacement In-Depth\""
+        "concise_title": "\"Exploring Distance and Displacement\""
     },
     {
         "start": "0:05:11",
         "end": "0:06:37",
-        "concise_title": "\"Distance versus Displacement: Interpreting 200-Mile Travel\""
+        "concise_title": "\"Distance vs. Displacement: Traveling 200 Miles\""
     },
     {
         "start": "0:06:39",
-        "end": "0:10:11",
-        "concise_title": "\"Speed: Measuring Instantaneous Movement\""
+        "end": "0:17:43",
+        "concise_title": "\"Distinguishing Speed and Velocity\""
     },
     {
-        "start": "0:10:13",
+        "start": "0:17:43",
         "end": "0:18:37",
-        "concise_title": "\"Difference between Speed and Velocity: Scalar vs. Vector\""
+        "concise_title": "\"Average Velocity: -2 m/s\""
     },
     {
         "start": "0:18:39",
         "end": "0:24:08",
-        "concise_title": "\"Understanding Acceleration: Speed Change Rate\""
+        "concise_title": "\"Understanding Acceleration\""
     },
     {
         "start": "0:24:11",
         "end": "0:29:14",
-        "concise_title": "\"Same-Sign Acceleration and Velocity Indicate Speeding Up\""
+        "concise_title": "Title: \"Relationship Between Acceleration and Velocity\""
     },
     {
         "start": "0:29:16",
-        "end": "0:30:36",
-        "concise_title": "\"Understanding Gravitational Acceleration: Variations in Different Celestial Bodies\""
-    },
-    {
-        "start": "0:30:37",
         "end": "0:37:46",
-        "concise_title": "\"Gravitational Acceleration: Impact on Vertical, Not Horizontal Velocity\""
+        "concise_title": "Title: \"Negative Gravitational Acceleration Slows Moving Objects\""
     },
     {
         "start": "0:37:48",
-        "end": "0:46:26",
-        "concise_title": "\"Introducing Projectile Motion: A Must-Know Topic\""
-    },
-    {
-        "start": "0:46:26",
         "end": "0:47:09",
-        "concise_title": "\"Symmetrical Trajectories Result in Opposite Velocities\""
+        "concise_title": "\"Friction's Exclusion in Projectile Motion Analysis\""
     },
     {
         "start": "0:47:10",
-        "end": "0:51:33",
-        "concise_title": "\"Law of Inertia: Objects at Rest Remain at Rest without Force\""
-    },
-    {
-        "start": "0:51:33",
         "end": "0:53:36",
-        "concise_title": "\"Net Force Equals Mass Times Acceleration\""
+        "concise_title": "\"Inertia principle in motion\""
     }
 ]

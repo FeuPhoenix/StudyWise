@@ -52,17 +52,13 @@ def extract_text_and_images_from_pptx(pptx_path, output_text_path, output_images
         file.write(text)
 
 def main():
-    # Replace 'your_document.docx' with the path to your Word document
-    docx_path = 'D:/AA/Sw/testing/test.docx'
+    docx_path = 'test.docx'
 
-    # Replace 'output_text.txt' with the desired path for the output text file
     output_text_path = 'D:/AA/Sw/testing/output_text.txt'
 
-    # Replace 'output_images' with the desired directory for the output images
     output_images_dir = 'D:/AA/Sw/testing/output_images'
 
-    # Extract text and images from the Word document
-    extract_text_and_images_from_pptx(docx_path, output_text_path, output_images_dir)
+    extract_text_and_images_from_docx(docx_path, output_text_path, output_images_dir)
 
 if __name__ == "__main__":
     main()

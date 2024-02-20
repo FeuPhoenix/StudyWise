@@ -94,7 +94,10 @@ def get_Long_summary_from_gpt3(text, api_key):
 
 
 
-
+def Readjsonfile(filename):
+    with open(filename, 'r') as file:
+     chapters = json.load(file)
+    return chapters
 
 def main():
 
@@ -146,6 +149,7 @@ def main():
  with open(json_file_path, 'w') as json_file:
         json.dump(summary_data, json_file, indent=4)
         print(f"Long summary has been successfully saved to {json_file_path}.") 
+ json_chapters = "chapters.json"
  text=Readjsonfile(json_chapters)
  
 
@@ -163,8 +167,7 @@ def main():
 
  with open('ProccessedChapters.json', 'w') as outfile:
     json.dump(processed_chapters, outfile, indent=4)
-if __name__ == "__main__":
-  main()
+
 
 
 

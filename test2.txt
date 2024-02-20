@@ -1,0 +1,118 @@
+ReceivedJuly,,acceptedJuly,,dateofpublicationJuly,,dateofcurrentversionJuly,. This will facilitate intelligent downstream Infor-
+an explosive growth in educational or lecture videos. ExtractionofhandwrittencontentfromlecturevideoframeusingFCN-LectureNet. Inthiswork,weaimtogenerateextractivesum- originalvideosbutratherausefulcomplement. Inthatsense,choos- of  lecture videos including both whiteboards and chalk-
+ing an arbitrary set of key-frames that has low coverage of boards. Also,simplyselect- written content extraction network. This segmentation works better and faster
+work,wewanttogenerateextractivesummariesthatusethe thanexistingbaselines,,. usingtemporalregionproposalstoidentifythepotentialloca-
+Inthiswork,wemakethefollowingcontributions: tions of key-shots . tiongroundtruthtoextendtheLectureMathdataset. lecture videos which, unlike existing methods, can
+These datasets are relatively small (  videos), and have
+be applied to a wider range of videos (whiteboards
+shortvideos. Otherrecentworksdealwitheducationalvideos
+andchalkboards)withouttheneedforcompleximage
+(e.g.cookingvideos,doityourselftutorials,etc.)whichcan
+pre-processing. This protocol aims to
+text detection and lecture video analysis. Summarizationmethodsarethen
+ods is to produce a compact but meaningful representation evaluated by their ability to successfully extract all of this
+of its content. Othermethodsin
+and video shots can be represented using aggregations of thisfamilyhaveusedR-CNNstyleframeworkswithtwo
+frame-level representations such as the average feature vec- phases,oneforlocalizationoftextcandidatesandthesecond
+tororrepresentativevector. Earlier methods were mostly based on combinations
+pixelsbelongtothesametextregion. used
+ative framework which grows text regions from their inner- a combination of densely sampled SIFT features to iden-
+most pixels allowing the network to accurately separate the tify handwriting regions followed by K-means clustering
+individualtextregioninstances. Inthispaper,weproposeamodel region, and after processing the image, they use hystere-
+that predicts a pixel-level mask of text regions. Onthe eral text detection and re-train them for handwriting detec-
+other hand, handwritten text in images of whiteboards and tion. The Lecture-
+conditions and image quality still pose a challenge in many VideoDBdatasetincludesimagesextractedfromlecture
+cases. Unlikemachineprintedtextfoundinsometextdetec- videosbasedonwhiteboards,chalkboards,slides,andpaper. content mixtures of handwriting (printed text, cursive text,
+mathematical expressions, drawings, etc.) which standard
+handwritingrecognitionsystemswouldstruggletorecognize. ) Overallarchitectureofourlecturevideosummarizationapproach. action-based summarization framework  and the origi-
+nalandweightedconflictminimizationalgorithm. ) MULTI-MODALANALYSIS
+Othermodelshaveusedmultiplemodalitiesforlecturevideo III. createhigh-levelsemanticlecturevideosegmentsbyanalyz- We then use the estimated timeline of the content to create
+ing the corresponding audio transcripts (and slide text ) anaccumulateddeleted-contentsignal,anditspeaksarethen
+usingLDA-basedtopicmodelingordomainknowledge used to create temporal video segments. FCN-LectureNet architecture is inspired by both
+mization . Afterwards,key-framesare convolutional maps produced by the main network as the
+selected considering the moments when the speaker writes inputforthebinarizationbranch. Thenetworkreceives convolutionalfeaturesareusedtoestimateboththebackgroundanda
+anRGBimage,whichisthenprocessedbythesharedU-NETstyle binarymaskfortextregions. Theforeground-focusedtrainingtrades
+malization layers are frozen after this step. of    and group them into batches of size . The output spatial-temporal index candidates. However,wemodified
+thealgorithmtohandlesharptransitionsineditedvideos. Toavoidit,thesignalisgroupedbypeaks
+To create a lecture video summary, we first need to divide (shownincolors)thatbecomethesplitcandidates(linesto).Inthis
+example,ourgreedyalgorithmwillchooseasthefinalsplitpointfor
+thevideointosemantictemporalsegmentsthatgrouprelated
+thissegmentandwillcontinuetorecursivelysplittheresultingsegments
+content. MethodslikeAMPose muchcontenthasbeendeletedinagiventemporalsegment,
+work by directly identifying erasing events using speaker illustrated in Figure . The accumulation is reset to  every
+actions. We apply a greedy
+methodsbasedonframedifferencing. Italsoidentifiesexplicitlythepeaks
+contentdeletionevents. A split point is valid only if its
+uncommon in edited videos. to detect transitions on slide-based videos by resulting video segment. Incontrast,
+VOLUME, K.Davilaetal.:FCN-LectureNet:ExtractiveSummarizationofWhiteboardandChalkboardLectureVideos
+TABLE. Many of these videos are
+editedbytheirauthorsandremoveerasingandlongwriting
+events. Someofthesevideosalsoconstantlydisplaythe
+channellogosforshortperiodsoftime. These are unedited videos that include approach. Note that only speaker actions were annotated gons instead of simple quadrilaterals to cover these shapes. The sources selected are from YouTube channels thisdatasetbecauseofitsscale,diversityofbackgroundsand
+oriented towards tutorial-like math lectures which focus on the fact that many street signs are designed to have a high
+ VOLUME,K.Davilaetal.:FCN-LectureNet:ExtractiveSummarizationofWhiteboardandChalkboardLectureVideos
+TABLE. ComparisonofdifferentbinarizationmethodsusingDIBCOmetricsovertheoriginalAccessMathdataset. AblationstudyandcomparisonofdifferentbinarizationmethodsusingDIBCOmetricsoverthenovelLectureMathdataset. These ignoremostofthebackgroundobjectsandeventhespeaker. Our FCN-LectureNet can
+and F-score which is a weighted metric that considers the handlefullRGBimagesasinputwithoutanyadditionalpre
+thickness of connected components in the neighborhood of or post processing requirements. PSNR and DRD also improve for this baseline, but muchhigherprecision. TheFCN-LectureNetresultsreported
+thereisalossofpixel-levelrecall. On the other hand, different versions of FCN-LectureNet We make some observations from using different types
+getbetterresultsforallmetrics. Forwhiteboards,thisstepwillproduceaversionwherehand-
+Recall,however,islowerthanbaselinebutprecisionismuch writinglookswhite. Forchalkboards,thehandwritinglooks
+higher thus making the standard F just slighly lower and black instead. These
+pseudo F slighly higher than the baseline. To increase recall, we add a second subtractedimagethatfurtherincreasesthecontrastbetween
+stageofforegroundfocusedtrainingtothepreviouscondition thetextandbackgroundforeasierbinarization. Standard recall improves slightly but methodisAMPoseasdescribedintheoriginalpaper. ExampleoftheoutputsproducedbytheFCN-LectureNetbranchesonwhiteboardsandchalkboards. on unedited, tionsusemetricsbasedonmatchesbetweengroundtruthand
+edited and all videos respectively. The second metric is the predictedsplitpoints. For a given set of ground truth seg- belocated. Thisisbecauseattimesthespeakermight
+VOLUME, K.Davilaetal.:FCN-LectureNet:ExtractiveSummarizationofWhiteboardandChalkboardLectureVideos
+TABLE. For AM
+Pose,thedifferenceinSIoUbetweenbothversionsisrather
+small. Followingthis,bothsignals(conflictresolution
+nexttopic. However,anypointbetweenthestartingofthe the same hardware, we noted that temporal segmentation
+deleting event until the beginning of the next writing event using the novel method is  to  times faster than conflict
+could work well as split points for visual summarization minimization. Weusethismatchingcriteriatocomputesplit C. VIDEOSUMMARIZATION
+recall,precisionandF.Weenforce-to-matchesbetween To evaluate the summaries produced by our method and
+thegroundtruthsplitsandpredictedsplitsandcomputethese existingbaselines,weusethebinarykey-framesofthedataset
+metrics. Incontrast,ourproposedmodelmanagestoproduce CCismatchedbyasummaryCCifthepixel-wiserecalland
+the best SIoU metrics on both edited and unedited videos. In terms of split precision, the AM Pose thetemporalinformationofeachsummarykey-frame. Forthepro- frame).Theglobalmetricconsidersuniquecontentelements
+posedmethod,theprecisionlevelisgoodforeditedvideos, as annotated in the ground truth, i.e. a symbol repeated on
+butitisconsiderablylowforuneditedvideoswhichmeansit multiple ground truth keyframes needs to be matched only
+isover-segmentingthem. Bothconflictminimizationand by one summary key-frame. Theresultsforthiscompar- weconsideredaversionwherethesummarizationmethodis
+ison are shown in Table . Intermsofcon-
+than most conditions especially in terms of precision. In other words, ofprecisionduetothefactthattheROIestimationheuristics
+our novel pipeline is simpler and faster than most of these are broken in the larger dataset. FCN-LectureNet
+formed using the novel LectureMath dataset. Inmostcases,usingFCN-LectureNetalso input for the binarization process. The original method was
+leadstohigherrecallvalues. whiteboards,thesystemextractsthenegativepixelsbecause
+TheAMposemethodprovidesabettersegmentationonthe thesearedarkerthanthewhiteboardcolor. since edited videos do not contain erasing actions required Our novel dataset includes both whiteboards and chalk-
+by the AM Pose method. Forthispurpose,
+toahighernumberofframespersummaryinaverage. Notethateditedvideosmightcontainframeswith
+methodsandcandealbetterwithchallengingeditedvideos. windows of    pixels centered around each pixel. contentinthewildishard,wewouldliketoexploreexplicit
+classificationbetweentext,mathandgraphicssothatout-of- APPENDIXII. handwrittencontentthatoccupythesamespaceonthewhite-
+board at different times in the video, and therefore they are
+APPENDIXI. Man,
+However, edited videos typically contain credits and other
+Cybern. can cause the algorithm to under-segment due to very early
+ W.Zhu,J.Lu,J.Li,andJ.Zhou,DSNet:Aflexibledetect-to-summarize
+stopping. Our solution is to allow the algorithm to continue networkforvideosummarization,IEEETrans. contentregionsthatlookverydifferentwhileoccupyingthe Comput. Image
+ M.Mahdavi,R.Zanibbi,H.Mouchere,C.Viard-Gaudin,andU.Garain,
+Comput. FrontiersHandwritingRecognit.(ICFHR),Aug. ,pp.. ,pp..
+VOLUME, K.Davilaetal.:FCN-LectureNet:ExtractiveSummarizationofWhiteboardandChalkboardLectureVideos
+ W. Wang, E. Xie, X. Li, W. Hou, T. Lu, G. Yu, and S. Shao, Shape  C.TensmeyerandT.Martinez,Historicaldocumentimagebinarization:
+robusttextdetectionwithprogressivescaleexpansionnetwork,inProc. CVPR), Jun. ,
+ P.Yang,G.Yang,X.Gong,P.Wu,X.Han,J.Wu,andC.Chen,Instance pp..
+segmentationnetworkwithself-distillationforscenetextdetection,IEEE
+Access,vol. ICCV), Oct. , computingsystemsengineeringfromUniversidad
+pp.. TecnolgicaCentroamericana(UNITEC),Teguci-
+ B.U.Kota,K.Davila,A.Stone,S.Setlur,andV.Govindaraju,Auto- galpa,Honduras,in,andtheM.Sc.degreein
+mateddetectionofhandwrittenwhiteboardcontentinlecturevideosfor computerscienceandthePh. metricsandSensors(CUBS),UniversityatBuffalo,asaPostdoctoralAsso-
+Recognit. In , he became a Faculty Member at UNITEC. His current
+turevideosegmentsforenhancednavigation,inProc. Her current research
+ E.R.SoaresandE.Barrre,Anoptimizationmodelfortemporalvideo
+projects include human action recognition and affective computing. Cham,
+Switzerland:Springer,,pp.. SRIRANGARAJSETLUR(SeniorMember,IEEE)
+ D.ChandandH.Oul,Aframeworkforlecturevideosegmentationfrom
+iscurrentlythePrincipalResearchScientistatthe
+extractedspeechcontent,inProc. Teaching, tionTechnologyResearch,UniversityatBuffalo
+Assessment,Learn. IEEESICE recognition,historicaldocumentprocessing,chart
+Int. ,pp.. infographicsprocessing,faceandotherbiometric
+ M.B.AndraandT.Usagawa,Automaticlecturevideocontentsumma-
+recognitiontechnologies,andaffectivecomputing,
+rizationwithattention-basedrecurrentneuralnetwork,inProc. andcoauthoredthefirsteditedbookonOCRofindicscripts. Science,theInternationalAssociationofPatternRecognition,andtheInter-
+th Int. Cham, Switzerland: Springer, , IEEEBiometricsCouncil.
