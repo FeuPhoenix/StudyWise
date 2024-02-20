@@ -5,7 +5,7 @@ import requests
 import time
 from flashcards_from_pdf import flashcard_creator as fc
 
-API_KEY_ASSEMBLYAI = ''
+API_KEY_ASSEMBLYAI = '1b3d0cecc44246309867808249ce89f0'
 
 upload_endpoint = 'https://api.assemblyai.com/v2/upload'
 transcript_endpoint = 'https://api.assemblyai.com/v2/transcript'
@@ -73,20 +73,20 @@ def save_transcript(url, title):
     data, error = get_transcription_result_url(url)#calls the get_transcription_result_url function with the url parameter and assigns the returned data and error values to the respective variables.
 
     if data:
-        audioFileName = 'assets/output files/extracted transcripts/'+title + '.txt'
+        audioFileName = 'assets/output_files/extracted_transcripts/'+title + '.txt'
         with open(audioFileName, 'w') as f:
             f.write(data['text'])
         print('Transcript saved')
     elif error:
         print("Error!!!", error)
 def main():
-    videoFilePath = 'assets/input files/videos/'
-    videoFileName = 'Speech to Text using Python - Fast and Accurate-(144p)'
+    videoFilePath = 'assets/input_files/videos/'
+    videoFileName = 'PUSHUP_SET'
     videoFileExtension = '.mp4'
 
     video = mp.VideoFileClip(videoFilePath+videoFileName+videoFileExtension)
 
-    audioFilePath = 'assets/output files/extracted audio/'
+    audioFilePath = 'assets/output_files/extracted_audio/'
     audioFileName = videoFileName+"_extracted_audio"
     audioFileExtension = '.wav'
     audioFileForTranscription = audioFilePath+audioFileName+audioFileExtension

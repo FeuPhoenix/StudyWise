@@ -178,7 +178,11 @@ var failCounter = 0;
 var isMissed = false;
 
 function loadCards() {
-  return fetch('/flashcards_from_pdf/JS/flash_cards.json')
+  const urlParams = new URLSearchParams(window.location.search);
+  fileParam = urlParams.get('file');
+  filename = fileParam.replace(/\s/g, '_'); // Replace spaces with '_' to fetch processed results
+  filename = filename.replace(/\.[^.]+$/, '');
+  return fetch('../../assets/output_files/flashcards/'+filename+'.json')
     .then(response => response.json())
     .then(data => {
       fullCards = data.map(card => ({ ...card, status: "unread" }));

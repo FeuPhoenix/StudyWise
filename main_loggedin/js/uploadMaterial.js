@@ -5,9 +5,16 @@ function popupPrompt() {
 }
 
 function chooseOption(option) {
-    alert('You chose: ' + option);
-    // Go to choice page
     closePopup();
+    if (option === 'text') {
+        window.location.href = 'upload-doc.html';
+    }
+    else if (option === 'video') {
+        window.location.href = 'upload-video-based.html';
+    }
+    else {
+        alert("Invalid input");
+    }
 }
 
 // Close popup using 'x' button
@@ -52,20 +59,29 @@ function handleFileSelection(input) {
 function confirmFile() {
     if (chosenFile) {
         console.log("Selected File Name:", chosenFile);
-
-        var request = new XMLHttpRequest();
-        request.open('POST', 'http://127.0.0.1:5000/makeFlashcards', true);
-        request.setRequestHeader('Content-Type', 'application/json');
-        request.onload = function () {
-            if (request.status === 200) {
-                // Handle the response from the server if needed
-                console.log('Filename sent successfully');
-            }
-        };
-        request.send(JSON.stringify({ value: chosenFile }));
+        window.location.href = 'view-video.html?file=' + encodeURIComponent(chosenFile);
     }
     else {
-        alert("No file selected");
+        alert("File Not yet Processed");
     }
 }
 
+// function confirmFile() {
+//     if (chosenFile) {
+//         console.log("Selected File Name:", chosenFile);
+
+//         var request = new XMLHttpRequest();
+//         request.open('POST', 'http://127.0.0.1:5000/makeFlashcards', true);
+//         request.setRequestHeader('Content-Type', 'application/json');
+//         request.onload = function () {
+//             if (request.status === 200) {
+//                 // Handle the response from the server if needed
+//                 console.log('Filename sent successfully');
+//             }
+//         };
+//         request.send(JSON.stringify({ value: chosenFile }));
+//     }
+//     else {
+//         alert("No file selected");
+//     }
+// }

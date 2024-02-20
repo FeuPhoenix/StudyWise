@@ -10,10 +10,95 @@ function popupPrompt() {
     document.getElementById('popup-overlay').style.display = 'block';
 }
 
+const urlParams = new URLSearchParams(window.location.search);
+fileParam = urlParams.get('file');
+filename = fileParam.replace(/\s/g, '_'); // Replace spaces with '_' to fetch processed results
+filename = filename.replace(/\.[^.]+$/, '');
+console.log('Will now fetch ('+fileParam+')\'s processed files');
+
+if (fileParam) { // Process the 'file' that is received
+    console.log("Received File Name:", filename);
+
+    fetch('../../assets/output_files/videos/'+filename+'.mp4')
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response error');
+        }
+        return response.json();
+    })
+    .then(jsonObject => {
+        const longSummaryText = jsonObject.long_summary;
+        
+        document.getElementById('summaryText').innerHTML = longSummaryText;
+    })
+    .catch(error => {
+        console.error('There was a problem with the fetch operation:', error);
+    });
+
+    fetch('../../assets/output_files/summaries/'+filename+'.json')
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response error');
+        }
+        return response.json();
+    })
+    .then(jsonObject => {
+        const longSummaryText = jsonObject.long_summary;
+        
+        document.getElementById('summaryText').innerHTML = longSummaryText;
+    })
+    .catch(error => {
+        console.error('There was a problem with the fetch operation:', error);
+    });
+
+    fetch('../../assets/output_files/indexing/'+filename+'.json')
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response error');
+        }
+        return response.json();
+    })
+    .then(jsonArray => {
+        const indexesArray = jsonArray.map(obj => {
+            // Extract values from each object
+            const startValue = String(obj.start);
+            const endValue = String(obj.end);
+            const conciseTitleValue = String(obj.concise_title);
+            // Concatenate values and return
+            return startValue +' - '+ endValue +'\n'+ conciseTitleValue;
+        });
+
+        console.log("indexesArray:", indexesArray);
+
+        // Join indexesArray with newline characters
+        const indexes = indexesArray.join('\n');
+
+        console.log("indexes: " + indexes);
+
+        // Display concatenated values in the HTML element with id 'videoIndexes'
+        document.getElementById('videoIndexes').innerHTML = indexes;
+    })
+    .catch(error => {
+        console.error('There was a problem with the fetch operation:', error);
+    });
+
+    
+} else { // No input file
+    console.log("No input file provided.");
+}
+
+
 function chooseOption(option) {
-    alert('You chose: ' + option);
-    // Go to choice page
     closePopup();
+    if (option === 'text') {
+        window.location.href = 'upload-doc.html';
+    }
+    else if (option === 'video') {
+        window.location.href = 'upload-video-based.html';
+    }
+    else {
+        alert("Invalid input");
+    }
 }
 
 // Close popup using 'x' button

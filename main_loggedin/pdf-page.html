@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="https://unpkg.com/plyr@3/dist/plyr.css">
     <link rel="stylesheet" href="css/pdf-page.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="css/view-video-style.css">
 </head>
 
 <body>
@@ -15,7 +16,7 @@
         <div class="navbar-btns">
             <a href=""><button>Home</button></a>
             <a href=""><button>Your Content</button></a>
-            <a href="upload-material.html"><button>Upload Material</button></a>
+            <a onclick="popupPrompt()"><button>Upload Material</button></a>
         </div>
     </div> <!-- Main Navbar end -->
     <div class="page-content">
@@ -48,9 +49,19 @@
             </div>
         </div>
     </div>
+    <div id="popup-overlay" class="popup-overlay">
+        <div class="popup-prompt">
+            <button class="close-btn" onclick="closePopup()">&times;</button>
+            <div class="popup-content">
+                <h2>What kind of file do you want to upload?</h2>
+                <button onclick="chooseOption('text')">Text-based</button>
+                <button onclick="chooseOption('video')">Video-based</button>
+            </div>
+        </div>
+    </div>
     <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=es6,Array.prototype.includes,CustomEvent,Object.entries,Object.values,URL"></script>
     <script src="https://unpkg.com/plyr@3"></script>
-    <!-- Additional scripts if needed -->
+    <script src="js/uploadMaterial.js"></script>
 </body>
 
 </html>
