@@ -11,6 +11,7 @@ import time
 import shutil
 TEMP_FOLDER = "assets/output_files/Temp_Files/TEMP" 
 
+start_time = time.time()
 
 def getMaxVolume(s): # get max volume of a given audio file (we also find the min volume because audio signals signals can have negative values)
     maxv = float(np.max(s))
