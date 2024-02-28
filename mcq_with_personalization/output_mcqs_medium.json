@@ -1,0 +1,42 @@
+[
+    {
+        "question": "1. What is the purpose of using views in architectural descriptions?",
+        "options": [
+            "B) To create a visual representation of the system",
+            "D) To define the overall system architecture",
+            "C) To analyze the deployment of the system",
+            "A) To structure the system into different functional aspects"
+        ],
+        "correct_answer": "B) To create a visual representation of the system"
+    },
+    {
+        "question": "2. How is the relationship between view and viewpoint described?",
+        "options": [
+            "B) Similar to function and method",
+            "D) Similar to variable and value",
+            "C) Similar to table and row",
+            "A) Similar to object and class"
+        ],
+        "correct_answer": "B) Similar to function and method"
+    },
+    {
+        "question": "3. Which reference model is used for describing distributed object systems and their viewpoint set?",
+        "options": [
+            "A) UML",
+            "D) ACM",
+            "B) RM-ODP",
+            "C) IEEE"
+        ],
+        "correct_answer": "A) UML"
+    },
+    {
+        "question": "5. What is the main focus of the set of viewpoints defined by the authors?",
+        "options": [
+            "A) Academic research",
+            "C) Mainstream software development",
+            "D) Open Distributed Processing standard.",
+            "B) Information systems practitioner"
+        ],
+        "correct_answer": "A) Academic research"
+    }
+]

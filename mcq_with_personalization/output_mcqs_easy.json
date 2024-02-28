@@ -1,0 +1,32 @@
+[
+    {
+        "question": "1. What do viewpoints provide for architects?",
+        "options": [
+            "C) Potential problems and solutions",
+            "B) Guidance on developing views",
+            "D) All of the above",
+            "A) Templates for views"
+        ],
+        "correct_answer": "C) Potential problems and solutions"
+    },
+    {
+        "question": "3. What ISO standard is based on the use of viewpoints and views in architecture?",
+        "options": [
+            "D) ISO 27001",
+            "B) ISO 42010",
+            "C) ISO 14001",
+            "A) ISO 9001"
+        ],
+        "correct_answer": "D) ISO 27001"
+    },
+    {
+        "question": "5. What do views provide for architects?",
+        "options": [
+            "B) Guidance on developing viewpoints",
+            "C) Representation of information",
+            "D) Potential problems and solutions",
+            "A) Templates for viewpoints"
+        ],
+        "correct_answer": "B) Guidance on developing viewpoints"
+    }
+]

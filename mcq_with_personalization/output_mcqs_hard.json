@@ -1,0 +1,42 @@
+[
+    {
+        "question": "1. Which of the following best describes the concept of architectural description in software architecture?",
+        "options": [
+            "d) A comprehensive analysis of the operational environment and constraints",
+            "b) A detailed analysis of the code implementation",
+            "a) A high-level overview of the system's structure and components",
+            "c) A document outlining the project schedule and budget"
+        ],
+        "correct_answer": "d) A comprehensive analysis of the operational environment and constraints"
+    },
+    {
+        "question": "2. In the context of software architecture, what is the purpose of viewpoints?",
+        "options": [
+            "d) To analyze the operational environment and constraints",
+            "c) To organize the architectural description into explicit guidance",
+            "a) To provide a detailed analysis of the code structure",
+            "b) To outline the project requirements and timeline"
+        ],
+        "correct_answer": "d) To analyze the operational environment and constraints"
+    },
+    {
+        "question": "3. According to the textbook \"Software Systems Architecture: Working With Stakeholders Using Viewpoints and Perspectives\", what is the role of stakeholders in software architecture?",
+        "options": [
+            "d) To create detailed architectural viewpoints for the system",
+            "a) To write the code for the system",
+            "c) To analyze the operational environment of the system",
+            "b) To provide feedback on the system requirements"
+        ],
+        "correct_answer": "d) To create detailed architectural viewpoints for the system"
+    },
+    {
+        "question": "4. How do large-scale software architectures differ from smaller, more localized architectures?",
+        "options": [
+            "c) Large-scale architectures have fewer constraints to consider",
+            "a) Large-scale architectures have more stakeholders involved in the decision-making process",
+            "b) Large-scale architectures are more focused on implementation details",
+            "d) Large-scale architectures do not require explicit guidance or viewpoints"
+        ],
+        "correct_answer": "c) Large-scale architectures have fewer constraints to consider"
+    }
+]
