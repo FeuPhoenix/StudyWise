@@ -2,16 +2,12 @@
 from datetime import datetime
 from firebase_admin import firestore
 from Constants.Constants import OPENAI_API_KEY, MAX_TOKENS_PER_REQUEST,kUserId,kUserEmail ,kDatejoined ,kFullName
-from app.Studywise.Controller.Video_Processed_Controller.py import VideoProcessedController 
+from app.Studywise.Controller.Video_Processed_Controller import Video_Processed_Controller 
 
 # Assuming the Materials and Processed_Materials classes are defined in app.Studywise.Model
 from app.Studywise.Model import Material, VideoProcessed
 
 class Flash_Cards:
-    flashcard_id=""
-    front_content=""
-    back_content=""
-    processed_material=VideoProcessedController()
     def __init__(self, flashcard_id, front_content, back_content, processed_material,):
         self.flashcard_id = flashcard_id  # Removed the comma at the end
         self.front_content = front_content  # Removed the comma at the end
