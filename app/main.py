@@ -1,6 +1,5 @@
 from flask import Flask
 from firebase_admin import credentials, initialize_app
-import firebase_admin
 from app.Studywise.Controller.User_Controller import UserController  # Ensure this path is correct
 
 # Initialize Firebase Admin

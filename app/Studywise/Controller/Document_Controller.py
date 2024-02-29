@@ -1,7 +1,7 @@
 import uuid
 from app.Studywise.Model import DocumentProcessed
 from datetime import datetime
-from firebase_admin import firestore
+from firebase_admin import firestore, credentials, initialize_app
 from Constants.Constants import OPENAI_API_KEY, MAX_TOKENS_PER_REQUEST,kUserId,kUserEmail ,kDatejoined ,kFullName 
 import json
 import time
@@ -17,10 +17,20 @@ from PIL import Image
 from io import BytesIO
 from summarizer import Summarizer
 from firebase_admin import credentials, storage
+class FirestoreDB:
+    _instance = None
+
+    @classmethod
+    def get_instance(cls):
+        if cls._instance is None:
+            cred = credentials.ApplicationDefault()
+            initialize_app(cred)
+            cls._instance = firestore.client()
+        return cls._instance
 class DocumentProcessedController:
     def __init__(self,material) :
         self.material=material
-        self.db = firestore.client()
+        self.db = FirestoreDB.get_instance()
     @staticmethod
     async def create_processed_document(request_data):
         """
@@ -53,21 +63,7 @@ class DocumentProcessedController:
         except Exception as e:
             return {"success": False, "message": str(e)}
 
-    @staticmethod
-    async def get_processed_document(processed_material_id):
-        """
-        Retrieves a processed document record from Firestore.
-        :param processed_material_id: The ID of the processed document to retrieve.
-        """
-        try:
-            # Logic to retrieve a processed document by ID from Firestore
-            # Placeholder for actual Firestore retrieval logic
-            pass
-            # Assuming the document is successfully retrieved and stored in 'document_data'
-            # return {"success": True, "data": document_data}
-        except Exception as e:
-            return {"success": False, "message": str(e)}
-
+    
     # Additional methods for updating and deleting processed documents can be added here
     @staticmethod
     def getFileNameFromPathWithOutExtension(input_string):

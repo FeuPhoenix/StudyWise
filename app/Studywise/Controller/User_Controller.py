@@ -10,7 +10,6 @@ class UserController:
     def __init__(self,user:UserRepo):
         self._firestore = firestore.client()
         self.userList = []
-        self.userInfo = None
         self.db=firestore.client()
         self.user=user
 
