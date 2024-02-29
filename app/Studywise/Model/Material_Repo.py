@@ -1,6 +1,7 @@
 from datetime import datetime
 from firebase_admin import firestore
-from Constants.Constants import OPENAI_API_KEY, MAX_TOKENS_PER_REQUEST,kUserId,kUserEmail ,kDatejoined ,kFullName 
+from Constants.Constants import OPENAI_API_KEY, MAX_TOKENS_PER_REQUEST,kUserId,kUserEmail ,kDatejoined ,kFullName
+from app.Studywise.Model import FirestoreDB 
 
 class Material:
     material_id=""
@@ -17,8 +18,7 @@ class Material:
         self._file_path = _file_path
         self.upload_date = upload_date
         self.file_type = file_type
-        self.db = firestore.client()
-
+        self.db = FirestoreDB.get_instance()
     async def addMaterialToFirestore(self):
         try:
             await self.db.collection('Materials').document(kUserId).set({

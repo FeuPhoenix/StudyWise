@@ -14,6 +14,8 @@ from docx import Document
 from PIL import Image
 from io import BytesIO
 from summarizer import Summarizer
+
+from app.Studywise.Model import FirestoreDB
 class DocumentProcessed:
     processed_material_id=""
     material_id=""
@@ -29,8 +31,7 @@ class DocumentProcessed:
         self.generated_summary_file_path = generated_summary_file_path 
         self.generated_text_file_path = generated_text_file_path
         self.generated_images_folder_path = generated_images_folder_path
-        self.db = firestore.client()
-
+        self.db = FirestoreDB.get_instance()
     async def addProcessedMaterialToFirestore(self):
         try:
             await self.db.collection('MaterialsProcessed').document(kUserId).set({

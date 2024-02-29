@@ -15,9 +15,9 @@ import time
 import json
 import openai
 from pytube import YouTube
-from app.Studywise.Model import VideoProcessed
-from app.Studywise.Model.VideoProcessed import MaterialProcessed
-from app.Studywise.Model import Material
+from app.Studywise.Model import FirestoreDB, VideoProcessed_Repo
+from app.Studywise.Model.VideoProcessed_Repo import MaterialProcessed
+from app.Studywise.Model import Material_Repo
 import firebase_admin
 from firebase_admin import credentials, storage
 from flask import request,jsonify,render_template
@@ -28,13 +28,13 @@ from audiocutter import runaudiocutter
 class Video_Processed_Controller:
     
     def __init__(self,material):
-        self.db = firestore.client()
         self.material=material
+        self.db = FirestoreDB.get_instance()
     def Save_ProcessedVideo_to_database(self,generated_summary_file_path,generated_audio_file_path,generated_chapters_file_path,generated_text_file_path,generated_images_file_path,generated_video_file_path):
         processed_material_id = uuid.uuid4().hex
         Video_Token=Video_Processed_Controller.upload_to_firebase(generated_video_file_path,f'{kUserId}/{Video_Processed_Controller.getFileNameFromPathWithOutExtension(generated_video_file_path)}.mp4')
         Audio_Token=Video_Processed_Controller.upload_to_firebase(generated_audio_file_path,f'{kUserId}/{Video_Processed_Controller.getFileNameFromPathWithOutExtension(generated_audio_file_path)}.wav')
-        videoprocessed = VideoProcessed(processed_material_id,self.material, generated_summary_file_path, Audio_Token, generated_chapters_file_path,generated_text_file_path,generated_images_file_path,Video_Token)
+        videoprocessed = VideoProcessed_Repo(processed_material_id,self.material, generated_summary_file_path, Audio_Token, generated_chapters_file_path,generated_text_file_path,generated_images_file_path,Video_Token)
         
         
         try:
@@ -94,7 +94,7 @@ class Video_Processed_Controller:
                                              .get()
         if material_doc.exists:
             material_data = material_doc.to_dict()
-            return VideoProcessed.fromJson(material_data)
+            return VideoProcessed_Repo.fromJson(material_data)
         else:
             return None
 

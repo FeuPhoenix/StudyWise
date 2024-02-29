@@ -1,6 +1,7 @@
 from datetime import datetime
 from firebase_admin import firestore
-from Constants.Constants import OPENAI_API_KEY, MAX_TOKENS_PER_REQUEST,kUserId,kUserEmail ,kDatejoined ,kFullName 
+from Constants.Constants import OPENAI_API_KEY, MAX_TOKENS_PER_REQUEST,kUserId,kUserEmail ,kDatejoined ,kFullName
+from app.Studywise.Model import FirestoreDB 
 
 class VideoProcessed:
     processed_material_id=""
@@ -23,8 +24,7 @@ class VideoProcessed:
         self.generated_text_file_path = generated_text_file_path
         self.generated_images_file_path = generated_images_file_path
         self.generated_video_file_path = generated_video_file_path
-        self.db = firestore.client()
-
+        self.db = FirestoreDB.get_instance()
     async def addProcessedMaterialToFirestore(self):
         try:
             await self.db.collection('MaterialsProcessed').document(kUserId).set({

@@ -3,7 +3,8 @@ import openai
 import time
 import json
 import re
-from Constants.Constants import OPENAI_API_KEY, MAX_TOKENS_PER_REQUEST,kUserId,kUserEmail ,kDatejoined ,kFullName 
+from Constants.Constants import OPENAI_API_KEY, MAX_TOKENS_PER_REQUEST,kUserId,kUserEmail ,kDatejoined ,kFullName
+from app.Studywise.Model import FirestoreDB 
 
 class FlashcardsController:
     def __init__(self,Video_Material=None,Document_Material=None):
@@ -11,7 +12,7 @@ class FlashcardsController:
         self.MAX_TOKENS_PER_REQUEST = 4096
         self.Video_Material=Video_Material
         self.Document_Material=Document_Material  # Safe limit for tokens per request
-
+        self.db = FirestoreDB.get_instance()
 
     def is_conceptually_relevant(self,question):
         # Patterns for non-conceptual questions

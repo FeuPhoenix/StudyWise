@@ -5,7 +5,7 @@ from Constants.Constants import OPENAI_API_KEY, MAX_TOKENS_PER_REQUEST,kUserId,k
 from app.Studywise.Controller.Video_Processed_Controller import Video_Processed_Controller 
 
 # Assuming the Materials and Processed_Materials classes are defined in app.Studywise.Model
-from app.Studywise.Model import Material, VideoProcessed
+from app.Studywise.Model import FirestoreDB, Material_Repo, VideoProcessed_Repo
 
 class Flash_Cards:
     def __init__(self, flashcard_id, front_content, back_content, processed_material,):
@@ -14,8 +14,7 @@ class Flash_Cards:
         self.back_content = back_content  # Removed the comma at the end
         self.processed_material = processed_material  # This is the Processed_Materials object
         self.creation_date = datetime.now().strftime("%d-%B-%Y")
-        self.db = firestore.client()
-
+        self.db = FirestoreDB.get_instance()
     async def addFlashCardsToFirestore(self):
         
         processed_data = self.processed_material  # Assuming Processed_Materials has a method named 'process'

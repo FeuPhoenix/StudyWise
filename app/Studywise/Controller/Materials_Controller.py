@@ -14,11 +14,11 @@ import json
 import openai
 
 from pytube import YouTube
-from app.Studywise.Model.Material import Material
+from app.Studywise.Model import FirestoreDB
+from app.Studywise.Model.Material_Repo import Material
 
 class MaterialController:
     def __init__(self):
-        self.db = firestore.client()
-
+     self.db = FirestoreDB.get_instance()
     
     

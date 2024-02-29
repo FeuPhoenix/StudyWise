@@ -1,5 +1,5 @@
 import uuid
-from app.Studywise.Model import DocumentProcessed
+from app.Studywise.Model import DocumentProcessed_Repo, FirestoreDB
 from datetime import datetime
 from firebase_admin import firestore, credentials, initialize_app
 from Constants.Constants import OPENAI_API_KEY, MAX_TOKENS_PER_REQUEST,kUserId,kUserEmail ,kDatejoined ,kFullName 
@@ -17,16 +17,7 @@ from PIL import Image
 from io import BytesIO
 from summarizer import Summarizer
 from firebase_admin import credentials, storage
-class FirestoreDB:
-    _instance = None
 
-    @classmethod
-    def get_instance(cls):
-        if cls._instance is None:
-            cred = credentials.ApplicationDefault()
-            initialize_app(cred)
-            cls._instance = firestore.client()
-        return cls._instance
 class DocumentProcessedController:
     def __init__(self,material) :
         self.material=material
@@ -47,7 +38,7 @@ class DocumentProcessedController:
             generated_document_file_path = request_data.get('generated_document_file_path')
             
             # Creating a new DocumentProcessed instance
-            new_document = DocumentProcessed(
+            new_document = DocumentProcessed_Repo(
                 processed_material_id=processed_material_id,
                 material_id=material_id,
                 generated_summary_file_path=generated_summary_file_path,
@@ -101,7 +92,7 @@ class DocumentProcessedController:
         text = ''
         for paragraph in doc.paragraphs:
             text += paragraph.text + '\n'
-        text = DocumentProcessed.clean_text(text)
+        text = DocumentProcessed_Repo.clean_text(text)
         return text
 
     @staticmethod
@@ -225,22 +216,22 @@ class DocumentProcessedController:
                 print(f"Long summary has been successfully saved in assets/output_files/Summaries/{filename}_summary.json") 
                 summary_jsonfile=f"assets/output_files/Summaries/{filename}_summary.json" 
             processd_material_id=uuid.uuid4().hex
-            summary_jsonfile_path_on_firebase=DocumentProcessed.upload_to_firebase(summary_jsonfile,f'{kUserId}/{DocumentProcessedController.getFileNameFromPathWithOutExtension(summary_jsonfile)}.json')
-            text_file=DocumentProcessed.upload_to_firebase(text_file,f'{kUserId}/{DocumentProcessedController.getFileNameFromPathWithOutExtension(text_file)}.txt')
-            documentprocessed=DocumentProcessed(processd_material_id,self.material,summary_jsonfile_path_on_firebase,text_file) 
+            summary_jsonfile_path_on_firebase=DocumentProcessed_Repo.upload_to_firebase(summary_jsonfile,f'{kUserId}/{DocumentProcessedController.getFileNameFromPathWithOutExtension(summary_jsonfile)}.json')
+            text_file=DocumentProcessed_Repo.upload_to_firebase(text_file,f'{kUserId}/{DocumentProcessedController.getFileNameFromPathWithOutExtension(text_file)}.txt')
+            documentprocessed=DocumentProcessed_Repo(processd_material_id,self.material,summary_jsonfile_path_on_firebase,text_file) 
             documentprocessed.addProcessedMaterialToFirestore()
         elif os.path.isfile(file) and (file.endswith('.ppt') or file.endswith('.pptx')):
             pptx_path = file
-            filename=DocumentProcessed.getFileNameFromPathWithOutExtension(file)
+            filename=DocumentProcessed_Repo.getFileNameFromPathWithOutExtension(file)
             output_text_path = f'assets/output_files/{filename}.txt'
             json_file_path = f'Summaries/summary_From_PPT{file}.json'
             prs = Presentation(pptx_path)
-            text = DocumentProcessed.extract_text_from_pptx(prs)
+            text = DocumentProcessed_Repo.extract_text_from_pptx(prs)
             text_file = 'f"assets/output_files/text_files/{filename}.txt'
             with open(filename, 'w') as file:
                 file.write(text)
             model = Summarizer()
-            text=DocumentProcessed.clean_text(text)
+            text=DocumentProcessed_Repo.clean_text(text)
             result = model(text)
             summary_data = {
                 'long_summary': result
@@ -250,9 +241,9 @@ class DocumentProcessedController:
                 print(f"Long summary has been successfully saved in assets/output_files/Summaries/{filename}_summary.json") 
                 summary_jsonfile=f"assets/output_files/Summaries/{filename}_summary.json" 
             processd_material_id=uuid.uuid4().hex
-            summary_jsonfile_path_on_firebase=DocumentProcessed.upload_to_firebase(summary_jsonfile,f'{kUserId}/{DocumentProcessedController.getFileNameFromPathWithOutExtension(summary_jsonfile)}.json')
-            text_file=DocumentProcessed.upload_to_firebase(text_file,f'{kUserId}/{DocumentProcessedController.getFileNameFromPathWithOutExtension(text_file)}.txt')
-            documentprocessed=DocumentProcessed(processd_material_id,self.material,summary_jsonfile_path_on_firebase,text_file) 
+            summary_jsonfile_path_on_firebase=DocumentProcessed_Repo.upload_to_firebase(summary_jsonfile,f'{kUserId}/{DocumentProcessedController.getFileNameFromPathWithOutExtension(summary_jsonfile)}.json')
+            text_file=DocumentProcessed_Repo.upload_to_firebase(text_file,f'{kUserId}/{DocumentProcessedController.getFileNameFromPathWithOutExtension(text_file)}.txt')
+            documentprocessed=DocumentProcessed_Repo(processd_material_id,self.material,summary_jsonfile_path_on_firebase,text_file) 
             documentprocessed.addProcessedMaterialToFirestore()
         elif os.path.isfile(file) and (file.endswith('.doc') or file.endswith('.docx')):
             docx_path = file
@@ -271,7 +262,7 @@ class DocumentProcessedController:
                 print(f"Long summary has been successfully saved in assets/output_files/Summaries/{filename}_summary.json")
                 summary_jsonfile=f"assets/output_files/Summaries/{filename}_summary.json" 
             processd_material_id=uuid.uuid4().hex
-            summary_jsonfile_path_on_firebase=DocumentProcessed.upload_to_firebase(summary_jsonfile,f'{kUserId}/{DocumentProcessedController.getFileNameFromPathWithOutExtension(summary_jsonfile)}.json')
-            text_file=DocumentProcessed.upload_to_firebase(text_file,f'{kUserId}/{DocumentProcessedController.getFileNameFromPathWithOutExtension(text_file)}.txt')
-            documentprocessed=DocumentProcessed(processd_material_id,self.material,summary_jsonfile_path_on_firebase,text_file) 
+            summary_jsonfile_path_on_firebase=DocumentProcessed_Repo.upload_to_firebase(summary_jsonfile,f'{kUserId}/{DocumentProcessedController.getFileNameFromPathWithOutExtension(summary_jsonfile)}.json')
+            text_file=DocumentProcessed_Repo.upload_to_firebase(text_file,f'{kUserId}/{DocumentProcessedController.getFileNameFromPathWithOutExtension(text_file)}.txt')
+            documentprocessed=DocumentProcessed_Repo(processd_material_id,self.material,summary_jsonfile_path_on_firebase,text_file) 
             documentprocessed.addProcessedMaterialToFirestore()

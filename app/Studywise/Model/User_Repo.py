@@ -1,23 +1,20 @@
 from datetime import datetime
+import uuid
 from firebase_admin import firestore
+
+from app.Studywise.Model import FirestoreDB
 
 
 class UserRepo:
-    email = ""
-    fullName = ""
-    dateJoined = ""
-    Role= ""    
-    User_Level=0
-    db = firestore.client()
-    def __init__(self, email, fullName, dateJoined=None, Role=None,User_Level=0 ):
+    
+    def __init__(self,email, fullName, dateJoined=None, Role=None,User_Level=0 ):
         self.email = email
         self.fullName = fullName
         self.dateJoined = dateJoined
         self.Role = Role
         self.User_Level=User_Level
-        
-        self.db = firestore.client()
-
+        self.userID=uuid.uuid4().hex
+        self.db = FirestoreDB.get_instance()
     async def addUserToFirestore(self, UserID):
         try:
             kUserId = UserID
