@@ -1,0 +1,174 @@
+[
+    {
+        "front": "1. What is the importance of design and architecture in the industrial process?",
+        "back": "- The design and architecture are important in the industrial process as they define the structure and functionality of the final product."
+    },
+    {
+        "front": "2. How is software development considered as an industry?",
+        "back": "- Software development is considered an industry as it involves the automated production of software products."
+    },
+    {
+        "front": "3. What is the definition of software architecture and software design?",
+        "back": "- Software architecture refers to the overall structure and organization of a software system, while software design focuses on the detailed implementation and functionality of individual components."
+    },
+    {
+        "front": "4. How do you model and document software architecture and design?",
+        "back": "- Software architecture and design can be modeled and documented using various techniques like UML diagrams, flowcharts, and system specifications."
+    },
+    {
+        "front": "5. What are the main activities of any given industry?",
+        "back": "- The main activities of any industry include requirements analysis, architecture and design, manufacturing or development, testing, deployment, and maintenance."
+    },
+    {
+        "front": "6. Is software development a real industry?",
+        "back": "- Yes, software development is considered a real industry as it follows the same main activities as other industries."
+    },
+    {
+        "front": "7. What is the purpose of requirements analysis?",
+        "back": "- Requirements analysis helps in understanding the needs and expectations of the stakeholders and defining the scope of the project."
+    },
+    {
+        "front": "8. Can you provide an example of the importance of requirements analysis in another industry?",
+        "back": "- In the plane production industry, requirements analysis helps in determining the model, seating capacity, engine type, and budget for a specific plane."
+    },
+    {
+        "front": "9. How does the feasibility of a production project get determined?",
+        "back": "- Feasibility of a production project is determined by evaluating various factors like financial, technical, legal, expertise-related, political, and others. If any of these factors pose insurmountable challenges, the project may not be feasible."
+    },
+    {
+        "front": "10. What is the role of scope in a project?",
+        "back": "- The scope sets the boundaries and limitations of the project, including aspects like timing, budget, deliverables, and objectives."
+    },
+    {
+        "front": "11. What potential risks can arise if the scope is not defined clearly?",
+        "back": "- If the scope is not defined clearly, it can lead to project failure as there may be misunderstandings, misaligned expectations, and inability to achieve agreed-upon goals."
+    },
+    {
+        "front": "12. What activities are part of the planning activity in an industry?",
+        "back": "- Planning activities in an industry involve defining the scope, gathering requirements, and establishing a roadmap for the project."
+    },
+    {
+        "front": "13. What is the purpose of requirements analysis?",
+        "back": "- Requirements analysis aims to gather and document all the functional and non-functional requirements of the project, including specific features, materials, and user expectations."
+    },
+    {
+        "front": "14. How does the manufacturing team receive the requirements for a project?",
+        "back": "- The manufacturing team receives the agreed specifications for the project from the design and requirements analysis phase."
+    },
+    {
+        "front": "Q1: What are the main activities involved in producing a plane?",
+        "back": "A1: The main activities involved in producing a plane are creating a blueprint, building the plane based on the blueprint, testing the plane, and preparing it for deployment."
+    },
+    {
+        "front": "Q2: What is included in the blueprint of a plane?",
+        "back": "A2: The blueprint of a plane includes the product architecture and design specifications needed for the plane developers to build the plane."
+    },
+    {
+        "front": "Q3: Can a plane have multiple designs with similar predefined architecture?",
+        "back": "A3: Yes, a plane can have multiple designs with similar predefined architecture."
+    },
+    {
+        "front": "Q4: What is the fourth main activity in the production process of a plane?",
+        "back": "A4: The fourth main activity in the production process of a plane is product development, which involves building the plane based on the blueprint."
+    },
+    {
+        "front": "Q6: How is a plane prepared for deployment at the customer's airport?",
+        "back": "A6: A plane is prepared for deployment by painting it with the theme and logo of the customer airline and having a crew fly it to the customer's airport."
+    },
+    {
+        "front": "Q7: What are the main activities involved in software development?",
+        "back": "A7: The main activities involved in software development are understanding customer requirements, software design and architecture, software development, testing, deployment, and maintenance."
+    },
+    {
+        "front": "Q8: How is software design different from software architecture?",
+        "back": "A8: Software design focuses on fulfilling functional requirements, such as identifying the application's domain object model, business objects, and data entities. Software architecture focuses on fulfilling non-functional requirements, such as scalability, reliability, availability, and maintainability."
+    },
+    {
+        "front": "1. What is the highest level concept of a system in its environment?",
+        "back": "- The highest level concept of a system in its environment is its architecture."
+    },
+    {
+        "front": "2. What does the architecture of a software system refer to?",
+        "back": "- The architecture of a software system refers to its organization or structure of significant components interacting through interfaces."
+    },
+    {
+        "front": "4. What is the main focus of architecture?",
+        "back": "- The main focus of architecture is on application quality attributes and nonfunctional customer's requirements."
+    },
+    {
+        "front": "6. What is the main focus of design?",
+        "back": "- The main focus of design is on fulfilling the customer's functional requirements."
+    },
+    {
+        "front": "7. What are some example decisions made in architecture?",
+        "back": "- Some example decisions made in architecture include platform and operating system selection, programming language choice, user experience technology selection, and component messaging."
+    },
+    {
+        "front": "8. What are some example decisions made in design?",
+        "back": "- Some example decisions made in design include entity relationship diagram design, class diagram design (in case of object-oriented programming), class data and behavior design, user interface design, and application component design."
+    },
+    {
+        "front": "9. What are the two main types of architect roles?",
+        "back": "- The two main types of architect roles are application architect and infrastructure architect."
+    },
+    {
+        "front": "10. What does an application architect primarily focus on?",
+        "back": "- An application architect primarily focuses on defining how the application will be structured coding-wise and making major decisions that affect the development team and the software production cycles."
+    },
+    {
+        "front": "11. What are some decisions made by an application architect?",
+        "back": "- Some decisions made by an application architect include platform selection, database management system selection, user interface technology selection, and the type of client devices to be utilized."
+    },
+    {
+        "front": "12. What are some architecture styles for an application architect?",
+        "back": "- Some architecture styles for an application architect include client/server architecture, component-based architecture, layered architecture, message bus architecture, N-tiers architecture, and service-oriented architecture."
+    },
+    {
+        "front": "13. What does an infrastructure architect primarily focus on?",
+        "back": "- An infrastructure architect primarily focuses on defining how the infrastructure and technical aspects of the software system will be designed."
+    },
+    {
+        "front": "14. What are some architecture styles for an infrastructure architect?",
+        "back": "- No architecture styles for an infrastructure architect are provided in the given text."
+    },
+    {
+        "front": "1. What are the different types of designer roles mentioned in the text?",
+        "back": "- Answer: The different types of designer roles mentioned are User Interface (UI) designer, and application domain designer."
+    },
+    {
+        "front": "2. What is the responsibility of a User Interface (UI) designer?",
+        "back": "- Answer: The text states that UI design is out of the scope, so it doesn't provide further information about the responsibility of a UI designer. However, it suggests referring to a Human-Computer-Interaction (HCI) Course for more details on this topic."
+    },
+    {
+        "front": "3. What is the responsibility of an application domain designer?",
+        "back": "- Answer: The application domain designer is responsible for understanding the detailed business rules and main domain objects that are generated from the customer's business rule requirements. They design the application components and algorithms required to maintain these requirements accurately."
+    },
+    {
+        "front": "4. What is the role of database (DB) professionals in software design and architecture?",
+        "back": "- Answer: DB professionals are concerned with designing the application's database and defining its chosen schema, both conceptually, logically, and physically. However, the text mentions that this kind of design is out of the scope of the course."
+    },
+    {
+        "front": "5. What is the order of architecture and design within the software development lifecycle?",
+        "back": "- Answer: In the waterfall process model, architecture and design come after analysis and scoping constraints. However, in agile iterative based processes, some architectural and design questions may lead to going back to analysis and changing the final requirements based on the received answers."
+    },
+    {
+        "front": "6. What are the risks of not documenting architecture and design decisions?",
+        "back": "- Answer: The text mentions that without documenting architecture and design decisions, there are risks involved, including risks to implementation, maintainability, and scalability."
+    },
+    {
+        "front": "7. What is the recommended documentation standard for object-oriented development?",
+        "back": "- Answer: For object-oriented development, the recommended documentation standard is UML (Unified Modeling Language)."
+    },
+    {
+        "front": "8. What are the main topics covered in this section?",
+        "back": "- Answer: The main topics covered in this section are defining software architecture and design, the different types of designer roles, the order of architecture and design within the software development lifecycle, and the importance of modeling and documenting software architecture and design."
+    },
+    {
+        "front": "9. What is the significance of design and architecture in the industrial process of software development?",
+        "back": "- Answer: The text refers to the importance of design and architecture without providing specific details. However, it suggests that software development is an industry, indicating that design and architecture play a crucial role in the industrial process."
+    },
+    {
+        "front": "10. What is the purpose of modeling and documenting software architecture and design?",
+        "back": "- Answer: The purpose of modeling and documenting software architecture and design is to reduce risks, ensure implementation and maintainability, and provide a standardized documentation standard for object-oriented development using UML."
+    }
+]

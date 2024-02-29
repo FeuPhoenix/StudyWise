@@ -1,0 +1,50 @@
+[
+    {
+        "front": "Q: What is speech-to-text?",
+        "back": "A: Speech-to-text is the process of converting audio data into a machine-readable text format."
+    },
+    {
+        "front": "Q: What is deep speech?",
+        "back": "A: Deep speech is an open-source voice recognition or speech-to-text system that uses a neural network to convert speech spectrograms into text transcripts."
+    },
+    {
+        "front": "Q: What are the two models used in a speech-to-text system?",
+        "back": "A: The two models used in a speech-to-text system are the acoustic model and the language model."
+    },
+    {
+        "front": "Q: What is the purpose of the language model in a speech-to-text system?",
+        "back": "A: The language model is used to improve the accuracy of the transcription output by refining the output based on the context of the speech."
+    },
+    {
+        "front": "Q: How can you customize the language model in a speech-to-text system?",
+        "back": "A: You can customize the language model to your domain by training it with domain-specific words and vocabulary."
+    },
+    {
+        "front": "Q: What are the PBMM and scorer files used for in deep speech?",
+        "back": "A: The PBMM file is the acoustic model, trained on American English, used in the deep speech system. The scorer file is the language model used to improve the accuracy of the transcription output."
+    },
+    {
+        "front": "Q: How can you make the deep speech system more efficient for low-power devices?",
+        "back": "A: You can use the TF lite version of deep speech and enable post quantization training to make it more efficient for low-power and low-consumption devices."
+    },
+    {
+        "front": "Q: How can you use the deep speech system for languages other than American English?",
+        "back": "A: If you want to use the deep speech system for languages other than American English, you may need to collect data and fine-tune or train the system from scratch for your specific purpose."
+    },
+    {
+        "front": "Q: What is the purpose of the alpha, beta, and beam width parameters in deep speech?",
+        "back": "A: The alpha and beta parameters are used for the language model in deep speech to refine the output, and the beam width parameter determines how many different word sequences are evaluated by the acoustic model."
+    },
+    {
+        "front": "Q: What are the batch mode and streaming mode in deep speech?",
+        "back": "A: The batch mode in deep speech involves transcribing an entire audio file at once, while the streaming mode allows for real-time transcription of audio as it is being spoken."
+    },
+    {
+        "front": "Q: What are the numpy, os, and wave file packages used for in deep speech?",
+        "back": "A: The numpy package is used to buffer and process the audio file data, the os package is used for file operations, and the wave file package is used to read audio files."
+    },
+    {
+        "front": "Q: What is the purpose of the STT function in deep speech?",
+        "back": "A: The STT function in deep speech is used to convert the speech spectrogram data into a text transcript using the model."
+    }
+]

@@ -1,0 +1,8 @@
+- Software process is a structured set of activities for software development
+- Activities include testing, communication, and documentation
+- UML is used for object-oriented modeling and can generate code
+- Object-oriented software is built around objects
+- Class models capture system's static structure
+- Objects represented as proper nouns with multiple representations
+- Attributes describe values held by objects
+- Operations are functions or procedures applied to objects in a class
