@@ -16,7 +16,7 @@ import json
 import openai
 from pytube import YouTube
 from app.Studywise.Model import FirestoreDB, VideoProcessed_Repo
-from app.Studywise.Model.VideoProcessed_Repo import MaterialProcessed
+from app.Studywise.Model.VideoProcessed_Repo import MaterialProcessed, VideoProcessed
 from app.Studywise.Model import Material_Repo
 import firebase_admin
 from firebase_admin import credentials, storage
@@ -32,9 +32,9 @@ class Video_Processed_Controller:
         self.db = FirestoreDB.get_instance()
     def Save_ProcessedVideo_to_database(self,generated_summary_file_path,generated_audio_file_path,generated_chapters_file_path,generated_text_file_path,generated_images_file_path,generated_video_file_path):
         processed_material_id = uuid.uuid4().hex
-        Video_Token=Video_Processed_Controller.upload_to_firebase(generated_video_file_path,f'{kUserId}/{Video_Processed_Controller.getFileNameFromPathWithOutExtension(generated_video_file_path)}.mp4')
-        Audio_Token=Video_Processed_Controller.upload_to_firebase(generated_audio_file_path,f'{kUserId}/{Video_Processed_Controller.getFileNameFromPathWithOutExtension(generated_audio_file_path)}.wav')
-        videoprocessed = VideoProcessed_Repo(processed_material_id,self.material, generated_summary_file_path, Audio_Token, generated_chapters_file_path,generated_text_file_path,generated_images_file_path,Video_Token)
+        Video_Token=VideoProcessed.upload_to_firebase(generated_video_file_path,f'{kUserId}/{Video_Processed_Controller.getFileNameFromPathWithOutExtension(generated_video_file_path)}.mp4')
+        Audio_Token=VideoProcessed.upload_to_firebase(generated_audio_file_path,f'{kUserId}/{Video_Processed_Controller.getFileNameFromPathWithOutExtension(generated_audio_file_path)}.wav')
+        videoprocessed = VideoProcessed(processed_material_id,self.material, generated_summary_file_path, Audio_Token, generated_chapters_file_path,generated_text_file_path,generated_images_file_path,Video_Token)
         
         
         try:
@@ -45,28 +45,10 @@ class Video_Processed_Controller:
         except Exception as e:
                return jsonify({"success": False, "message": str(e)}), 500
 
-    async def upload_to_firebase(local_file, cloud_file):
-    # Reference to the storage bucket
-        bucket = storage.bucket()
-
-    # Name of the file in the storage bucket
-        blob = bucket.blob(cloud_file)
-
-    # Upload the file
-        blob.upload_from_filename(local_file)
-        
-        print(f'{local_file} has been uploaded to {cloud_file}.')
-        metadata = blob.metadata
-        print(metadata)
-        return metadata
-
+    
     # The metadata might include a token which you can access like this
     # Note: The structure of metadata might vary, ensure to check the keys
-        if metadata and 'firebaseStorageDownloadTokens' in metadata:
-            token = metadata['firebaseStorageDownloadTokens']
-            return token
-        else:
-            return None
+       
     async def add_processed_material(self, processed_material_id, material_id,
                                      generated_summary_file_path=None, generated_audio_file_path=None,
                                      generated_chapters_file_path=None, generated_text_file_path=None,
@@ -94,7 +76,7 @@ class Video_Processed_Controller:
                                              .get()
         if material_doc.exists:
             material_data = material_doc.to_dict()
-            return VideoProcessed_Repo.fromJson(material_data)
+            return VideoProcessed.fromJson(material_data)
         else:
             return None
 
@@ -262,25 +244,7 @@ class Video_Processed_Controller:
 
             # Transcribe the audio and get the result as a JSON object
             transcript = aai.Transcriber().transcribe(audio_file_path, config)
-            #sentiment_results_list = []
-
-            # # Loop through each sentiment_result and append the desired information to the list
-            # for sentiment_result in transcript.sentiment_analysis:
-            #     sentiment_data = {
-            #         "text": sentiment_result.text,
-            #         "start": sentiment_result.start,
-            #         "end": sentiment_result.end
-            #     }
-            #     sentiment_results_list.append(sentiment_data)
-
-            # # Specify the filename where you want to save the JSON data
-            # filename = f'assets/output_files/Sentiments/sentiment_results_{Video_name}.json'
-
-            # Write the list to a file in JSON format
-            # with open(filename, 'w') as f:
-            #     json.dump(sentiment_results_list, f, indent=4)
-
-            # print(f"Sentiment analysis results saved to {filename}")
+            
             transcript_filename = f"assets/output_files/extracted_transcripts/{Video_name}.txt"
             with open(transcript_filename, 'w', encoding='utf-8') as transcript_file:
                     transcript_file.write(transcript.text)
@@ -361,25 +325,6 @@ class Video_Processed_Controller:
 
             # Transcribe the audio and get the result as a JSON object
             transcript = aai.Transcriber().transcribe(video_file_path, config)
-            # sentiment_results_list = []
-
-            # # Loop through each sentiment_result and append the desired information to the list
-            # for sentiment_result in transcript.sentiment_analysis:
-            #     sentiment_data = {
-            #         "text": sentiment_result.text,
-            #         "start": sentiment_result.start,
-            #         "end": sentiment_result.end
-            #     }
-            #     sentiment_results_list.append(sentiment_data)
-
-            # # Specify the filename where you want to save the JSON data
-            # filename = f'assets/output_files/Sentiments/sentiment_results_{title}.json'
-
-            # # Write the list to a file in JSON format
-            # with open(filename, 'w') as f:
-            #     json.dump(sentiment_results_list, f, indent=4)
-
-            # print(f"Sentiment analysis results saved to {filename}")
             transcript_filename = f"assets/output_files/extracted_transcripts/{title}.txt"
             with open(transcript_filename, 'w', encoding='utf-8') as transcript_file:
                     transcript_file.write(transcript.text)

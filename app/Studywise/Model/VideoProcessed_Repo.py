@@ -1,5 +1,5 @@
 from datetime import datetime
-from firebase_admin import firestore
+from firebase_admin import firestore,storage
 from Constants.Constants import OPENAI_API_KEY, MAX_TOKENS_PER_REQUEST,kUserId,kUserEmail ,kDatejoined ,kFullName
 from app.Studywise.Model import FirestoreDB 
 
@@ -65,4 +65,21 @@ class VideoProcessed:
             "generated_video_file_path": self.generated_video_file_path
         }
         return data
-    
+    async def upload_to_firebase(local_file, cloud_file):
+    # Reference to the storage bucket
+        bucket = storage.bucket()
+
+    # Name of the file in the storage bucket
+        blob = bucket.blob(cloud_file)
+
+    # Upload the file
+        blob.upload_from_filename(local_file)
+        
+        print(f'{local_file} has been uploaded to {cloud_file}.')
+        metadata = blob.metadata
+        print(metadata)
+        if metadata and 'firebaseStorageDownloadTokens' in metadata:
+            token = metadata['firebaseStorageDownloadTokens']
+            return token
+        else:
+            return None

@@ -1,5 +1,5 @@
 from datetime import datetime
-from firebase_admin import firestore
+from firebase_admin import firestore,storage
 from Constants.Constants import OPENAI_API_KEY, MAX_TOKENS_PER_REQUEST,kUserId,kUserEmail ,kDatejoined ,kFullName 
 import json
 import time
@@ -63,7 +63,20 @@ class DocumentProcessed:
             "generated_images_folder_path": self.generated_images_folder_path,
         }
         return data
-    
+    async def upload_to_firebase(local_file, cloud_file):
+    # Reference to the storage bucket
+        bucket = storage.bucket()
+
+    # Name of the file in the storage bucket
+        blob = bucket.blob(cloud_file)
+
+    # Upload the file
+        blob.upload_from_filename(local_file)
+        
+        print(f'{local_file} has been uploaded to {cloud_file}.')
+        metadata = blob.metadata
+        print(metadata)
+        return metadata
 # #Testing
 # def main():
 #     file = "assets/input_files/text-based/test.pdf"  

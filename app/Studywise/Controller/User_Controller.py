@@ -1,5 +1,6 @@
 import datetime
 from firebase_admin import firestore,auth
+from app.Studywise.Model import FirestoreDB
 from app.Studywise.Model.User_Repo import UserRepo
 from Constants import Constants
 from Constants.Constants import OPENAI_API_KEY, MAX_TOKENS_PER_REQUEST,kUserId,kUserEmail ,kDatejoined ,kFullName 

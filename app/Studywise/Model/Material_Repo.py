@@ -9,14 +9,14 @@ class Material:
     file_name=""
     file_name=""
     _file_path=""
-    _file_path=""
+    file_type=""
     upload_date=""
-    def __init__(self, material_id, user_ID, file_name, _file_path, upload_date, file_type):
+    def __init__(self, material_id, user_ID, file_name, _file_path, file_type):
         self.material_id = material_id
         self.user_ID = user_ID
         self.file_name = file_name
         self._file_path = _file_path
-        self.upload_date = upload_date
+        self.upload_date = datetime.now().strftime("%d-%B-%Y")
         self.file_type = file_type
         self.db = FirestoreDB.get_instance()
     async def addMaterialToFirestore(self):
