@@ -246,13 +246,28 @@ def is_Document(file):
         
        
     
+<<<<<<< HEAD
 
 
 def main(file):
     # file = "assets/input_files/text-based/test2.pptx"  
     is_Document(file)
+=======
+#testing
+def main():
+    file = "assets/input_files/text-based/test2.pdf"  
+    is_Document(file)
+#Dido
+# def main(file):
+#     # file = "assets/input_files/text-based/test2.pptx"  
+#     is_Document(file)
+>>>>>>> mvc
 if __name__==main():
     main()
 
 
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> mvc

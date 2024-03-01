@@ -171,8 +171,21 @@ def is_Document(file):
             json.dump(summary_data, json_file, indent=4)
             print(f"Long summary has been successfully saved in assets/output_files/Summaries/{filename}_summary.json") 
 
+<<<<<<< HEAD
 def main(file):
     # file = "assets/input_files/text-based/test.pdf"  
     is_Document(file)
 if __name__ == "__main__":
     main()
+=======
+#Testing
+def main():
+    file = "assets/input_files/text-based/test.pdf"  
+    is_Document(file)
+if __name__ == "__main__":
+    main()
+#Dido
+# def main(file):
+#     #file = "assets/input_files/text-based/test.pdf"  
+#     is_Document(file)
+>>>>>>> mvc

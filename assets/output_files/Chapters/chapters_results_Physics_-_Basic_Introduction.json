@@ -1,0 +1,52 @@
+[
+    {
+        "start": 2170,
+        "end": 309800,
+        "headline": "In this video, we're going to discuss distance and displacement"
+    },
+    {
+        "start": 311770,
+        "end": 397330,
+        "headline": "If I say you traveled 200 miles, am I describing distance or displacement"
+    },
+    {
+        "start": 399190,
+        "end": 807910,
+        "headline": "Speed and velocity describe how fast something is moving, but there's a difference"
+    },
+    {
+        "start": 810410,
+        "end": 1117450,
+        "headline": "Average speed can be calculated by taking total distance traveled by the object"
+    },
+    {
+        "start": 1119550,
+        "end": 1448240,
+        "headline": "Acceleration tells you how fast the speed is changing"
+    },
+    {
+        "start": 1451110,
+        "end": 1754730,
+        "headline": "Whenever acceleration and velocity have same sign, the object is speeding up"
+    },
+    {
+        "start": 1756160,
+        "end": 2266710,
+        "headline": "A negative gravitational acceleration can decrease the vertical velocity of a ball"
+    },
+    {
+        "start": 2268410,
+        "end": 2829040,
+        "headline": "When dealing with projectile motion, friction is usually ignored"
+    },
+    {
+        "start": 2830740,
+        "end": 3093168,
+        "headline": "An object at rest will remain at rest unless acted on by a force"
+    },
+    {
+        "start": 3093344,
+        "end": 3216420,
+        "headline": "The net force of an object is equal to the mass times the acceleration"
+    }
+]

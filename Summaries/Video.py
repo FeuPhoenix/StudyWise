@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 from flashcards_from_pdf.flashcard_creator import runFlashcards
+=======
+
+>>>>>>> mvc
 # from audiocutter import runaudiocutter
 import os
 import re
@@ -11,11 +15,21 @@ import assemblyai as aai
 import time
 import json
 import openai
+<<<<<<< HEAD
 
 from pytube import YouTube
 
 
 #from flashcards_from_pdf.flashcard_creator import runFlashcards
+=======
+import pyrebase
+from pytube import YouTube
+
+#from flashcards_from_pdf.flashcard_creator import runFlashcards
+
+
+
+>>>>>>> mvc
 aai.settings.api_key = "f76d712f321d46d98f0bd28cee817448"
 
 
@@ -29,7 +43,19 @@ headers = {
     "content-type": "application/json"
 }
 
+<<<<<<< HEAD
 api_key = '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' #
+=======
+api_key = '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' 
+def is_mp4_file(file_path):
+    extension = os.path.splitext(file_path)[1]
+    if extension == ".mp4":
+        print("True")
+        return True
+    else:
+        print("Flase")
+        return False
+>>>>>>> mvc
 def getFileNameFromPathWithOutExtension(input_string):
     # Find the last occurrence of '/'
     last_slash_index = input_string.rfind('/')
@@ -68,8 +94,12 @@ def Readjsonfile(filename):
      chapters = json.load(file)
     return chapters
 
+<<<<<<< HEAD
 import os
 import subprocess
+=======
+
+>>>>>>> mvc
 
 def download_video_from_youtube(video_url, output_path):
    
@@ -82,7 +112,11 @@ def download_video_from_youtube(video_url, output_path):
     
     # Define the filename for the video file
     filename = yt.title + '.mp4'
+<<<<<<< HEAD
 
+=======
+    filename=filename.replace(" ","_")
+>>>>>>> mvc
     # Download the video stream
     video_stream.download(output_path=output_path, filename=filename)
     
@@ -144,23 +178,45 @@ def is_video(file_path_or_url):
 
     # Check if the input is a local file with the extension .mp4
     print("Checking if is file and extension")
+<<<<<<< HEAD
     if os.path.isfile(file_path_or_url) and file_path_or_url.endswith('.mp4'):
         # videocutted = runaudiocutter(file_path_or_url)
         print("Audiocutter output file: "+file_path_or_url)
         Video_name = getFileNameFromPathWithOutExtension(file_path_or_url)
         video = mp.VideoFileClip(file_path_or_url)
+=======
+    if  is_mp4_file(file_path_or_url):
+        output_path = 'assets/input_files/videos'
+        video_file_path = os.path.join(output_path, file_path_or_url)
+        new_video_file_path = video_file_path.replace(" ", "_")
+        new_video_file_path = new_video_file_path.replace("\\", "/")
+        print(new_video_file_path)
+        #os.rename(video_file_path, new_video_file_path)
+        
+        # videocutted = runaudiocutter(file_path_or_url)
+        print("Audiocutter output file: "+file_path_or_url)
+        Video_name = getFileNameFromPathWithOutExtension(new_video_file_path
+                                                         )
+        print("Video_name: "+video_file_path)
+        video = mp.VideoFileClip(new_video_file_path)
+>>>>>>> mvc
         print('video is initialized')
         audio = video.audio
         print('video.audio is extracted')
         audio.write_audiofile(f"assets/output_files/extracted_audio_from_{Video_name}.wav")
         audio_file_path = f"assets/output_files/extracted_audio_from_{Video_name}.wav"
         print(f"Audio file downloaded at: {audio_file_path}") 
+<<<<<<< HEAD
         config = aai.TranscriptionConfig(auto_chapters=True,sentiment_analysis=True)
+=======
+        config = aai.TranscriptionConfig(auto_chapters=True)
+>>>>>>> mvc
 
         # Transcribe the audio and get the result as a JSON object
         transcript = aai.Transcriber().transcribe(audio_file_path, config)
         sentiment_results_list = []
 
+<<<<<<< HEAD
         # Loop through each sentiment_result and append the desired information to the list
         for sentiment_result in transcript.sentiment_analysis:
             sentiment_data = {
@@ -178,11 +234,34 @@ def is_video(file_path_or_url):
             json.dump(sentiment_results_list, f, indent=4)
 
         print(f"Sentiment analysis results saved to {filename}")
+=======
+        # # Loop through each sentiment_result and append the desired information to the list
+        # for sentiment_result in transcript.sentiment_analysis:
+        #     sentiment_data = {
+        #         "text": sentiment_result.text,
+        #         "start": sentiment_result.start,
+        #         "end": sentiment_result.end
+        #     }
+        #     sentiment_results_list.append(sentiment_data)
+
+        # # Specify the filename where you want to save the JSON data
+        # filename = f'assets/output_files/Sentiments/sentiment_results_{Video_name}.json'
+
+        # Write the list to a file in JSON format
+        # with open(filename, 'w') as f:
+        #     json.dump(sentiment_results_list, f, indent=4)
+
+        # print(f"Sentiment analysis results saved to {filename}")
+>>>>>>> mvc
         transcript_filename = f"assets/output_files/extracted_transcripts/{Video_name}.txt"
         with open(transcript_filename, 'w', encoding='utf-8') as transcript_file:
                 transcript_file.write(transcript.text)
                 print(f"Full transcript has been successfully saved to {transcript_filename}.")
+<<<<<<< HEAD
         runFlashcards(transcript_filename, 'TRANSCRIPT')
+=======
+        #runFlashcards(transcript_filename, 'TRANSCRIPT')
+>>>>>>> mvc
         chapters_data = []
 
         # Iterate over chapters and add their data to the list
@@ -244,13 +323,21 @@ def is_video(file_path_or_url):
         video_url = file_path_or_url  
         output_path = 'assets/input_files/videos'  
         video_file_path,title = download_video_from_youtube(video_url, output_path)
+<<<<<<< HEAD
         #videocutted=runaudiocutter(video_file_path)
         video = mp.VideoFileClip(file_path_or_url)
+=======
+        print("the video has been downloaded successfully")
+        #videocutted=runaudiocutter(video_file_path)
+        print(video_file_path)
+        video = mp.VideoFileClip(video_file_path)
+>>>>>>> mvc
 
         audio = video.audio
         audio.write_audiofile(f"assets/output_files/audio/extracted_audio_from_{title}.wav")
         audei_file_path = f"assets/output_files/extracted_audio_from_{title}.wav"
         print(f"Audio file downloaded at: {audei_file_path}") 
+<<<<<<< HEAD
         config = aai.TranscriptionConfig(auto_chapters=True,sentiment_analysis=True)
 
         # Transcribe the audio and get the result as a JSON object
@@ -274,11 +361,40 @@ def is_video(file_path_or_url):
             json.dump(sentiment_results_list, f, indent=4)
 
         print(f"Sentiment analysis results saved to {filename}")
+=======
+        config = aai.TranscriptionConfig(auto_chapters=True,)
+
+        # Transcribe the audio and get the result as a JSON object
+        transcript = aai.Transcriber().transcribe(video_file_path, config)
+        # sentiment_results_list = []
+
+        # # Loop through each sentiment_result and append the desired information to the list
+        # for sentiment_result in transcript.sentiment_analysis:
+        #     sentiment_data = {
+        #         "text": sentiment_result.text,
+        #         "start": sentiment_result.start,
+        #         "end": sentiment_result.end
+        #     }
+        #     sentiment_results_list.append(sentiment_data)
+
+        # # Specify the filename where you want to save the JSON data
+        # filename = f'assets/output_files/Sentiments/sentiment_results_{title}.json'
+
+        # # Write the list to a file in JSON format
+        # with open(filename, 'w') as f:
+        #     json.dump(sentiment_results_list, f, indent=4)
+
+        # print(f"Sentiment analysis results saved to {filename}")
+>>>>>>> mvc
         transcript_filename = f"assets/output_files/extracted_transcripts/{title}.txt"
         with open(transcript_filename, 'w', encoding='utf-8') as transcript_file:
                 transcript_file.write(transcript.text)
                 print(f"Full transcript has been successfully saved to {transcript_filename}.")
+<<<<<<< HEAD
         runFlashcards(transcript_filename, 'TRANSCRIPT')
+=======
+        #runFlashcards(transcript_filename, 'TRANSCRIPT')
+>>>>>>> mvc
         chapters_data = []
 
         # Iterate over chapters and add their data to the list
@@ -332,6 +448,19 @@ def is_video(file_path_or_url):
         
 
     
+<<<<<<< HEAD
 def main(file_path_or_url):
     #file_path_or_url = "assets/input_files/videos/Speech_to_Text_using_Python_-_Fast_and_Accurate-(1080p).mp4"  # Replace with your file path or URL
     is_video(file_path_or_url)
+=======
+def main():
+    file_path_or_url = "After 4 YEARS as a Flutter instructor, here are my 5 tips for newcomers [for 2022].mp4"  # Replace with your file path or URL
+    is_video(file_path_or_url)
+
+if __name__ == "__main__":
+    main()
+
+# def main(file):
+#     # file = "assets/input_files/text-based/test.pdf"  
+#     is_Document(file)
+>>>>>>> mvc

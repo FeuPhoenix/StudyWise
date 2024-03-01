@@ -1,0 +1,142 @@
+[
+    {
+        "question": "1. What is the purpose of validation in software development?",
+        "options": [
+            "B) To generate code from a UML diagram",
+            "C) To sketch out UML diagrams",
+            "D) To build the system before testing",
+            "A) To check that the system meets the customer's requirements"
+        ],
+        "correct_answer": "B) To generate code from a UML diagram"
+    },
+    {
+        "question": "2. Which tool is known for being one of the most popular software for UML?",
+        "options": [
+            "A) Bouml",
+            "C) Rational Rose",
+            "D) Python",
+            "B) Sketching tool"
+        ],
+        "correct_answer": "A) Bouml"
+    },
+    {
+        "question": "3. Class diagrams in UML show:",
+        "options": [
+            "C) Objects and their methods",
+            "A) Operations and attributes",
+            "B) Classes and their relations",
+            "D) Memory addresses"
+        ],
+        "correct_answer": "C) Objects and their methods"
+    },
+    {
+        "question": "4. What is the identity of an object in an object-oriented system?",
+        "options": [
+            "B) Its attributes",
+            "A) Its name",
+            "D) Its conceptual nature",
+            "C) Its memory address"
+        ],
+        "correct_answer": "B) Its attributes"
+    },
+    {
+        "question": "5. Inheritance in object-oriented programming allows a class to:",
+        "options": [
+            "A) Access methods and variables from another class",
+            "B) Override methods in a base class",
+            "D) Hide its implementation details",
+            "C) Implement multiple interfaces"
+        ],
+        "correct_answer": "A) Access methods and variables from another class"
+    },
+    {
+        "question": "6. What does an attribute represent in a class?",
+        "options": [
+            "A) An object's identity",
+            "D) A parameter for a generic class",
+            "C) A named property that holds a value",
+            "B) A method's implementation"
+        ],
+        "correct_answer": "A) An object's identity"
+    },
+    {
+        "question": "8. What is an object in object-oriented programming?",
+        "options": [
+            "A) A variable",
+            "D) A parameter",
+            "B) An instance of a class",
+            "C) A method"
+        ],
+        "correct_answer": "A) A variable"
+    },
+    {
+        "question": "9. What does a method represent in a class?",
+        "options": [
+            "C) A named property",
+            "A) An attribute's value",
+            "B) An object's identity",
+            "D) An implementation of behavior"
+        ],
+        "correct_answer": "C) A named property"
+    },
+    {
+        "question": "10. How are classes typically modeled in object-oriented design?",
+        "options": [
+            "C) As variables",
+            "B) As common nouns",
+            "D) As methods",
+            "A) As proper nouns"
+        ],
+        "correct_answer": "C) As variables"
+    },
+    {
+        "question": "1. In a system that represents flights, which of the following objects would be modeled as a class?",
+        "options": [
+            "C) Planes",
+            "A) List of Passengers",
+            "D) All of the above",
+            "B) Seat"
+        ],
+        "correct_answer": "C) Planes"
+    },
+    {
+        "question": "2. How many airports must each city have in the system?",
+        "options": [
+            "D) No set requirement",
+            "A) At least one",
+            "C) At least two",
+            "B) Exactly one"
+        ],
+        "correct_answer": "D) No set requirement"
+    },
+    {
+        "question": "3. In the system, each flight has a list of passengers, each with a designated:",
+        "options": [
+            "D) Ticket",
+            "A) Gate",
+            "B) Terminal",
+            "C) Seat"
+        ],
+        "correct_answer": "D) Ticket"
+    },
+    {
+        "question": "4. Which object is used by a flight in the system in order to transport passengers?",
+        "options": [
+            "D) Baggage",
+            "C) Planes",
+            "A) List of Passengers",
+            "B) Seat"
+        ],
+        "correct_answer": "D) Baggage"
+    },
+    {
+        "question": "5. In the system, which object is specifically designated for each passenger on a flight?",
+        "options": [
+            "A) List of Passengers",
+            "B) Seat",
+            "C) Planes",
+            "D) Boarding Pass"
+        ],
+        "correct_answer": "A) List of Passengers"
+    }
+]
