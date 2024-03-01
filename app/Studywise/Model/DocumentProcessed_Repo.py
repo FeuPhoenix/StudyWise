@@ -25,12 +25,14 @@ class DocumentProcessed:
     def __init__(self, processed_material_id, material_id, 
                  generated_summary_file_path=None, 
                  generated_text_file_path=None,
-                 generated_images_folder_path=None):
+                 generated_images_folder_path=None,
+                 generated_flashcards_file=None):
         self.processed_material_id = processed_material_id
         self.material_id = material_id
         self.generated_summary_file_path = generated_summary_file_path 
         self.generated_text_file_path = generated_text_file_path
         self.generated_images_folder_path = generated_images_folder_path
+        self.generated_flashcards_file=generated_flashcards_file
         self.db = FirestoreDB.get_instance()
     async def addProcessedMaterialToFirestore(self):
         try:
@@ -40,6 +42,7 @@ class DocumentProcessed:
                 "generated_summary_file_path": self.generated_summary_file_path,
                 "generated_text_file_path": self.generated_text_file_path,
                 "generated_images_folder_path": self.generated_images_folder_path,
+                "generated_flashcards_file": self.generated_flashcards_file
             })
         except Exception as e:
             print(e)
@@ -52,6 +55,7 @@ class DocumentProcessed:
             generated_summary_file_path=data["generated_summary_file_path"],
             generated_text_file_path=data["generated_text_file_path"],
             generated_images_folder_path=data["generated_images_folder_path"],
+            generated_flashcards_file=data["generated_flashcards_file"]
         )
 
     def toJson(self):
@@ -61,6 +65,7 @@ class DocumentProcessed:
             "generated_summary_file_path": self.generated_summary_file_path,
             "generated_text_file_path": self.generated_text_file_path,
             "generated_images_folder_path": self.generated_images_folder_path,
+            "generated_flashcards_file": self.generated_flashcards_file
         }
         return data
     async def upload_to_firebase(local_file, cloud_file):

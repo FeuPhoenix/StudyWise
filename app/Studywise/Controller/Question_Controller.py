@@ -7,14 +7,15 @@ import json
 import textstat
 from typing import List, Dict, Tuple, Optional
 
-from app.Studywise.Model import Questions_Repo
+from app.Studywise.Model.Questions_Repo import Questions_Repo
 openai.api_key = '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'
 
 MAX_TOKENS_PER_REQUEST = 4096  # Safe limit for tokens per request
 user_points = 0  # Initialize user points
 class QuestionController:
     def __init__(self,question_repo:Questions_Repo):
-        pass
+        self.question_repo=question_repo
+        self.runMCQGenerator(question_repo.ProcessedMaterial.generated_text_file_path)
 
     def is_conceptually_relevant(self,question):
         non_conceptual_patterns = [
@@ -77,12 +78,12 @@ class QuestionController:
             print(f"Error generating questions: {e}")
             return []
 
-    def determine_difficulty(self,paragraph):
-        # Example logic based on paragraph length
-        length = len(paragraph)
-        if length < 500: return 'easy'
-        elif length < 1000: return 'medium'
-        else: return 'hard'
+    # def determine_difficulty(self,paragraph):
+    #     # Example logic based on paragraph length
+    #     length = len(paragraph)
+    #     if length < 500: return 'easy'
+    #     elif length < 1000: return 'medium'
+    #     else: return 'hard'
 
     def update_user_points(self,correct):
         global user_points
@@ -92,7 +93,7 @@ class QuestionController:
             user_points -= 5  # Decrease points for an incorrect answer (optional)
         user_points = max(user_points, 0)  # Ensure points don't go negative
 
-    def generate_mcqs_with_chatgpt(self,text: str, num_questions: int = 5, difficulty: str = 'mixed') -> List[Dict]:
+    def generate_mcqs(self,text: str, num_questions: int = 5, difficulty: str = 'mixed') -> List[Dict]:
         """
         Generates multiple-choice questions (MCQs) from the input text.
         """
@@ -166,7 +167,7 @@ class QuestionController:
             print(f"Error extracting paragraphs from PDF: {e}")
         return paragraphs
 
-    def generate_mcqs_with_chatgpt(self,paragraphs, difficulty):
+    def generate_mcqs(self,paragraphs, difficulty):
         mcqs = []
         batched_paragraphs = []
         current_batch = ""
@@ -222,24 +223,27 @@ class QuestionController:
         with open(filepath, 'w') as file:
             json.dump(mcqs, file, indent=4)
         print(f"MCQs saved to {filepath}")
-
-    def runMCQGenerator(self):
-        file_path="assets/input_files/text-based/test.pdf"
+    
+    def read_text_file(self,file_path):
+        with open(file_path, 'r',encoding='utf-8', errors='ignore') as file:
+            return file.read()
+    def runMCQGenerator(self,filepath):
+        file_path=filepath
         if not os.path.isfile(file_path):
             print(f"The file does not exist at the specified path: {file_path}")
             return
 
-        paragraphs = self.extract_paragraphs_from_pdf(file_path)
+        paragraphs = self.read_text_file(file_path)
         for difficulty in ['easy', 'medium', 'hard']:
             if paragraphs[difficulty]:
-                mcqs = self.generate_mcqs_with_chatgpt(paragraphs, difficulty)
+                mcqs = self.generate_mcqs(paragraphs, difficulty)
                 if mcqs:
                     output_path = f'output_mcqs_{difficulty}.json'
                     self.save_mcqs_to_file(mcqs, output_path)
+                    self.question_repo.addProcessedMaterialToFirestore()  
                 else:
                     print(f"No {difficulty} MCQs were generated.")
             else:
                 print(f"No {difficulty} content extracted from the file.")
-
-    if __name__ == "__main__":
-        runMCQGenerator()
+        
+    

@@ -7,12 +7,12 @@ from Constants.Constants import OPENAI_API_KEY, MAX_TOKENS_PER_REQUEST,kUserId,k
 from app.Studywise.Model import FirestoreDB 
 
 class FlashcardsController:
-    def __init__(self,Video_Material=None,Document_Material=None):
+    def __init__(self,ProcessedMaterial):
         openai.api_key = OPENAI_API_KEY
-        self.MAX_TOKENS_PER_REQUEST = 4096
-        self.Video_Material=Video_Material
-        self.Document_Material=Document_Material  # Safe limit for tokens per request
+        self.ProcessedMaterial=ProcessedMaterial  
         self.db = FirestoreDB.get_instance()
+        self.runFlashcards(self,self.ProcessedMaterial.generated_text_file_path, content_type = '')
+       
 
     def is_conceptually_relevant(self,question):
         # Patterns for non-conceptual questions
@@ -77,7 +77,7 @@ class FlashcardsController:
 
         return segments
 
-    def generate_qa_pairs_with_chatgpt(self,paragraphs, content_type):
+    def generate_qa_pairs(self,paragraphs, content_type):
         qa_pairs = []
         batched_paragraphs = []
         current_batch = ""
@@ -100,7 +100,7 @@ class FlashcardsController:
                 note = ""
 
             if len(paragraph) > 20 and "http" not in paragraph:
-                if len(current_batch) + len(paragraph) < self.MAX_TOKENS_PER_REQUEST:
+                if len(current_batch) + len(paragraph) < MAX_TOKENS_PER_REQUEST:
                     current_batch += f"{paragraph}\n\n"
                 else:
                     batched_paragraphs.append(current_batch)
@@ -175,66 +175,26 @@ class FlashcardsController:
 
         if content_type == '':
             if file_path.endswith('.pdf'):
-                content =self. extract_paragraphs_from_pdf(file_path)
+                content = self.extract_paragraphs_from_pdf(file_path)
                 content_type = 'pdf'
             elif file_path.endswith('.txt'):
                 content = self.extract_and_split_text(file_path) 
             else:
                 raise ValueError("Unsupported file type. Only .pdf or .txt files are currently accepted.")
         
+        qa_pairs = self.generate_qa_pairs(content, content_type)
+        formatted_cards = self.format_flash_cards(qa_pairs)
+        self.save_flash_cards_to_file(formatted_cards, output_path)
+        print(f"Flash cards saved to {output_path}")
         
-    
-    async def get_flashcards(self, processed_material_id):
-        material_doc = await self.db.collection('UsersFlashCards').document(kUserId).collection(self.material_id).document(self.flashcard_id
-                                                                                                                                 ).get()
-                                             
-        if material_doc.exists:
-            flashcards = material_doc.to_dict()
-            return flashcards.fromJson(flashcards)
-        else:
-            return None
 
-   
-    async def delete_flashcards(self, processed_material_id):
-        try:
-            await self.db.collection('UsersFlashCards').document(kUserId).collection(self.processed_material.processed_material_id).document(self.flashcard_id
-                                                                                                                                 ).delete()
-        except Exception as e:
-            print(e)
-    async def addFlashCardsToFirestore(self):
-        
-        if self.Video_Material !=None:  # Assuming Processed_Materials has a method named 'process'
-            #.document(self.processed_material.user_id)
-            try:
-                await self.db.collection('UsersFlashCards').document(kUserId).collection(self.Video_Material).document(self.flashcard_id
-                                                                                                                                    ).set({
-                    "flashcard_id": self.flashcard_id,
-                    "front_content": self.front_content,
-                    "back_content": self.back_content,
-                    "creation_date": self.creation_date,
-                })
-            except Exception as e:
-                print(e)
-        elif self.Document_Material !=None:
-            try:
-                await self.db.collection('UsersFlashCards').document(kUserId).collection(self.Document_Material).document(self.flashcard_id
-                                                                                                                                    ).set({
-                    "flashcard_id": self.flashcard_id,
-                    "front_content": self.front_content,
-                    "back_content": self.back_content,
-                    "creation_date": self.creation_date,
-                })
-            except Exception as e:
-                print(e)
-
-
-# openai_api_key = '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'
-# flashcards_controller = FlashcardsController(openai_api_key)
-# pdf_path = 'StudyWise/flashcards_from_pdf/test.pdf'
-# output_file = 'StudyWise/flashcards_from_pdf/JS/flash_cards.json'
-# flashcards_controller.process_pdf_to_flashcards(pdf_path, output_file)
-#------------------
-# qa_pairs = generate_qa_pairs_with_chatgpt(content, content_type)
-#         formatted_cards = format_flash_cards(qa_pairs)
-#         save_flash_cards_to_file(formatted_cards, output_path)
-#         print(f"Flash cards saved to {output_path}")
+    # openai_api_key = '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'
+    # flashcards_controller = FlashcardsController(openai_api_key)
+    # pdf_path = 'StudyWise/flashcards_from_pdf/test.pdf'
+    # output_file = 'StudyWise/flashcards_from_pdf/JS/flash_cards.json'
+    # flashcards_controller.process_pdf_to_flashcards(pdf_path, output_file)
+    #------------------
+    # qa_pairs = generate_qa_pairs(content, content_type)
+    #         formatted_cards = format_flash_cards(qa_pairs)
+    #         save_flash_cards_to_file(formatted_cards, output_path)
+    #         print(f"Flash cards saved to {output_path}")

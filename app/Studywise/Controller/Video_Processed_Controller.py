@@ -39,7 +39,6 @@ class Video_Processed_Controller:
         
         try:
             videoprocessed.addProcessedMaterialToFirestore()
-           #Video_Processed_Controller.add_processed_material(processed_material_id,self.material, generated_summary_file_path, Audio_Token, generated_chapters_file_path,generated_text_file_path,generated_images_file_path,Video_Token)
 
             return jsonify({"success": True, "message": "processed_material created successfully"}), 200
         except Exception as e:
@@ -49,24 +48,7 @@ class Video_Processed_Controller:
     # The metadata might include a token which you can access like this
     # Note: The structure of metadata might vary, ensure to check the keys
        
-    async def add_processed_material(self, processed_material_id, material_id,
-                                     generated_summary_file_path=None, generated_audio_file_path=None,
-                                     generated_chapters_file_path=None, generated_text_file_path=None,
-                                     generated_images_file_path=None, generated_video_file_path=None):
-        try:
-            
-            await self.db.collection('MaterialsProcessed').document(kUserId).collection(kUserId).document(processed_material_id).set({
-                "processed_material_id": processed_material_id,
-                "material_id": material_id,
-                "generated_summary_file_path": generated_summary_file_path,
-                "generated_audio_file_path": generated_audio_file_path,
-                "generated_chapters_file_path": generated_chapters_file_path,
-                "generated_text_file_path": generated_text_file_path,
-                "generated_images_file_path": generated_images_file_path,
-                "generated_video_file_path": generated_video_file_path
-            })
-        except Exception as e:
-            print(e)
+    
 
     async def get_processed_material(self, processed_material_id):
         material_doc = await self.db.collection('MaterialsProcessed')\
@@ -192,7 +174,7 @@ class Video_Processed_Controller:
             return file.read()
     
     @staticmethod
-    def get_Long_summary_from_gpt3(self,text, api_key):
+    def get_Long_summary(self,text, api_key):
         openai.api_key = api_key
         summaries = []
 
@@ -215,7 +197,7 @@ class Video_Processed_Controller:
         full_summary = ' '.join(summaries)
         return full_summary
     
-    def is_video(self,file_path_or_url):
+    def Video_Processing(self,file_path_or_url):
 
     # Check if the input is a local file with the extension .mp4
         
@@ -275,7 +257,7 @@ class Video_Processed_Controller:
 
 
             text = Video_Processed_Controller.read_text_file(text_file_path)
-            long_summary = Video_Processed_Controller.get_Long_summary_from_gpt3(text, OPENAI_API_KEY)
+            long_summary = Video_Processed_Controller.get_Long_summary(text, OPENAI_API_KEY)
             summary_data = {
                     'long_summary': long_summary
                 }
@@ -300,7 +282,8 @@ class Video_Processed_Controller:
 
             with open(f'assets/output_files/Chapters/processed_chapters_{Video_name}.json', 'w') as outfile:
                 json.dump(processed_chapters, outfile, indent=4)
-            self.Save_ProcessedVideo_to_database(json_file_path,audio_file_path,f'assets/output_files/Chapters/processed_chapters_{Video_name}.json',text_file_path,None,videocutted)
+            v=VideoProcessed(json_file_path,audio_file_path,f'assets/output_files/Chapters/processed_chapters_{Video_name}.json',text_file_path,None,videocutted)
+            self.Save_ProcessedVideo_to_database(v)
         # Check if the input is a YouTube video link
         # youtube_regex = (
         #     r'(https?://)?(www\.)?'
@@ -355,7 +338,7 @@ class Video_Processed_Controller:
 
 
             text = Video_Processed_Controller.read_text_file(text_file_path)
-            long_summary = self.get_Long_summary_from_gpt3(text, OPENAI_API_KEY)
+            long_summary = self.get_Long_summary(text, OPENAI_API_KEY)
             summary_data = {
                     'long_summary': long_summary
                 }
