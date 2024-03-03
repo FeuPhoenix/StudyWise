@@ -27,8 +27,8 @@ function displayUserPoints() {
 }
 
 function determineDifficulty(points) {
-    if (points < 5) return 'easy';
-    else if (points < 10) return 'medium';
+    if (points < 50) return 'easy';
+    else if (points < 100) return 'medium';
     else return 'hard';
 }
 
@@ -60,14 +60,12 @@ function handleOptionClick(selectedOption, correctAnswer, optionDiv, optionsDiv)
     Array.from(allOptions).forEach(option => option.classList.remove('correct', 'incorrect'));
     if (selectedOption === correctAnswer) {
         optionDiv.classList.add('correct');
-        alert("Correct answer!");
         updateUserPoints(true); // Increase points for correct answer
     } else {
         optionDiv.classList.add('incorrect');
-        alert("Incorrect. Try again!");
         updateUserPoints(false); // Decrease points for incorrect answer
     }
-    setTimeout(fetchMCQs, 1000); // Fetch new MCQs after a delay
+    setTimeout(fetchMCQs, 10000); // Fetch new MCQs after a delay
 }
 document.getElementById('to-leaderboard').addEventListener('click', function() {
     window.location.href = 'leaderboard.html'; // Assuming your leaderboard file is named 'leaderboard.html'

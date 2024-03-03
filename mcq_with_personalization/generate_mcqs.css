@@ -1,43 +1,87 @@
 body {
-    font-family: Arial, sans-serif;
-    padding: 20px;
-    background-color: #f4f4f4;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    padding: 40px;
+    background-color: #f0f2f5;
+    color: #333;
+}
+
+#quiz-section {
+    max-width: 800px;
+    margin: auto;
+    text-align: center;
 }
 
 #mcq-container {
-    max-width: 600px;
-    margin: auto;
-    background: white;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.question {
-    margin-bottom: 20px;
-}
-
-.option {
-    margin: 10px 0;
-    padding: 10px;
-    background-color: #e9e9e9;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.option:hover {
-    background-color: #d3d3d3;
-}
-.correct {
-    background-color: #c8e6c9; /* Green */
-}
-
-.incorrect {
-    background-color: #ffcdd2; /* Red */
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
 }
 
 #user-points {
-    font-size: 20px;
-    margin-bottom: 10px;
+    font-size: 24px;
+    margin-bottom: 20px;
     color: #4CAF50; /* Adjust color as per your theme */
+    font-weight: bold;
+}
+
+.question {
+    font-size: 18px;
+    margin-bottom: 25px;
+    text-align: left;
+}
+
+.option {
+    display: block;
+    margin: 10px auto;
+    padding: 15px;
+    background-color: #f9f9f9;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    width: 90%; /* Adjust width as needed */
+    text-align: left;
+}
+
+.option:hover {
+    background-color: #e7e7e7;
+    transform: scale(1.02);
+}
+
+.correct {
+    background-color: #a5d6a7; /* Green */
+    animation: correctOptionAnimation 0.5s ease-in-out;
+}
+
+.incorrect {
+    background-color: #ef9a9a; /* Red */
+    animation: incorrectOptionAnimation 0.5s ease-in-out;
+}
+
+#to-leaderboard {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #2196F3;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#to-leaderboard:hover {
+    background-color: #1976D2;
+}
+
+@keyframes correctOptionAnimation {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+@keyframes incorrectOptionAnimation {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
 }

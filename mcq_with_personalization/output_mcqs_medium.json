@@ -1,42 +1,82 @@
 [
     {
-        "question": "1. What is the purpose of using views in architectural descriptions?",
+        "question": "1. What is the purpose of using views in software architecture?",
         "options": [
-            "B) To create a visual representation of the system",
-            "D) To define the overall system architecture",
-            "C) To analyze the deployment of the system",
-            "A) To structure the system into different functional aspects"
+            "A) To create different representations of the system",
+            "C) To visualize the system in a graphical format",
+            "B) To break down the architectural description into separate aspects",
+            "D) To define the interfaces between components"
         ],
-        "correct_answer": "B) To create a visual representation of the system"
+        "correct_answer": "A) To create different representations of the system"
     },
     {
-        "question": "2. How is the relationship between view and viewpoint described?",
+        "question": "2. What is the relationship between view and viewpoint in software architecture?",
         "options": [
-            "B) Similar to function and method",
-            "D) Similar to variable and value",
-            "C) Similar to table and row",
-            "A) Similar to object and class"
+            "B) They are similar to object and class in programming",
+            "A) They are unrelated concepts",
+            "C) They represent different levels of abstraction",
+            "D) They are interchangeable terms"
         ],
-        "correct_answer": "B) Similar to function and method"
+        "correct_answer": "B) They are similar to object and class in programming"
     },
     {
-        "question": "3. Which reference model is used for describing distributed object systems and their viewpoint set?",
+        "question": "3. What is the origin of the idea of architectural viewpoints?",
         "options": [
-            "A) UML",
-            "D) ACM",
+            "D) RM-ODP ISO standard",
+            "B) Philippe Kruchten and the Rational Corporation in 1995",
+            "A) David Garlan and Mary Shaw in 1993",
+            "C) Jeff Garland and Richard Anthony in 1999"
+        ],
+        "correct_answer": "D) RM-ODP ISO standard"
+    },
+    {
+        "question": "4. What is the reference model for describing distributed object systems and viewpoints?",
+        "options": [
             "B) RM-ODP",
-            "C) IEEE"
+            "C) Software Architecture book",
+            "D) Large Scale Software Architecture book",
+            "A) UML"
         ],
-        "correct_answer": "A) UML"
+        "correct_answer": "B) RM-ODP"
     },
     {
-        "question": "5. What is the main focus of the set of viewpoints defined by the authors?",
+        "question": "6. How does the set of viewpoints in \"Applied Software Architecture\" differ from other sets?",
         "options": [
-            "A) Academic research",
-            "C) Mainstream software development",
-            "D) Open Distributed Processing standard.",
-            "B) Information systems practitioner"
+            "B) It is purely theoretical and academic",
+            "C) It is designed for hardware architecture",
+            "A) It is practitioner-focused and based on personal experience",
+            "D) It is not specific to information systems"
         ],
-        "correct_answer": "A) Academic research"
+        "correct_answer": "B) It is purely theoretical and academic"
+    },
+    {
+        "question": "7. What is the purpose of a conceptual model for how viewpoints are organized?",
+        "options": [
+            "C) To outline a theoretical framework for software architecture",
+            "D) To describe the process of creating viewpoints",
+            "A) To provide a visual representation of the system",
+            "B) To define the relationships between different viewpoints"
+        ],
+        "correct_answer": "C) To outline a theoretical framework for software architecture"
+    },
+    {
+        "question": "9. In the context of software architecture, what does the 4+1 model refer to?",
+        "options": [
+            "C) A model for integrating hardware and software",
+            "A) A model for organizing architectural viewpoints",
+            "B) A model for representing software components",
+            "D) A model for describing the deployment of a system"
+        ],
+        "correct_answer": "C) A model for integrating hardware and software"
+    },
+    {
+        "question": "10. What is the significance of the ACM SIGSOFT SOFTWARE ENGINEERING NOTES article in relation to software architecture?",
+        "options": [
+            "B) It outlined the foundations of software architecture",
+            "D) It provided a historical perspective on the development of software architecture.",
+            "A) It introduced the concept of viewpoints",
+            "C) It proposed a standard for describing distributed object systems"
+        ],
+        "correct_answer": "B) It outlined the foundations of software architecture"
     }
 ]
