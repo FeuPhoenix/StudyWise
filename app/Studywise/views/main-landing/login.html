@@ -1,0 +1,86 @@
+<html>
+<head>
+    <link rel="shortcut icon" href="assets/images/Studywise_Logo.png" type="image/x-icon">
+    <title>StudyWise - Login</title>
+    <link rel="stylesheet" href="css/login-style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+</head>
+<body>
+    <div class="page-content">
+        <div class="main-frame">
+
+            <img src="assets/images/Studywise_Logo.png" alt="Studywise Logo" class="navbar-logo">
+
+            <div class="landing-navbar">
+                <div class="navbar-btns">
+                    <a href="index.html"><button>HOME</button></a>
+                    <a href=""><button>PLANS</button></a>
+                    <a href=""><button>FAQs</button></a>
+                    <a href="login.html"><button>Sign in/Sign up</button></a>
+                </div> 
+            </div> <!-- Landing Navbar end -->
+
+            <!-- <button class="back-btn" onclick="history.back()"><i class="fa-solid fa-left-long"></i></button> -->
+
+            <div class="inner-frame">
+                <div class="main-div">  	
+                    <input type="checkbox" id="chk" aria-hidden="true" value="">
+            
+                        <div class="signin">
+                            <form class="form">
+                                <label for="chk" aria-hidden="true" >Sign In</label>
+
+                                <div class="inputBox"> <!-- Sign In Email -->
+                                    <input id="signInEmail" type="text" name="email" autocomplete="email" required> 
+                                    <i class="input-label">Email</i>
+                                </div>
+                                <div class="inputBox"> <!-- Sign In Password -->
+                                    <input id="signInPassword" type="password" name="password" autocomplete="current-password" required> 
+                                    <i class="input-label">Password</i>
+                                    <i id="eye-icon2" class="fas fa-eye-slash" onclick="toggleSigInPW()"></i>
+                                </div>
+                                <button id="signInButton" onclick="signIn()">Login</button>
+                            </form>
+                        </div>
+                                    
+                        <div class="signup">
+                            <form class="form">
+                                <label for="chk" aria-hidden="true">Sign up</label>
+
+                                <div class="inputBox"> <!-- Sign Up Full Name -->
+                                    <input id="fullName" type="text" name="name" autocomplete="name" required> 
+                                    <i class="input-label">Full Name</i>
+                                </div>
+                                <div class="inputBox"> <!-- Sign Up Email -->
+                                    <input id="signUpEmail" type="text" name="email" autocomplete="email" required> 
+                                    <i class="input-label">Email</i>
+                                </div>
+                                <div class="inputBox"> <!-- Sign Up Password -->
+                                    <input id="signUpPassword" type="password" name="password" autocomplete="new-password" required> 
+                                    <i class="input-label">Password</i> 
+                                    <i id="eye-icon1" class="fas fa-eye-slash" onclick="toggleSignUpPW()"></i>
+                                </div>
+                                <button id="signUpButton" onclick="signUp()">Register</button>
+                            </form>
+                        </div>
+                </div>
+            </div>
+        </div> <!-- Main Frame end -->
+    </div>
+    <div id="popup-overlay" class="popup-overlay">
+        <div class="popup-prompt">
+            <button class="close-btn" onclick="closePopup()">&times;</button>
+            <div class="popup-content">
+                <h2>What kind of file do you want to upload?</h2>
+                <button onclick="chooseOption('text')">Text-based</button>
+                <button onclick="chooseOption('video')">Video-based</button>
+            </div>
+        </div>
+    </div>
+    <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-database.js"></script>
+    <script src="js/login.js"></script>
+</body>
+</html>
