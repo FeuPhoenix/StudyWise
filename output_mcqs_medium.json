@@ -1,0 +1,112 @@
+[
+    {
+        "question": "1. Which of the following is NOT a phase of the software development process?",
+        "options": [
+            "D. Deployment",
+            "B. Maintenance",
+            "A. Specification",
+            "C. Testing"
+        ],
+        "correct_answer": "D. Deployment"
+    },
+    {
+        "question": "2. What is the purpose of using UML in software development?",
+        "options": [
+            "C. To separate data and operations in structured programming",
+            "A. To create abstract representations of software processes",
+            "D. To visualize and document software ideas",
+            "B. To communicate with customers about software requirements"
+        ],
+        "correct_answer": "C. To separate data and operations in structured programming"
+    },
+    {
+        "question": "3. Object diagrams in UML show:",
+        "options": [
+            "A. Interactions between users and the system",
+            "D. Relationships among objects in the system",
+            "B. Static structure of the system, including classes and objects",
+            "C. Dynamic behavior of the system, such as workflows"
+        ],
+        "correct_answer": "A. Interactions between users and the system"
+    },
+    {
+        "question": "4. In object-oriented programming, what is the fundamental unit of abstraction?",
+        "options": [
+            "A. Data",
+            "C. Object",
+            "D. Operation",
+            "B. Class"
+        ],
+        "correct_answer": "A. Data"
+    },
+    {
+        "question": "5. What is the purpose of inheritance in object-oriented programming?",
+        "options": [
+            "C. To separate objects into distinct entities",
+            "A. To hide data from other objects",
+            "D. To enhance performance of the application",
+            "B. To share features between classes"
+        ],
+        "correct_answer": "C. To separate objects into distinct entities"
+    },
+    {
+        "question": "6. What does polymorphism allow in object-oriented programming?",
+        "options": [
+            "C. Objects to communicate with each other",
+            "D. Operations to be hidden from external objects",
+            "A. The same operation to be performed on different data types",
+            "B. Objects to inherit features from a base class"
+        ],
+        "correct_answer": "C. Objects to communicate with each other"
+    },
+    {
+        "question": "7. Which of the following is an example of a class in UML notation?",
+        "options": [
+            "A. + getRadius(): float",
+            "B. + setRadius(): float",
+            "D. Company",
+            "C. Person"
+        ],
+        "correct_answer": "A. + getRadius(): float"
+    },
+    {
+        "question": "1. In UML, what is an operation?",
+        "options": [
+            "A) A variable",
+            "C) A function or procedure",
+            "B) A constant",
+            "D) An attribute"
+        ],
+        "correct_answer": "A) A variable"
+    },
+    {
+        "question": "2. What does it mean for an operation to be polymorphic?",
+        "options": [
+            "B) It has the same form in all classes",
+            "A) It can only be used in one class",
+            "C) It takes different forms in different classes",
+            "D) It is not allowed in UML"
+        ],
+        "correct_answer": "B) It has the same form in all classes"
+    },
+    {
+        "question": "4. In the context of airlines, what is responsible for running a flight?",
+        "options": [
+            "B) The destination",
+            "A) The airline company",
+            "D) The pilot",
+            "C) The operating airline"
+        ],
+        "correct_answer": "B) The destination"
+    },
+    {
+        "question": "5. In a class diagram, what does a dashed line with an arrow indicate?",
+        "options": [
+            "A) Inheritance",
+            "B) Association",
+            "C) Dependency",
+            "D) Aggregation"
+        ],
+        "correct_answer": "A) Inheritance"
+    }
+]

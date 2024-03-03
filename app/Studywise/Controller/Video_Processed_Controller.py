@@ -15,9 +15,9 @@ import time
 import json
 import openai
 from pytube import YouTube
-from app.Studywise.Model import VideoProcessed
-from app.Studywise.Model.VideoProcessed import MaterialProcessed
-from app.Studywise.Model import Material
+from app.Studywise.Model import FirestoreDB, VideoProcessed_Repo
+from app.Studywise.Model.VideoProcessed_Repo import MaterialProcessed, VideoProcessed
+from app.Studywise.Model import Material_Repo
 import firebase_admin
 from firebase_admin import credentials, storage
 from flask import request,jsonify,render_template
@@ -28,63 +28,27 @@ from audiocutter import runaudiocutter
 class Video_Processed_Controller:
     
     def __init__(self,material):
-        self.db = firestore.client()
         self.material=material
+        self.db = FirestoreDB.get_instance()
     def Save_ProcessedVideo_to_database(self,generated_summary_file_path,generated_audio_file_path,generated_chapters_file_path,generated_text_file_path,generated_images_file_path,generated_video_file_path):
         processed_material_id = uuid.uuid4().hex
-        Video_Token=Video_Processed_Controller.upload_to_firebase(generated_video_file_path,f'{kUserId}/{Video_Processed_Controller.getFileNameFromPathWithOutExtension(generated_video_file_path)}.mp4')
-        Audio_Token=Video_Processed_Controller.upload_to_firebase(generated_audio_file_path,f'{kUserId}/{Video_Processed_Controller.getFileNameFromPathWithOutExtension(generated_audio_file_path)}.wav')
+        Video_Token=VideoProcessed.upload_to_firebase(generated_video_file_path,f'{kUserId}/{Video_Processed_Controller.getFileNameFromPathWithOutExtension(generated_video_file_path)}.mp4')
+        Audio_Token=VideoProcessed.upload_to_firebase(generated_audio_file_path,f'{kUserId}/{Video_Processed_Controller.getFileNameFromPathWithOutExtension(generated_audio_file_path)}.wav')
         videoprocessed = VideoProcessed(processed_material_id,self.material, generated_summary_file_path, Audio_Token, generated_chapters_file_path,generated_text_file_path,generated_images_file_path,Video_Token)
         
         
         try:
             videoprocessed.addProcessedMaterialToFirestore()
-           #Video_Processed_Controller.add_processed_material(processed_material_id,self.material, generated_summary_file_path, Audio_Token, generated_chapters_file_path,generated_text_file_path,generated_images_file_path,Video_Token)
 
             return jsonify({"success": True, "message": "processed_material created successfully"}), 200
         except Exception as e:
                return jsonify({"success": False, "message": str(e)}), 500
 
-    async def upload_to_firebase(local_file, cloud_file):
-    # Reference to the storage bucket
-        bucket = storage.bucket()
-
-    # Name of the file in the storage bucket
-        blob = bucket.blob(cloud_file)
-
-    # Upload the file
-        blob.upload_from_filename(local_file)
-        
-        print(f'{local_file} has been uploaded to {cloud_file}.')
-        metadata = blob.metadata
-        print(metadata)
-        return metadata
-
+    
     # The metadata might include a token which you can access like this
     # Note: The structure of metadata might vary, ensure to check the keys
-        if metadata and 'firebaseStorageDownloadTokens' in metadata:
-            token = metadata['firebaseStorageDownloadTokens']
-            return token
-        else:
-            return None
-    async def add_processed_material(self, processed_material_id, material_id,
-                                     generated_summary_file_path=None, generated_audio_file_path=None,
-                                     generated_chapters_file_path=None, generated_text_file_path=None,
-                                     generated_images_file_path=None, generated_video_file_path=None):
-        try:
-            
-            await self.db.collection('MaterialsProcessed').document(kUserId).collection(kUserId).document(processed_material_id).set({
-                "processed_material_id": processed_material_id,
-                "material_id": material_id,
-                "generated_summary_file_path": generated_summary_file_path,
-                "generated_audio_file_path": generated_audio_file_path,
-                "generated_chapters_file_path": generated_chapters_file_path,
-                "generated_text_file_path": generated_text_file_path,
-                "generated_images_file_path": generated_images_file_path,
-                "generated_video_file_path": generated_video_file_path
-            })
-        except Exception as e:
-            print(e)
+       
+    
 
     async def get_processed_material(self, processed_material_id):
         material_doc = await self.db.collection('MaterialsProcessed')\
@@ -210,7 +174,7 @@ class Video_Processed_Controller:
             return file.read()
     
     @staticmethod
-    def get_Long_summary_from_gpt3(self,text, api_key):
+    def get_Long_summary(self,text, api_key):
         openai.api_key = api_key
         summaries = []
 
@@ -233,7 +197,7 @@ class Video_Processed_Controller:
         full_summary = ' '.join(summaries)
         return full_summary
     
-    def is_video(self,file_path_or_url):
+    def Video_Processing(self,file_path_or_url):
 
     # Check if the input is a local file with the extension .mp4
         
@@ -262,25 +226,7 @@ class Video_Processed_Controller:
 
             # Transcribe the audio and get the result as a JSON object
             transcript = aai.Transcriber().transcribe(audio_file_path, config)
-            #sentiment_results_list = []
-
-            # # Loop through each sentiment_result and append the desired information to the list
-            # for sentiment_result in transcript.sentiment_analysis:
-            #     sentiment_data = {
-            #         "text": sentiment_result.text,
-            #         "start": sentiment_result.start,
-            #         "end": sentiment_result.end
-            #     }
-            #     sentiment_results_list.append(sentiment_data)
-
-            # # Specify the filename where you want to save the JSON data
-            # filename = f'assets/output_files/Sentiments/sentiment_results_{Video_name}.json'
-
-            # Write the list to a file in JSON format
-            # with open(filename, 'w') as f:
-            #     json.dump(sentiment_results_list, f, indent=4)
-
-            # print(f"Sentiment analysis results saved to {filename}")
+            
             transcript_filename = f"assets/output_files/extracted_transcripts/{Video_name}.txt"
             with open(transcript_filename, 'w', encoding='utf-8') as transcript_file:
                     transcript_file.write(transcript.text)
@@ -311,7 +257,7 @@ class Video_Processed_Controller:
 
 
             text = Video_Processed_Controller.read_text_file(text_file_path)
-            long_summary = Video_Processed_Controller.get_Long_summary_from_gpt3(text, OPENAI_API_KEY)
+            long_summary = Video_Processed_Controller.get_Long_summary(text, OPENAI_API_KEY)
             summary_data = {
                     'long_summary': long_summary
                 }
@@ -336,7 +282,8 @@ class Video_Processed_Controller:
 
             with open(f'assets/output_files/Chapters/processed_chapters_{Video_name}.json', 'w') as outfile:
                 json.dump(processed_chapters, outfile, indent=4)
-            self.Save_ProcessedVideo_to_database(json_file_path,audio_file_path,f'assets/output_files/Chapters/processed_chapters_{Video_name}.json',text_file_path,None,videocutted)
+            v=VideoProcessed(json_file_path,audio_file_path,f'assets/output_files/Chapters/processed_chapters_{Video_name}.json',text_file_path,None,videocutted)
+            self.Save_ProcessedVideo_to_database(v)
         # Check if the input is a YouTube video link
         # youtube_regex = (
         #     r'(https?://)?(www\.)?'
@@ -361,25 +308,6 @@ class Video_Processed_Controller:
 
             # Transcribe the audio and get the result as a JSON object
             transcript = aai.Transcriber().transcribe(video_file_path, config)
-            # sentiment_results_list = []
-
-            # # Loop through each sentiment_result and append the desired information to the list
-            # for sentiment_result in transcript.sentiment_analysis:
-            #     sentiment_data = {
-            #         "text": sentiment_result.text,
-            #         "start": sentiment_result.start,
-            #         "end": sentiment_result.end
-            #     }
-            #     sentiment_results_list.append(sentiment_data)
-
-            # # Specify the filename where you want to save the JSON data
-            # filename = f'assets/output_files/Sentiments/sentiment_results_{title}.json'
-
-            # # Write the list to a file in JSON format
-            # with open(filename, 'w') as f:
-            #     json.dump(sentiment_results_list, f, indent=4)
-
-            # print(f"Sentiment analysis results saved to {filename}")
             transcript_filename = f"assets/output_files/extracted_transcripts/{title}.txt"
             with open(transcript_filename, 'w', encoding='utf-8') as transcript_file:
                     transcript_file.write(transcript.text)
@@ -410,7 +338,7 @@ class Video_Processed_Controller:
 
 
             text = Video_Processed_Controller.read_text_file(text_file_path)
-            long_summary = self.get_Long_summary_from_gpt3(text, OPENAI_API_KEY)
+            long_summary = self.get_Long_summary(text, OPENAI_API_KEY)
             summary_data = {
                     'long_summary': long_summary
                 }

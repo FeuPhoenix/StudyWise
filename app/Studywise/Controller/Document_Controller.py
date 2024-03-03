@@ -1,5 +1,5 @@
 import uuid
-from app.Studywise.Model import DocumentProcessed
+from app.Studywise.Model import  FirestoreDB
 from datetime import datetime
 from firebase_admin import firestore, credentials, initialize_app
 from Constants.Constants import OPENAI_API_KEY, MAX_TOKENS_PER_REQUEST,kUserId,kUserEmail ,kDatejoined ,kFullName 
@@ -17,51 +17,44 @@ from PIL import Image
 from io import BytesIO
 from summarizer import Summarizer
 from firebase_admin import credentials, storage
-class FirestoreDB:
-    _instance = None
 
-    @classmethod
-    def get_instance(cls):
-        if cls._instance is None:
-            cred = credentials.ApplicationDefault()
-            initialize_app(cred)
-            cls._instance = firestore.client()
-        return cls._instance
+from app.Studywise.Model.DocumentProcessed_Repo import DocumentProcessed
+
 class DocumentProcessedController:
     def __init__(self,material) :
         self.material=material
-        self.db = FirestoreDB.get_instance()
+       
     @staticmethod
-    async def create_processed_document(request_data):
-        """
-        Creates a new processed document record in Firestore.
-        :param request_data: The data from the request to create a new processed document.
-        """
-        try:
-            # Extracting necessary information from the request data
-            processed_material_id = request_data.get('processed_material_id')
-            material_id = request_data.get('material_id')
-            generated_summary_file_path = request_data.get('generated_summary_file_path')
-            generated_text_file_path = request_data.get('generated_text_file_path')
-            generated_images_file_path = request_data.get('generated_images_file_path')
-            generated_document_file_path = request_data.get('generated_document_file_path')
+    # async def create_processed_document(request_data):
+    #     """
+    #     Creates a new processed document record in Firestore.
+    #     :param request_data: The data from the request to create a new processed document.
+    #     """
+    #     try:
+    #         # Extracting necessary information from the request data
+    #         processed_material_id = request_data.get('processed_material_id')
+    #         material_id = request_data.get('material_id')
+    #         generated_summary_file_path = request_data.get('generated_summary_file_path')
+    #         generated_text_file_path = request_data.get('generated_text_file_path')
+    #         generated_images_file_path = request_data.get('generated_images_file_path')
+    #         generated_document_file_path = request_data.get('generated_document_file_path')
             
-            # Creating a new DocumentProcessed instance
-            new_document = DocumentProcessed(
-                processed_material_id=processed_material_id,
-                material_id=material_id,
-                generated_summary_file_path=generated_summary_file_path,
-                generated_text_file_path=generated_text_file_path,
-                generated_images_file_path=generated_images_file_path,
-                generated_Document_file_path=generated_document_file_path
-            )
+    #         # Creating a new DocumentProcessed instance
+    #         new_document = DocumentProcessed(
+    #             processed_material_id=processed_material_id,
+    #             material_id=material_id,
+    #             generated_summary_file_path=generated_summary_file_path,
+    #             generated_text_file_path=generated_text_file_path,
+    #             generated_images_file_path=generated_images_file_path,
+    #             generated_Document_file_path=generated_document_file_path
+    #         )
             
-            # Adding the new document to Firestore
-            await new_document.addProcessedMaterialToFirestore()
+    #         # Adding the new document to Firestore
+    #         await new_document.addProcessedMaterialToFirestore()
             
-            return {"success": True, "message": "Processed document added successfully."}
-        except Exception as e:
-            return {"success": False, "message": str(e)}
+    #         return {"success": True, "message": "Processed document added successfully."}
+    #     except Exception as e:
+    #         return {"success": False, "message": str(e)}
 
     
     # Additional methods for updating and deleting processed documents can be added here
@@ -76,13 +69,6 @@ class DocumentProcessedController:
         result_string=result_string.replace('.ppt','')
         result_string=result_string.replace('.pdf','')
         return result_string
-    @staticmethod
-    def delete_page_breaks(self,file_path):
-        with open(file_path, 'r', encoding='utf-8') as file:
-            content = file.read()
-        cleaned_content = content.replace("--- Page Break ---", "")
-        with open(file_path, 'w') as file:
-            file.write(cleaned_content)
 
     @staticmethod
     def clean_text(text):
@@ -101,24 +87,24 @@ class DocumentProcessedController:
         text = ''
         for paragraph in doc.paragraphs:
             text += paragraph.text + '\n'
-        text = DocumentProcessed.clean_text(text)
+        text = DocumentProcessedController.clean_text(text)
         return text
 
     @staticmethod
-    def extract_text_from_pptx(prs):
+    def extract_text_from_pptx(file_path):
         text = ''
-        for slide in prs.slides:
+        for slide in file_path.slides:
             for shape in slide.shapes:
                 if hasattr(shape, "text"):
                     text += shape.text + '\n'
         return text
 
     @staticmethod
-    def extract_images_from_pptx(prs, output_images_dir):
+    def extract_images_from_pptx(file_path, output_images_dir):
         if not os.path.exists(output_images_dir):
             os.makedirs(output_images_dir)
         image_index = 1
-        for slide_number, slide in enumerate(prs.slides, start=1):
+        for slide_number, slide in enumerate(file_path.slides, start=1):
             for shape_number, shape in enumerate(slide.shapes, start=1):
                 if hasattr(shape, "image"):
                     image = shape.image
@@ -145,27 +131,7 @@ class DocumentProcessedController:
                 current_chunk += " " + sentence
         yield current_chunk
 
-    @staticmethod
-    def get_Long_summary_from_gpt3(self,text, api_key):
-        openai.api_key = api_key
-        summaries = []
-        for chunk in DocumentProcessedController.split_text(text):
-            while True:
-                try:
-                    response = openai.ChatCompletion.create(
-                        model="gpt-3.5-turbo",
-                        messages=[
-                            {"role": "system", "content": "You are a helpful assistant."},
-                            {"role": "user", "content": f"Summarize the following text into concise bullet points, focusing only on essential information: \n{chunk}"}
-                        ]
-                    )
-                    summaries.append(response['choices'][0]['message']['content'].strip())
-                    break
-                except openai.error.RateLimitError as e:
-                    print("Rate limit exceeded, waiting to retry...")
-                    time.sleep(20)
-        full_summary = ' '.join(summaries)
-        return full_summary
+    
 
     @staticmethod
     def create_json_with_Long_summary(self,json_file_path, summary):
@@ -188,21 +154,8 @@ class DocumentProcessedController:
                             txt_file.write(text)
                 print(f"Text extracted and saved to {txt_file_path}")     
     @staticmethod
-    async def upload_to_firebase(local_file, cloud_file):
-    # Reference to the storage bucket
-        bucket = storage.bucket()
-
-    # Name of the file in the storage bucket
-        blob = bucket.blob(cloud_file)
-
-    # Upload the file
-        blob.upload_from_filename(local_file)
-        
-        print(f'{local_file} has been uploaded to {cloud_file}.')
-        metadata = blob.metadata
-        print(metadata)
-        return metadata
-    def is_Document(self,file):
+    
+    def Document_Processing(self,file):
         if os.path.isfile(file) and file.endswith('.pdf'):
             PDFFile=file
             filename=DocumentProcessedController.getFileNameFromPathWithOutExtension(file)
@@ -231,16 +184,16 @@ class DocumentProcessedController:
             documentprocessed.addProcessedMaterialToFirestore()
         elif os.path.isfile(file) and (file.endswith('.ppt') or file.endswith('.pptx')):
             pptx_path = file
-            filename=DocumentProcessed.getFileNameFromPathWithOutExtension(file)
+            filename=DocumentProcessedController.getFileNameFromPathWithOutExtension(file)
             output_text_path = f'assets/output_files/{filename}.txt'
             json_file_path = f'Summaries/summary_From_PPT{file}.json'
             prs = Presentation(pptx_path)
-            text = DocumentProcessed.extract_text_from_pptx(prs)
+            text = DocumentProcessedController.extract_text_from_pptx(prs)
             text_file = 'f"assets/output_files/text_files/{filename}.txt'
             with open(filename, 'w') as file:
                 file.write(text)
             model = Summarizer()
-            text=DocumentProcessed.clean_text(text)
+            text=DocumentProcessedController.clean_text(text)
             result = model(text)
             summary_data = {
                 'long_summary': result

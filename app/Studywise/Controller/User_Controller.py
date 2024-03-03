@@ -1,6 +1,7 @@
 import datetime
 from firebase_admin import firestore,auth
-from Model.User import UserRepo
+from app.Studywise.Model.FirestoreDB import FirestoreDB
+from app.Studywise.Model.User_Repo import UserRepo
 from Constants import Constants
 from Constants.Constants import OPENAI_API_KEY, MAX_TOKENS_PER_REQUEST,kUserId,kUserEmail ,kDatejoined ,kFullName 
 from flask import request,jsonify,render_template
@@ -8,9 +9,7 @@ from firebase_admin import auth
 
 class UserController:
     def __init__(self,user:UserRepo):
-        self._firestore = firestore.client()
-        self.userList = []
-        self.db=firestore.client()
+        self.db = FirestoreDB.get_instance()
         self.user=user
 
     def add_user_to_auth(self, email, password):
@@ -25,8 +24,9 @@ class UserController:
             print('Error creating new user:', e)
             #return None
 
-    async def add_user_to_firestore(self, user_id, user_info):
+    async def add_user_to_firestore(self, user_id,user_info):
         try:
+            
             # Check if the user already exists in Firestore
             doc_ref = self.db.collection('Users').document(user_id)
             doc = doc_ref.get()
