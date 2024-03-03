@@ -5,10 +5,11 @@ import re
 import random
 import json
 import textstat
+import time
 from typing import List, Dict, Tuple, Optional
 openai.api_key = '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'
 
-MAX_TOKENS_PER_REQUEST = 4096  # Safe limit for tokens per request
+MAX_TOKENS_PER_REQUEST = 4096  
 user_points = 0  # Initialize user points
 
 def is_conceptually_relevant(question):
@@ -87,54 +88,6 @@ def update_user_points(correct):
         user_points -= 5  # Decrease points for an incorrect answer (optional)
     user_points = max(user_points, 0)  # Ensure points don't go negative
 
-def generate_mcqs_with_chatgpt(text: str, num_questions: int = 5, difficulty: str = 'mixed') -> List[Dict]:
-    """
-    Generates multiple-choice questions (MCQs) from the input text.
-    """
-    clean_text = clean_text(text)
-    text_chunks = split_text(clean_text)
-    mcqs = []
-
-    for chunk in text_chunks:
-        # Adjust the prompt based on the desired difficulty level
-        prompt_difficulty = {
-            'easy': 'Create easy multiple-choice questions and answers from the following text:',
-            'medium': 'Create medium-difficulty multiple-choice questions and answers from the following text:',
-            'hard': 'Create hard multiple-choice questions and answers from the following text:',
-            'mixed': 'Create multiple-choice questions and answers from the following text:'
-        }.get(difficulty, 'mixed')
-
-        prompt_text = f"{prompt_difficulty}\n{chunk}"
-
-        # Generate questions from the chunk
-        questions = generate_questions(prompt_text)
-
-        # Extract MCQs from the generated questions
-        for question in questions:
-            if len(mcqs) < num_questions:
-                mcq = {
-                    'question': None,
-                    'options': [],
-                    'answer': None
-                }
-                lines = question.split('\n')
-                if lines:
-                    mcq['question'] = lines[0]
-                    for line in lines[1:]:
-                        option_match = re.match(r'^[A-D]\. (.+)$', line)
-                        if option_match:
-                            mcq['options'].append(option_match.group(1))
-                        if line.startswith('*'):
-                            mcq['answer'] = line[3:]  # Remove '* ' from the beginning
-                if mcq['question'] and mcq['options'] and mcq['answer']:
-                    mcqs.append(mcq)
-            else:
-                break
-        if len(mcqs) >= num_questions:
-            break
-
-    return mcqs
-
 def determine_difficulty(text):
     difficulty_score = textstat.flesch_reading_ease(text)
 
@@ -168,11 +121,11 @@ def generate_mcqs_with_chatgpt(paragraphs, difficulty):
 
     # Adjust the base prompt based on the difficulty level
     if difficulty == 'easy':
-        base_prompt = "Generate easy multiple-choice questions that are straightforward and simple, focusing on basic concepts."
+        base_prompt = "Generate 10 easy multiple-choice questions that are straightforward and simple, focusing on basic concepts."
     elif difficulty == 'medium':
-        base_prompt = "Generate medium-difficulty multiple-choice questions that require a moderate level of understanding and may involve more detailed concepts."
+        base_prompt = "Generate 10 medium-difficulty multiple-choice questions that require a moderate level of understanding and may involve more detailed concepts."
     else:  # hard
-        base_prompt = "Generate hard multiple-choice questions that are complex, requiring in-depth understanding and critical thinking to answer."
+        base_prompt = "Generate 10 hard multiple-choice questions that are complex, requiring in-depth understanding and critical thinking to answer."
 
     for paragraph in paragraphs[difficulty]:
         if len(current_batch) + len(paragraph) < MAX_TOKENS_PER_REQUEST:
@@ -199,6 +152,9 @@ def generate_mcqs_with_chatgpt(paragraphs, difficulty):
                         'options': options,
                         'correct_answer': options[correct_index]
                     })
+        except openai.error.RateLimitError:
+                print("Rate limit exceeded, waiting before retrying...")
+                time.sleep(20)
         except openai.OpenAIError as e:
             print(f"OpenAI API error: {e}")
         except Exception as e:

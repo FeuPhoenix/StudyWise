@@ -1,42 +1,72 @@
 [
     {
-        "question": "1. Which of the following best describes the concept of architectural description in software architecture?",
+        "question": "1. Which term refers to the organization of the architectural description that provides implicit structure and explicit guidance?",
         "options": [
-            "d) A comprehensive analysis of the operational environment and constraints",
-            "b) A detailed analysis of the code implementation",
-            "a) A high-level overview of the system's structure and components",
-            "c) A document outlining the project schedule and budget"
+            "D) Stakeholders",
+            "C) Constraints",
+            "A) Views",
+            "B) Artefacts"
         ],
-        "correct_answer": "d) A comprehensive analysis of the operational environment and constraints"
+        "correct_answer": "D) Stakeholders"
     },
     {
-        "question": "2. In the context of software architecture, what is the purpose of viewpoints?",
+        "question": "3. According to the textbook, what are the key components of a software architecture?",
         "options": [
-            "d) To analyze the operational environment and constraints",
-            "c) To organize the architectural description into explicit guidance",
-            "a) To provide a detailed analysis of the code structure",
-            "b) To outline the project requirements and timeline"
+            "D) Systems and viewpoints",
+            "A) Views and stakeholders",
+            "B) Constraints and artefacts",
+            "C) Environment and perspectives"
         ],
-        "correct_answer": "d) To analyze the operational environment and constraints"
+        "correct_answer": "D) Systems and viewpoints"
     },
     {
-        "question": "3. According to the textbook \"Software Systems Architecture: Working With Stakeholders Using Viewpoints and Perspectives\", what is the role of stakeholders in software architecture?",
+        "question": "4. In software architecture, what role do stakeholders play in the design process?",
         "options": [
-            "d) To create detailed architectural viewpoints for the system",
-            "a) To write the code for the system",
-            "c) To analyze the operational environment of the system",
-            "b) To provide feedback on the system requirements"
+            "B) They organize the architectural description",
+            "A) They provide explicit guidance",
+            "C) They communicate with the development team",
+            "D) They influence design decisions"
         ],
-        "correct_answer": "d) To create detailed architectural viewpoints for the system"
+        "correct_answer": "B) They organize the architectural description"
     },
     {
-        "question": "4. How do large-scale software architectures differ from smaller, more localized architectures?",
+        "question": "6. What is the main purpose of creating architectural views in software systems?",
         "options": [
-            "c) Large-scale architectures have fewer constraints to consider",
-            "a) Large-scale architectures have more stakeholders involved in the decision-making process",
-            "b) Large-scale architectures are more focused on implementation details",
-            "d) Large-scale architectures do not require explicit guidance or viewpoints"
+            "A) To provide implicit structure",
+            "B) To guide the development process",
+            "C) To communicate with stakeholders",
+            "D) To manage architectural constraints"
         ],
-        "correct_answer": "c) Large-scale architectures have fewer constraints to consider"
+        "correct_answer": "A) To provide implicit structure"
+    },
+    {
+        "question": "7. How do viewpoints contribute to the overall architectural description?",
+        "options": [
+            "C) They create structure",
+            "B) They organize artefacts",
+            "A) They provide explicit guidance",
+            "D) They offer different perspectives"
+        ],
+        "correct_answer": "C) They create structure"
+    },
+    {
+        "question": "9. How do architectural views help in understanding complex software systems?",
+        "options": [
+            "B) By focusing on specific components",
+            "D) By defining development constraints",
+            "A) By providing a high-level overview",
+            "C) By breaking down the system into manageable parts"
+        ],
+        "correct_answer": "B) By focusing on specific components"
+    },
+    {
+        "question": "10. In the context of software architecture, what role does the development environment play in shaping the design process?",
+        "options": [
+            "A) It influences architectural constraints",
+            "B) It guides stakeholder communication",
+            "D) It provides insights into stakeholder viewpoints",
+            "C) It shapes the organization of the architectural description"
+        ],
+        "correct_answer": "A) It influences architectural constraints"
     }
 ]
