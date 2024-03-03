@@ -45,12 +45,12 @@ class UserController:
                 pass
 
             # User does not exist in Firestore and Firebase Authentication, proceed to add
-            await doc_ref.set({
+            await self.db.collection("Users").document(user_id).set({
                 "Full Name": user_info['Full Name'],
                 "Joined on": datetime.now().strftime("%d-%B-%Y"),
                 "Email": user_info['Email'],
-                "Role": user_info.get("Role", "User"),
-                "User_Level": user_info.get("User_Level", 0)
+                "Role": "User",
+                "User_Level": 0
             })
             self.add_user_to_auth(user_info['Email'], user_info['Password'])
             return True, 'User added successfully.'
