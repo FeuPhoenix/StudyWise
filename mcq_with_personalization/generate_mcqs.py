@@ -6,7 +6,9 @@ import random
 import json
 import textstat
 import time
-from typing import List, Dict, Tuple, Optional
+from typing import List, Dict
+from textstat import textstat
+
 openai.api_key = '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'
 
 MAX_TOKENS_PER_REQUEST = 4096  
@@ -73,12 +75,20 @@ def generate_questions(text: str, model: str = "text-davinci-003", temperature: 
         print(f"Error generating questions: {e}")
         return []
 
-def determine_difficulty(paragraph):
-    # Example logic based on paragraph length
-    length = len(paragraph)
-    if length < 500: return 'easy'
-    elif length < 1000: return 'medium'
-    else: return 'hard'
+def determine_difficulty(text: str) -> str:
+    # Calculate readability scores and text metrics
+    flesch_score = textstat.flesch_reading_ease(text)
+    fog_index = textstat.gunning_fog(text)
+    complex_word_density = textstat.difficult_words(text) / textstat.lexicon_count(text) * 100
+    sentence_complexity = textstat.sentence_count(text) / textstat.lexicon_count(text) * 100
+
+    # Define thresholds for difficulty levels (these can be adjusted based on further analysis or requirements)
+    if flesch_score > 70 and fog_index < 8 and complex_word_density < 5 and sentence_complexity < 15:
+        return 'easy'
+    elif flesch_score > 50 and fog_index < 12 and complex_word_density < 10 and sentence_complexity < 20:
+        return 'medium'
+    else:
+        return 'hard'
 
 def update_user_points(correct):
     global user_points
