@@ -57,7 +57,12 @@ function displayMCQs(mcqs) {
 
 function handleOptionClick(selectedOption, correctAnswer, optionDiv, optionsDiv) {
     const allOptions = optionsDiv.getElementsByClassName('option');
-    Array.from(allOptions).forEach(option => option.classList.remove('correct', 'incorrect'));
+    Array.from(allOptions).forEach(option => {
+        // Remove existing event listeners to prevent further clicks
+        option.onclick = null;
+        option.classList.remove('correct', 'incorrect');
+    });
+
     if (selectedOption === correctAnswer) {
         optionDiv.classList.add('correct');
         updateUserPoints(true); // Increase points for correct answer
@@ -65,8 +70,11 @@ function handleOptionClick(selectedOption, correctAnswer, optionDiv, optionsDiv)
         optionDiv.classList.add('incorrect');
         updateUserPoints(false); // Decrease points for incorrect answer
     }
-    setTimeout(fetchMCQs, 10000); // Fetch new MCQs after a delay
+
+    // Optionally, re-enable options when new MCQs are fetched or after a delay
+    // setTimeout(() => enableOptions(optionsDiv), 10000); // Example delay of 10 seconds
 }
+
 document.getElementById('to-leaderboard').addEventListener('click', function() {
     window.location.href = 'leaderboard.html'; // Assuming your leaderboard file is named 'leaderboard.html'
 });
