@@ -252,10 +252,6 @@ class Video_Processed_Controller:
             
             text_file_path = f'assets/output_files/extracted_transcripts/{Video_name}.txt'
             json_file_path = f'assets/output_files/Summaries/{Video_name}.json'
-            
-
-
-
             text = Video_Processed_Controller.read_text_file(text_file_path)
             long_summary = Video_Processed_Controller.get_Long_summary(text, OPENAI_API_KEY)
             summary_data = {
@@ -266,8 +262,6 @@ class Video_Processed_Controller:
                     json.dump(summary_data, json_file, indent=4)
                     print(f"Long summary has been successfully saved to {json_file_path}.") 
             text=Video_Processed_Controller.Readjsonfile(json_chapters)
-            
-
             processed_chapters = []
             for chapter in text:
                 start_hms = Video_Processed_Controller.milliseconds_to_hms(chapter['start'])

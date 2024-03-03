@@ -70,7 +70,7 @@ def split_text_into_segments(text, max_length=16000):
 
     return segments
 
-def generate_qa_pairs_with_chatgpt(paragraphs, content_type):
+def generate_qa_pairs(paragraphs, content_type):
     qa_pairs = []
     batched_paragraphs = []
     current_batch = ""
@@ -175,7 +175,7 @@ def runFlashcards(file_path, content_type = ''):
         else:
             raise ValueError("Unsupported file type. Only .pdf or .txt files are currently accepted.")
     
-    qa_pairs = generate_qa_pairs_with_chatgpt(content, content_type)
+    qa_pairs = generate_qa_pairs(content, content_type)
     formatted_cards = format_flash_cards(qa_pairs)
     save_flash_cards_to_file(formatted_cards, output_path)
     print(f"Flash cards saved to {output_path}")
