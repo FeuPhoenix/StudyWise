@@ -1,4 +1,5 @@
 import os
+import sys
 import pdfplumber
 import openai
 import re
@@ -6,7 +7,7 @@ import random
 import json
 import textstat
 from typing import List, Dict, Tuple, Optional
-
+sys.path.append('D:/COLLEGE/StudyWise/app/StudyWise')
 from app.Studywise.Model.Questions_Repo import Questions_Repo
 openai.api_key = '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'
 
