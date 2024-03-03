@@ -160,8 +160,7 @@ class DocumentProcessedController:
             PDFFile=file
             filename=DocumentProcessedController.getFileNameFromPathWithOutExtension(file)
             text_file_path = f'Summaries/transcribed_text_From_{filename}.txt'
-            json_file_path = f'Summaries/summary_From_PDF{filename}.json'
-            api_key = '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'
+          
             DocumentProcessedController.extract_text_from_pdf_plumber(PDFFile,text_file_path)
             text =DocumentProcessedController. read_text_file(text_file_path)
             text_file = 'f"assets/output_files/text_files/{filename}.txt'

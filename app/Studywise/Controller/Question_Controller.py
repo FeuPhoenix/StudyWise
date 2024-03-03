@@ -168,28 +168,21 @@ class QuestionController:
         return paragraphs
 
     def generate_mcqs(self,paragraphs, difficulty):
-        mcqs = []
-        batched_paragraphs = []
-        current_batch = ""
-
-        # Adjust the base prompt based on the difficulty level
+        batched_paragraphs = [],mcqs = [],current_batch = ""
         if difficulty == 'easy':
             base_prompt = "Generate easy multiple-choice questions that are straightforward and simple, focusing on basic concepts."
         elif difficulty == 'medium':
             base_prompt = "Generate medium-difficulty multiple-choice questions that require a moderate level of understanding and may involve more detailed concepts."
         else:  # hard
             base_prompt = "Generate hard multiple-choice questions that are complex, requiring in-depth understanding and critical thinking to answer."
-
         for paragraph in paragraphs[difficulty]:
             if len(current_batch) + len(paragraph) < MAX_TOKENS_PER_REQUEST:
                 current_batch += f"{paragraph}\n\n"
             else:
                 batched_paragraphs.append(current_batch)
                 current_batch = f"{paragraph}\n\n"
-        
         if current_batch:
             batched_paragraphs.append(current_batch)
-
         for batch in batched_paragraphs:
             user_prompt = {"role": "user", "content": base_prompt + ": " + batch}
             try:
@@ -209,7 +202,6 @@ class QuestionController:
                 print(f"OpenAI API error: {e}")
             except Exception as e:
                 print(f"An unexpected error occurred: {e}")
-
         print(f"Generated {len(mcqs)} {difficulty} MCQs.")
         return mcqs
 
