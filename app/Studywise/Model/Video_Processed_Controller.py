@@ -2,9 +2,9 @@ from datetime import datetime
 import json
 import time
 from firebase_admin import firestore
-from openai import OpenAI
+
 import openai
-from Constants.Constants import OPENAI_API_KEY, MAX_TOKENS_PER_REQUEST,kUserId,kUserEmail ,kDatejoined ,kFullName
+#from ..Constants.Constants import OPENAI_API_KEY, MAX_TOKENS_PER_REQUEST,kUserId,kUserEmail ,kDatejoined ,kFullName
 import os
 import re
 import moviepy.editor as mp # Install moviepy: pip install moviepy
@@ -15,13 +15,12 @@ import time
 import json
 import openai
 from pytube import YouTube
-from app.Studywise.Model import FirestoreDB, VideoProcessed_Repo
-from app.Studywise.Model.VideoProcessed_Repo import MaterialProcessed, VideoProcessed
-from app.Studywise.Model import Material_Repo
+#from Model.Material_Repo import Material
 import firebase_admin
 from firebase_admin import credentials, storage
 from flask import request,jsonify,render_template
 import uuid
+from VideoProcessed_Repo import VideoProcessed_Repo
 
 from audiocutter import runaudiocutter
 
@@ -29,12 +28,14 @@ class Video_Processed_Controller:
     
     def __init__(self,material):
         self.material=material
-        self.db = FirestoreDB.get_instance()
+        self.Video_Processing(material)
+        #self.db = FirestoreDB.get_instance()
+        
     def Save_ProcessedVideo_to_database(self,generated_summary_file_path,generated_audio_file_path,generated_chapters_file_path,generated_text_file_path,generated_images_file_path,generated_video_file_path):
         processed_material_id = uuid.uuid4().hex
-        Video_Token=VideoProcessed.upload_to_firebase(generated_video_file_path,f'{kUserId}/{Video_Processed_Controller.getFileNameFromPathWithOutExtension(generated_video_file_path)}.mp4')
-        Audio_Token=VideoProcessed.upload_to_firebase(generated_audio_file_path,f'{kUserId}/{Video_Processed_Controller.getFileNameFromPathWithOutExtension(generated_audio_file_path)}.wav')
-        videoprocessed = VideoProcessed(processed_material_id,self.material, generated_summary_file_path, Audio_Token, generated_chapters_file_path,generated_text_file_path,generated_images_file_path,Video_Token)
+        Video_Token=VideoProcessed_Repo.upload_to_firebase(generated_video_file_path,f'{kUserId}/{Video_Processed_Controller.getFileNameFromPathWithOutExtension(generated_video_file_path)}.mp4')
+        Audio_Token=VideoProcessed_Repo.upload_to_firebase(generated_audio_file_path,f'{kUserId}/{Video_Processed_Controller.getFileNameFromPathWithOutExtension(generated_audio_file_path)}.wav')
+        videoprocessed = VideoProcessed_Repo(processed_material_id,self.material, generated_summary_file_path, Audio_Token, generated_chapters_file_path,generated_text_file_path,generated_images_file_path,Video_Token)
         
         
         try:
@@ -58,7 +59,7 @@ class Video_Processed_Controller:
                                              .get()
         if material_doc.exists:
             material_data = material_doc.to_dict()
-            return VideoProcessed.fromJson(material_data)
+            return VideoProcessed_Repo.fromJson(material_data)
         else:
             return None
 
@@ -120,7 +121,7 @@ class Video_Processed_Controller:
         while True:
             try:
                 headers = {"Authorization": f"Bearer {api_key}"}
-                OpenAI.api_key = api_key
+                openai.api_key = api_key
                 response = openai.ChatCompletion.create(
                                 model="gpt-3.5-turbo",
                                 messages=[
@@ -201,7 +202,7 @@ class Video_Processed_Controller:
 
     # Check if the input is a local file with the extension .mp4
         
-        if  Video_Processed_Controller.is_mp4_file(file_path_or_url):
+        if  self.is_mp4_file(file_path_or_url):
             output_path = 'assets/input_files/videos'
             video_file_path = os.path.join(output_path, file_path_or_url)
             new_video_file_path = video_file_path.replace(" ", "_")
@@ -276,8 +277,8 @@ class Video_Processed_Controller:
 
             with open(f'assets/output_files/Chapters/processed_chapters_{Video_name}.json', 'w') as outfile:
                 json.dump(processed_chapters, outfile, indent=4)
-            v=VideoProcessed(json_file_path,audio_file_path,f'assets/output_files/Chapters/processed_chapters_{Video_name}.json',text_file_path,None,videocutted)
-            self.Save_ProcessedVideo_to_database(v)
+            #v=VideoProcessed(json_file_path,audio_file_path,f'assets/output_files/Chapters/processed_chapters_{Video_name}.json',text_file_path,None,videocutted)
+            #self.Save_ProcessedVideo_to_database(v)
         # Check if the input is a YouTube video link
         # youtube_regex = (
         #     r'(https?://)?(www\.)?'
@@ -357,4 +358,8 @@ class Video_Processed_Controller:
 
             with open(f'assets/output_files/Chapters/processed_chapters_{title}.json', 'w') as outfile:
                 json.dump(processed_chapters, outfile, indent=4)
-            self.Save_ProcessedVideo_to_database(json_file_path,audio_file_path,f'assets/output_files/Chapters/processed_chapters_{Video_name}.json',text_file_path,None,videocutted)
+            #self.Save_ProcessedVideo_to_database(json_file_path,audio_file_path,f'assets/output_files/Chapters/processed_chapters_{Video_name}.json',text_file_path,None,videocutted)
+def main():
+ v=Video_Processed_Controller("assets/input_files/videos/Physics - Basic Introduction.mp4")
+if __init__ == '__main__':
+     main()

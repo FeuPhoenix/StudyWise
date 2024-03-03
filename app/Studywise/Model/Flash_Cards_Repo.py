@@ -1,11 +1,11 @@
 #needs to be improved
 from datetime import datetime
 from firebase_admin import firestore
-from Constants.Constants import OPENAI_API_KEY, MAX_TOKENS_PER_REQUEST,kUserId,kUserEmail ,kDatejoined ,kFullName
-from app.Studywise.Controller.Video_Processed_Controller import Video_Processed_Controller 
+from app.Studywise.Model.Constants import OPENAI_API_KEY, MAX_TOKENS_PER_REQUEST,kUserId,kUserEmail ,kDatejoined ,kFullName
+from app.Studywise.Model.Video_Processed_Controller import Video_Processed_Controller 
 
 # Assuming the Materials and Processed_Materials classes are defined in app.Studywise.Model
-from app.Studywise.Model import FirestoreDB, Material_Repo, VideoProcessed_Repo
+from app.Studywise.Model import FirestoreDB, Material_Repo, video_processed_repo
 
 class Flash_Cards:
     def __init__(self, flashcard_id, flashhcard_json_file,):

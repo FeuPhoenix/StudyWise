@@ -1,6 +1,6 @@
 from ast import List
 import uuid
-from app.Studywise.Constants.Constants import kUserId, kUserEmail, kDatejoined, kFullName
+from app.Studywise.Model.Constants import kUserId, kUserEmail, kDatejoined, kFullName
 
 class Questions_Repo:
     def __init__(self,ProcessedMaterial,text: str, options: List[str], correct_answer: str):

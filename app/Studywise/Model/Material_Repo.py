@@ -1,6 +1,6 @@
 from datetime import datetime
 from firebase_admin import firestore
-from Constants.Constants import OPENAI_API_KEY, MAX_TOKENS_PER_REQUEST,kUserId,kUserEmail ,kDatejoined ,kFullName
+from app.Studywise.Model.Constants import OPENAI_API_KEY, MAX_TOKENS_PER_REQUEST,kUserId,kUserEmail ,kDatejoined ,kFullName
 from app.Studywise.Model.FirestoreDB import FirestoreDB 
 
 class Material:
