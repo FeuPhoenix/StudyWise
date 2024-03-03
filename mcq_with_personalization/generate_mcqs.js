@@ -1,5 +1,5 @@
 let userPoints = 0; // Initialize user points
-
+let fetchTimeout;
 async function fetchMCQs() {
     try {
         const difficulty = determineDifficulty(userPoints);
@@ -70,11 +70,9 @@ function handleOptionClick(selectedOption, correctAnswer, optionDiv, optionsDiv)
         optionDiv.classList.add('incorrect');
         updateUserPoints(false); // Decrease points for incorrect answer
     }
-
-    // Optionally, re-enable options when new MCQs are fetched or after a delay
-    // setTimeout(() => enableOptions(optionsDiv), 10000); // Example delay of 10 seconds
+    clearTimeout(fetchTimeout);
+    fetchTimeout=setTimeout(fetchMCQs, 5000);
 }
-
 document.getElementById('to-leaderboard').addEventListener('click', function() {
     window.location.href = 'leaderboard.html'; // Assuming your leaderboard file is named 'leaderboard.html'
 });
