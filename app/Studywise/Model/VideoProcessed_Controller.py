@@ -4,7 +4,7 @@ import time
 from firebase_admin import firestore
 
 import openai
-#from ..Constants.Constants import OPENAI_API_KEY, MAX_TOKENS_PER_REQUEST,kUserId,kUserEmail ,kDatejoined ,kFullName
+from Constants import OPENAI_API_KEY, MAX_TOKENS_PER_REQUEST,kUserId,kUserEmail ,kDatejoined ,kFullName
 import os
 import re
 import moviepy.editor as mp # Install moviepy: pip install moviepy
@@ -23,12 +23,14 @@ import uuid
 from VideoProcessed_Repo import VideoProcessed_Repo
 
 from audiocutter import runaudiocutter
+from flashcard_creator import runFlashcards
+aai.settings.api_key = "8d8390aa4ac24f7aa92d724e44370d73"
 
 class Video_Processed_Controller:
     
-    def __init__(self,material):
+    def __init__(self,material,Video_cutted=True):
         self.material=material
-        self.Video_Processing(material)
+        self.Video_Processing(material,Video_cutted)
         #self.db = FirestoreDB.get_instance()
         
     def Save_ProcessedVideo_to_database(self,generated_summary_file_path,generated_audio_file_path,generated_chapters_file_path,generated_text_file_path,generated_images_file_path,generated_video_file_path):
@@ -76,7 +78,7 @@ class Video_Processed_Controller:
     #     except Exception as e:
     #         print(e)
     @staticmethod       
-    def split_text(self,text, max_chunk_size=3800):  # Reduced max_chunk_size for safety
+    def split_text(text, max_chunk_size=3800):  # Reduced max_chunk_size for safety
         """
         Dynamically splits the text into chunks that are less than max_chunk_size,
         trying to avoid cutting off in the middle of a sentence.
@@ -93,7 +95,7 @@ class Video_Processed_Controller:
         yield current_chunk  # Yield the last chunk
     
     @staticmethod
-    def is_mp4_file(self,file_path):
+    def is_mp4_file(file_path):
         extension = os.path.splitext(file_path)[1]
         if extension == ".mp4":
             print("True")
@@ -102,7 +104,7 @@ class Video_Processed_Controller:
             print("Flase")
             return False
     @staticmethod
-    def getFileNameFromPathWithOutExtension(self,input_string):
+    def getFileNameFromPathWithOutExtension(input_string):
     # Find the last occurrence of '/'
         last_slash_index = input_string.rfind('/')
         
@@ -112,7 +114,7 @@ class Video_Processed_Controller:
         result_string=result_string.replace('.mp4','')
         return result_string
     @staticmethod
-    def milliseconds_to_hms(self,ms):
+    def milliseconds_to_hms(ms):
         ms=int(ms)
         seconds = int(ms / 1000)
         return str(timedelta(seconds=seconds))
@@ -136,14 +138,14 @@ class Video_Processed_Controller:
                 print("Rate limit exceeded, waiting to retry...")
                 time.sleep(20)
     @staticmethod
-    def Readjsonfile(self,filename):
+    def Readjsonfile(filename):
         with open(filename, 'r') as file:
             chapters = json.load(file)
         return chapters
 
 
     @staticmethod
-    def download_video_from_youtube(self,video_url, output_path):
+    def download_video_from_youtube(video_url, output_path):
    
 
         # Create a YouTube object with the URL
@@ -170,12 +172,12 @@ class Video_Processed_Controller:
         return video_file_path, yt.title
 
     @staticmethod
-    def read_text_file(self,file_path):
+    def read_text_file(file_path):
         with open(file_path, 'r') as file:
             return file.read()
     
     @staticmethod
-    def get_Long_summary(self,text, api_key):
+    def get_Long_summary(text, api_key):
         openai.api_key = api_key
         summaries = []
 
@@ -198,41 +200,39 @@ class Video_Processed_Controller:
         full_summary = ' '.join(summaries)
         return full_summary
     
-    def Video_Processing(self,file_path_or_url):
+    def Video_Processing(self,file_path_or_url,Video_cutted):
 
     # Check if the input is a local file with the extension .mp4
         
         if  self.is_mp4_file(file_path_or_url):
-            output_path = 'assets/input_files/videos'
-            video_file_path = os.path.join(output_path, file_path_or_url)
-            new_video_file_path = video_file_path.replace(" ", "_")
-            new_video_file_path = new_video_file_path.replace("\\", "/")
-            print(new_video_file_path)
-            os.rename(video_file_path, new_video_file_path)
-            
-            videocutted = runaudiocutter(file_path_or_url)
-            print("Audiocutter output file: "+file_path_or_url)
 
-            Video_name = Video_Processed_Controller.getFileNameFromPathWithOutExtension(new_video_file_path
-                                                            )
-            print("Video_name: "+video_file_path)
-            video = mp.VideoFileClip(videocutted)
+            new_video_file_path = file_path_or_url.replace(" ", "_")
+            print(new_video_file_path)
+            os.rename(file_path_or_url, new_video_file_path)
+            
+            if Video_cutted:
+                videocutted = runaudiocutter(new_video_file_path)
+                print("Audiocutter output file: "+file_path_or_url)
+            
+            Video_name = Video_Processed_Controller.getFileNameFromPathWithOutExtension(new_video_file_path)
+            print("Video_name: "+Video_name)
+            video = mp.VideoFileClip(new_video_file_path)
             print('video is initialized')
             audio = video.audio
             print('video.audio is extracted')
-            audio.write_audiofile(f"assets/output_files/extracted_audio_from_{Video_name}.wav")
-            audio_file_path = f"assets/output_files/extracted_audio_from_{Video_name}.wav"
+            audio.write_audiofile(f"assets/output_files/{Video_name}.wav")
+            audio_file_path = f"assets/output_files/{Video_name}.wav"
             print(f"Audio file downloaded at: {audio_file_path}") 
             config = aai.TranscriptionConfig(auto_chapters=True)
 
             # Transcribe the audio and get the result as a JSON object
             transcript = aai.Transcriber().transcribe(audio_file_path, config)
             
-            transcript_filename = f"assets/output_files/extracted_transcripts/{Video_name}.txt"
-            with open(transcript_filename, 'w', encoding='utf-8') as transcript_file:
+            transcript_filename = f"assets/output_files/text_files/{Video_name}.txt"
+            with open(transcript_filename, 'w', encoding='utf-8',errors='ignore') as transcript_file:
                     transcript_file.write(transcript.text)
                     print(f"Full transcript has been successfully saved to {transcript_filename}.")
-            #runFlashcards(transcript_filename, 'TRANSCRIPT')
+            runFlashcards(transcript_filename, 'TRANSCRIPT')
             chapters_data = []
 
             # Iterate over chapters and add their data to the list
@@ -275,7 +275,7 @@ class Video_Processed_Controller:
                     'concise_title': concise_title
                 })
 
-            with open(f'assets/output_files/Chapters/processed_chapters_{Video_name}.json', 'w') as outfile:
+            with open(f'assets/output_files/Processed_Chapters/{Video_name}.json', 'w') as outfile:
                 json.dump(processed_chapters, outfile, indent=4)
             #v=VideoProcessed(json_file_path,audio_file_path,f'assets/output_files/Chapters/processed_chapters_{Video_name}.json',text_file_path,None,videocutted)
             #self.Save_ProcessedVideo_to_database(v)
@@ -360,6 +360,6 @@ class Video_Processed_Controller:
                 json.dump(processed_chapters, outfile, indent=4)
             #self.Save_ProcessedVideo_to_database(json_file_path,audio_file_path,f'assets/output_files/Chapters/processed_chapters_{Video_name}.json',text_file_path,None,videocutted)
 def main():
- v=Video_Processed_Controller("assets/input_files/videos/Physics - Basic Introduction.mp4")
-if __init__ == '__main__':
+ v=Video_Processed_Controller("assets/input_files/videos/Physics_-_Basic_Introduction.mp4",False)
+if __name__ == '__main__':
      main()

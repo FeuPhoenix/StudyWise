@@ -3,15 +3,15 @@ import openai
 import time
 import json
 import re
-from app.Studywise.Model.Constants import OPENAI_API_KEY, MAX_TOKENS_PER_REQUEST,kUserId,kUserEmail ,kDatejoined ,kFullName
-from app.Studywise.Model import FirestoreDB 
+from Constants import OPENAI_API_KEY, MAX_TOKENS_PER_REQUEST,kUserId,kUserEmail ,kDatejoined ,kFullName
+import FirestoreDB 
 
 class FlashcardsController:
     def __init__(self,ProcessedMaterial):
         openai.api_key = OPENAI_API_KEY
         self.ProcessedMaterial=ProcessedMaterial  
-        self.db = FirestoreDB.get_instance()
-        self.runFlashcards(self,self.ProcessedMaterial.generated_text_file_path, content_type = '')
+        #self.db = FirestoreDB.get_instance()
+        self.runFlashcards(self.ProcessedMaterial, content_type = '')
        
 
     def is_conceptually_relevant(self,question):
@@ -43,7 +43,7 @@ class FlashcardsController:
 
     def extract_and_split_text(self,txt_path, max_length=16000):
         paragraphs = []
-        with open(txt_path, 'r') as file:
+        with open(txt_path, 'r',errors='ignore') as file:
             for paragraph in file.read().split('\n\n'):
                 trimmed_paragraph = paragraph.strip()
                 if len(trimmed_paragraph) > 0:

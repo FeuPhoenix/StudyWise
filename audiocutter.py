@@ -57,7 +57,6 @@ def getFileNameFromPath(input_string):
     
     return result_string
 
-INPUT_FILE = "assets/input_files/videos/Speech_to_Text_using_Python_-_Fast_and_Accurate-(144p).mp4"
 start_time = time.time()
 
 def runaudiocutter(INPUT_FILE):
@@ -211,4 +210,3 @@ def runaudiocutter(INPUT_FILE):
     deletePath(TEMP_FOLDER)
     return OUTPUT_FILE
 
-runaudiocutter(INPUT_FILE)

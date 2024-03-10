@@ -1,8 +1,7 @@
+import subprocess
 import uuid
-from app.Studywise.Model import  FirestoreDB
 from datetime import datetime
 from firebase_admin import firestore, credentials, initialize_app
-from app.Studywise.Model.Constants import OPENAI_API_KEY, MAX_TOKENS_PER_REQUEST,kUserId,kUserEmail ,kDatejoined ,kFullName 
 import json
 import time
 import openai
@@ -17,12 +16,19 @@ from PIL import Image
 from io import BytesIO
 from summarizer import Summarizer
 from firebase_admin import credentials, storage
+from Flash_Cards_Controller import FlashcardsController
+from DocumentProcessed_Repo import DocumentProcessed
+from Question_Controller import QuestionController
+import fitz  # PyMuPDF
+import os
+import comtypes.client
 
-from app.Studywise.Model.DocumentProcessed_Repo import DocumentProcessed
+
 
 class DocumentProcessedController:
-    def __init__(self,material) :
-        self.material=material
+    def __init__(self,file) :
+        self.file=file
+        self.Document_Processing(file)
        
     @staticmethod
     # async def create_processed_document(request_data):
@@ -92,27 +98,25 @@ class DocumentProcessedController:
 
     @staticmethod
     def extract_text_from_pptx(file_path):
-        text = ''
-        for slide in file_path.slides:
+        # Load the presentation
+        prs = Presentation(file_path)
+
+        # Prepare a list to hold all the text
+        all_text = []
+
+        # Iterate through each slide
+        for slide in prs.slides:
+            # Iterate through each shape in the slide
             for shape in slide.shapes:
                 if hasattr(shape, "text"):
-                    text += shape.text + '\n'
-        return text
+                    # Append the text of each shape to the list
+                    all_text.append(shape.text)
 
-    @staticmethod
-    def extract_images_from_pptx(file_path, output_images_dir):
-        if not os.path.exists(output_images_dir):
-            os.makedirs(output_images_dir)
-        image_index = 1
-        for slide_number, slide in enumerate(file_path.slides, start=1):
-            for shape_number, shape in enumerate(slide.shapes, start=1):
-                if hasattr(shape, "image"):
-                    image = shape.image
-                    image_bytes = image.blob
-                    image_data = BytesIO(image_bytes)
-                    img = Image.open(image_data)
-                    img.save(os.path.join(output_images_dir, f'image_{slide_number}_{shape_number}.png'))
-                    image_index += 1
+        # Join all the text pieces into a single string
+        full_text = "\n".join(all_text)
+        return full_text
+
+    
 
     @staticmethod
     def save_text_to_txt(text, txt_path):
@@ -134,7 +138,7 @@ class DocumentProcessedController:
     
 
     @staticmethod
-    def create_json_with_Long_summary(self,json_file_path, summary):
+    def create_json_with_Long_summary(json_file_path, summary):
         title_match = re.match(r"([^.]*.)", summary)
         title = title_match.group(0).strip() if title_match else "Summary"
         summary_data = {
@@ -144,7 +148,7 @@ class DocumentProcessedController:
             json.dump(summary_data, file, indent=4)
 
     @staticmethod
-    def extract_text_from_pdf_plumber(self,pdf_path, txt_file_path):
+    def extract_text_from_pdf_plumber(pdf_path, txt_file_path):
         if not os.path.exists(txt_file_path):
             with pdfplumber.open(pdf_path) as pdf:
                 with open(txt_file_path, 'w', encoding='utf-8') as txt_file:
@@ -153,65 +157,240 @@ class DocumentProcessedController:
                         if text:
                             txt_file.write(text)
                 print(f"Text extracted and saved to {txt_file_path}")     
+
     @staticmethod
-    
+    def extract_images_from_pdf(pdf_path):
+        # Open the PDF file
+        doc = fitz.open(pdf_path)
+
+        # Extract the PDF name without the extension and create a folder
+        pdf_name = os.path.splitext(os.path.basename(pdf_path))[0]
+        folder_path = f"assets/output_files/Images/{pdf_name}"
+        os.makedirs(folder_path, exist_ok=True)
+
+        # Iterate through each page of the PDF
+        for page_num in range(len(doc)):
+            # Get the page
+            page = doc.load_page(page_num)
+
+            # Extract images
+            image_list = page.get_images(full=True)
+
+            # Save images
+            for image_index, img in enumerate(image_list, start=1):
+                # Get the XREF of the image
+                xref = img[0]
+
+                # Extract the image bytes
+                base_image = doc.extract_image(xref)
+                image_bytes = base_image["image"]
+
+                # Get the image extension
+                image_ext = base_image["ext"]
+
+                # Construct the image filename
+                image_filename = f"{pdf_name}_page_{page_num+1}_img_{image_index}.{image_ext}"
+
+                # Save the image
+                with open(os.path.join(folder_path, image_filename), "wb") as image_file:
+                    image_file.write(image_bytes)
+
+        print(f"Images extracted and saved in folder: {folder_path}")
+    @staticmethod
+    def extract_images_from_docx(docx_path, output_images_dir):
+        doc = Document(docx_path)
+        # Create the output images directory if it doesn't exist
+        if not os.path.exists(output_images_dir):
+            os.makedirs(output_images_dir)
+        image_index = 1
+        for rel in doc.part.rels.values():
+            if "image" in rel.reltype:
+                image_data = rel.target_part.blob
+                image = Image.open(BytesIO(image_data))
+                image.save(os.path.join(output_images_dir, f'image_{image_index}.png'))
+                image_index += 1
+    @staticmethod
+    def extract_images_from_pptx(pptx_path):
+        # Extract the base name for the pptx file (without extension)
+        base_name = DocumentProcessedController.getFileNameFromPathWithOutExtension(pptx_path)
+        
+        # Set the output directory to the base name of the file
+        output_images_dir = "assets/output_files/Images/" + base_name
+
+        # Load the presentation
+        prs = Presentation(pptx_path)
+
+        # Create the output images directory if it doesn't exist
+        if not os.path.exists(output_images_dir):
+            os.makedirs(output_images_dir)
+
+        # Initialize image index
+        image_index = 1
+
+        for slide in prs.slides:
+            for shape in slide.shapes:
+                if hasattr(shape, "image") and shape.image:
+                    # Extract image
+                    image_bytes = shape.image.blob
+                    image_data = BytesIO(image_bytes)
+
+                    # Open and save the image
+                    img = Image.open(image_data)
+                    img.save(os.path.join(output_images_dir, f'image_{image_index}.png'), 'PNG')
+
+                    # Increment the image index
+                    image_index += 1
+
+        print(f"Images extracted and saved in folder: {output_images_dir}")
+    @staticmethod
+    def convert_word_to_pdf(docx_path):
+        # Determine the output folder based on the docx_path
+        output_folder = os.path.dirname(docx_path)
+
+        # Construct the base name for the output PDF file
+        base_name = os.path.splitext(os.path.basename(docx_path))[0]
+        output_pdf_path = os.path.join(output_folder, f"{base_name}.pdf")
+
+        # Ensure the output folder exists
+        if not os.path.exists(output_folder):
+            os.makedirs(output_folder)
+
+        # Construct the command
+        command = [
+            "C:\\Program Files\\LibreOffice\\program\\soffice.exe",
+            "--headless",
+            "--convert-to",
+            "pdf:writer_pdf_Export",
+            "--outdir",
+            output_folder,
+            docx_path
+        ]
+
+        # Execute the command
+        subprocess.run(command, shell=True)
+
+        # Return the path of the generated PDF
+        return output_pdf_path
+    @staticmethod
+    def convert_ppt_to_pdf(pptx_path):
+        # Determine the output folder based on the pptx_path
+        output_folder = os.path.dirname(pptx_path)
+
+        # Construct the base name for the output PDF file
+        base_name = os.path.splitext(os.path.basename(pptx_path))[0]
+        output_pdf_path = os.path.join(output_folder, f"{base_name}.pdf")
+
+        # Ensure the output folder exists
+        if not os.path.exists(output_folder):
+            os.makedirs(output_folder)
+
+        # Construct the command
+        command = [
+            "C:\\Program Files\\LibreOffice\\program\\soffice.exe",
+            "--headless",
+            "--convert-to",
+            "pdf:impress_pdf_Export",
+            "--outdir",
+            output_folder,
+            pptx_path
+        ]
+
+        # Execute the command
+        subprocess.run(command, shell=True)
+
+        # Return the path of the generated PDF
+        return output_pdf_path
     def Document_Processing(self,file):
         if os.path.isfile(file) and file.endswith('.pdf'):
             PDFFile=file
             filename=DocumentProcessedController.getFileNameFromPathWithOutExtension(file)
-            text_file_path = f'Summaries/transcribed_text_From_{filename}.txt'
+            text_file_path = f'assets/output_files/text_files/{filename}.txt'
           
             DocumentProcessedController.extract_text_from_pdf_plumber(PDFFile,text_file_path)
             text =DocumentProcessedController. read_text_file(text_file_path)
-            text_file = 'f"assets/output_files/text_files/{filename}.txt'
-            with open(filename, 'w') as file:
-                file.write(text)
+            
+            
             model = Summarizer()
             text=DocumentProcessedController.clean_text(text)
             result = model(text)
             summary_data = {
                 'long_summary': result
             }
-            with open(f"assets/output_files/{filename}_summary.json", 'w') as json_file:
+            with open(f"assets/output_files/Summaries/{filename}.json", 'w') as json_file:
                 json.dump(summary_data, json_file, indent=4)
-                print(f"Long summary has been successfully saved in assets/output_files/Summaries/{filename}_summary.json") 
+                print(f"Long summary has been successfully saved in assets/output_files/Summaries/{filename}.json") 
                 summary_jsonfile=f"assets/output_files/Summaries/{filename}_summary.json" 
-            processd_material_id=uuid.uuid4().hex
-            summary_jsonfile_path_on_firebase=DocumentProcessed.upload_to_firebase(summary_jsonfile,f'{kUserId}/{DocumentProcessedController.getFileNameFromPathWithOutExtension(summary_jsonfile)}.json')
-            text_file=DocumentProcessed.upload_to_firebase(text_file,f'{kUserId}/{DocumentProcessedController.getFileNameFromPathWithOutExtension(text_file)}.txt')
-            documentprocessed=DocumentProcessed(processd_material_id,self.material,summary_jsonfile_path_on_firebase,text_file) 
-            documentprocessed.addProcessedMaterialToFirestore()
-        elif os.path.isfile(file) and (file.endswith('.ppt') or file.endswith('.pptx')):
-            pptx_path = file
+            flashcard=FlashcardsController(text_file_path)
+            mcq=QuestionController(PDFFile)
+            DocumentProcessedController.extract_images_from_pdf(file)
+
+            #processd_material_id=uuid.uuid4().hex
+            #summary_jsonfile_path_on_firebase=DocumentProcessed.upload_to_firebase(summary_jsonfile,f'{kUserId}/{DocumentProcessedController.getFileNameFromPathWithOutExtension(summary_jsonfile)}.json')
+            #text_file=DocumentProcessed.upload_to_firebase(text_file,f'{kUserId}/{DocumentProcessedController.getFileNameFromPathWithOutExtension(text_file)}.txt')
+            #documentprocessed=DocumentProcessed(processd_material_id,self.material,summary_jsonfile_path_on_firebase,text_file) 
+            #documentprocessed.addProcessedMaterialToFirestore()
+        elif os.path.isfile(file) and (file.endswith('.ppt') or file.endswith('.pptx')or file.endswith('.ppsx')):
+            file=DocumentProcessedController.convert_ppt_to_pdf(file)
+            file=file.replace("\\","/")
             filename=DocumentProcessedController.getFileNameFromPathWithOutExtension(file)
-            output_text_path = f'assets/output_files/{filename}.txt'
-            json_file_path = f'Summaries/summary_From_PPT{file}.json'
-            prs = Presentation(pptx_path)
-            text = DocumentProcessedController.extract_text_from_pptx(prs)
-            text_file = 'f"assets/output_files/text_files/{filename}.txt'
-            with open(filename, 'w') as file:
-                file.write(text)
+            text_file_path = f'assets/output_files/text_files/{filename}.txt'
+          
+            DocumentProcessedController.extract_text_from_pdf_plumber(file,text_file_path)
+            text =DocumentProcessedController. read_text_file(text_file_path)
+            
+            
             model = Summarizer()
             text=DocumentProcessedController.clean_text(text)
             result = model(text)
             summary_data = {
                 'long_summary': result
             }
-            with open(f"assets/output_files/Summaries/{filename}_summary.json", 'w') as json_file:
+            with open(f"assets/output_files/Summaries/{filename}.json", 'w') as json_file:
                 json.dump(summary_data, json_file, indent=4)
-                print(f"Long summary has been successfully saved in assets/output_files/Summaries/{filename}_summary.json") 
+                print(f"Long summary has been successfully saved in assets/output_files/Summaries/{filename}.json") 
                 summary_jsonfile=f"assets/output_files/Summaries/{filename}_summary.json" 
-            processd_material_id=uuid.uuid4().hex
-            summary_jsonfile_path_on_firebase=DocumentProcessed.upload_to_firebase(summary_jsonfile,f'{kUserId}/{DocumentProcessedController.getFileNameFromPathWithOutExtension(summary_jsonfile)}.json')
-            text_file=DocumentProcessed.upload_to_firebase(text_file,f'{kUserId}/{DocumentProcessedController.getFileNameFromPathWithOutExtension(text_file)}.txt')
-            documentprocessed=DocumentProcessed(processd_material_id,self.material,summary_jsonfile_path_on_firebase,text_file) 
-            documentprocessed.addProcessedMaterialToFirestore()
+            flashcard=FlashcardsController(text_file_path)
+            mcq=QuestionController(file)
+            DocumentProcessedController.extract_images_from_pdf(file)
+            # processd_material_id=uuid.uuid4().hex
+            # summary_jsonfile_path_on_firebase=DocumentProcessed.upload_to_firebase(summary_jsonfile,f'{kUserId}/{DocumentProcessedController.getFileNameFromPathWithOutExtension(summary_jsonfile)}.json')
+            # text_file=DocumentProcessed.upload_to_firebase(text_file,f'{kUserId}/{DocumentProcessedController.getFileNameFromPathWithOutExtension(text_file)}.txt')
+            # documentprocessed=DocumentProcessed(processd_material_id,self.material,summary_jsonfile_path_on_firebase,text_file) 
+            # documentprocessed.addProcessedMaterialToFirestore()
         elif os.path.isfile(file) and (file.endswith('.doc') or file.endswith('.docx')):
-            docx_path = file
+            file=DocumentProcessedController.convert_word_to_pdf(file)
+            file=file.replace("\\","/")
             filename=DocumentProcessedController.getFileNameFromPathWithOutExtension(file)
-            text=DocumentProcessedController.extract_text_from_word(docx_path)
+            text_file_path = f'assets/output_files/text_files/{filename}.txt'
+          
+            DocumentProcessedController.extract_text_from_pdf_plumber(file,text_file_path)
+            text =DocumentProcessedController. read_text_file(text_file_path)
+            
+            
+            model = Summarizer()
+            text=DocumentProcessedController.clean_text(text)
+            result = model(text)
+            summary_data = {
+                'long_summary': result
+            }
+            with open(f"assets/output_files/Summaries/{filename}.json", 'w') as json_file:
+                json.dump(summary_data, json_file, indent=4)
+                print(f"Long summary has been successfully saved in assets/output_files/Summaries/{filename}.json") 
+                summary_jsonfile=f"assets/output_files/Summaries/{filename}_summary.json" 
+            flashcard=FlashcardsController(text_file_path)
+            mcq=QuestionController(file)
+            DocumentProcessedController.extract_images_from_pdf(file)
+            # processd_material_id=uuid.uuid4().hex
+            # summary_jsonfile_path_on_firebase=DocumentProcessed.upload_to_firebase(summary_jsonfile,f'{kUserId}/{DocumentProcessedController.getFileNameFromPathWithOutExtension(summary_jsonfile)}.json')
+            # text_file=DocumentProcessed.upload_to_firebase(text_file,f'{kUserId}/{DocumentProcessedController.getFileNameFromPathWithOutExtension(text_file)}.txt')
+            # documentprocessed=DocumentProcessed(processd_material_id,self.material,summary_jsonfile_path_on_firebase,text_file) 
+            # documentprocessed.addProcessedMaterialToFirestore()
+        elif os.path.isfile(file) and (file.endswith('.txt') ):
+            txt_path = file
+            filename=DocumentProcessedController.getFileNameFromPathWithOutExtension(file)
+            text=DocumentProcessedController.extract_text_from_word(txt_path)
             text_file = 'f"assets/output_files/text_files/{filename}.txt'
-            with open(filename, 'w') as file:
+            with open(text_file, 'w') as file:
                 file.write(text)
             model = Summarizer()
             result = model(text)
@@ -222,8 +401,9 @@ class DocumentProcessedController:
                 json.dump(summary_data, json_file, indent=4)
                 print(f"Long summary has been successfully saved in assets/output_files/Summaries/{filename}_summary.json")
                 summary_jsonfile=f"assets/output_files/Summaries/{filename}_summary.json" 
-            processd_material_id=uuid.uuid4().hex
-            summary_jsonfile_path_on_firebase=DocumentProcessed.upload_to_firebase(summary_jsonfile,f'{kUserId}/{DocumentProcessedController.getFileNameFromPathWithOutExtension(summary_jsonfile)}.json')
-            text_file=DocumentProcessed.upload_to_firebase(text_file,f'{kUserId}/{DocumentProcessedController.getFileNameFromPathWithOutExtension(text_file)}.txt')
-            documentprocessed=DocumentProcessed(processd_material_id,self.material,summary_jsonfile_path_on_firebase,text_file) 
-            documentprocessed.addProcessedMaterialToFirestore()
+            flashcard=FlashcardsController(text_file)
+
+def main():
+    D=DocumentProcessedController("assets/input_files/text-based/test2.pdf")
+if __name__ == "__main__":
+    main()

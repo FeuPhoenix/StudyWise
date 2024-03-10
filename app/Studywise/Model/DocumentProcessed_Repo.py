@@ -1,6 +1,6 @@
 from datetime import datetime
 from firebase_admin import firestore,storage
-from app.Studywise.Model.Constants import OPENAI_API_KEY, MAX_TOKENS_PER_REQUEST,kUserId,kUserEmail ,kDatejoined ,kFullName 
+from Constants import OPENAI_API_KEY, MAX_TOKENS_PER_REQUEST,kUserId,kUserEmail ,kDatejoined ,kFullName 
 import json
 import time
 import openai
@@ -15,7 +15,7 @@ from PIL import Image
 from io import BytesIO
 from summarizer import Summarizer
 
-from app.Studywise.Model import FirestoreDB
+import FirestoreDB
 class DocumentProcessed:
     processed_material_id=""
     material_id=""

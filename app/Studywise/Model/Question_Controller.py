@@ -1,5 +1,6 @@
 import os
 import sys
+import time
 import pdfplumber
 import openai
 import re
@@ -7,32 +8,34 @@ import random
 import json
 import textstat
 from typing import List, Dict, Tuple, Optional
-sys.path.append('D:/COLLEGE/StudyWise/app/StudyWise')
-from app.Studywise.Model.Questions_Repo import Questions_Repo
 openai.api_key = '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'
 
 MAX_TOKENS_PER_REQUEST = 4096  # Safe limit for tokens per request
 user_points = 0  # Initialize user points
 class QuestionController:
-    def __init__(self,question_repo:Questions_Repo):
-        self.question_repo=question_repo
-        self.runMCQGenerator(question_repo.ProcessedMaterial.generated_text_file_path)
-
-    def is_conceptually_relevant(self,question):
+    def __init__(self,filepath):
+        self.filepath=filepath
+        self.runMCQGenerator(filepath)
+    @staticmethod
+    def read_text_file(file_path):
+        with open(file_path, 'r') as file:
+            return file.read()
+    @staticmethod
+    def is_conceptually_relevant(question):
         non_conceptual_patterns = [
-            r"\bwho\b", r"\bwhen\b", r"\bwhere\b", r"\bpublication\b",
-            r"\bauthor\b", r"\bpublished\b", r"\bbook\b", r"\bISBN\b",
-            r"\bedition\b", r"\bhistory\b", r"\bhistorical\b",
+        r"\bwho\b", r"\bwhen\b", r"\bwhere\b", r"\bpublication\b",
+        r"\bauthor\b", r"\bpublished\b", r"\bbook\b", r"\bISBN\b",
+        r"\bedition\b", r"\bhistory\b", r"\bhistorical\b",
         ]
         return not any(re.search(pattern, question.lower()) for pattern in non_conceptual_patterns)
-
-    def clean_paragraph(self,text):
+    @staticmethod
+    def clean_paragraph(text):
         lines = text.split('\n')
         cleaned_lines = [line for line in lines if len(line) > 30 and not re.search(r'^\s*\d+\s*$', line) and not re.search(r'http[s]?://', line)]
         cleaned_text = '\n'.join(cleaned_lines)
         return cleaned_text
-
-    def clean_text(self,text: str) -> str:
+    @staticmethod
+    def clean_text(text: str) -> str:
         """
         Cleans and prepares the text for processing.
         """
@@ -40,8 +43,8 @@ class QuestionController:
         text = re.sub(r'\[\d+\]', '', text)  # Remove citation references like [1], [2], etc.
         text = re.sub(r'\s+', ' ', text)  # Replace multiple spaces with a single space
         return text.strip()
-
-    def split_text(self,text: str, max_length: int = 1000) -> List[str]:
+    @staticmethod
+    def split_text(text: str, max_length: int = 1000) -> List[str]:
         """
         Splits the text into chunks that are small enough for the model to process.
         """
@@ -58,8 +61,8 @@ class QuestionController:
         if current_chunk:
             chunks.append(current_chunk.strip())
         return chunks
-
-    def generate_questions(self,text: str, model: str = "text-davinci-003", temperature: float = 0.7) -> List[str]:
+    @staticmethod
+    def generate_questions(text: str, model: str = "text-davinci-003", temperature: float = 0.7) -> List[str]:
         """
         Generates questions from the given text using the specified model.
         """
@@ -78,71 +81,31 @@ class QuestionController:
         except Exception as e:
             print(f"Error generating questions: {e}")
             return []
+    @staticmethod
+    def determine_difficulty(text: str) -> str:
+        # Calculate readability scores and text metrics
+        flesch_score = textstat.flesch_reading_ease(text)
+        fog_index = textstat.gunning_fog(text)
+        complex_word_density = textstat.difficult_words(text) / textstat.lexicon_count(text) * 100
+        sentence_complexity = textstat.sentence_count(text) / textstat.lexicon_count(text) * 100
 
-    # def determine_difficulty(self,paragraph):
-    #     # Example logic based on paragraph length
-    #     length = len(paragraph)
-    #     if length < 500: return 'easy'
-    #     elif length < 1000: return 'medium'
-    #     else: return 'hard'
-
-    def update_user_points(self,correct):
+        # Define thresholds for difficulty levels (these can be adjusted based on further analysis or requirements)
+        if flesch_score > 70 and fog_index < 8 and complex_word_density < 5 and sentence_complexity < 15:
+            return 'easy'
+        elif flesch_score > 50 and fog_index < 12 and complex_word_density < 10 and sentence_complexity < 20:
+            return 'medium'
+        else:
+            return 'hard'
+    @staticmethod
+    def update_user_points(correct):
         global user_points
         if correct:
             user_points += 10  # Increase points for a correct answer
         else:
             user_points -= 5  # Decrease points for an incorrect answer (optional)
         user_points = max(user_points, 0)  # Ensure points don't go negative
-
-    def generate_mcqs(self,text: str, num_questions: int = 5, difficulty: str = 'mixed') -> List[Dict]:
-        """
-        Generates multiple-choice questions (MCQs) from the input text.
-        """
-        clean_text = clean_text(text)
-        text_chunks = self.split_text(clean_text)
-        mcqs = []
-
-        for chunk in text_chunks:
-            # Adjust the prompt based on the desired difficulty level
-            prompt_difficulty = {
-                'easy': 'Create easy multiple-choice questions and answers from the following text:',
-                'medium': 'Create medium-difficulty multiple-choice questions and answers from the following text:',
-                'hard': 'Create hard multiple-choice questions and answers from the following text:',
-                'mixed': 'Create multiple-choice questions and answers from the following text:'
-            }.get(difficulty, 'mixed')
-
-            prompt_text = f"{prompt_difficulty}\n{chunk}"
-
-            # Generate questions from the chunk
-            questions = self.generate_questions(prompt_text)
-
-            # Extract MCQs from the generated questions
-            for question in questions:
-                if len(mcqs) < num_questions:
-                    mcq = {
-                        'question': None,
-                        'options': [],
-                        'answer': None
-                    }
-                    lines = question.split('\n')
-                    if lines:
-                        mcq['question'] = lines[0]
-                        for line in lines[1:]:
-                            option_match = re.match(r'^[A-D]\. (.+)$', line)
-                            if option_match:
-                                mcq['options'].append(option_match.group(1))
-                            if line.startswith('*'):
-                                mcq['answer'] = line[3:]  # Remove '* ' from the beginning
-                    if mcq['question'] and mcq['options'] and mcq['answer']:
-                        mcqs.append(mcq)
-                else:
-                    break
-            if len(mcqs) >= num_questions:
-                break
-
-        return mcqs
-
-    def determine_difficulty(self,text):
+    @staticmethod
+    def determine_difficulty(text):
         difficulty_score = textstat.flesch_reading_ease(text)
 
         if difficulty_score > 60:
@@ -151,39 +114,46 @@ class QuestionController:
             return 'medium'
         else:
             return 'hard'
-
-    def extract_paragraphs_from_pdf(self,pdf_path):
+    @staticmethod
+    def extract_paragraphs_from_pdf(pdf_path):
         paragraphs = {'easy': [], 'medium': [], 'hard': []}
         try:
             with pdfplumber.open(pdf_path) as pdf:
                 for page in pdf.pages:
                     text = page.extract_text()
                     if text:
-                        clean_text = self.clean_paragraph(text)
+                        clean_text = QuestionController.clean_paragraph(text)
                         for paragraph in clean_text.split('\n'):
-                            difficulty = self.determine_difficulty(paragraph)
+                            difficulty = QuestionController.determine_difficulty(paragraph)
                             paragraphs[difficulty].append(paragraph)
             print(f"Extracted paragraphs from PDF.")
         except Exception as e:
             print(f"Error extracting paragraphs from PDF: {e}")
         return paragraphs
+    @staticmethod
+    def generate_mcqs(paragraphs, difficulty):
+        mcqs = []
+        batched_paragraphs = []
+        current_batch = ""
 
-    def generate_mcqs(self,paragraphs, difficulty):
-        batched_paragraphs = [],mcqs = [],current_batch = ""
+        # Adjust the base prompt based on the difficulty level
         if difficulty == 'easy':
-            base_prompt = "Generate easy multiple-choice questions that are straightforward and simple, focusing on basic concepts."
+            base_prompt = "Generate 10 easy multiple-choice questions that are straightforward and simple, focusing on basic concepts."
         elif difficulty == 'medium':
-            base_prompt = "Generate medium-difficulty multiple-choice questions that require a moderate level of understanding and may involve more detailed concepts."
+            base_prompt = "Generate 10 medium-difficulty multiple-choice questions that require a moderate level of understanding and may involve more detailed concepts."
         else:  # hard
-            base_prompt = "Generate hard multiple-choice questions that are complex, requiring in-depth understanding and critical thinking to answer."
+            base_prompt = "Generate 10 hard multiple-choice questions that are complex, requiring in-depth understanding and critical thinking to answer."
+
         for paragraph in paragraphs[difficulty]:
             if len(current_batch) + len(paragraph) < MAX_TOKENS_PER_REQUEST:
                 current_batch += f"{paragraph}\n\n"
             else:
                 batched_paragraphs.append(current_batch)
                 current_batch = f"{paragraph}\n\n"
+        
         if current_batch:
             batched_paragraphs.append(current_batch)
+
         for batch in batched_paragraphs:
             user_prompt = {"role": "user", "content": base_prompt + ": " + batch}
             try:
@@ -192,51 +162,50 @@ class QuestionController:
                 potential_mcqs = response_text.split('\n\n')
                 for mcq in potential_mcqs:
                     question_parts = mcq.split('\n')
-                    if len(question_parts) >= 5 and self.is_conceptually_relevant(question_parts[0]):
-                        options, correct_index = self.shuffle_options(question_parts[1:5])
+                    if len(question_parts) >= 5 and QuestionController.is_conceptually_relevant(question_parts[0]):
+                        options, correct_index = QuestionController.shuffle_options(question_parts[1:5])
                         mcqs.append({
                             'question': question_parts[0],
                             'options': options,
                             'correct_answer': options[correct_index]
                         })
+            except openai.error.RateLimitError:
+                    print("Rate limit exceeded, waiting before retrying...")
+                    time.sleep(20)
             except openai.OpenAIError as e:
                 print(f"OpenAI API error: {e}")
             except Exception as e:
                 print(f"An unexpected error occurred: {e}")
+
         print(f"Generated {len(mcqs)} {difficulty} MCQs.")
         return mcqs
-
-    def shuffle_options(self,options):
+    @staticmethod
+    def shuffle_options(options):
         correct_index = 0  # Assuming the first option is correct
         random.shuffle(options)  # Shuffle options
         new_index = options.index(options[correct_index])  # Find the new index of the correct option
         return options, new_index
-
-    def save_mcqs_to_file(self,mcqs, filepath):
+    @staticmethod
+    def save_mcqs_to_file(mcqs, filepath):
         with open(filepath, 'w') as file:
             json.dump(mcqs, file, indent=4)
         print(f"MCQs saved to {filepath}")
-    
-    def read_text_file(self,file_path):
-        with open(file_path, 'r',encoding='utf-8', errors='ignore') as file:
-            return file.read()
-    def runMCQGenerator(self,filepath):
-        file_path=filepath
+
+    def runMCQGenerator(self,file_path):
+       
         if not os.path.isfile(file_path):
             print(f"The file does not exist at the specified path: {file_path}")
             return
 
-        paragraphs = self.read_text_file(file_path)
+        paragraphs =QuestionController.extract_paragraphs_from_pdf(file_path)
         for difficulty in ['easy', 'medium', 'hard']:
             if paragraphs[difficulty]:
-                mcqs = self.generate_mcqs(paragraphs, difficulty)
+                mcqs = QuestionController.generate_mcqs(paragraphs, difficulty)
                 if mcqs:
                     output_path = f'output_mcqs_{difficulty}.json'
-                    self.save_mcqs_to_file(mcqs, output_path)
-                    self.question_repo.addProcessedMaterialToFirestore()  
+                    QuestionController.save_mcqs_to_file(mcqs, output_path)
                 else:
                     print(f"No {difficulty} MCQs were generated.")
             else:
                 print(f"No {difficulty} content extracted from the file.")
-        
-    
+

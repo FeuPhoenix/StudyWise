@@ -211,4 +211,3 @@ def runaudiocutter(INPUT_FILE):
     deletePath(TEMP_FOLDER)
     return OUTPUT_FILE
 
-runaudiocutter(INPUT_FILE)

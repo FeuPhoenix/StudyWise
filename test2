@@ -1,0 +1,47 @@
+- Course covers various topics in software design principles
+- Grade distribution includes attendance, participation, exams, and labs
+- Importance of design and architecture in industrial processes discussed
+- Software development as an industry explored
+- Main activities common to many industries: planning, requirements analysis, architecture and design, build, test, deliver/deploy
+- Example using plane production industry to illustrate industry activities
+- Feasibility of production projects determined based on various factors
+- Importance of defining project scope for successful completion of project - Boeing gathering requirements from Egypt Air for a plane, including material, seat types, spacing, and seat features
+- Requirements analysis activity involved in this process
+- Agreed specifications passed to manufacturing team for plane production
+- Blueprint detailing product architecture and design essential for production
+- Multiple designs of Boeing 777-300ER for different airlines based on same architecture
+- Product development activity ends with producing the plane
+- Testing activity to ensure plane meets required standards
+- Product deployment involves preparing plane with customer theme and logo for deployment
+- Software development projects typically involve these six main activities
+- Software industry recognized by US and Japan, emphasizing importance of architecture and design
+- SW design starts with understanding customer requirements and user tasks. - Types of Designer Roles:
+  - User Interface (UI) designer
+  - User Interface (UI) designer
+- Order of architecture & design within SW development lifecycle:
+  - Design decisions focus on fulfilling Functional Requirements
+  - Architecture decisions focus on Non-Functional Requirements
+- SW Architecture:
+  - Defines the high-level concept of a system
+  - Involves significant components interacting through interfaces
+- Architecture Design:
+  - Performed by an architect
+  - Concerned with application quality attributes and nonfunctional requirements
+- Some Example Architecture Decisions:
+  - Platform, operating system, programming language
+  - User experience technology, component messaging
+- Types of Architect Roles:
+  - Application architect
+  - Infrastructure architect - Application architect focuses on structuring the application's code and making key decisions affecting development.
+- Decisions include OS, DBMS, UI types, platform, coding language, user interface tech, and client devices.
+- Architecture styles for application architect include Client/Server, Component-Based, Layered, Message Bus, N-Tiers, and Service Oriented.
+- Infrastructure architect defines physical deployment of components and layers on hardware and network.
+- Designer roles include UI designer, application domain designer, and data designer. - Types of designer roles in software design and architecture:
+   - Application domain designer: focuses on business rules and domain objects
+   - Data designer: designs application databases
+- Order of architecture & design in the software development lifecycle:
+   - In waterfall model, follows analysis stage
+   - In agile iterative processes, may flow back to analysis
+- Importance of documenting design decisions for implementation and maintainability
+- Use of UML for documenting object-oriented development
+- Emphasis on the significance of design and architecture in software development industry
