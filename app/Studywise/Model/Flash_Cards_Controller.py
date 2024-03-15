@@ -171,7 +171,7 @@ class FlashcardsController:
         content = []
 
         filename = self.filenameFromPath(file_path)
-        output_path='assets/output_files/flashcards/'+filename+'_flashcards.json' 
+        output_path='assets/output_files/flashcards/'+filename+'.json' 
 
         if content_type == '':
             if file_path.endswith('.pdf'):
