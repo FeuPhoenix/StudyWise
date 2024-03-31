@@ -234,7 +234,46 @@ class Questions_Repo:
             output_mcqs_hard = None
         self.addQuestionsToFirestore()
         self.get_Questions_from_firestore()
-    
+    def getUser_level_from_Firestore(self,ID):
+        db_instance = FirestoreDB.get_instance()
+        firestore_instance = db_instance.get_firestore_instance()
+        users_ref = firestore_instance.collection('Users')
+
+        # Query Firestore to find the document with the matching email
+        query = users_ref.where('User_Level', '==', ID)    
+        docs = query.stream()
+
+        for doc in docs:
+            # Get the data of the document
+            user_data = doc.to_dict()
+            
+            # Print the data of the document
+            print("User data retrieved from Firestore:")
+            print(user_data)
+
+            # Return the data of the document
+            return user_data
+
+        # If no document is found for the user's email
+        print(f"No document found for user with User  {ID} in Firestore.")
+        return None
+    def updateUserLevelInFirestore(self, user_id, new_level):
+        db_instance = FirestoreDB.get_instance()
+        firestore_instance = db_instance.get_firestore_instance()
+        users_ref = firestore_instance.collection('Users')
+
+        # Query Firestore to find the document with the matching user ID
+        query = users_ref.where('User_ID', '==', user_id)    
+        docs = query.stream()
+
+        for doc in docs:
+            # Update the user's level in Firestore
+            doc.reference.update({'User_Level': new_level})
+            print(f"User level updated to {new_level} for user with ID {user_id} in Firestore.")
+            return
+
+        # If no document is found for the user's ID
+        print(f"No document found for user with ID {user_id} in Firestore.")
     def upload_material_to_storage(self,user_id, material_name, output_mcqs_easy, output_mcqs_medium, output_mcqs_hard):
         db_instance = FirestoreDB.get_instance()
         storage_instance = db_instance.get_storage_instance()

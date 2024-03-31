@@ -36,6 +36,30 @@ class VideoProcessed_Repo:
         self.material=material
         self.Video_Processing(material,Video_cutted)
         #self.db = FirestoreDB.get_instance()
+    def getUserDataFromFirestore(self):
+        db_instance = FirestoreDB.get_instance()
+        firestore_instance = db_instance.get_firestore_instance()
+        users_ref = firestore_instance.collection('Users')
+
+        # Query Firestore to find the document with the matching email
+        query = users_ref.where('Email', '==', self.email)    
+        docs = query.stream()
+
+        for doc in docs:
+            # Get the data of the document
+            user_data = doc.to_dict()
+            
+            # Print the data of the document
+            print("User data retrieved from Firestore:")
+            print(user_data)
+
+            # Return the data of the document
+            return user_data
+
+        # If no document is found for the user's email
+        print(f"No document found for user with email {self.email} in Firestore.")
+        return None
+   
     def addProcessedMaterialToFirestore(self):
         db_instance = FirestoreDB.get_instance()
         firestore_instance = db_instance.get_firestore_instance()
