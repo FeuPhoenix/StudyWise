@@ -234,46 +234,50 @@ class Questions_Repo:
             output_mcqs_hard = None
         self.addQuestionsToFirestore()
         self.get_Questions_from_firestore()
-    def getUser_level_from_Firestore(self,ID):
+    @staticmethod
+    def getUser_level_from_Firestore(ID):
         db_instance = FirestoreDB.get_instance()
         firestore_instance = db_instance.get_firestore_instance()
-        users_ref = firestore_instance.collection('Users')
+        user_doc_ref = firestore_instance.collection('Users').document(ID)
 
-        # Query Firestore to find the document with the matching email
-        query = users_ref.where('User_Level', '==', ID)    
-        docs = query.stream()
+        # Get the document snapshot
+        doc_snapshot = user_doc_ref.get()
 
-        for doc in docs:
+        # Check if the document exists
+        if doc_snapshot.exists:
             # Get the data of the document
-            user_data = doc.to_dict()
+            user_data = doc_snapshot.to_dict()
             
+            # Get the value of the User_Level field
+            user_level = user_data.get('User_Level')
+
             # Print the data of the document
             print("User data retrieved from Firestore:")
             print(user_data)
 
-            # Return the data of the document
-            return user_data
-
-        # If no document is found for the user's email
-        print(f"No document found for user with User  {ID} in Firestore.")
-        return None
-    def updateUserLevelInFirestore(self, user_id, new_level):
+            # Return the User_Level value
+            return user_level
+        else:
+            # If no document is found for the user's ID
+            print(f"No document found for user with ID {ID} in Firestore.")
+            return None
+    @staticmethod
+    def updateUserLevelInFirestore(user_id, new_level):
         db_instance = FirestoreDB.get_instance()
         firestore_instance = db_instance.get_firestore_instance()
-        users_ref = firestore_instance.collection('Users')
+        user_doc_ref = firestore_instance.collection('Users').document(user_id)
 
-        # Query Firestore to find the document with the matching user ID
-        query = users_ref.where('User_ID', '==', user_id)    
-        docs = query.stream()
+        # Get the document snapshot
+        doc_snapshot = user_doc_ref.get()
 
-        for doc in docs:
+        # Check if the document exists
+        if doc_snapshot.exists:
             # Update the user's level in Firestore
-            doc.reference.update({'User_Level': new_level})
+            user_doc_ref.update({'User_Level': new_level})
             print(f"User level updated to {new_level} for user with ID {user_id} in Firestore.")
-            return
-
-        # If no document is found for the user's ID
-        print(f"No document found for user with ID {user_id} in Firestore.")
+        else:
+            # If no document is found for the user's ID
+            print(f"No document found for user with ID {user_id} in Firestore.")
     def upload_material_to_storage(self,user_id, material_name, output_mcqs_easy, output_mcqs_medium, output_mcqs_hard):
         db_instance = FirestoreDB.get_instance()
         storage_instance = db_instance.get_storage_instance()
