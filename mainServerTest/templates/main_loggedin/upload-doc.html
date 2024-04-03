@@ -1,0 +1,58 @@
+<html>
+<head>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='assets/images/Studywise_Logo.png') }}" type="image/x-icon">
+    <title>StudyWise - Upload Document</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/upload-material-style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+</head>
+<body>
+    <div class="main-navbar">
+        <img src="{{ url_for('static', filename='assets/images/Studywise_Logo.png') }}" alt="Studywise Logo" class="navbar-logo">
+        <div class="navbar-btns">
+            <a href=""><button>Home</button></a>
+            <a href="pdf-page.html"><button>Your Content</button></a>
+            <a onclick="popupPrompt()"><button>Upload Material</button></a>
+        </div>
+    </div> <!-- Main Navbar end -->    
+    <div class="page-content">
+        <div class="main-frame">
+
+            <button class="back-btn" onclick="history.back()"><i class="fa-solid fa-left-long"></i></button>
+
+            <div class="upload-section" id="drop-area">
+                <i class="fas fa-cloud-upload-alt upload-icon"></i>
+                <p class="upload-text">Drag & drop a .ppt, .pptx, .pdf, .doc, .docx, or .txt file to upload</p>
+                <input type="file" id="fileElem" style="scale: 1.2; cursor: pointer;" multiple accept=".pdf, .ppt, .pptx, .doc, .docx, .txt" onchange="handleFileSelection(this)"><br>
+                <label id="chosen-file" style="visibility: hidden;">
+            </div>
+            <button class="file-upload-btn" onclick="confirmFile()">Confirm File Selection</button>
+        </div> <!-- Main Frame end -->
+    </div>
+
+    <div id="success-overlay" class="success-overlay">
+        <div class="success-panel">
+            <div class="panel-content">
+                <h1>Please wait while your file is being processed</h1>
+                <h2 id="processingStatus">‎</h2>
+                <div class="loader"></div>
+                <button onclick="chooseOption('video')">cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="popup-overlay" class="popup-overlay">
+        <div class="popup-prompt">
+            <button class="close-btn" onclick="closePopup()">&times;</button>
+            <div class="popup-content">
+                <h2>What kind of file do you want to upload?</h2>
+                <button onclick="chooseOption('text')">Text-based</button>
+                <button onclick="chooseOption('video')">Video-based</button>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+    <script src="{{ url_for('static', filename='js/uploadDoc.js') }}"></script>
+
+</body>
+</html>

@@ -1,0 +1,92 @@
+[
+    {
+        "question": "1. If you freeze an idea too quickly, what becomes difficult?",
+        "options": [
+            "B. Exploration",
+            "C. Refinement",
+            "A. Creativity",
+            "D. Implementation"
+        ],
+        "correct_answer": "B. Exploration"
+    },
+    {
+        "question": "2. What role do early models play in business model prototypes?",
+        "options": [
+            "B. Obstacles",
+            "D. Distractions",
+            "A. Thinking aids",
+            "C. Limitations"
+        ],
+        "correct_answer": "B. Obstacles"
+    },
+    {
+        "question": "3. What can a business model prototype be?",
+        "options": [
+            "B. Rough sketch of an idea on a napkin only",
+            "D. None of the above",
+            "C. Both A and B",
+            "A. Detailed Business Model Canvas only"
+        ],
+        "correct_answer": "B. Rough sketch of an idea on a napkin only"
+    },
+    {
+        "question": "4. Why do stories play an important role in describing new business models?",
+        "options": [
+            "C. They help win attention",
+            "A. They challenge the status quo",
+            "D. All of the above",
+            "B. They force listeners to open their minds"
+        ],
+        "correct_answer": "C. They help win attention"
+    },
+    {
+        "question": "6. What is the goal of telling a story to introduce a new business model?",
+        "options": [
+            "B. To win attention",
+            "C. To create value for customers",
+            "A. To connect with listeners",
+            "D. To introduce the venture"
+        ],
+        "correct_answer": "B. To win attention"
+    },
+    {
+        "question": "7. How should a business model be explained in the form of a story?",
+        "options": [
+            "B. Keep it complex",
+            "C. Use only one protagonist",
+            "D. Include as much detail as possible",
+            "A. Use multiple protagonists"
+        ],
+        "correct_answer": "B. Keep it complex"
+    },
+    {
+        "question": "8. What is the biggest challenge with stories told from a customer perspective?",
+        "options": [
+            "D. Focusing on the protagonist",
+            "A. Keeping them authentic",
+            "B. Infusing drama and emotion",
+            "C. Avoiding complexity"
+        ],
+        "correct_answer": "D. Focusing on the protagonist"
+    },
+    {
+        "question": "9. How can a customer be involved in the story of a business model?",
+        "options": [
+            "B. Add humor",
+            "D. None of the above",
+            "C. Identify customer problems",
+            "A. Cast as the antagonist"
+        ],
+        "correct_answer": "B. Add humor"
+    },
+    {
+        "question": "10. What is the purpose of using stories to describe a business model?",
+        "options": [
+            "D. To distract from the details",
+            "B. To connect with emotions",
+            "C. To confuse listeners",
+            "A. To entertain"
+        ],
+        "correct_answer": "D. To distract from the details"
+    }
+]

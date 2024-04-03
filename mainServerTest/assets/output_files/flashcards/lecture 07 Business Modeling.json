@@ -1,0 +1,50 @@
+[
+    {
+        "front": "1. What is the main technical concept discussed in the text?",
+        "back": "   - The main technical concept discussed in the text is the implementation of artificial intelligence algorithms in robotic systems."
+    },
+    {
+        "front": "2. How do artificial intelligence algorithms play a role in enhancing the robotic systems mentioned in the text?",
+        "back": "   - Artificial intelligence algorithms are used to improve the decision-making and autonomous capabilities of robotic systems, making them more efficient and adaptable to various tasks."
+    },
+    {
+        "front": "3. Can you explain the relationship between machine learning and robotic systems as mentioned in the text?",
+        "back": "   - Machine learning is a subset of artificial intelligence that enables robotic systems to learn from data and improve their performance over time. This allows robots to adapt to changing environments and tasks."
+    },
+    {
+        "front": "4. What are some examples of applications of artificial intelligence in robotic systems mentioned in the text?",
+        "back": "   - Some examples mentioned in the text include autonomous vehicles, robotic arms in manufacturing processes, and drones for surveillance and delivery."
+    },
+    {
+        "front": "5. How do researchers and engineers collaborate to develop cutting-edge robotic systems incorporating artificial intelligence?",
+        "back": "   - Researchers focus on advancing the theoretical foundations of artificial intelligence algorithms, while engineers apply this knowledge to design and implement robotic systems that can benefit from these advancements."
+    },
+    {
+        "front": "6. What challenges are faced in the integration of artificial intelligence algorithms into robotic systems, according to the text?",
+        "back": "   - Challenges include ensuring the safety and reliability of autonomous robots, addressing ethical considerations in decision-making algorithms, and optimizing performance in dynamic and unpredictable environments."
+    },
+    {
+        "front": "7. How do the advancements in artificial intelligence impact the future of robotic systems, based on the information provided in the text?",
+        "back": "   - The advancements in artificial intelligence are expected to lead to more sophisticated and versatile robotic systems that can perform complex tasks with greater efficiency and autonomy, revolutionizing various industries."
+    },
+    {
+        "front": "1. What is the importance of having a \"design attitude\" in business modeling, according to the text?",
+        "back": "- Answer: Having a design attitude involves a commitment to discovering new and better business models by sketching out many prototypes representing various strategic options."
+    },
+    {
+        "front": "2. How do prototypes play a role in the design profession according to the text?",
+        "back": "- Answer: Prototypes help in pre-implementation visualization and testing, but they also serve as tools of inquiry to explore new possibilities and develop a better understanding of potential business models."
+    },
+    {
+        "front": "3. What is the significance of storytelling in business modeling, as discussed in the text?",
+        "back": "- Answer: Storytelling is valuable in introducing new and innovative business models as it helps overcome resistance by presenting ideas in a compelling and engaging manner to different stakeholders such as managers, investors, and employees."
+    },
+    {
+        "front": "4. Describe the different levels of prototypes in business modeling as outlined in the text.",
+        "back": "- Answer: The different levels of prototypes include napkin sketch, elaborated canvas, business case, and field-test, each involving increasing detail and depth in exploring and testing a business model."
+    },
+    {
+        "front": "5. How can storytelling be used to engage employees in transitioning to a new business model?",
+        "back": "- Answer: Storytelling can engage employees by providing a clear understanding of the new model in a compelling way, which traditional text-based presentations may fail to achieve. It helps to connect with listeners emotionally and logically, making the new model more tangible and relatable."
+    }
+]

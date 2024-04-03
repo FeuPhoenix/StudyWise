@@ -3,8 +3,8 @@ import openai
 import time
 import json
 import re
-from Constants import OPENAI_API_KEY, MAX_TOKENS_PER_REQUEST,kUserId,kUserEmail ,kDatejoined ,kFullName
-import FirestoreDB 
+from Model.Constants import OPENAI_API_KEY, MAX_TOKENS_PER_REQUEST,kUserId,kUserEmail ,kDatejoined ,kFullName
+import Model.FirestoreDB 
 
 class FlashcardsController:
     def __init__(self,ProcessedMaterial):
@@ -167,11 +167,11 @@ class FlashcardsController:
         with open(filepath, 'w') as file:
             json.dump(formatted_cards, file, indent=4)
 
-    def runFlashcards(self,file_path, content_type = ''):
+    def runFlashcards(self, file_path, content_type = ''):
         content = []
 
         filename = self.filenameFromPath(file_path)
-        output_path='assets/output_files/flashcards/'+filename+'_flashcards.json' 
+        output_path='app/assets/output_files/flashcards/'+filename+'.json'
 
         if content_type == '':
             if file_path.endswith('.pdf'):

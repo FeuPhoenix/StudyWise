@@ -185,24 +185,40 @@ class QuestionController:
         random.shuffle(options)  # Shuffle options
         new_index = options.index(options[correct_index])  # Find the new index of the correct option
         return options, new_index
+    
     @staticmethod
+    def filenameFromPath(filepath):
+        parts = filepath.rsplit('/', 1)
+
+        if len(parts) == 1: # If no '/' was found, return empty string
+            return ""
+
+        filename_parts = parts[-1].rsplit('.', 1)
+
+        if len(filename_parts) == 1:
+            return parts[-1]
+
+        return filename_parts[0] # Return the filename alone (assuming it was between the last '/' and the last '.')
+    
     def save_mcqs_to_file(mcqs, filepath):
         with open(filepath, 'w') as file:
             json.dump(mcqs, file, indent=4)
         print(f"MCQs saved to {filepath}")
 
-    def runMCQGenerator(self,file_path):
+    def runMCQGenerator(self, file_path):
+        filename = self.filenameFromPath(file_path)
+        output_path = 'app/assets/output_files/mcq/'+filename+'.json'
        
         if not os.path.isfile(file_path):
             print(f"The file does not exist at the specified path: {file_path}")
             return
 
-        paragraphs =QuestionController.extract_paragraphs_from_pdf(file_path)
+        paragraphs = QuestionController.extract_paragraphs_from_pdf(file_path)
         for difficulty in ['easy', 'medium', 'hard']:
             if paragraphs[difficulty]:
                 mcqs = QuestionController.generate_mcqs(paragraphs, difficulty)
                 if mcqs:
-                    output_path = f'output_mcqs_{difficulty}.json'
+                    output_path = f'app/assets/output_files/mcq/'+filename+'_'+difficulty+'.json'
                     QuestionController.save_mcqs_to_file(mcqs, output_path)
                 else:
                     print(f"No {difficulty} MCQs were generated.")

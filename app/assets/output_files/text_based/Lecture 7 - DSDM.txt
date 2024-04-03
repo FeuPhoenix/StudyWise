@@ -1,0 +1,193 @@
+SWE316
+New Methods of
+Software Development
+By:
+Dr. Salwa Osama
+Salwaosama@fci.helwan.edu.eg
+1Dynamic Systems Development
+• Since in 1994, DSDM, the Dynamic Systems Development Method, has gradually
+become the number one framework for rapid application development (RAD) in
+the UK.
+• The fundamental idea behind DSDM is that instead of fixing the amount of
+functionality in a product, and then adjusting time and resources to reach that
+functionality, it is preferred to fix time and resources, and then adjust the amount
+of functionality accordingly
+2Core principles of DSDM
+• Focus on the business need. DSDM teams work towards achieving
+projects that align with greater business objectives and exist within
+parameters that make sense for the business.
+• Deliver on time. Prompt delivery is a vital part of DSDM projects, as
+one of the method's goals is to reap benefits early.
+• Collaborate. DSDM teams involve all relevant parties and grant each
+other the means to give feedback and make decisions.
+3Core principles of DSDM
+• Maintain high quality. DSDM teams set clear standards before
+beginning work and evaluate their progress regularly to ensure
+they're meeting these standards.
+• Build incrementally from firm foundations. Teams strive to produce
+the right amount of work at the right time to ensure they produce
+work that aligns with their plans.
+• Develop iteratively. Teams implement feedback promptly and adapt
+to ongoing changes in a project's specifications and needs.
+4Core principles of DSDM
+• Communicate continuously and clearly. DSDM teams can use a
+variety of tools to provide written, verbal and visual updates to
+teammates, other departments, managers and interested parties.
+• Demonstrate control. A team leader or project manager practices
+transparency to make all team members aware of changes, plans,
+progress, updates and goals.
+5Disadvantages
+• Minimizes creativity: Because it encourages developers to work
+quickly, it may limit risk-taking. The focus on iterative development
+may allow professionals to revisit their work to infuse more unique,
+creative elements later.
+• Demands structure: DSDM works best when teams have a reliable
+structure, full support from management and capable project
+managers to lead the project life cycle. You can implement more
+structure in your team before committing to DSDM to ensure its
+success.
+6Lifecycle
+• DSDM typically includes the following five major phases:
+1. Feasibility
+2. Business study
+3. Functional model iteration
+4. Design and build
+5. Implementation
+7Feasibility
+• During this stage, you can review the project's specifications to
+determine if it's realistic for your team to achieve.
+• Consider if you can meet your goals with the budget, timeline and
+technology available to you.
+8Business study
+• Once you know the project is technically possible, research the
+project from a business perspective.
+• Review if it aligns with the organization's overall objectives, if it
+competes effectively with other organizations in your industry and if it
+meets the needs of potential users.
+• You can supplement your plan with sensible details that align with
+business objectives.
+9Functional model iteration
+• During this phase, you build a prototype that meets the specifications
+determined in earlier phases.
+• It's important to test and evaluate the prototype to ensure it works as
+intended and contains all important functionalities.
+• You can repeat this phase until you have an effective prototype on
+which you want to base your final product.
+10Design and build
+• You can then refine your prototype to optimize its efficiency.
+• During this time, you might design additional components to
+strengthen your project and address any issues.
+• Test your product carefully to ensure it's responsive, functional and
+easy to use.
+11Implementation
+• You then release your project into its operational environment to
+learn if it's effective.
+• Users learn how to operate it, and they provide feedback.
+• When you finish this stage, you know if the product is complete or if
+you have new challenges.
+• Depending on the feedback you receive, you might return to a
+previous stage to adjust your system until it's successful.
+12Implementation
+• At the end of this phase, there are four possibilities
+• Everything was delivered as per the user demand, so no further development
+required.
+• A new functional area was discovered, so return to business study phase and
+repeat the whole process.
+• A less essential part of the project was missed out due to time constraint and
+so development returns to the functional model iteration.
+• Some non-functional requirement was not satisfied, so development returns
+to the design and build iterations phase.
+13Lifecycle
+14Roles
+• Business Sponsor: The project champion, responsible for the business
+case and project budget
+• Business Visionary: Represents the Business Sponsor by
+communicating the vision of the project and interpreting the needs.
+• Project Manager: Responsible for the high-level coordination of the
+project
+• Technical Coordinator: Ensures technical consistency and coherent
+(especially when there are multiple teams).
+• Business Analyst: Facilitates the relationship between technical and
+business people, and between project level and team level.
+15Roles
+• Technical Advisor: Gives teams ad hoc advice on technical aspects.
+• Business Advisor: Gives teams ad hoc advice on business aspects.
+• Team Leader: Responsible for coordination inside a team
+• Solution Developer: Develop the product.
+• Solution Tester: Test the product.
+• Workshop Facilitator: Facilitates workshops!
+• DSDM Coach: Helps use the DSDM method.
+16LEAN (Kanban)
+• LEAN : Lean
+development practices
+are based on the Lean
+methodologies that
+have been used
+successfully in
+manufacturing
+processes.
+17Kanban
+• Kanban is a method for managing knowledge work with an emphasis
+on just-in-time delivery while not overloading the team members.
+• Kanban is an approach to incremental, evolutionary process and
+systems change for organizations.
+• It comes from Japanese word, kanban is literally translated as
+signboard.
+18The Principles of Kanabn Board
+• Principle 1: Start With What Do want Now.
+• Principle 2: Agree to Pursue Incremental, Evolutionary Change.
+• Principle 3: Respect the Current Process, Roles & Responsibilities.
+• Principle 4: Encourage Acts of Leadership at All Levels.
+19The 6 Practices of Kanban
+1. Visualize the Workflow.
+2. Limit Work in Progress.
+3. Manage Flow.
+4. Make Process Policies Explicit.
+5. Feedback Loops.
+6. Improve Collaboratively.
+20Visualize the Workflow
+Visualizing workflows supports proper understanding of changes planned and helps to
+implement them according to this plan. A common way to visualize the workflow is to use a
+card wall with cards and columns. The columns on the card wall represent different states or
+steps in the workflow.Limit Work in Progress
+Limiting work-in-process implies that a pull system is implemented on parts or all of the workflow.
+The pull system acts as one of the main stimuli for continuous, incremental and evolutionary
+changes to the system. The pull system can be implemented as a kanban system. The critical
+elements are that work-in-process at each state in the workflow is limited and that new work is
+“pulled” into the new information discovery activity when there is available capacity within the
+local WIP limit.Manage Flow
+Each transition between states in the workflow is monitored, measured and reported. By actively
+managing the flow the continuous, incremental and evolutionary changes to the system can be
+evaluated to have positive or negative effects on the system.Make Process Policies Explicit
+Until the mechanism of a process is made explicit, it is often hard or impossible to hold a
+discussion about improving it. Without an explicit understanding of how things work and how work
+is actually done, any discussion of problems tends to be emotional, anecdotal and subjective. With
+an explicit understanding it is possible to move to a more rational, empirical, objective discussion
+of issues.Feedback Loops
+The Kanban method encourages small continuous, incremental and evolutionary changes that
+stick. When teams have a shared understanding of theories about work, workflow, process and
+risk, they are more likely to be able to build a shared comprehension of a problem and suggest
+improvements which can be agreed to by consensus. Teams measure their effectiveness by
+tracking flow, quality, throughput, lead times and more. Experiments and analysis can change
+the system to improve the team’s effectiveness.Improve Collaboratively
+The way to achieve continuous improvement and sustainable change within an organization is
+through shared vision of a better future and collective understanding of the issues that need to be
+overcome..The Positive and Negative Side of Kanban
+Positive Side
+Negative side
+1. Everyone is on the same page
+1. Outdated Kanban board can lead to issues in the
+development process.
+2. Kanban reveals bottlenecks in your
+workflow.
+2. Some time Kanban team make the board
+overcomplicate.
+3. Kanban brings flexibility
+3. Lack of timing is another disadvantage because
+4. Team gets more responsive
+there is no timeframes are associated with each
+5. focus on finishing work to boost
+phase.
+collaboration and productivity
+6. Easy access for remote team members
+7. Flow analytics2829

@@ -1,0 +1,102 @@
+[
+    {
+        "question": "1. In the DSDM framework, what role is responsible for ensuring technical consistency and coherent development?",
+        "options": [
+            "D. Team Leader",
+            "C. Business Analyst",
+            "A. Project Manager",
+            "B. Technical Coordinator"
+        ],
+        "correct_answer": "D. Team Leader"
+    },
+    {
+        "question": "2. According to Principle 2 of the Kanban method, what is the approach to change?",
+        "options": [
+            "C. Static, unchanging",
+            "A. Incremental, evolutionary",
+            "D. Random, sporadic",
+            "B. Radical, immediate"
+        ],
+        "correct_answer": "C. Static, unchanging"
+    },
+    {
+        "question": "3. What phase typically marks the completion of a DSDM project?",
+        "options": [
+            "B. Exploration",
+            "A. Discovery",
+            "D. Deployment",
+            "C. Engineering"
+        ],
+        "correct_answer": "B. Exploration"
+    },
+    {
+        "question": "4. How does the Kanban method connect to the concept of agility in project management?",
+        "options": [
+            "C. By enforcing rigid, unchanged processes",
+            "B. By promoting small, incremental changes",
+            "A. By encouraging large, disruptive changes",
+            "D. By minimizing creativity and risk-taking"
+        ],
+        "correct_answer": "C. By enforcing rigid, unchanged processes"
+    },
+    {
+        "question": "5. What role in a DSDM team is responsible for the coordination inside the team?",
+        "options": [
+            "D. Solution Developer",
+            "B. Team Leader",
+            "C. Business Analyst",
+            "A. Project Manager"
+        ],
+        "correct_answer": "D. Solution Developer"
+    },
+    {
+        "question": "6. How does the Kanban method approach the management of non-functional requirements?",
+        "options": [
+            "B. By actively satisfying them",
+            "C. By returning to the functional model iteration",
+            "A. By ignoring them completely",
+            "D. By prioritizing them over functional requirements"
+        ],
+        "correct_answer": "B. By actively satisfying them"
+    },
+    {
+        "question": "7. According to Principle 3 of the Kanban method, what should be respected in the process of change?",
+        "options": [
+            "B. Resistance to change",
+            "A. The status quo",
+            "C. Current process, roles, and responsibilities",
+            "D. Radical, disruptive changes"
+        ],
+        "correct_answer": "B. Resistance to change"
+    },
+    {
+        "question": "8. How does the DSDM framework prioritize risk-taking in development?",
+        "options": [
+            "A. By limiting it",
+            "B. By encouraging it",
+            "D. By disregarding it",
+            "C. By mandating it"
+        ],
+        "correct_answer": "A. By limiting it"
+    },
+    {
+        "question": "9. What is the primary focus of the Kanban method in terms of development?",
+        "options": [
+            "B. Large, one-time changes",
+            "C. Structure and rigidity",
+            "D. Limiting creativity",
+            "A. Quick, iterative development"
+        ],
+        "correct_answer": "B. Large, one-time changes"
+    },
+    {
+        "question": "10. In a DSDM team, what role is responsible for facilitating workshops?",
+        "options": [
+            "B. Solution Developer",
+            "A. Project Manager",
+            "C. Workshop Facilitator",
+            "D. Technical Coordinator"
+        ],
+        "correct_answer": "B. Solution Developer"
+    }
+]

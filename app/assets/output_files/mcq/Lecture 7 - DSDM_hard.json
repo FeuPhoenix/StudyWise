@@ -1,0 +1,102 @@
+[
+    {
+        "question": "1. Which phase in DSDM typically focuses on ensuring technical consistency and coherent system change for organizations?",
+        "options": [
+            "D. Team Leader",
+            "B. Technical Coordinator",
+            "A. Project Manager",
+            "C. Business Analyst"
+        ],
+        "correct_answer": "D. Team Leader"
+    },
+    {
+        "question": "2. According to Principle 2 of the Kanban method, what approach should teams agree to pursue?",
+        "options": [
+            "D. Rapid, evolutionary change",
+            "B. Incremental, evolutionary change",
+            "A. Incremental, revolutionary change",
+            "C. Rapid, revolutionary change"
+        ],
+        "correct_answer": "D. Rapid, evolutionary change"
+    },
+    {
+        "question": "3. In DSDM, which team member is responsible for developing the product?",
+        "options": [
+            "A. Project Manager",
+            "B. Technical Coordinator",
+            "C. Solution Developer",
+            "D. Workshop Facilitator"
+        ],
+        "correct_answer": "A. Project Manager"
+    },
+    {
+        "question": "4. How does the Kanban method encourage teams to approach change?",
+        "options": [
+            "A. In large, sporadic shifts",
+            "B. In small, continuous, incremental changes",
+            "D. Through massive, revolutionary changes",
+            "C. Through no change at all"
+        ],
+        "correct_answer": "A. In large, sporadic shifts"
+    },
+    {
+        "question": "5. What role does the Business Analyst typically play in DSDM?",
+        "options": [
+            "B. Developing the product",
+            "D. Coordinating inside a team",
+            "C. Facilitating the relationship between technical and business aspects",
+            "A. Ensuring technical consistency"
+        ],
+        "correct_answer": "B. Developing the product"
+    },
+    {
+        "question": "6. Which principle of the Kanban method emphasizes the importance of respecting the current process, roles, and responsibilities?",
+        "options": [
+            "C. Principle 3",
+            "A. Principle 1",
+            "D. Principle 4",
+            "B. Principle 2"
+        ],
+        "correct_answer": "C. Principle 3"
+    },
+    {
+        "question": "7. In DSDM, which team member is responsible for facilitating workshops?",
+        "options": [
+            "D. Workshop Facilitator",
+            "C. Solution Developer",
+            "A. Project Manager",
+            "B. Team Leader"
+        ],
+        "correct_answer": "D. Workshop Facilitator"
+    },
+    {
+        "question": "8. How does the Kanban method address the limitation of limiting risk-taking in iterative development?",
+        "options": [
+            "A. By encouraging massive, revolutionary changes",
+            "D. By focusing on small, continuous, incremental changes",
+            "B. By incorporating feedback promptly",
+            "C. By discouraging creativity"
+        ],
+        "correct_answer": "A. By encouraging massive, revolutionary changes"
+    },
+    {
+        "question": "9. Which phase in DSDM focuses on the high-level coordination of the project?",
+        "options": [
+            "B. Technical Coordinator",
+            "A. Project Manager",
+            "D. Solution Developer",
+            "C. Business Analyst"
+        ],
+        "correct_answer": "B. Technical Coordinator"
+    },
+    {
+        "question": "10. In DSDM, what happens if some non-functional requirement is not satisfied during development?",
+        "options": [
+            "B. The project is abandoned",
+            "D. The requirement is ignored",
+            "C. The team continues with the next phase",
+            "A. Development returns to the functional model iteration"
+        ],
+        "correct_answer": "B. The project is abandoned"
+    }
+]

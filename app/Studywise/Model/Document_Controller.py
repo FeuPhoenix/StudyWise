@@ -1,7 +1,7 @@
 import subprocess
 import uuid
 from datetime import datetime
-from firebase_admin import firestore, credentials, initialize_app
+from firebase_admin import firestore, credentials, storage, initialize_app
 import json
 import time
 import openai
@@ -12,25 +12,21 @@ from pptx import Presentation
 from io import BytesIO
 from PIL import Image
 from docx import Document
-from PIL import Image
-from io import BytesIO
 from summarizer import Summarizer
-from firebase_admin import credentials, storage
-from Flash_Cards_Controller import FlashcardsController
-from DocumentProcessed_Repo import DocumentProcessed
-from Question_Controller import QuestionController
+from Model.Flash_Cards_Controller import FlashcardsController
+from Model.DocumentProcessed_Repo import DocumentProcessed
+from Model.Question_Controller import QuestionController
 import fitz  # PyMuPDF
-import os
 import comtypes.client
 
-
+from app.Studywise.mainserverUpload import socketio
 
 class DocumentProcessedController:
-    def __init__(self,file) :
-        self.file=file
+    def __init__(self, file) :
+        self.file = file
         self.Document_Processing(file)
        
-    @staticmethod
+    # @staticmethod
     # async def create_processed_document(request_data):
     #     """
     #     Creates a new processed document record in Firestore.
@@ -40,7 +36,7 @@ class DocumentProcessedController:
     #         # Extracting necessary information from the request data
     #         processed_material_id = request_data.get('processed_material_id')
     #         material_id = request_data.get('material_id')
-    #         generated_summary_file_path = request_data.get('generated_summary_file_path')
+    #         generated_file_path = request_data.get('generated_file_path')
     #         generated_text_file_path = request_data.get('generated_text_file_path')
     #         generated_images_file_path = request_data.get('generated_images_file_path')
     #         generated_document_file_path = request_data.get('generated_document_file_path')
@@ -49,7 +45,7 @@ class DocumentProcessedController:
     #         new_document = DocumentProcessed(
     #             processed_material_id=processed_material_id,
     #             material_id=material_id,
-    #             generated_summary_file_path=generated_summary_file_path,
+    #             generated_file_path=generated_file_path,
     #             generated_text_file_path=generated_text_file_path,
     #             generated_images_file_path=generated_images_file_path,
     #             generated_Document_file_path=generated_document_file_path
@@ -138,7 +134,7 @@ class DocumentProcessedController:
     
 
     @staticmethod
-    def create_json_with_Long_summary(json_file_path, summary):
+    def create_json_with_Long(json_file_path, summary):
         title_match = re.match(r"([^.]*.)", summary)
         title = title_match.group(0).strip() if title_match else "Summary"
         summary_data = {
@@ -151,12 +147,13 @@ class DocumentProcessedController:
     def extract_text_from_pdf_plumber(pdf_path, txt_file_path):
         if not os.path.exists(txt_file_path):
             with pdfplumber.open(pdf_path) as pdf:
+                os.makedirs(os.path.dirname(txt_file_path), exist_ok=True)
                 with open(txt_file_path, 'w', encoding='utf-8') as txt_file:
                     for page in pdf.pages:
                         text = page.extract_text()
                         if text:
                             txt_file.write(text)
-                print(f"Text extracted and saved to {txt_file_path}")     
+                print(f"Text extracted and saved to {txt_file_path}")
 
     @staticmethod
     def extract_images_from_pdf(pdf_path):
@@ -165,7 +162,7 @@ class DocumentProcessedController:
 
         # Extract the PDF name without the extension and create a folder
         pdf_name = os.path.splitext(os.path.basename(pdf_path))[0]
-        folder_path = f"assets/output_files/Images/{pdf_name}"
+        folder_path = f"app/assets/output_files/Images/{pdf_name}"
         os.makedirs(folder_path, exist_ok=True)
 
         # Iterate through each page of the PDF
@@ -194,8 +191,8 @@ class DocumentProcessedController:
                 # Save the image
                 with open(os.path.join(folder_path, image_filename), "wb") as image_file:
                     image_file.write(image_bytes)
-
         print(f"Images extracted and saved in folder: {folder_path}")
+
     @staticmethod
     def extract_images_from_docx(docx_path, output_images_dir):
         doc = Document(docx_path)
@@ -209,13 +206,14 @@ class DocumentProcessedController:
                 image = Image.open(BytesIO(image_data))
                 image.save(os.path.join(output_images_dir, f'image_{image_index}.png'))
                 image_index += 1
+
     @staticmethod
     def extract_images_from_pptx(pptx_path):
         # Extract the base name for the pptx file (without extension)
         base_name = DocumentProcessedController.getFileNameFromPathWithOutExtension(pptx_path)
         
         # Set the output directory to the base name of the file
-        output_images_dir = "assets/output_files/Images/" + base_name
+        output_images_dir = "app/assets/output_files/Images/" + base_name
 
         # Load the presentation
         prs = Presentation(pptx_path)
@@ -240,8 +238,8 @@ class DocumentProcessedController:
 
                     # Increment the image index
                     image_index += 1
-
         print(f"Images extracted and saved in folder: {output_images_dir}")
+
     @staticmethod
     def convert_word_to_pdf(docx_path):
         # Determine the output folder based on the docx_path
@@ -271,6 +269,7 @@ class DocumentProcessedController:
 
         # Return the path of the generated PDF
         return output_pdf_path
+    
     @staticmethod
     def convert_ppt_to_pdf(pptx_path):
         # Determine the output folder based on the pptx_path
@@ -300,28 +299,44 @@ class DocumentProcessedController:
 
         # Return the path of the generated PDF
         return output_pdf_path
-    def Document_Processing(self,file):
+    
+    def Document_Processing(self, file):
         if os.path.isfile(file) and file.endswith('.pdf'):
-            PDFFile=file
-            filename=DocumentProcessedController.getFileNameFromPathWithOutExtension(file)
-            text_file_path = f'assets/output_files/text_files/{filename}.txt'
-          
-            DocumentProcessedController.extract_text_from_pdf_plumber(PDFFile,text_file_path)
-            text =DocumentProcessedController. read_text_file(text_file_path)
-            
+
+            socketio.emit('update', {'message': 'PDF accepted.'})
+
+            PDFFile = file
+            filename = DocumentProcessedController.getFileNameFromPathWithOutExtension(file)
+            file = f'app/assets/input_files/text_based/{filename}.pdf'
+            text_file_path = f'app/assets/output_files/text_based/{filename}.txt'
+
+            socketio.emit('update', {'message': 'Extracting text..'})
+            DocumentProcessedController.extract_text_from_pdf_plumber(PDFFile, text_file_path)
+            text = DocumentProcessedController.read_text_file(text_file_path)
             
             model = Summarizer()
-            text=DocumentProcessedController.clean_text(text)
+
+            socketio.emit('update', {'message': 'Formatting text..'})
+            text = DocumentProcessedController.clean_text(text)
+
+            socketio.emit('update', {'message': 'Generating Summary..'})
             result = model(text)
+
             summary_data = {
-                'long_summary': result
+                'long': result
             }
-            with open(f"assets/output_files/Summaries/{filename}.json", 'w') as json_file:
+            with open(f"app/assets/output_files/summaries/{filename}.json", 'w') as json_file:
                 json.dump(summary_data, json_file, indent=4)
-                print(f"Long summary has been successfully saved in assets/output_files/Summaries/{filename}.json") 
-                summary_jsonfile=f"assets/output_files/Summaries/{filename}_summary.json" 
-            flashcard=FlashcardsController(text_file_path)
-            mcq=QuestionController(PDFFile)
+                print(f"Long summary has been successfully saved in app/assets/output_files/summaries/{filename}.json") 
+                summary_jsonfile = f"app/assets/output_files/summaries/{filename}.json" 
+            
+            socketio.emit('update', {'message': 'Generating Flashcards..'})
+            flashcard = FlashcardsController(text_file_path)
+
+            socketio.emit('update', {'message': 'Generating MCQs..'})
+            mcq = QuestionController(PDFFile)
+
+            socketio.emit('update', {'message': 'Extracting images..'})
             DocumentProcessedController.extract_images_from_pdf(file)
 
             #processd_material_id=uuid.uuid4().hex
@@ -329,81 +344,123 @@ class DocumentProcessedController:
             #text_file=DocumentProcessed.upload_to_firebase(text_file,f'{kUserId}/{DocumentProcessedController.getFileNameFromPathWithOutExtension(text_file)}.txt')
             #documentprocessed=DocumentProcessed(processd_material_id,self.material,summary_jsonfile_path_on_firebase,text_file) 
             #documentprocessed.addProcessedMaterialToFirestore()
-        elif os.path.isfile(file) and (file.endswith('.ppt') or file.endswith('.pptx')or file.endswith('.ppsx')):
-            file=DocumentProcessedController.convert_ppt_to_pdf(file)
-            file=file.replace("\\","/")
-            filename=DocumentProcessedController.getFileNameFromPathWithOutExtension(file)
-            text_file_path = f'assets/output_files/text_files/{filename}.txt'
-          
-            DocumentProcessedController.extract_text_from_pdf_plumber(file,text_file_path)
-            text =DocumentProcessedController. read_text_file(text_file_path)
-            
+
+        elif os.path.isfile(file) and (file.endswith('.ppt') or file.endswith('.pptx') or file.endswith('.ppsx')):
+            socketio.emit('update', {'message': 'Powerpoint accepted. Converting to PDF..'})
+            file = DocumentProcessedController.convert_ppt_to_pdf(file)
+
+            file = file.replace("\\","/")
+            filename = DocumentProcessedController.getFileNameFromPathWithOutExtension(file)
+            text_file_path = f'app/assets/output_files/text_files/{filename}.txt'
+
+            socketio.emit('update', {'message': 'Extracting text..'})
+            DocumentProcessedController.extract_text_from_pdf_plumber(file, text_file_path)
+            text = DocumentProcessedController.read_text_file(text_file_path)
             
             model = Summarizer()
-            text=DocumentProcessedController.clean_text(text)
+
+            socketio.emit('update', {'message': 'Formatting text..'})
+            text = DocumentProcessedController.clean_text(text)
+
+            socketio.emit('update', {'message': 'Generating Summary..'})
             result = model(text)
+
             summary_data = {
-                'long_summary': result
+                'long': result
             }
-            with open(f"assets/output_files/Summaries/{filename}.json", 'w') as json_file:
+            with open(f"app/assets/output_files/summaries/{filename}.json", 'w') as json_file:
                 json.dump(summary_data, json_file, indent=4)
-                print(f"Long summary has been successfully saved in assets/output_files/Summaries/{filename}.json") 
-                summary_jsonfile=f"assets/output_files/Summaries/{filename}_summary.json" 
-            flashcard=FlashcardsController(text_file_path)
-            mcq=QuestionController(file)
+                print(f"Long summary has been successfully saved in app/assets/output_files/summaries/{filename}.json") 
+                summary_jsonfile=f"app/assets/output_files/summaries/{filename}.json"
+            
+            socketio.emit('update', {'message': 'Generating Flashcards..'})
+            flashcard = FlashcardsController(text_file_path)
+
+            socketio.emit('update', {'message': 'Generating MCQs..'})
+            mcq = QuestionController(file)
+
+            socketio.emit('update', {'message': 'Extracting images..'})
             DocumentProcessedController.extract_images_from_pdf(file)
+
             # processd_material_id=uuid.uuid4().hex
             # summary_jsonfile_path_on_firebase=DocumentProcessed.upload_to_firebase(summary_jsonfile,f'{kUserId}/{DocumentProcessedController.getFileNameFromPathWithOutExtension(summary_jsonfile)}.json')
             # text_file=DocumentProcessed.upload_to_firebase(text_file,f'{kUserId}/{DocumentProcessedController.getFileNameFromPathWithOutExtension(text_file)}.txt')
             # documentprocessed=DocumentProcessed(processd_material_id,self.material,summary_jsonfile_path_on_firebase,text_file) 
             # documentprocessed.addProcessedMaterialToFirestore()
+
         elif os.path.isfile(file) and (file.endswith('.doc') or file.endswith('.docx')):
-            file=DocumentProcessedController.convert_word_to_pdf(file)
-            file=file.replace("\\","/")
-            filename=DocumentProcessedController.getFileNameFromPathWithOutExtension(file)
-            text_file_path = f'assets/output_files/text_files/{filename}.txt'
+            socketio.emit('update', {'message': 'Accepted Word document. Converting to PDF'})
+            file = DocumentProcessedController.convert_word_to_pdf(file)
+
+            file = file.replace("\\","/")
+            filename = DocumentProcessedController.getFileNameFromPathWithOutExtension(file)
+            text_file_path = f'app/assets/output_files/text_files/{filename}.txt'
           
-            DocumentProcessedController.extract_text_from_pdf_plumber(file,text_file_path)
-            text =DocumentProcessedController. read_text_file(text_file_path)
-            
+            socketio.emit('update', {'message': 'Extracting text..'})
+            DocumentProcessedController.extract_text_from_pdf_plumber(file, text_file_path)
+            text = DocumentProcessedController.read_text_file(text_file_path)
             
             model = Summarizer()
-            text=DocumentProcessedController.clean_text(text)
+
+            socketio.emit('update', {'message': 'Formatting text..'})
+            text = DocumentProcessedController.clean_text(text)
+
+            socketio.emit('update', {'message': 'Generating Summary..'})
             result = model(text)
+
             summary_data = {
-                'long_summary': result
+                'long': result
             }
-            with open(f"assets/output_files/Summaries/{filename}.json", 'w') as json_file:
+            with open(f"app/assets/output_files/summaries/{filename}.json", 'w') as json_file:
                 json.dump(summary_data, json_file, indent=4)
-                print(f"Long summary has been successfully saved in assets/output_files/Summaries/{filename}.json") 
-                summary_jsonfile=f"assets/output_files/Summaries/{filename}_summary.json" 
-            flashcard=FlashcardsController(text_file_path)
-            mcq=QuestionController(file)
+                print(f"Long summary has been successfully saved in app/assets/output_files/summaries/{filename}.json") 
+                summary_jsonfile = f"app/assets/output_files/summaries/{filename}.json" 
+
+            socketio.emit('update', {'message': 'Generating Flashcards..'})
+            flashcard = FlashcardsController(text_file_path)
+
+            socketio.emit('update', {'message': 'Generating MCQs..'})
+            mcq = QuestionController(file)
+
+            socketio.emit('update', {'message': 'Exctracting images..'})
             DocumentProcessedController.extract_images_from_pdf(file)
+
             # processd_material_id=uuid.uuid4().hex
             # summary_jsonfile_path_on_firebase=DocumentProcessed.upload_to_firebase(summary_jsonfile,f'{kUserId}/{DocumentProcessedController.getFileNameFromPathWithOutExtension(summary_jsonfile)}.json')
             # text_file=DocumentProcessed.upload_to_firebase(text_file,f'{kUserId}/{DocumentProcessedController.getFileNameFromPathWithOutExtension(text_file)}.txt')
             # documentprocessed=DocumentProcessed(processd_material_id,self.material,summary_jsonfile_path_on_firebase,text_file) 
             # documentprocessed.addProcessedMaterialToFirestore()
+
         elif os.path.isfile(file) and (file.endswith('.txt') ):
+            socketio.emit('update', {'message': 'Accepted text file (.txt)'})
             txt_path = file
-            filename=DocumentProcessedController.getFileNameFromPathWithOutExtension(file)
-            text=DocumentProcessedController.extract_text_from_word(txt_path)
-            text_file = 'f"assets/output_files/text_files/{filename}.txt'
+            filename = DocumentProcessedController.getFileNameFromPathWithOutExtension(file)
+
+            socketio.emit('update', {'message': 'Extracting text..'})
+            text = DocumentProcessedController.extract_text_from_word(txt_path)
+
+            text_file = f'app/assets/output_files/text_files/{filename}.txt'
             with open(text_file, 'w') as file:
                 file.write(text)
-            model = Summarizer()
-            result = model(text)
-            summary_data = {
-                'long_summary': result
-            }
-            with open(f"assets/output_files/Summaries/{filename}_summary.json", 'w') as json_file:
-                json.dump(summary_data, json_file, indent=4)
-                print(f"Long summary has been successfully saved in assets/output_files/Summaries/{filename}_summary.json")
-                summary_jsonfile=f"assets/output_files/Summaries/{filename}_summary.json" 
-            flashcard=FlashcardsController(text_file)
 
-def main():
-    D=DocumentProcessedController("assets/input_files/text-based/test2.pdf")
+            model = Summarizer()
+
+            socketio.emit('update', {'message': 'Generating Summary..'})
+            result = model(text)
+
+            summary_data = {
+                'long': result
+            }
+            with open(f"app/assets/output_files/summaries/{filename}.json", 'w') as json_file:
+                json.dump(summary_data, json_file, indent=4)
+                print(f"Long summary has been successfully saved in app/assets/output_files/summaries/{filename}.json")
+                summary_jsonfile = f"app/assets/output_files/summaries/{filename}.json" 
+            
+            socketio.emit('update', {'message': 'Generating Flashcards..'})
+            flashcard = FlashcardsController(text_file)
+
+def main(file = 'app/assets/input_files/text_based/lecture 07 Business Modeling.pdf'):
+    print("Current Working Directory: \n", os.getcwd())
+    D = DocumentProcessedController(file)
 if __name__ == "__main__":
     main()

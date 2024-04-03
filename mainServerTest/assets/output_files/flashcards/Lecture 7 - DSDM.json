@@ -1,0 +1,26 @@
+[
+    {
+        "front": "1. What is the fundamental idea behind the Dynamic Systems Development Method (DSDM)?",
+        "back": "- The fundamental idea behind DSDM is to fix time and resources, and then adjust the amount of functionality accordingly, instead of fixing the amount of functionality in a product."
+    },
+    {
+        "front": "2. What are the core principles of DSDM related to business objectives?",
+        "back": "- The core principles include focusing on the business need, delivering on time, collaborating with relevant parties, maintaining high quality, building incrementally from firm foundations, and developing iteratively."
+    },
+    {
+        "front": "3. What are the major phases typically included in the DSDM lifecycle?",
+        "back": "- The major phases in the DSDM lifecycle typically include Feasibility, Business study, Functional model iteration, Design and build, and Implementation."
+    },
+    {
+        "front": "4. What are the roles involved in the DSDM methodology?",
+        "back": "- Roles in DSDM include Business Sponsor, Business Visionary, Project Manager, Technical Coordinator, Business Analyst, Technical Advisor, Business Advisor, Team Leader, Solution Developer, Solution Tester, Workshop Facilitator, and DSDM Coach."
+    },
+    {
+        "front": "5. How does Kanban support incremental and evolutionary changes in a process?",
+        "back": "- Kanban manages knowledge work with just-in-time delivery and incremental changes by visualizing the workflow, limiting work in progress, managing flow, making process policies explicit, creating feedback loops, and improving collaboratively."
+    },
+    {
+        "front": "6. What are some of the positive and negative aspects of implementing Kanban in a development process?",
+        "back": "- Positive aspects of Kanban include enhancing collaboration, revealing bottlenecks, and providing flexibility. Negative aspects may include outdated boards, over-complication, and lack of timing associated with each phase."
+    }
+]

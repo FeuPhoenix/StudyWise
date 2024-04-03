@@ -1,0 +1,102 @@
+[
+    {
+        "question": "1. What is the primary goal of DSDM in terms of development functionality?",
+        "options": [
+            "D) To follow a strict and rigid development process",
+            "C) To adjust time and resources based on functionality",
+            "A) To deliver a product with all desired features",
+            "B) To prioritize speed over quality"
+        ],
+        "correct_answer": "D) To follow a strict and rigid development process"
+    },
+    {
+        "question": "2. How do DSDM teams ensure high quality in their work?",
+        "options": [
+            "A) By setting clear standards before starting work and evaluating progress regularly",
+            "C) By ignoring project specifications and needs",
+            "D) By avoiding communication with team members",
+            "B) By rushing through the development process to meet deadlines"
+        ],
+        "correct_answer": "A) By setting clear standards before starting work and evaluating progress regularly"
+    },
+    {
+        "question": "3. According to DSDM principles, how do teams respond to changes in project specifications?",
+        "options": [
+            "B) By adjusting time and resources to accommodate changes",
+            "A) By rigidly sticking to the initial plan",
+            "C) By ignoring changes and continuing with the original plan",
+            "D) By avoiding changes altogether"
+        ],
+        "correct_answer": "B) By adjusting time and resources to accommodate changes"
+    },
+    {
+        "question": "4. What is one of the key principles of Kanban?",
+        "options": [
+            "C) Ignoring bottlenecks in workflow",
+            "A) Encourage Acts of Leadership at All Levels",
+            "B) Setting rigid deadlines for project completion",
+            "D) Focusing solely on immediate results"
+        ],
+        "correct_answer": "C) Ignoring bottlenecks in workflow"
+    },
+    {
+        "question": "5. How does Kanban support continuous improvement within an organization?",
+        "options": [
+            "B) By avoiding any changes to the workflow",
+            "A) By limiting work-in-process and implementing a pull system",
+            "C) By ignoring feedback and data on workflow changes",
+            "D) By focusing on emotional and anecdotal discussions"
+        ],
+        "correct_answer": "B) By avoiding any changes to the workflow"
+    },
+    {
+        "question": "6. What is the advantage of tracking flow, quality, throughput, and lead times in Kanban?",
+        "options": [
+            "B) It allows for experiments and analysis to improve team effectiveness",
+            "A) It helps to maintain emotional and anecdotal discussions",
+            "D) It minimizes communication within the team",
+            "C) It slows down the development process"
+        ],
+        "correct_answer": "B) It allows for experiments and analysis to improve team effectiveness"
+    },
+    {
+        "question": "7. What role does the Business Sponsor play in a DSDM project?",
+        "options": [
+            "C) Ignoring the project vision",
+            "A) Giving teams technical advice",
+            "B) Interpreting the needs of the project",
+            "D) Focusing solely on project deadlines"
+        ],
+        "correct_answer": "C) Ignoring the project vision"
+    },
+    {
+        "question": "8. In Kanban, what does limited work-in-process imply?",
+        "options": [
+            "D) That workflow progress should not be monitored",
+            "C) That a pull system is implemented on parts or all of the workflow",
+            "B) That changes should be avoided in the workflow",
+            "A) That a push system should be implemented on the workflow"
+        ],
+        "correct_answer": "D) That workflow progress should not be monitored"
+    },
+    {
+        "question": "9. How does DSDM encourage collaboration within teams?",
+        "options": [
+            "A) By minimizing communication",
+            "D) By discouraging feedback and input from team members",
+            "B) By involving all relevant parties and granting each a say",
+            "C) By isolating team members from one another"
+        ],
+        "correct_answer": "A) By minimizing communication"
+    },
+    {
+        "question": "10. How does Kanban help identify bottlenecks in workflow?",
+        "options": [
+            "C) By avoiding analysis of workflow changes",
+            "D) By focusing solely on emotional discussions",
+            "B) By actively managing the flow and monitoring transitions",
+            "A) By ignoring workflow transitions"
+        ],
+        "correct_answer": "C) By avoiding analysis of workflow changes"
+    }
+]
