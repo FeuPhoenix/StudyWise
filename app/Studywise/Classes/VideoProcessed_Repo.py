@@ -1,3 +1,4 @@
+
 import openai
 from Constants import OPENAI_API_KEY, MAX_TOKENS_PER_REQUEST,kUserId,kUserEmail ,kDatejoined ,kFullName
 import os
@@ -93,13 +94,13 @@ class VideoProcessed_Repo:
         """Uploads a large file to Google Cloud Storage using resumable upload."""
         print(f"Uploading {file_path}...")
         with open(file_path, 'rb') as f:
-            blob.upload_from_file(f, rewind=True, content_type='video/mp4')
+            blob.upload_from_file(f, rewind=True, content_type='video/mp4',timeout=600)
     def upload_audio_file_to_storage(blob, file_path):
         """Uploads a large file to Google Cloud Storage using resumable upload."""
         
 
         with open(file_path, 'rb') as f:
-            blob.upload_from_file(f, rewind=True, content_type='audio/wav')
+            blob.upload_from_file(f, rewind=True, content_type='audio/wav',timeout=600)
 
     def upload_material_to_storage(user_id, material_name, material_file_path, text_file_path, summary_file_path, chapters_file_path, audio_file_path):
         db_instance = FirestoreDB.get_instance()
@@ -119,28 +120,28 @@ class VideoProcessed_Repo:
 
 
         # Upload the material file inside the folder
-        material_blob_path = folder_path + "{material_name}.mp4"
+        material_blob_path = folder_path + f"{material_name}.mp4"
         material_blob = storage_instance.blob(material_blob_path)
         VideoProcessed_Repo.upload_Video_file_to_storage(material_blob, material_file_path)
 
         # Upload the text file inside the folder
         text_blob_path = folder_path + "text.txt"
         text_blob = storage_instance.blob(text_blob_path)
-        text_blob.upload_from_filename(text_file_path)
+        text_blob.upload_from_filename(text_file_path,timeout=600)
 
         # Upload the summary file inside the folder
         summary_blob_path = folder_path + "summary.json"
         summary_blob = storage_instance.blob(summary_blob_path)
-        summary_blob.upload_from_filename(summary_file_path)
+        summary_blob.upload_from_filename(summary_file_path,timeout=600)
 
         # If chapters_file_path is provided, upload the chapters file inside the folder
         
         chapters_blob_path = folder_path + "chapters.json"
         chapters_blob = storage_instance.blob(chapters_blob_path)
-        chapters_blob.upload_from_filename(chapters_file_path)
+        chapters_blob.upload_from_filename(chapters_file_path,timeout=600)
 
         # If audio_file_path is provided, upload the audio file inside the folder
-        
+        time.sleep(10)
         audio_blob_path = folder_path + "audio.mp3"
         audio_blob = storage_instance.blob(audio_blob_path)
         VideoProcessed_Repo.upload_audio_file_to_storage(audio_blob, audio_file_path)
@@ -362,9 +363,11 @@ class VideoProcessed_Repo:
             
             self.generated_summary_file_path = f'assets/output_files/Summaries/{self.file_name}.json'
             text = VideoProcessed_Repo.read_text_file(self.generated_text_file_path)
-            long_summary = VideoProcessed_Repo.get_Long_summary(text, OPENAI_API_KEY)
+            prompt = "Provide a long summary of the transcript."
+
+            result = transcript.lemur.task(prompt)   
             summary_data = {
-                    'long_summary': long_summary
+                    'long_summary': result.response
                 }
                 # Write the summary data to a JSON file
             with open(self.generated_summary_file_path, 'w') as json_file:
@@ -387,10 +390,9 @@ class VideoProcessed_Repo:
                 json.dump(processed_chapters, outfile, indent=4)
             self.addProcessedMaterialToFirestore()
 
-            Flash_Cards(self._file_path,"TRANSCRIPT")
+            Flash_Cards(self.generated_text_file_path,"TRANSCRIPT")
 
-            #v=VideoProcessed(json_file_path,audio_file_path,f'assets/output_files/Chapters/processed_chapters_{Video_name}.json',text_file_path,None,videocutted)
-            #self.Save_ProcessedVideo_to_database(v)
+
         # Check if the input is a YouTube video link
         # youtube_regex = (
         #     r'(https?://)?(www\.)?'
@@ -445,9 +447,11 @@ class VideoProcessed_Repo:
 
 
             text = VideoProcessed_Repo.read_text_file(self.generated_text_file_path)
-            long_summary = self.get_Long_summary(text, OPENAI_API_KEY)
+            prompt = "Provide a summary of the transcript."
+
+            result = transcript.lemur.task(prompt)   
             summary_data = {
-                    'long_summary': long_summary
+                    'long_summary': result.response
                 }
                 # Write the summary data to a JSON file
             with open( self.generated_summary_file_path, 'w') as json_file:

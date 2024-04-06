@@ -29,7 +29,7 @@ function signUp() {
     var fullname = document.getElementById('fullName').value;
     var email = document.getElementById('signUpEmail').value;
     var password = document.getElementById('signUpPassword').value;
-
+    
     auth.createUserWithEmailAndPassword(email, password)
   .then(function() {
     // Declare user variable

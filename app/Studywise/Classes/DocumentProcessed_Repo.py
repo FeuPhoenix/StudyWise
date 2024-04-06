@@ -69,7 +69,7 @@ class DocumentProcessed:
         #document(rmk3SGTciwNRdo9pT4CO) this will be replaced with the material id
 
         try:
-            doc_ref=firestore_instance.collection('Users').document('13ffe4704e2d423ea7751cb88d599db7').collection('DocumentMaterial').document("rmk3SGTciwNRdo9pT4CO").set({
+            doc_ref=firestore_instance.collection('Users').document('13ffe4704e2d423ea7751cb88d599db7').collection('DocumentMaterial').document(self.material_id).set({
                 "file_name": self.file_name,
                 "_file_path": file_path_location,
                 "file_type": self.file_type,
@@ -139,17 +139,17 @@ class DocumentProcessed:
         # Upload the material file inside the folder
         material_blob_path = folder_path + "material"
         material_blob = storage_instance.blob(material_blob_path)
-        material_blob.upload_from_filename(material_file_path)
+        material_blob.upload_from_filename(material_file_path,timeout=600)
 
         # Upload the text file inside the folder
         text_blob_path = folder_path + "text.txt"
         text_blob = storage_instance.blob(text_blob_path)
-        text_blob.upload_from_filename(text_file_path)
+        text_blob.upload_from_filename(text_file_path,timeout=600)
 
         # Upload the summary file inside the folder
         summary_blob_path = folder_path + "summary.txt"
         summary_blob = storage_instance.blob(summary_blob_path)
-        summary_blob.upload_from_filename(summary_file_path)
+        summary_blob.upload_from_filename(summary_file_path,timeout=600)
         
         expiration = datetime.now() + timedelta(days=36500)
         # download_urls = {
@@ -492,9 +492,8 @@ class DocumentProcessed:
             
             
             text=DocumentProcessed.clean_text(text)
-            #result = DocumentProcessed.get_Long_summary(text)
-            model = Summarizer()
-            result = model(text)
+            result = DocumentProcessed.get_Long_summary(text)
+
             summary_data = {
                 'long_summary': result
             }

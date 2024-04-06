@@ -291,14 +291,14 @@ class Questions_Repo:
 
         output_mcqs_medium_blob_path = folder_path  +"output_mcqs_medium.json"
         output_mcqs_medium_blob = storage_instance.blob(output_mcqs_medium_blob_path)
-        output_mcqs_medium_blob.upload_from_filename(output_mcqs_medium)
+        output_mcqs_medium_blob.upload_from_filename(output_mcqs_medium,timeout=600)
 
         output_mcqs_hard_blob_path = folder_path  +"output_mcqs_hard.json"
-        output_mcqs_hard_blob = storage_instance.blob(output_mcqs_hard_blob_path)
+        output_mcqs_hard_blob = storage_instance.blob(output_mcqs_hard_blob_path,timeout=600)
         output_mcqs_hard_blob.upload_from_filename(output_mcqs_hard)
 
         output_mcqs_easy_blob_path = folder_path  +"output_mcqs_easy.json"
-        output_mcqs_easy_blob = storage_instance.blob(output_mcqs_easy_blob_path)
+        output_mcqs_easy_blob = storage_instance.blob(output_mcqs_easy_blob_path,timeout=600)
         output_mcqs_easy_blob.upload_from_filename(output_mcqs_easy)
         
         expiration = datetime.now() + timedelta(days=36500)

@@ -19,7 +19,7 @@ class Flash_Cards:
         self.ProcessedMaterial=ProcessedMaterial  
         #self.db = FirestoreDB.get_instance()
         self.flashcard_id=uuid.uuid4().hex
-        self.runFlashcards(self.ProcessedMaterial, self.content_type)
+        self.runFlashcards(self.ProcessedMaterial)
         if content_type=="TRANSCRIPT":
             self.add_FlashCards_Video_ToFirestore()
             self.get_Flashcards_Video_from_firestore()
@@ -105,7 +105,7 @@ class Flash_Cards:
         # Upload the material file inside the folder
         flashcard_blob_path = folder_path + "flashcards"
         flashcard_blob = storage_instance.blob(flashcard_blob_path)
-        flashcard_blob.upload_from_filename(flashcard_file_path)
+        flashcard_blob.upload_from_filename(flashcard_file_path,timeout=600)
     
         expiration = datetime.now() + timedelta(days=36500)
 
@@ -276,7 +276,7 @@ class Flash_Cards:
                         qa_pairs.append(pair)
             except openai.error.RateLimitError:
                 print("Rate limit reached, waiting for 30 seconds...")
-                time.sleep(30)
+                time.sleep(21)
                 # Retry the request after waiting
                 response = openai.ChatCompletion.create(model="gpt-3.5-turbo", messages=prompt)
                 response_text = response.choices[0].message['content'].strip()
