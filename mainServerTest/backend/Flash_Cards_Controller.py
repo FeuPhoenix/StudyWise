@@ -7,7 +7,7 @@ from backend.Constants import OPENAI_API_KEY, MAX_TOKENS_PER_REQUEST,kUserId,kUs
 import backend.FirestoreDB 
 
 class FlashcardsController:
-    def __init__(self,ProcessedMaterial):
+    def __init__(self, ProcessedMaterial):
         openai.api_key = OPENAI_API_KEY
         self.ProcessedMaterial=ProcessedMaterial  
         #self.db = FirestoreDB.get_instance()

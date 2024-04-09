@@ -1,0 +1,102 @@
+[
+    {
+        "question": "1. What does the acronym DSDM stand for?",
+        "options": [
+            "C. Dynamic Systems Development Method",
+            "B. Development System for Digital Management",
+            "D. Data System Design Methodology",
+            "A. Dynamic Software Development Model"
+        ],
+        "correct_answer": "C. Dynamic Systems Development Method"
+    },
+    {
+        "question": "2. In DSDM, teams strive to build incrementally from firm foundations to adapt to ongoing changes in a project's specifications and needs. What does this mean?",
+        "options": [
+            "D. Teams build the project entirely based on client demands without any modifications.",
+            "B. Teams develop the project in small sections, making improvements as needed.",
+            "A. Teams plan out the entire project at once and execute all tasks simultaneously.",
+            "C. Teams focus solely on meeting initial project requirements without any flexibility."
+        ],
+        "correct_answer": "D. Teams build the project entirely based on client demands without any modifications."
+    },
+    {
+        "question": "3. What role does a Technical Advisor play in a DSDM team?",
+        "options": [
+            "A. Communicating the vision of the project",
+            "C. Giving ad hoc advice on technical aspects",
+            "B. Setting clear standards before beginning work",
+            "D. Evaluating project progress regularly to ensure quality"
+        ],
+        "correct_answer": "A. Communicating the vision of the project"
+    },
+    {
+        "question": "4. What is the main goal of Kanban in a project or workflow?",
+        "options": [
+            "A. Maximize work-in-process to increase productivity",
+            "D. Limit communication between team members to avoid distractions",
+            "C. Prioritize completing tasks before starting new ones",
+            "B. Identify and resolve bottlenecks in the process"
+        ],
+        "correct_answer": "A. Maximize work-in-process to increase productivity"
+    },
+    {
+        "question": "5. How does a pull system differ from a push system in Kanban?",
+        "options": [
+            "D. Pull system involves setting priorities for tasks before starting, while push system randomly assigns tasks without a clear order.",
+            "C. Pull system encourages completing tasks as quickly as possible, while push system emphasizes taking time to perfect each task.",
+            "B. Pull system allows team members to request new tasks when they are ready, while push system assigns tasks automatically.",
+            "A. Pull system focuses on completing work in batches, while push system completes tasks individually."
+        ],
+        "correct_answer": "D. Pull system involves setting priorities for tasks before starting, while push system randomly assigns tasks without a clear order."
+    },
+    {
+        "question": "6. What is a potential disadvantage of using Kanban in a project?",
+        "options": [
+            "A. Revealing bottlenecks in the workflow",
+            "B. Lack of timing leading to delays in completion",
+            "C. Limiting work-in-process to improve efficiency",
+            "D. Encouraging acts of leadership at all levels"
+        ],
+        "correct_answer": "A. Revealing bottlenecks in the workflow"
+    },
+    {
+        "question": "7. How does visualizing workflows in Kanban help teams understand planned changes in a project?",
+        "options": [
+            "C. It prevents teams from experimenting with different approaches to improve effectiveness.",
+            "B. It enables teams to monitor, measure, and report on each transition between workflow states.",
+            "A. It allows teams to skip stages in the workflow to speed up the project.",
+            "D. It restricts teams from discussing potential improvements based on data and analysis."
+        ],
+        "correct_answer": "C. It prevents teams from experimenting with different approaches to improve effectiveness."
+    },
+    {
+        "question": "8. According to the principles of Kanban, why is it essential to encourage acts of leadership at all levels?",
+        "options": [
+            "B. To prevent team members from making decisions independently without input.",
+            "D. To prioritize speed of completion over the accuracy of tasks.",
+            "A. To limit communication between team members and streamline workflow.",
+            "C. To promote a culture of continuous improvement and a focus on quality."
+        ],
+        "correct_answer": "B. To prevent team members from making decisions independently without input."
+    },
+    {
+        "question": "9. How does Kanban support continuous improvement and sustainable change within an organization?",
+        "options": [
+            "C. By avoiding any discussions about problems or potential enhancements in the workflow.",
+            "A. By limiting the amount of work-in-process to reduce stress on team members.",
+            "B. By allowing team members to experiment and analyze changes to improve effectiveness.",
+            "D. By completing projects in large batches to quickly move onto the next task at hand."
+        ],
+        "correct_answer": "C. By avoiding any discussions about problems or potential enhancements in the workflow."
+    },
+    {
+        "question": "10. What is the purpose of actively managing the flow in a Kanban system?",
+        "options": [
+            "C. To ignore workflow transitions and focus solely on completing tasks.",
+            "B. To evaluate the positive or negative effects of incremental changes to the system.",
+            "A. To keep team members constantly busy with work-in-process tasks.",
+            "D. To overburden team members with multiple tasks simultaneously."
+        ],
+        "correct_answer": "C. To ignore workflow transitions and focus solely on completing tasks."
+    }
+]

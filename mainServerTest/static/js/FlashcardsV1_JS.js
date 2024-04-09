@@ -201,8 +201,6 @@ function loadCards() {
       console.log('Reading Flashcards');
       fullCards = data.map(card => ({ ...card, status: "unread" }));
       numberCards = fullCards.length;
-      cleanedFlashcards = cleanFlashcards(fullCards);
-      fullCards = cleanedFlashcards;
       setUp(); // Initialize the setup
     })
     .catch(error => {

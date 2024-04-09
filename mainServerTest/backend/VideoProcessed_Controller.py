@@ -1,10 +1,8 @@
 from datetime import datetime
 import json
 import time
-from firebase_admin import firestore
-
 import openai
-from Constants import OPENAI_API_KEY, MAX_TOKENS_PER_REQUEST,kUserId,kUserEmail ,kDatejoined ,kFullName
+from backend.Constants import OPENAI_API_KEY, MAX_TOKENS_PER_REQUEST,kUserId,kUserEmail ,kDatejoined ,kFullName
 import os
 import re
 import moviepy.editor as mp # Install moviepy: pip install moviepy
@@ -15,22 +13,21 @@ import time
 import json
 import openai
 from pytube import YouTube
+from flask import jsonify
 #from Model.Material_Repo import Material
-import firebase_admin
-from firebase_admin import credentials, storage
-from flask import request,jsonify,render_template
+from firebase_admin import credentials, storage, firestore
 import uuid
-from VideoProcessed_Repo import VideoProcessed_Repo
+from backend.VideoProcessed_Repo import VideoProcessed_Repo
 
-from audiocutter import runaudiocutter
-from flashcard_creator import runFlashcards
+from backend.audiocutter import runaudiocutter
+from backend.flashcard_creator import runFlashcards
 aai.settings.api_key = "8d8390aa4ac24f7aa92d724e44370d73"
 
 class Video_Processed_Controller:
     
-    def __init__(self,material,Video_cutted=True):
+    def __init__(self, material, Video_cutted=True):
         self.material=material
-        self.Video_Processing(material,Video_cutted)
+        self.Video_Processing(material, Video_cutted)
         #self.db = FirestoreDB.get_instance()
         
     def Save_ProcessedVideo_to_database(self,generated_summary_file_path,generated_audio_file_path,generated_chapters_file_path,generated_text_file_path,generated_images_file_path,generated_video_file_path):
@@ -119,7 +116,7 @@ class Video_Processed_Controller:
         seconds = int(ms / 1000)
         return str(timedelta(seconds=seconds))
     @staticmethod
-    def generate_concise_title(self,headline, api_key):
+    def generate_concise_title(headline, api_key):
         while True:
             try:
                 headers = {"Authorization": f"Bearer {api_key}"}
@@ -173,6 +170,7 @@ class Video_Processed_Controller:
 
     @staticmethod
     def read_text_file(file_path):
+        os.makedirs(os.path.dirname(file_path), exist_ok=True)
         with open(file_path, 'r') as file:
             return file.read()
     
@@ -200,7 +198,7 @@ class Video_Processed_Controller:
         full_summary = ' '.join(summaries)
         return full_summary
     
-    def Video_Processing(self,file_path_or_url,Video_cutted):
+    def Video_Processing(self, file_path_or_url, Video_cutted):
 
     # Check if the input is a local file with the extension .mp4
         
@@ -220,19 +218,20 @@ class Video_Processed_Controller:
             print('video is initialized')
             audio = video.audio
             print('video.audio is extracted')
-            audio.write_audiofile(f"assets/output_files/{Video_name}.wav")
-            audio_file_path = f"assets/output_files/{Video_name}.wav"
+            audio.write_audiofile(f"mainServerTest/assets/output_files/{Video_name}.wav")
+            audio_file_path = f"mainServerTest/assets/output_files/{Video_name}.wav"
             print(f"Audio file downloaded at: {audio_file_path}") 
             config = aai.TranscriptionConfig(auto_chapters=True)
 
             # Transcribe the audio and get the result as a JSON object
             transcript = aai.Transcriber().transcribe(audio_file_path, config)
             
-            transcript_filename = f"assets/output_files/text_files/{Video_name}.txt"
+            transcript_filename = f"mainServerTest/assets/output_files/extracted_transcripts/{Video_name}.txt"
+            os.makedirs(os.path.dirname(transcript_filename), exist_ok=True)
             with open(transcript_filename, 'w', encoding='utf-8',errors='ignore') as transcript_file:
                     transcript_file.write(transcript.text)
                     print(f"Full transcript has been successfully saved to {transcript_filename}.")
-            runFlashcards(transcript_filename, 'TRANSCRIPT')
+            runFlashcards(transcript_filename)
             chapters_data = []
 
             # Iterate over chapters and add their data to the list
@@ -243,26 +242,31 @@ class Video_Processed_Controller:
                     "headline": chapter.headline
                 }) 
                     
-            json_chapters = f'assets/output_files/Chapters/chapters_results_{Video_name}.json'
+            json_chapters = f'mainServerTest/assets/output_files/Chapters/chapters_results_{Video_name}.json'
 
     # Write the chapters data to a JSON file
+            os.makedirs(os.path.dirname(json_chapters), exist_ok=True)
             with open(json_chapters, 'w') as json_file:
                 json.dump(chapters_data, json_file, indent=4)
             
             print(f"Chapters have been successfully saved to {json_chapters}.")
             
-            text_file_path = f'assets/output_files/extracted_transcripts/{Video_name}.txt'
-            json_file_path = f'assets/output_files/Summaries/{Video_name}.json'
+            text_file_path = f'mainServerTest/assets/output_files/extracted_transcripts/{Video_name}.txt'
+            json_file_path = f'mainServerTest/assets/output_files/summaries/{Video_name}.json'
             text = Video_Processed_Controller.read_text_file(text_file_path)
-            long_summary = Video_Processed_Controller.get_Long_summary(text, OPENAI_API_KEY)
+            # long_summary = Video_Processed_Controller.get_Long_summary(text, OPENAI_API_KEY)
+            prompt = "Provide a summary of the transcript."
+            result = transcript.lemur.task(prompt)
+
             summary_data = {
-                    'long_summary': long_summary
+                    'long_summary': result.response
                 }
-                # Write the summary data to a JSON file
+            
+            # Write the summary data to a JSON file
             with open(json_file_path, 'w') as json_file:
                     json.dump(summary_data, json_file, indent=4)
                     print(f"Long summary has been successfully saved to {json_file_path}.") 
-            text=Video_Processed_Controller.Readjsonfile(json_chapters)
+            text = Video_Processed_Controller.Readjsonfile(json_chapters)
             processed_chapters = []
             for chapter in text:
                 start_hms = Video_Processed_Controller.milliseconds_to_hms(chapter['start'])
@@ -275,9 +279,15 @@ class Video_Processed_Controller:
                     'concise_title': concise_title
                 })
 
-            with open(f'assets/output_files/Processed_Chapters/{Video_name}.json', 'w') as outfile:
+            processed_chapters_path = f'mainServerTest/assets/output_files/Processed_Chapters'
+
+            os.makedirs(processed_chapters_path, exist_ok=True)
+            file_path = os.path.join(processed_chapters_path, f'{Video_name}.json')
+
+            with open(file_path, 'w') as outfile:
                 json.dump(processed_chapters, outfile, indent=4)
-            #v=VideoProcessed(json_file_path,audio_file_path,f'assets/output_files/Chapters/processed_chapters_{Video_name}.json',text_file_path,None,videocutted)
+            print(f"{Video_name} processing done.")
+            #v=VideoProcessed(json_file_path,audio_file_path,f'mainServerTest/assets/output_files/Chapters/processed_chapters_{Video_name}.json',text_file_path,None,videocutted)
             #self.Save_ProcessedVideo_to_database(v)
         # Check if the input is a YouTube video link
         # youtube_regex = (
@@ -285,10 +295,10 @@ class Video_Processed_Controller:
         #     r'(youtube|youtu|youtube-nocookie)\.(com|be)/'
         #     r'(watch\?v=|embed/|v/|.+\?v=)?([^&=%\?]{11})')
         # match = re.match(youtube_regex, file_path_or_url)
-        else:
+        else: # Video Link
             print("skipped if")
             video_url = file_path_or_url  
-            output_path = 'assets/input_files/videos'  
+            output_path = 'mainServerTest/assets/input_files/videos'  
             video_file_path,title = Video_Processed_Controller.download_video_from_youtube(video_url, output_path)
             print("the video has been downloaded successfully")
             #videocutted=runaudiocutter(video_file_path)
@@ -296,14 +306,14 @@ class Video_Processed_Controller:
             video = mp.VideoFileClip(video_file_path)
 
             audio = video.audio
-            audio.write_audiofile(f"assets/output_files/audio/extracted_audio_from_{title}.wav")
-            audio_file_path = f"assets/output_files/extracted_audio_from_{title}.wav"
+            audio.write_audiofile(f"mainServerTest/assets/output_files/audio/extracted_audio_from_{title}.wav")
+            audio_file_path = f"mainServerTest/assets/output_files/extracted_audio_from_{title}.wav"
             print(f"Audio file downloaded at: {audio_file_path}") 
             config = aai.TranscriptionConfig(auto_chapters=True,)
 
             # Transcribe the audio and get the result as a JSON object
             transcript = aai.Transcriber().transcribe(video_file_path, config)
-            transcript_filename = f"assets/output_files/extracted_transcripts/{title}.txt"
+            transcript_filename = f"mainServerTest/assets/output_files/extracted_transcripts/{title}.txt"
             with open(transcript_filename, 'w', encoding='utf-8') as transcript_file:
                     transcript_file.write(transcript.text)
                     print(f"Full transcript has been successfully saved to {transcript_filename}.")
@@ -318,19 +328,17 @@ class Video_Processed_Controller:
                     "headline": chapter.headline
                 }) 
                     
-            json_chapters = f'assets/output_files/Chapters/chapters_results_{title}.json'
+            json_chapters = f'mainServerTest/assets/output_files/Chapters/chapters_results_{title}.json'
 
     # Write the chapters data to a JSON file
+            os.makedirs(os.path.dirname(json_chapters), exist_ok=True)
             with open(json_chapters, 'w') as json_file:
                 json.dump(chapters_data, json_file, indent=4)
             
             print(f"Chapters have been successfully saved to {json_chapters}.")
             
-            text_file_path = f'assets/output_files/extracted_transcripts/{title}.txt'
-            json_file_path = f'assets/output_files/Summaries/{title}.json'
-            
-
-
+            text_file_path = f'mainServerTest/assets/output_files/extracted_transcripts/{title}.txt'
+            json_file_path = f'mainServerTest/assets/output_files/summaries/{title}.json'
 
             text = Video_Processed_Controller.read_text_file(text_file_path)
             long_summary = self.get_Long_summary(text, OPENAI_API_KEY)
@@ -341,7 +349,7 @@ class Video_Processed_Controller:
             with open(json_file_path, 'w') as json_file:
                     json.dump(summary_data, json_file, indent=4)
                     print(f"Long summary has been successfully saved to {json_file_path}.") 
-            text=Video_Processed_Controller.Readjsonfile(json_chapters)
+            text = Video_Processed_Controller.Readjsonfile(json_chapters)
             
 
             processed_chapters = []
@@ -356,10 +364,11 @@ class Video_Processed_Controller:
                     'concise_title': concise_title
                 })
 
-            with open(f'assets/output_files/Chapters/processed_chapters_{title}.json', 'w') as outfile:
+            with open(f'mainServerTest/assets/output_files/Chapters/processed_chapters_{title}.json', 'w') as outfile:
                 json.dump(processed_chapters, outfile, indent=4)
-            #self.Save_ProcessedVideo_to_database(json_file_path,audio_file_path,f'assets/output_files/Chapters/processed_chapters_{Video_name}.json',text_file_path,None,videocutted)
-def main():
- v=Video_Processed_Controller("assets/input_files/videos/Physics_-_Basic_Introduction.mp4",False)
+            #self.Save_ProcessedVideo_to_database(json_file_path,audio_file_path,f'mainServerTest/assets/output_files/Chapters/processed_chapters_{Video_name}.json',text_file_path,None,videocutted)
+            print(f"{title} processing done.")
+def main(file = "mainServerTest/assets/input_files/videos/Physics_-_Basic_Introduction.mp4"):
+ v = Video_Processed_Controller(file, False)
 if __name__ == '__main__':
      main()

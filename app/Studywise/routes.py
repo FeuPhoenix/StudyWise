@@ -1,1 +1,0 @@
-from Studywise import Studywise

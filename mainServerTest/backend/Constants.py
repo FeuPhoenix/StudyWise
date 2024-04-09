@@ -3,7 +3,7 @@ kUserId = ""
 kUserEmail = ""
 kDatejoined = ""
 kFullName = ""
-OPENAI_API_KEY = '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'
+OPENAI_API_KEY = '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' # Key with $5 Paid
 aai.settings.api_key = "8d8390aa4ac24f7aa92d724e44370d73"
 
 # PDF Processing

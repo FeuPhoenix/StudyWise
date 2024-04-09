@@ -1,0 +1,62 @@
+[
+    {
+        "front": "Q: What is the importance of software design according to the text?",
+        "back": "A: The importance of software design lies in providing representations of software that can be assessed for quality and accurately translating stakeholders' requirements into a blueprint for finished products or systems."
+    },
+    {
+        "front": "Q: What are the three main measures to evaluate the final design in software engineering?",
+        "back": "A: The final design should be evaluated against three main measures: Design Correctness, Design Clarity, and Design Completeness."
+    },
+    {
+        "front": "Q: What is cohesion in software design and why is it important?",
+        "back": "A: Cohesion measures how much a design makes architectural elements responsible for a single task or function. High cohesion is important because it helps in creating more maintainable and reusable designs."
+    },
+    {
+        "front": "Q: Describe what inheritance is in object-oriented programming.",
+        "back": "A: Inheritance is when a class can extend another class, inheriting all its data members and methods while redefining some of them and adding its own. It represents the \"is a\" relationship, allowing objects of a subclass to be treated as objects of its superclass."
+    },
+    {
+        "front": "Q: What is encapsulation and how does it benefit software design?",
+        "back": "A: Encapsulation is a protective barrier that prevents code and data from being randomly accessed by other code outside the class. It benefits software design by allowing control over how data is stored, making fields read-only or write-only, and maintaining data type changes without affecting external code."
+    },
+    {
+        "front": "Q: Explain the concept of polymorphism and provide an example.",
+        "back": "A: Polymorphism allows multiple objects of different subclasses to be treated as objects of a single superclass, automatically selecting the proper methods based on the subclass. For example, using a parent class reference to refer to a child class object and invoking methods based on the actual object type."
+    },
+    {
+        "front": "Q: How does the text define abstraction in software development?",
+        "back": "A: Abstraction is defined as the process of reducing something to its essential characteristics by creating interfaces that denote common behavior without specifying implementation details."
+    },
+    {
+        "front": "Q: What is association in object-oriented programming and how does it facilitate communication between classes?",
+        "back": "A: Association in OOP establishes relationships between classes, enabling objects of one class to communicate with objects of another class. It helps in forming connections between classes and facilitating interactions between their instances."
+    },
+    {
+        "front": "1. What is the concept of aggregation in the context of object-oriented programming?",
+        "back": "- Aggregation is a relationship where a Country object has a list of Sportsperson objects associated with it, but both objects can exist independently."
+    },
+    {
+        "front": "2. How does aggregation help with code reusability?",
+        "back": "- Aggregation allows classes to exist independently, enabling them to be reused and associated with other classes without modification."
+    },
+    {
+        "front": "3. What is the difference between aggregation and composition?",
+        "back": "- Aggregation is a loosely coupled relationship where objects can exist independently, while composition is a tightly coupled relationship where one class belongs to another."
+    },
+    {
+        "front": "4. Can you provide an example of composition in object-oriented programming?",
+        "back": "- In composition, the College class is defined with a list of students studying in it, while the Student class is defined with the college they are studying at."
+    },
+    {
+        "front": "5. How does composition differ from aggregation in terms of object association?",
+        "back": "- In composition, the objects are more tightly coupled and exist because of each other, while in aggregation, the objects can exist independently."
+    },
+    {
+        "front": "6. How can composition be beneficial in software design?",
+        "back": "- Composition helps establish a stronger relationship between classes, ensuring that one class exists because of the other and promoting code organization and maintainability."
+    },
+    {
+        "front": "7. Explain the relationship between the Company and Office classes in the composition example.",
+        "back": "- The Company class has a list of Office objects associated with it, where each Office object represents an office belonging to the company."
+    }
+]

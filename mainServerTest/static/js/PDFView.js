@@ -11,6 +11,14 @@ function goToChat() {
     }
 }
 
+function goToMCQ() {
+    if (fileParam) {
+        window.location.href = `/mcq?file=${encodeURIComponent(fileParam)}`;
+    } else {
+        console.error("No file parameter found in URL.");
+    }
+}
+
 if (fileParam) {
     const filename = fileParam.replace(/\.[^.]+$/, '');
     console.log("Received File Name:", filename);
@@ -47,10 +55,10 @@ function popupPrompt() {
 function chooseOption(option) {
     closePopup();
     if (option === 'text') {
-        window.location.href = 'upload-doc.html';
+        window.location.href = '/text-upload';
     }
     else if (option === 'video') {
-        window.location.href = 'upload-video-based.html';
+        window.location.href = '/video-upload';
     }
     else {
         alert("Invalid input");

@@ -6,10 +6,10 @@ function popupPrompt() {
 function chooseOption(option) {
     closePopup();
     if (option === 'text') {
-        window.location.href = 'upload-doc.html';
+        window.location.href = '/text-upload';
     }
     else if (option === 'video') {
-        window.location.href = 'upload-video-based.html';
+        window.location.href = '/video-upload';
     }
     else {
         alert("Invalid input");

@@ -3,8 +3,10 @@ import openai
 import time
 import json
 import re
+import os
+from backend.Constants import OPENAI_API_KEY
 
-openai.api_key = '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'
+openai.api_key = OPENAI_API_KEY
 MAX_TOKENS_PER_REQUEST = 4096  # Safe limit for tokens per request
 
 def is_conceptually_relevant(question):
@@ -79,7 +81,7 @@ def generate_qa_pairs(paragraphs, content_type):
 
         base_prompt = "Generate questions and answers focusing on the technical and conceptual content of this text. "
 
-        transcript_note = "Noting that the text that will be given might contain grammatical or logical mistakes due to speech-to-text inaccuracies, please focus on generating conceptually relevant and clear questions and answers, avoiding ambiguous content. Only generate quesitons and answers relevant to the following text: " 
+        transcript_note = "Noting that the text that will be given might contain grammatical or logical mistakes due to speech-to-text inaccuracies, please focus on generating conceptually relevant and clear questions and answers, avoiding ambiguous content. Only generate questions and answers relevant to the following text: " 
         pdf_note = "Avoiding questions about authors, publication dates, or historical development. Do not refer to the material you have been provided with as 'this text' or 'the text', instead, refer to it with the name of the topic at hand, and do not treat the questions & answers as they are exclusive to this text, for example, do not ask about what this text in particular is talking about. You can ask about definitions of things that were explained in the text: "
 
 
@@ -104,19 +106,20 @@ def generate_qa_pairs(paragraphs, content_type):
 
     for batch in batched_paragraphs:
 
+        format = "The JSON response should be in the following format, the questions and answers should be directly in the value, no headings like \"Q: Question\" or \"A: Answer\" \"front\": \"Actual Question\", \"back\": \"Actual Answer\""
         prompt_content = base_prompt + note
         system_prompt = {"role": "system", "content": "You are a helpful assistant."}
-        user_prompt = {"role": "user", "content": prompt_content + ": " + batch}
+        user_prompt = {"role": "user", "content": prompt_content + "\""+batch+"\"" + format}
 
-        print("This is the user prompt that will be sent: Prompt Content:y\n" + prompt_content + "\nBatch:\n" + batch)
+        print("This is the user prompt that will be sent: Prompt Content:\n" + prompt_content + "\nBatch:\n" + batch)
 
         prompt = [system_prompt, user_prompt]
         try:
             response = openai.ChatCompletion.create(model="gpt-3.5-turbo", messages=prompt)
-            response_text = response.choices[0].message['content'].strip()
-            potential_qa_pairs = response_text.split('\n\n')
+            # Directly parse the response since it's already in the expected JSON format
+            potential_qa_pairs = json.loads(response.choices[0].message['content'])
             for pair in potential_qa_pairs:
-                question = pair.split('\n')[0]
+                question = pair.get('front')
                 if is_conceptually_relevant(question):
                     qa_pairs.append(pair)
         except openai.error.RateLimitError:
@@ -124,13 +127,14 @@ def generate_qa_pairs(paragraphs, content_type):
             time.sleep(30)
             # Retry the request after waiting
             response = openai.ChatCompletion.create(model="gpt-3.5-turbo", messages=prompt)
-            response_text = response.choices[0].message['content'].strip()
-            potential_qa_pairs = response_text.split('\n\n')
+            potential_qa_pairs = json.loads(response.choices[0].message['content'])
             for pair in potential_qa_pairs:
-                question = pair.split('\n')[0]
+                question = pair.get('front')
                 if is_conceptually_relevant(question):
                     qa_pairs.append(pair)
-
+        except Exception as e:
+            print(f"Error processing batch: {e}")
+            
     return qa_pairs
 
 def format_flash_cards(qa_pairs):
@@ -157,6 +161,7 @@ def filenameFromPath(filepath):
 # Example usage:
 
 def save_flash_cards_to_file(formatted_cards, filepath):
+    os.makedirs(os.path.dirname(filepath), exist_ok=True)
     with open(filepath, 'w') as file:
         json.dump(formatted_cards, file, indent=4)
 
@@ -164,7 +169,7 @@ def runFlashcards(file_path, content_type = ''):
     content = []
 
     filename = filenameFromPath(file_path)
-    output_path='assets/output_files/flashcards/'+filename+'_flashcards.json' 
+    output_path='mainServerTest/assets/output_files/flashcards/'+filename+'_flashcards.json'
 
     if content_type == '':
         if file_path.endswith('.pdf'):

@@ -1,0 +1,781 @@
+Software Design Principles
+02
+Design and OOP Concepts
+Dr. Mostafa Elgendy
+Mostafa.Elgendy@fci.bu.edu.egAgenda
+▪ Overview.
+▪ SW Design Concepts
+▪ Object Oriented Concepts
+▪ Summary
+23-Feb-23 SOFTWARE DESIGN PRINCIPLES 2Overview
+23-Feb-23 MOBILE PROGRAMMING 3Overview
+23-Feb-23 SOFTWARE DESIGN PRINCIPLES 4Overview
+▪ The importance of design can be stated with a single word –
+quality.
+▪ Design provides you with representations of software that
+can be assessed for quality.
+▪ Design is the only way that you can accurately translate
+stakeholder’s requirements into a blueprint for finished
+software products or system.
+23-Feb-23 SOFTWARE DESIGN PRINCIPLES 5Overview
+▪ Software design serves as the foundation for all the software
+engineering.
+▪ Without design, you risk building an unstable system. This
+system
+▪ May fail when small changes are made.
+▪ May be difficult to test.
+▪ Whose quality cannot be assessed until late in the software process, when
+time is short, and many dollars have already been spent.
+23-Feb-23 SOFTWARE DESIGN PRINCIPLES 6Qualified Design Characteristics
+▪ Whatever kind of process, and process model used. The final
+design should be evaluated against three main measures:
+▪ Design Correctness: the design must implement all explicit Customer’s
+requirements and accommodate all of them.
+▪ Design Clarity: readable, understandable for developers and testers and
+operation supporter.
+▪ Design Completeness: Complete Picture of data, functional and
+behavioral domains implementation
+23-Feb-23 SOFTWARE DESIGN PRINCIPLES 7SW Design Concepts
+23-Feb-23 MOBILE PROGRAMMING 8SW Design Concepts
+▪ Cohesion measures how much a design makes the design
+and architectural elements to be responsible of one and only
+BankAccount BankLoan
+task/function.
++Grant()
++Open()
++Decrease()
++Close()
++GetInstallment():double
++GetBalance():double
++Activate()
++Activate()
++GetLoanBalance():double
++Reactivate() 
++GetLoanBalance():double
+High Cohesion?!
+High Cohesion?!
+High Cohesion?!
+23-Feb-23 MOBILE PROGRAMMING 9SW Design Concepts
+▪ Coupling describes how much tight the code structure (i.e class) is to
+another code structure.
+▪ It is highly recommended to keep the design loosely coupled.
+▪ High coupling indicates a design that is difficult to reuse and
+maintain because of its many interdependencies on other types (i.e
+classes).
+▪ Loose coupling minimize code dependency.
+▪ Loose coupling simplify responding to changes.
+23-Feb-23 MOBILE PROGRAMMING 10SW Design Concepts
+▪ Cohesion vs. Coupling
+▪ Low Cohesion indicates a design that makes code
+structures/modules/classes responsible of more than one function.
+▪ High Coupling indicates a design that is difficult to reuse and
+maintain because of its many interdependencies on other types.
+23-Feb-23 MOBILE PROGRAMMING 11OOP Concepts
+23-Feb-23 MOBILE PROGRAMMING 12Objects in life
+▪ An object represents an entity in the real world that can be
+distinctly identified.
+▪ For example, a student, a desk, a circle, a button, and car.
+▪ An object has a state, and behaviors.
+▪ The state of an object consists of a set of data fields (also known as
+properties) with their current values.
+▪ The behavior of an object is defined by a set of methods.
+23-Feb-23 MOBILE PROGRAMMING 13Objects and classes
+▪ Class A template or blueprint that describes the kinds of
+state and behavior that objects of its type support.
+▪ Class Uses:
+▪ Variables to define data fields.
+▪ Methods to define behaviors.
+23-Feb-23 MOBILE PROGRAMMING 14Objects and classes
+▪ An Object is an instance of a class
+▪ That object will have :
+▪ Its own state.
+▪ Access all behaviors defined by its class.
+23-Feb-23 MOBILE PROGRAMMING 15Defining Class
+23-Feb-23 MOBILE PROGRAMMING 16
+c
+}
+l a/d
+/C}
+/C
+}
+/d
+}
+s*o
+*i
+*i
+*o
+s*u
+*r
+*rr
+*ur
+b
+c
+ca
+be
+CTl
+Cl
+Cld
+Rlt
+ihe
+oe
+oei
+eeu
+re
+n(
+n(u
+t
+r
+c
+r
+s)
+sds
+ugn
+lra
+t
+to
+re
+ead
+r{
+ru=
+ntr
+di
+u
+ub
+Aa
+{iu
+c
+cln
+trd
+us
+t
+tee
+hei
+s
+w
+eau
+=
+a
+anR
+(s
+o
+ea
+a)
+f1
+c
+cwd
+r
+*
+.
+i
+iRi
+e{
+t0
+r
+rau
+a
+r
+h;
+c
+cds
+a
+i
+l
+li;
+o
+d
+s
+e
+eu
+f
+i
+s
+u
+c
+o
+o)
+t
+s
+i
+b
+b
+h
+r
+j
+j{
+i
+*
+c
+e
+e
+s
+l
+c
+c
+3
+e
+t
+t
+c
+.
+i
+1
+*
+*
+*
+r
+4
+/
+/
+/
+c
+1
+l
+5
+e
+9 ;
+* /
+D
+C
+M
+a
+o
+e
+t
+n
+t
+a
+s
+h
+t
+o
+f
+r
+d
+i
+u
+e
+c
+l
+t
+d
+o r sEncapsulation
+23-Feb-23 MOBILE PROGRAMMING 17Encapsulation
+▪ Described as a protective barrier that prevents the code and
+data being randomly accessed by other code defined
+outside the class.
+▪ Is the technique of making the fields in a class private and
+providing access to the fields via public methods.
+▪ Is also referred to as data hiding.
+23-Feb-23 MOBILE PROGRAMMING 18Benefit of Encapsulation
+▪ The fields of a class can be made read-only or write-only.
+▪ A class can have total control over what is stored in its
+fields.
+▪ The users of a class do not know how the class stores its
+data.
+▪ A class can change the data type of a field, and users of the
+class do not need to change any of their code.
+23-Feb-23 MOBILE PROGRAMMING 19Implement Encapsulation
+▪ Keep instance variables private.
+▪ Make public accessor methods.
+▪ For the methods, use the naming convention of
+set<someProperty> and get<someProperty>.
+23-Feb-23 MOBILE PROGRAMMING 20Implement Encapsulation
+23-Feb-23 MOBILE PROGRAMMING 21Inheritance
+23-Feb-23 MOBILE PROGRAMMING 22Inheritance
+▪ A class can extend another class, inheriting all its data members
+and methods while redefining some of them and/or adding its
+own.
+▪ Inheritance represents the is a relationship, an object of a
+subclass also can be treated as an object of its superclass.
+▪ Advantage:
+▪ To take advantage code reuse.
+▪ To use polymorphism.
+23-Feb-23 MOBILE PROGRAMMING 23Inheritance
+23-Feb-23 MOBILE PROGRAMMING 24
+S u
+S
+p
+u
+e
+b
+r
+c
+c
+l
+l
+a
+a
+s
+s
+s
+s
+C
+C
+y
+i
+l
+r
+i
+c
+n
+l
+d
+e
+e
+I
+r
+n h e r i
+C
+t
+C
+a
+C
+y
+n
+i
+i
+l
+r
+c
+r
+i
+c
+e
+c
+n
+l
+l
+d
+e
+e
+e
+M
+M
+r M
+e
+e
+t
+t
+e
+h
+h
+t
+o
+o
+h
+d
+d
+o
+s
+s
+d s C
+C
+C
+y
+i
+i
+l
+r
+r
+i
+c
+c
+n
+l
+l
+d
+e
+e
+e
+D
+D
+r D
+a
+a
+t
+t
+a
+a
+a
+t aInheritance, Example
+public class Circle {
+private double radius;
+public Circle() {}
+public Circle(double radius) {
+this.radius = radius;
+}
+public double getRadius() {
+return radius;
+}
+public void setRadius(double radius) {
+this.radius = radius;
+}
+public double findArea() {
+return radius * radius * Math.PI;
+}
+}
+23-Feb-23 MOBILE PROGRAMMING 25
+-
++++
+S u p e r c l a
+C i r c l er
+a d iu s
+g e t R a d iu ss
+e tR a d iu sf
+i n d A r e a
+s s
+-
++++
+l e
+gsf
+S u b
+C y l
+n g th
+e t L ee
+tL ei
+n d V
+c l a s
+i n d e
+n g thn
+g t ho
+lu m
+s
+r
+eInheritance, Example
+public class Cylinder extends Circle {
+private double length = 1;
+public double getLength() {
+return length;
+}
+public void setLength(double length) {
+this.length = length;
+}
+public double findVolume() {
+return findArea() * length;
+}
+}
+23-Feb-23 MOBILE PROGRAMMING 26
+-
++++
+S u p e r c l a
+C i r c l er
+a d iu s
+g e t R a d iu ss
+e tR a d iu sf
+i n d A r e a
+s s
+-
++++
+l e
+gsf
+S u b
+C y l
+n g th
+e t L ee
+tL ei
+n d V
+c l a s
+i n d e
+n g thn
+g t ho
+lu m
+s
+r
+eInheritance, Example
+Cylinder cylinder = new Cylinder();
+System.out.println("The length is " + cylinder.getLength());
+System.out.println("The radius is " + cylinder.getRadius());
+System.out.println("The volume of the cylinder is " +
+cylinder.findVolume());
+System.out.println("The area of the circle is " +
+cylinder.findArea());
+The output is:
+The length is 1.0
+The radius is 1.0
+The volume of the cylinder is 3.14159
+The area of the circle is 3.14159
+23-Feb-23 MOBILE PROGRAMMING 27Inheritance
+▪ A class may have several subclasses and each subclass
+may have subclasses of its own.
+▪ The collection of all subclasses descended from a common
+ancestor is called an inheritance hierarchy.
+23-Feb-23 MOBILE PROGRAMMING 28Creating a Subclass
+▪ Creating a subclass extends properties and methods from
+the superclass.
+▪ You can also:
+▪ Add new properties
+▪ Add new methods
+▪ Override the methods of the superclass.
+23-Feb-23 MOBILE PROGRAMMING 29Overriding Methods
+▪ A subclass inherits methods from a superclass.
+▪ Sometimes it is necessary to modify the method defined in
+the superclass.
+▪ This is referred to as method overriding.
+23-Feb-23 MOBILE PROGRAMMING 30Overriding Methods
+public class Circle {
+private double radius;
+public Circle() {}
+public Circle(double radius) {
+this.radius = radius;
+}
+public double getRadius() {
+return radius;
+}
+/** Set a new radius */
+public void setRadius(double radius) {
+this.radius = radius;
+}
+/** Return area */
+public double findArea() {
+return radius * radius * Math.PI;
+}
+}
+23-Feb-23 MOBILE PROGRAMMING 31Overriding Methods
+// Cylinder: New cylinder class that overrides the findArea()
+// method defined in the circle class.
+public class Cylinder extends Circle {
+/** Return the surface area of this cylinder. The formula is
+* 2 * circle area + cylinder body area
+*/
+public double findArea() {
+return 2 * super.findArea() + 2 * getRadius() * Math.PI * length;
+}
+// Other methods are omitted
+}
+23-Feb-23 MOBILE PROGRAMMING 32Overriding Methods
+▪ The argument list must exactly match.(If they don't match,
+call it overloaded).
+▪ The return type must be the same.
+▪ You cannot override a method marked final.
+23-Feb-23 MOBILE PROGRAMMING 33Overloading Methods
+▪ Having multiple methods with
+public class
+Animal {
+public void eat() {
+the same name but different
+System.out.println("Generic Animal
+Eating");
+signatures in a class.
+}
+}
+public class Horse extends Animal {
+▪ You can overload superclass
+public void eat() {
+System.out.println("Horse eating hay ");
+method
+}
+public void eat(String s) {
+System.out.println("Horse eating " + s);
+}
+}
+23-Feb-23 MOBILE PROGRAMMING 34Overriding vs. Overloading
+23-Feb-23 MOBILE PROGRAMMING 35Polymorphism
+23-Feb-23 MOBILE PROGRAMMING 36Polymorphism
+▪ Generally, polymorphism refers to the ability to appear in
+many forms.
+▪ Allows multiple objects of different subclasses to be treated
+as objects of a single super class, while automatically
+selecting the proper methods to apply to a particular object
+based on the subclass it belongs to
+23-Feb-23 MOBILE PROGRAMMING 37Polymorphism
+▪ For example, given a base class shape, polymorphism
+enables the programmer to define different area methods for
+any number of derived classes, such as circles, rectangles
+and triangles.
+▪ No matter what shape an object is, applying the area
+method to it will return the correct results.
+23-Feb-23 MOBILE PROGRAMMING 38Polymorphism Example1
+▪ When parent class reference is used to refer to a child class
+object.
+▪ Given the parent class Person and the child class Student,
+we add another subclass of Person which is Employee.
+▪ Below is the class hierarchy
+23-Feb-23 MOBILE PROGRAMMING 39Polymorphism Example1
+▪ Now suppose we have a printName method in our super class Person, and we override this
+method in both Student and Employee subclass's.
+public class Student extends Person {
+public void printName(){
+System.out.println("Student Name" );
+}}
+public class Employee extends Person {
+public void printName(){
+System.out.println("Employee Name" );
+}}
+23-Feb-23 MOBILE PROGRAMMING 40Polymorphism Example1
+▪ We can create a reference that is of type super class, Person, to an object of
+its subclass, Student.
+Student studentObject = new Student();
+Employee employeeObject = new Employee();
+// Person reference point to a Student object
+Person ref = studentObject;
+// Calling printName() of the Student object instance
+ref.printName();
+23-Feb-23 MOBILE PROGRAMMING 41Polymorphism Example1
+▪ Going back to our main method, when we try to call the
+printName method of the reference Person ref, the
+printName method of the Student object will be called.
+▪ Now, if we assign ref to an Employee object, the printName
+method of Employee will be called.
+23-Feb-23 MOBILE PROGRAMMING 42Polymorphism Example2
+▪ Another example that illustrates polymorphism is when we try to pass a reference to methods
+as a parameter.
+▪ Suppose we have a static method printlnformation that takes in a Person reference as
+parameter.
+void printInformation( Person p ){
+// It will call printName() method of the
+// actual object instance that is passed
+p.printName();
+}
+23-Feb-23 MOBILE PROGRAMMING 43Polymorphism Example2
+▪ We can actually pass a reference of type Employee and type Student
+to the printInformation method as long as it is a subclass of the
+Person class.
+Student studentObject = new Student();
+Employee employeeObject = new Employee();
+printInformation( studentObject );
+Output:
+Student Name
+printInformation( employeeObject ); Employee Name
+23-Feb-23 MOBILE PROGRAMMING 44How polymorphism work
+▪ What will be determined at compile time.
+▪ What will be determined at run time.
+23-Feb-23 MOBILE PROGRAMMING 45Polymorphism binding
+▪ What happen when I make thing like this?
+▪ Animal a=new Horse();
+▪ a.eat();//will call which one
+▪ a.buck();
+23-Feb-23 MOBILE PROGRAMMING 46Polymorphism binding
+▪ Method invocations allowed by the compiler are based
+solely on the declared type of the reference, regardless of
+the object type
+▪ Which overridden version of the method to call (in other
+words, from which class in the inheritance tree) is decided at
+runtime based on object type
+23-Feb-23 MOBILE PROGRAMMING 47Polymorphism binding
+Compiler
+error
+23-Feb-23 MOBILE PROGRAMMING 48Abstraction
+23-Feb-23 MOBILE PROGRAMMING 49Abstraction
+▪ Is the process of taking away or removing characteristics
+from something in order to reduce it to a set of essential
+characteristics.
+▪ Creating interface to denote common behavior without
+specifying any details about how that behavior works.
+23-Feb-23 MOBILE PROGRAMMING 50Abstraction Example
+▪ You create an interface called Server which
+has start() and stop() method.
+▪ This is called abstraction of Server because every server
+should have way to start and stop and details may differ
+23-Feb-23 MOBILE PROGRAMMING 51Abstraction Example
+▪ You create an interface called Shape which
+has draw() and Area() method.
+▪ This is called abstraction of Shape because every shape
+should have way to draw and calculate area and details may
+differ
+23-Feb-23 MOBILE PROGRAMMING 52Implement Abstraction
+▪ To implement Abstraction, use abstract class or interface.
+▪ An abstract class is a class that contains one or more abstract
+method.
+▪ An Inteface is a class that contains all the methods abstract.
+▪ An abstract method is a method that is declared without an
+implementation.
+▪ Example:
+▪ Draw method in class shape.
+23-Feb-23 MOBILE PROGRAMMING 53Association
+23-Feb-23 MOBILE PROGRAMMING 54Association
+▪ There can be two types of relationships in OOPs:
+▪ IS-A (Inheritance)
+▪ HAS-A(association)
+23-Feb-23 MOBILE PROGRAMMING 55Association
+▪ The relationship that can be established between any two
+classes.
+▪ Association help the objects of one class to communicate
+with the objects of the other class.
+▪ Department class is storing the objects of Professor class
+as its instance variable.
+23-Feb-23 MOBILE PROGRAMMING 56Association
+▪ There are two forms of Association that are possible in Java:
+▪ Aggregation
+▪ Composition
+23-Feb-23 MOBILE PROGRAMMING 57Aggregation
+▪ Is a form of HAS-A relationship between two classes.
+▪ It is a relatively loosely coupled relation
+▪ Although both classes are associated with each other,
+▪ One can exist without the other independently.
+▪ Aggregation is also called a weak association.
+23-Feb-23 MOBILE PROGRAMMING 58Aggregation example 1
+class Country{
+private String name;
+List<SportPerson> sportPersons;
+//other code
+}
+//Sportsperson class
+class SportPerson{
+private String name;
+}
+23-Feb-23 MOBILE PROGRAMMING 59Aggregation example 1
+▪ Association between a Country and a Sportsperson class.
+▪ Country class is defined with a name and other attributes like
+size, population, capital, etc, and a list of all the Sportspersons
+that come from it.
+▪ A Sportsperson class is defined with a name and other
+attributes like age, height, weight, etc.
+▪ Modeling this relation to OOPs, a Country object has-a list of
+Sportsperson objects that are related to it.
+23-Feb-23 MOBILE PROGRAMMING 60Aggregation example 1
+▪ Note that a sportsperson object can exist with his own attributes and
+methods, alone without the association with the country object.
+Similarly, a country object can exist independently without any
+association to a sportsperson object.
+▪ Thus Aggregation helps in code reusability. Since classes exist
+independently, The same classes can be reused to create
+associations with other classes, without having to modify an existing
+class, or without causing any issues to existing associations.
+23-Feb-23 MOBILE PROGRAMMING 61Aggregation example 2
+class Person {
+// declare variables for Person class
+public String name;
+List<Car> cars; ;
+//other code
+}
+class Car {
+// declare variables for Car brand, color and modal
+public String name, color, modal;
+}
+23-Feb-23 MOBILE PROGRAMMING 62Composition
+▪ A form of relation that is more tightly coupled.
+▪ Is called Strong association or known as Belongs-To association.
+▪ As one class, for all intents and purpose belongs to another class, and
+exists because of it.
+▪ The association between College and Student. Below is how it is
+defined
+▪ College class is defined with name and the list of students that are studying in it
+▪ A Student class is defined with name and the college he is studying at.
+23-Feb-23 MOBILE PROGRAMMING 63Composition example 1
+class College{
+private String name;
+ArrayList<Student> studentList;
+//…..
+}
+//Student class
+class Student{
+private String name;
+//…..
+}
+23-Feb-23 MOBILE PROGRAMMING 64Composition example 2
+class Company {
+// declare variable for company name
+public String name;
+// declare a list of OfficeOffice that a Company has
+private List< Office Office> offices;
+}
+class Office {
+// declare variables for name and address
+public String name;
+public String address; }
+23-Feb-23 MOBILE PROGRAMMING 65Summary
+▪ Overview.
+▪ SW Design Concepts
+▪ Object Oriented Concepts
+23-Feb-23 MOBILE PROGRAMMING 66Questions
+23-Feb-23 MOBILE PROGRAMMING 67

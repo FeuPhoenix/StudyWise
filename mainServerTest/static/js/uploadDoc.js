@@ -9,10 +9,10 @@ function popupPrompt() {
 function chooseOption(option) {
     closePopup();
     if (option === 'text') {
-        window.location.href = 'upload-doc.html';
+        window.location.href = '/text-upload';
     }
     else if (option === 'video') {
-        window.location.href = 'upload-video-based.html';
+        window.location.href = '/video-upload';
     }
     else {
         alert("Invalid input");
@@ -86,7 +86,7 @@ function confirmFile() {
             if (data.message === 'Processing completed') {
                 statusElement.innerHTML = 'Processing completed, getting info';
                 setTimeout(function() {
-                    window.location.href = `/display?file=${encodeURIComponent(chosenFile)}`;
+                    window.location.href = `/pdf-display?file=${encodeURIComponent(chosenFile)}`;
                 }, 3000); // Redirect to display page after 3 seconds
             }
         });

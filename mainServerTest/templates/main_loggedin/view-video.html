@@ -1,17 +1,17 @@
 <html>
     <head>
-        <link rel="shortcut icon" href="assets/images/Studywise_Logo.png" type="image/x-icon">
+        <link rel="shortcut icon" href="{{ url_for('static', filename='assets/images/Studywise_Logo.png') }}" type="image/x-icon">
         <title>StudyWise - Upload</title>
         <link rel="stylesheet" href="https://unpkg.com/plyr@3/dist/plyr.css">
-        <link rel="stylesheet" href="css/view-video-style.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-        <link rel="stylesheet" href="css/flashcard-style.css">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/view-video-style.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/flashcard-style.css') }}">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
         <script src="https://cdn.rawgit.com/nnattawat/flip/master/dist/jquery.flip.min.js"></script>
     </head>
     <body>
         <div class="main-navbar">
-            <img src="assets/images/Studywise_Logo.png" alt="Studywise Logo" class="navbar-logo">
+            <img src="{{ url_for('static', filename='assets/images/Studywise_Logo.png') }}" alt="Studywise Logo" class="navbar-logo">
             <div class="navbar-btns">
                 <a href=""><button>Home</button></a>
                 <a href="pdf-page.html"><button>Your Content</button></a>
@@ -25,8 +25,8 @@
                 
                 <div class="video-container">
                     <video id="video" controls crossorigin playsinline poster="">
-                        <source src="../assets/input_files/videos/Speech_to_Text_using_Python_-_Fast_and_Accurate-1080p.mp4" type="video/mp4"/>
-                        <track kind="captions" label="English" srclang="en" src="../assets/output_files/videos/View_From_A_Blue_Moon_Trailer-HD.en.vtt" default>
+                        <source src="" type="video/mp4" id="video-viewer"/>
+                        <track kind="captions" label="English" srclang="en" src="" default>
                     </video> <!-- Video Tag End -->
                     
                     <div class="video-btns">
@@ -70,7 +70,7 @@
                     </div> <!-- Folder End -->
                 </div> <!-- Flashcards End -->
 
-                <div class="video-summary">
+                <div class="summary">
                     <h1 class="video-summary-title">Video Summary</h1>
                     <p id="summaryText">
                         Summary Processing...
@@ -83,7 +83,8 @@
                 </div> -->
                 <div class="sidebar-menu">
                     <button class="flashcard-btn" onclick="toggleFlashcards(this)">
-                        <h3> Flashcards </h3><img src="assets/images/flashcards.png" alt="Flashcards!">
+                        
+                        <h3> Flashcards </h3><img src="{{ url_for('static', filename='assets/images/flashcards.png') }}" alt="Flashcards!">
                     </button>
 
                     <button class="summary-btn" onclick="toggleSummary(this)">
@@ -108,8 +109,8 @@
         </div>
         <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=es6,Array.prototype.includes,CustomEvent,Object.entries,Object.values,URL"></script>
         <script src="https://unpkg.com/plyr@3"></script>
-        <script src="js/videoView.js"></script>
-        <script src="js/FlashcardsV1_JS.js"></script>
+        <script src="{{ url_for('static', filename='js/videoView.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/FlashcardsV1_JS.js') }}"></script>
         <!-- <script src="https://cdn.plyr.io/3.7.8/demo.js" crossorigin="anonymous"></script> -->
     </body>
 </html>

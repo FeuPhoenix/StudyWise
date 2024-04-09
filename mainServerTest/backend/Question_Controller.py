@@ -223,7 +223,7 @@ class QuestionController:
             if paragraphs[difficulty]:
                 mcqs = QuestionController.generate_mcqs(paragraphs, difficulty)
                 if mcqs:
-                    output_path = f'app/assets/output_files/mcq/'+filename+'_'+difficulty+'.json'
+                    output_path = f'mainServerTest/assets/output_files/mcq/'+filename+'_'+difficulty+'.json'
                     QuestionController.save_mcqs_to_file(mcqs, output_path)
                 else:
                     print(f"No {difficulty} MCQs were generated.")

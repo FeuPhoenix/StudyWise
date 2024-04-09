@@ -2,19 +2,19 @@
 <html lang="en">
 
 <head>
-    <link rel="shortcut icon" href="assets/images/Studywise_Logo.png" type="image/x-icon">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='assets/images/Studywise_Logo.png') }}" type="image/x-icon">
     <title>StudyWise - Features</title>
     <link rel="stylesheet" href="https://unpkg.com/plyr@3/dist/plyr.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="stylesheet" href="css/homestyle.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/homestyle.css') }}">
 </head>
 
 <body>
     <div class="main-navbar">
-        <img src="assets/images/Studywise_Logo.png" alt="Studywise Logo" class="navbar-logo">
+        <img src="{{ url_for('static', filename='assets/images/Studywise_Logo.png') }}" alt="Studywise Logo" class="navbar-logo">
         <div class="navbar-btns">
             <a href=""><button>Home</button></a>
-            <a href=""><button>Your Content</button></a>
+            <a href="/"><button>Your Content</button></a>
             <a onclick="popupPrompt()"><button>Upload Material</button></a>
         </div>
     </div> <!-- Main Navbar end -->
@@ -26,11 +26,11 @@
                         <button class="content-block" onclick="contentClickHandler('Content 1')">
                             <div class="title">Content Title 1</div>
                             <div class="image-container">
-                                <img src="assets/images/flashcards.png" alt="Description 1"
+                                <img src="{{ url_for('static', filename='assets/images/flashcards.png') }}" alt="Description 1"
                                     class="flashcard-img card-img" onclick="imageClickHandler('Image 1')" />
-                                <img src="assets/images/summary.png" alt="Description 2" class="summary-img card-img"
+                                <img src="{{ url_for('static', filename='assets/images/summary.png') }}" alt="Description 2" class="summary-img card-img"
                                     onclick="imageClickHandler('Image 2')" />
-                                <img src="assets/images/bot.png" alt="Description 3" class="bot-img card-img"
+                                <img src="{{ url_for('static', filename='assets/images/bot.png') }}" alt="Description 3" class="bot-img card-img"
                                     onclick="imageClickHandler('Image 3')" />
                             </div>
                         </button>
@@ -39,11 +39,11 @@
                         <button class="content-block" onclick="contentClickHandler('Content 2')">
                             <div class="title">Content Title 2</div>
                             <div class="image-container">
-                                <img src="assets/images/flashcards.png" alt="Description 1"
+                                <img src="{{ url_for('static', filename='assets/images/flashcards.png') }}" alt="Description 1"
                                     class="flashcard-img card-img" onclick="imageClickHandler('Image 1')" />
-                                <img src="assets/images/summary.png" alt="Description 2" class="summary-img card-img"
+                                <img src="{{ url_for('static', filename='assets/images/summary.png') }}" alt="Description 2" class="summary-img card-img"
                                     onclick="imageClickHandler('Image 2')" />
-                                <img src="assets/images/bot.png" alt="Description 3" class="bot-img card-img"
+                                <img src="{{ url_for('static', filename='assets/images/bot.png') }}" alt="Description 3" class="bot-img card-img"
                                     onclick="imageClickHandler('Image 3')" />
                             </div>
                         </button>
@@ -52,11 +52,11 @@
                         <button class="content-block" onclick="contentClickHandler('Content 3')">
                             <div class="title">Content Title 3</div>
                             <div class="image-container">
-                                <img src="assets/images/flashcards.png" alt="Description 1"
+                                <img src="{{ url_for('static', filename='assets/images/flashcards.png') }}" alt="Description 1"
                                     class="flashcard-img card-img" onclick="imageClickHandler('Image 1')" />
-                                <img src="assets/images/summary.png" alt="Description 2" class="summary-img card-img"
+                                <img src="{{ url_for('static', filename='assets/images/summary.png') }}" alt="Description 2" class="summary-img card-img"
                                     onclick="imageClickHandler('Image 2')" />
-                                <img src="assets/images/bot.png" alt="Description 3" class="bot-img card-img"
+                                <img src="{{ url_for('static', filename='assets/images/bot.png') }}" alt="Description 3" class="bot-img card-img"
                                     onclick="imageClickHandler('Image 3')" />
                             </div>
                         </button>
@@ -69,11 +69,11 @@
                         <button class="content-block" onclick="contentClickHandler('Content 4')">
                             <div class="title">Content Title 4</div>
                             <div class="image-container">
-                                <img src="assets/images/flashcards.png" alt="Description 1"
+                                <img src="{{ url_for('static', filename='assets/images/flashcards.png') }}" alt="Description 1"
                                     class="flashcard-img card-img" onclick="imageClickHandler('Image 1')" />
-                                <img src="assets/images/summary.png" alt="Description 2" class="summary-img card-img"
+                                <img src="{{ url_for('static', filename='assets/images/summary.png') }}" alt="Description 2" class="summary-img card-img"
                                     onclick="imageClickHandler('Image 2')" />
-                                <img src="assets/images/bot.png" alt="Description 3" class="bot-img card-img"
+                                <img src="{{ url_for('static', filename='assets/images/bot.png') }}" alt="Description 3" class="bot-img card-img"
                                     onclick="imageClickHandler('Image 3')" />
                             </div>
                         </button>
@@ -82,11 +82,11 @@
                         <button class="content-block" onclick="contentClickHandler('Content 5')">
                             <div class="title">Content Title 5</div>
                             <div class="image-container">
-                                <img src="assets/images/flashcards.png" alt="Description 1"
+                                <img src="{{ url_for('static', filename='assets/images/flashcards.png') }}" alt="Description 1"
                                     class="flashcard-img card-img" onclick="imageClickHandler('Image 1')" />
-                                <img src="assets/images/summary.png" alt="Description 2" class="summary-img card-img"
+                                <img src="{{ url_for('static', filename='assets/images/summary.png') }}" alt="Description 2" class="summary-img card-img"
                                     onclick="imageClickHandler('Image 2')" />
-                                <img src="assets/images/bot.png" alt="Description 3" class="bot-img card-img"
+                                <img src="{{ url_for('static', filename='assets/images/bot.png') }}" alt="Description 3" class="bot-img card-img"
                                     onclick="imageClickHandler('Image 3')" />
                             </div>
                         </button>
@@ -95,11 +95,11 @@
                         <button class="content-block" onclick="contentClickHandler('Content 5')">
                             <div class="title">Content Title 5</div>
                             <div class="image-container">
-                                <img src="assets/images/flashcards.png" alt="Description 1"
+                                <img src="{{ url_for('static', filename='assets/images/flashcards.png') }}" alt="Description 1"
                                     class="flashcard-img card-img" onclick="imageClickHandler('Image 1')" />
-                                <img src="assets/images/summary.png" alt="Description 2" class="summary-img card-img"
+                                <img src="{{ url_for('static', filename='assets/images/summary.png') }}" alt="Description 2" class="summary-img card-img"
                                     onclick="imageClickHandler('Image 2')" />
-                                <img src="assets/images/bot.png" alt="Description 3" class="bot-img card-img"
+                                <img src="{{ url_for('static', filename='assets/images/bot.png') }}" alt="Description 3" class="bot-img card-img"
                                     onclick="imageClickHandler('Image 3')" />
                             </div>
                         </button>
@@ -124,7 +124,7 @@
 <script
     src="https://cdn.polyfill.io/v2/polyfill.min.js?features=es6,Array.prototype.includes,CustomEvent,Object.entries,Object.values,URL"></script>
 <script src="https://unpkg.com/plyr@3"></script>
-<script src="js/home.js"></script>
+<script src="{{ url_for('static', filename='js/home.js') }}"></script>
 </body>
 
 </html>

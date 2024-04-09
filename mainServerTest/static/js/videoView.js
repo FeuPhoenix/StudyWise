@@ -19,7 +19,10 @@ console.log('Will now fetch ('+fileParam+')\'s processed files');
 if (fileParam) { // Process the 'file' that is received
     console.log("Received File Name:", filename);
 
-    fetch('../../assets/output_files/videos/'+filename+'.mp4') // Fetch Video
+    const VideoViewer = document.getElementById('video-viewer');
+    VideoViewer.src = `/api/files/video-mp4/${encodeURIComponent(fileParam)}`; // Use fileParam for the Video source
+
+    fetch(`/api/files/summaries/${filename}.json`) // Fetch summary JSON
     .then(response => {
         if (!response.ok) {
             throw new Error('Network response error');
@@ -27,31 +30,16 @@ if (fileParam) { // Process the 'file' that is received
         return response.json();
     })
     .then(jsonObject => {
-        const longSummaryText = jsonObject.long_summary;
-        
-        document.getElementById('summaryText').innerHTML = longSummaryText;
+        const summaryText = jsonObject.long_summary;
+        document.getElementById('summaryText').innerHTML = summaryText;
     })
     .catch(error => {
-        console.error('There was a problem with the fetch operation:', error);
+        console.error('There was a problem fetching the Summary:', error);
     });
 
-    fetch('../../assets/output_files/summaries/'+filename+'.json') // Fetch Summary
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Network response error');
-        }
-        return response.json();
-    })
-    .then(jsonObject => {
-        const longSummaryText = jsonObject.long_summary;
-        
-        document.getElementById('summaryText').innerHTML = longSummaryText;
-    })
-    .catch(error => {
-        console.error('There was a problem with the fetch operation:', error);
-    });
+    // NOTE: FLASHCARD FETCH CODE IS IN THE FLASHCARDSV1_JS FILE
 
-    fetch('../../assets/output_files/indexing/'+filename+'.json') // Fetch Video Indexing
+    fetch(`/api/files/indexing/${filename}.json`) // Fetch Video Indexing
     .then(response => {
         if (!response.ok) {
             throw new Error('Network response error');
@@ -83,7 +71,7 @@ if (fileParam) { // Process the 'file' that is received
     });
 
     
-} else { // No input file
+} else {
     console.log("No input file provided.");
 }
 
@@ -91,10 +79,10 @@ if (fileParam) { // Process the 'file' that is received
 function chooseOption(option) {
     closePopup();
     if (option === 'text') {
-        window.location.href = 'upload-doc.html';
+        window.location.href = '/text-upload';
     }
     else if (option === 'video') {
-        window.location.href = 'upload-video-based.html';
+        window.location.href = '/video-upload';
     }
     else {
         alert("Invalid input");
