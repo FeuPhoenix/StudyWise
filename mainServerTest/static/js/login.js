@@ -1,29 +1,14 @@
-async function fetchFirebaseConfig() {
-    try {
-        const response = await fetch('/firebase-config');
-        if (!response.ok) {
-            throw new Error('Failed to fetch Firebase configuration');
-        }
-        return await response.json();
-    } catch (error) {
-        console.error(error);
-        return null;
-    }
-}
-
-// Initialize Firebase using dynamically fetched configuration
-async function initializeFirebase() {
-    const firebaseConfig = await fetchFirebaseConfig();
-    if (firebaseConfig) {
-        firebase.initializeApp(firebaseConfig);
-        console.log('Firebase initialized with dynamically fetched configuration');
-    } else {
-        console.error('Failed to initialize Firebase');
-    }
-}
-
-// Call initializeFirebase() when DOM content is loaded
-document.addEventListener('DOMContentLoaded', initializeFirebase);
+const firebaseConfig = {
+    apiKey: "AIzaSyAcUOinqD6vOPhOrhIe2wB57gB1xlNPbiQ",
+    authDomain: "studywise-dba07.firebaseapp.com",
+    databaseURL: "https://studywise-dba07-default-rtdb.firebaseio.com",
+    projectId: "studywise-dba07",
+    storageBucket: "studywise-dba07.appspot.com",
+    messagingSenderId: "481892684174",
+    appId: "1:481892684174:web:7d4de3c274f82ced8314df",
+    measurementId: "G-DDTD1ZS5LG"
+};
+firebase.initializeApp(firebaseConfig);
 
 
 const db = firebase.firestore()
@@ -75,7 +60,7 @@ function signUp() {
     }
 
     // Push to Firebase Database
-    database_ref.child('users/' + user.uid).set(user_data)
+    database_ref.child('Users/' + user.uid).set(user_data)
 
     // Done
     alert('User Created!!')

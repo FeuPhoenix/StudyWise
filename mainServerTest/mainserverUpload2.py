@@ -96,10 +96,9 @@ def signup():
         
         return 'Signup functionality to be implemented'
 
-if __name__ == '__main__':
-    app.run(debug=True)
 
-@app.route('/landingPage')
+
+@app.route('/landingpage')
 def landingpage():
     return render_template('main_loggedin/landingpage.html')
 
