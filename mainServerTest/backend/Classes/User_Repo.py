@@ -7,16 +7,46 @@ from Constants import OPENAI_API_KEY, MAX_TOKENS_PER_REQUEST,kUserId,kUserEmail 
 from flask import request,jsonify,render_template
 from FirestoreDB import FirestoreDB
 class UserRepo:
-    
+    userID=uuid.uuid4().hex
     def __init__(self,email, fullName, Role=None,User_Level=0,dateJoined=None ):
         self.email = email
         self.fullName = fullName
         self.dateJoined = dateJoined
         self.Role = Role
         self.User_Level=User_Level
-        self.userID=uuid.uuid4().hex
         
+    @staticmethod
+    def login(email, password):
+            try:
+                # Authenticate the user with the provided email and password
+                user = auth.get_user_by_email(email)
+                
+                # If authentication succeeds, return the user's UID
+                UserRepo.get_document_id_by_email(email)
+            except auth.UserNotFoundError:
+                print(f"User with email {email} not found in Authentication.")
+                return None
+            except auth.InvalidPasswordError:
+                print(f"Invalid password for user with email {email}.")
+                return None
+    @staticmethod
+    def get_document_id_by_email(email):
+        db_instance = FirestoreDB.get_instance()
+        firestore_instance = db_instance.get_firestore_instance()
 
+        users_ref = firestore_instance.collection('Users')
+
+        # Query Firestore to find the document with the matching email
+        query = users_ref.where('Email', '==', email)
+        docs = query.stream()
+
+        for doc in docs:
+            # Return the document ID if found
+            return doc.id
+        
+        # If no document is found for the email
+        print(f"No document found for user with email {email} in Firestore.")
+        return None
     def getUserDataFromFirestore(self):
         db_instance = FirestoreDB.get_instance()
         firestore_instance = db_instance.get_firestore_instance()

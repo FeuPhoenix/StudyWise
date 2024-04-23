@@ -475,6 +475,13 @@ class DocumentProcessed:
 
         full_summary = ' '.join(summaries)
         return full_summary
+    def get_long_summary_and_write_to_json(self,text, filename):
+        result = DocumentProcessed.get_Long_summary(text)
+        summary_data = {'long_summary': result}
+        with open(f"assets/output_files/Summaries/{filename}.json", 'w') as json_file:
+            json.dump(summary_data, json_file, indent=4)
+            print(f"Long summary has been successfully saved in assets/output_files/Summaries/{filename}.json") 
+        self.generated_summary_file_path = f"assets/output_files/Summaries/{filename}.json" 
     def Document_Processing(self,file):
         if os.path.isfile(file) and file.endswith('.pdf'):
             self._file_path=str(file)
@@ -494,14 +501,7 @@ class DocumentProcessed:
             text=DocumentProcessed.clean_text(text)
             result = DocumentProcessed.get_Long_summary(text)
 
-            summary_data = {
-                'long_summary': result
-            }
-
-            with open(f"assets/output_files/Summaries/{filename}.json", 'w') as json_file:
-                json.dump(summary_data, json_file, indent=4)
-                print(f"Long summary has been successfully saved in assets/output_files/Summaries/{filename}.json") 
-            self.generated_summary_file_path=str(f"assets/output_files/Summaries/{filename}.json") 
+            self.get_long_summary_and_write_to_json(result,filename)
             self.addProcessedMaterialToFirestore()
             #Testing
             self.get_Document_from_firestore()
@@ -527,13 +527,7 @@ class DocumentProcessed:
             
             text=DocumentProcessed.clean_text(text)
             result = DocumentProcessed.get_Long_summary(text)
-            summary_data = {
-                'long_summary': result
-            }
-            with open(f"assets/output_files/Summaries/{filename}.json", 'w') as json_file:
-                json.dump(summary_data, json_file, indent=4)
-                print(f"Long summary has been successfully saved in assets/output_files/Summaries/{filename}.json") 
-                self.generated_summary_file_path=f"assets/output_files/Summaries/{filename}.json" 
+            self.get_long_summary_and_write_to_json(result,filename) 
             self.addProcessedMaterialToFirestore()
 
             flashcard=Flash_Cards(self._file_path)
@@ -557,11 +551,7 @@ class DocumentProcessed:
            
             text=DocumentProcessed.clean_text(text)
             result = DocumentProcessed.get_Long_summary(text)
-            with open(f"assets/output_files/Summaries/{filename}.json", 'w') as json_file:
-                json.dump(summary_data, json_file, indent=4)
-                print(f"Long summary has been successfully saved in assets/output_files/Summaries/{filename}.json") 
-                summary_jsonfile=f"assets/output_files/Summaries/{filename}_summary.json" 
-                self.generated_summary_file_path=f"assets/output_files/Summaries/{filename}_summary.json" 
+            self.get_long_summary_and_write_to_json(result,filename)
             self.addProcessedMaterialToFirestore()
 
             flashcard=Flash_Cards(self._file_path)

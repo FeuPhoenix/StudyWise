@@ -407,7 +407,13 @@ class VideoProcessed_Repo:
             print("the video has been downloaded successfully")
             #videocutted=runaudiocutter(video_file_path)
             print(self.file_path)
-            video = mp.VideoFileClip(self.file_path)
+            if Video_cutted:
+                self.file_path = runaudiocutter(self.file_path)
+                print("Audiocutter output file: "+self.file_path)
+                video = mp.VideoFileClip(self.file_path)
+
+            else:
+                video = mp.VideoFileClip(self.file_path)
 
             audio = video.audio
             audio.write_audiofile(f"assets/output_files/audio/extracted_audio_from_{self.file_name}.wav")
@@ -471,9 +477,13 @@ class VideoProcessed_Repo:
                     'end': end_hms,
                     'concise_title': concise_title
                 })
-
+            self.generated_chapters_file_path=f'assets/output_files/Processed_Chapters/{self.file_name}.json'
             with open(f'assets/output_files/Chapters/processed_chapters_{self.file_name}.json', 'w') as outfile:
                 json.dump(processed_chapters, outfile, indent=4)
+            self.addProcessedMaterialToFirestore()
+
+            Flash_Cards(self.generated_text_file_path,"TRANSCRIPT")
+
             #self.Save_ProcessedVideo_to_database(json_file_path,audio_file_path,f'assets/output_files/Chapters/processed_chapters_{Video_name}.json',text_file_path,None,videocutted)
 def main():
  v=VideoProcessed_Repo("D:/COLLEGE/StudyWise/assets/input_files/videos/Physics_-_Basic_Introduction.mp4",False)
