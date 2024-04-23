@@ -53,6 +53,20 @@ def home():
 @app.route('/LoginPage')
 def loginPage():
     return render_template('main-landing/login.html')
+@app.route('/firebase-config')
+def firebase_config():
+    firebase_config = {
+        "apiKey": "AIzaSyAcUOinqD6vOPhOrhIe2wB57gB1xlNPbiQ",
+        "authDomain": "studywise-dba07.firebaseapp.com",
+        "databaseURL": "https://studywise-dba07-default-rtdb.firebaseio.com",
+        "projectId": "studywise-dba07",
+        "storageBucket": "studywise-dba07.appspot.com",
+        "messagingSenderId": "481892684174",
+        "appId": "1:481892684174:web:7d4de3c274f82ced8314df",
+        "measurementId": "G-DDTD1ZS5LG"
+    }
+    return jsonify(firebase_config)
+
 @app.route('/login', methods=['POST'])
 def login():
     if request.method == 'POST':
@@ -61,7 +75,10 @@ def login():
         password = request.form['signInEmailPassword']
         
     from backend.Classes.User_Repo import UserRepo
-    session['userID'] = f'{UserRepo.login(email, password)}'
+    try:
+        session['userID'] = f'{UserRepo.login(email, password)}'
+    except ValueError :
+        return 'Invalid credentials'
 def logout():
     session.pop('username', None)
     return 'Logged out'

@@ -8,27 +8,27 @@ from flask import request,jsonify,render_template
 from FirestoreDB import FirestoreDB
 class UserRepo:
     userID=uuid.uuid4().hex
-    def __init__(self,email, fullName, Role=None,User_Level=0,dateJoined=None ):
+    def __init__(self,email, fullName,User_Level=0,dateJoined=None ):
         self.email = email
         self.fullName = fullName
         self.dateJoined = dateJoined
-        self.Role = Role
+        
         self.User_Level=User_Level
         
     @staticmethod
-    def login(email, password):
-            try:
-                # Authenticate the user with the provided email and password
-                user = auth.get_user_by_email(email)
-                
-                # If authentication succeeds, return the user's UID
-                UserRepo.get_document_id_by_email(email)
-            except auth.UserNotFoundError:
-                print(f"User with email {email} not found in Authentication.")
-                return None
-            except auth.InvalidPasswordError:
-                print(f"Invalid password for user with email {email}.")
-                return None
+    def login(email,password):
+        try:
+            # Authenticate the user with the provided email and password
+            user= auth.sign_in_with_email_and_password(email, password)
+            
+            # If authentication succeeds, return the user's UID
+            UserRepo.get_document_id_by_email(email)
+        except auth.UserNotFoundError:
+            print(f"User with email {email} not found in Authentication.")
+            return None
+        # except auth.InvalidPasswordError:
+        #     print(f"Invalid password for user with email {email}.")
+        #     return None
     @staticmethod
     def get_document_id_by_email(email):
         db_instance = FirestoreDB.get_instance()
@@ -79,7 +79,6 @@ class UserRepo:
             email=data["Email"],
             fName=data["Full Name"],
             dateJoined=data["Joined on"],
-            Role=data["Role"],
             User_Level=data[0],
             
         )
@@ -89,7 +88,6 @@ class UserRepo:
             "Full Name": self.fullName,
             "Joined on": datetime.now().strftime("%d-%B-%Y"),
             "Email": self.email,
-            "Role": self.Role,
             "User_Level": 0,
         }
         return data
@@ -167,11 +165,7 @@ class UserRepo:
         self.deleteFromAuthentication()
 #Testing
 def main():
-    n=UserRepo("abdelrahman1235@gmail.com","Abdelrahman Mohamed","User",0)
-    n.add_user_to_firestore()
-    n.getUserDataFromFirestore()
-    kUserId=n.userID
-    print(kUserId)
+    print(UserRepo.login("abdelrahman123@gmail.com","123456"))
 
 if __name__ == "__main__":
     main()
