@@ -1,8 +1,9 @@
 <html>
-<head>{{ url_for('static', filename='static/css/login-style.css') }}
+<head>
     <link rel="shortcut icon" href="assets/images/Studywise_Logo.png" type="image/x-icon">
     <title>StudyWise - Login</title>
-    <link rel="stylesheet" href="static/css/login-style.css">
+    <link rel="stylesheet" href="static/css/login.js">
+    <link rel="stylesheet" href="static/js/login-style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 </head>
@@ -40,7 +41,7 @@
                                     <i class="input-label">Password</i>
                                     <i id="eye-icon2" class="fas fa-eye-slash" onclick="toggleSigInPW()"></i>
                                 </div>
-                                <button id="signInButton" onclick="signIn()">Login</button>
+                                <button id="signInButton" onclick="signIn()" >Login</button>
                             </form>
                         </div>
                                     

@@ -89,6 +89,22 @@ class VideoProcessed_Repo:
             print("Successfully added Video to firestore")
         except Exception as e:
             print(e)
+    @staticmethod
+    def retrieveVideoMaterialFromFirestore(user_id, material_id):
+        db_instance = FirestoreDB.get_instance()
+        firestore_instance = db_instance.get_firestore_instance()
+
+        try:
+            doc_ref = firestore_instance.collection('Users').document(user_id).collection('VideoMaterial').document(material_id)
+            doc = doc_ref.get()
+            if doc.exists:
+                return doc.to_dict()
+            else:
+                print(f"No such document with user_id: {user_id} and material_id: {material_id}")
+                return None
+        except Exception as e:
+            print(f"Error retrieving document: {e}")
+            return None
     @staticmethod        
     def upload_Video_file_to_storage(blob, file_path):
         """Uploads a large file to Google Cloud Storage using resumable upload."""

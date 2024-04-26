@@ -46,13 +46,31 @@ def handle_disconnect():
     print('Client disconnected')
 
 
-
 @app.route('/')
 def home():
     return render_template('main_loggedin/index.html')
 @app.route('/LoginPage')
 def loginPage():
     return render_template('main-landing/login.html')
+@app.route('/loginprocess')
+def signin():
+    try:
+        # Get email and password from request body
+        email = request.json.get('email')
+        password = request.json.get('password')
+
+        # Sign in user with email and password
+        user = auth.get_user_by_email(email)
+        # If user already exists, no need to sign in
+        # return jsonify({"message": "User already signed in"})
+        return render_template('main_loggedin/index.html')
+    except auth.UserNotFoundError:
+        # User not found, proceed with sign-in
+        pass
+        
+    except Exception as e:
+        # Handle other exceptions
+        return jsonify({"error": str(e)}), 500
 @app.route('/firebase-config')
 def firebase_config():
     firebase_config = {
@@ -73,12 +91,12 @@ def login():
         # Handle login functionality here
         email = request.form['signInEmail']
         password = request.form['signInEmailPassword']
-        
-    from backend.Classes.User_Repo import UserRepo
-    try:
-        session['userID'] = f'{UserRepo.login(email, password)}'
-    except ValueError :
-        return 'Invalid credentials'
+    
+    # from backend.Classes.User_Repo import UserRepo
+    # try:
+    #     session['userID'] = f'{UserRepo.login(email, password)}'
+    # except ValueError :
+    #     return 'Invalid credentials'
 def logout():
     session.pop('username', None)
     return 'Logged out'

@@ -1,14 +1,30 @@
-const firebaseConfig = {
-    apiKey: "AIzaSyAcUOinqD6vOPhOrhIe2wB57gB1xlNPbiQ",
-    authDomain: "studywise-dba07.firebaseapp.com",
-    databaseURL: "https://studywise-dba07-default-rtdb.firebaseio.com",
-    projectId: "studywise-dba07",
-    storageBucket: "studywise-dba07.appspot.com",
-    messagingSenderId: "481892684174",
-    appId: "1:481892684174:web:7d4de3c274f82ced8314df",
-    measurementId: "G-DDTD1ZS5LG"
-};
-firebase.initializeApp(firebaseConfig);
+// Function to fetch Firebase configuration from server
+async function fetchFirebaseConfig() {
+    try {
+        const response = await fetch('/firebase-config');
+        if (!response.ok) {
+            throw new Error('Failed to fetch Firebase configuration');
+        }
+        return await response.json();
+    } catch (error) {
+        console.error(error);
+        return null;
+    }
+}
+
+// Initialize Firebase using dynamically fetched configuration
+async function initializeFirebase() {
+    const firebaseConfig = await fetchFirebaseConfig();
+    if (firebaseConfig) {
+        firebase.initializeApp(firebaseConfig);
+        console.log('Firebase initialized with dynamically fetched configuration');
+    } else {
+        console.error('Failed to initialize Firebase');
+    }
+}
+
+// Call initializeFirebase() when DOM content is loaded
+document.addEventListener('DOMContentLoaded', initializeFirebase);
 
 
 const db = firebase.firestore()
@@ -121,23 +137,40 @@ function signUp() {
 
 
 // }
-function signIn() {
-    var email = document.getElementById('signInEmail').value;
-    var password = document.getElementById('signInPassword').value;
-
-    firebase.auth().signInWithEmailAndPassword(email, password)
-        .then((userCredential) => {
-            // User Signed in 
-            var user = userCredential.user;
-        })
-        .catch((error) => {
-            var errorCode = error.code;
-            var errorMessage = error.message;
-            // Handle Errors
-            alert(errorMessage);
+async function signIn() {
+    
+    var socket = io.connect('http://127.0.0.1:5000');
+        
+        // Listen for 'update' events from the server to get real-time processing updates
+        socket.on('update', function(data) {
+            console.log('Update from server:', data.message);
         });
-}
+        
+    try {
+        const email = document.getElementById('signInEmail').value;
+        const password = document.getElementById('signInPassword').value;
 
+        const userCredential = await firebase.auth().signInWithEmailAndPassword(email, password);
+        // User signed in successfully
+        const user = userCredential.user;
+        console.log('User signed in:', user);
+        alert('Sign in successful!');
+        var request = new XMLHttpRequest();
+        request.open('POST', 'http://127.0.0.1:5000/loginprocess', true);
+        request.setRequestHeader('Content-Type', 'application/json');
+        request.onload = function() {
+            // Handle response from server
+            if (request.status >= 200 && request.status < 400) {
+                console.log('user successfully loged in');
+            } else {
+                console.log('Server returned an error:', request.status);
+            }
+        };
+    } catch (error) {
+        request.open('POST', 'http://127.0.0.1:5000/LoginPage', true);
+        alert(error.message || 'Failed to sign in');
+    }
+}
 function validate_email(email) {
     expression = /^[^@]+@\w+(\.\w+)+\w$/
     if (expression.test(email) == true) {
