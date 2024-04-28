@@ -171,6 +171,25 @@ async function signIn() {
         alert(error.message || 'Failed to sign in');
     }
 }
+async function fetchUserIdFromEmail(email) {
+    try {
+      // Fetch user data based on email
+      const userSnapshot = await admin.firestore().collection('Users').where('Email', '==', email).get();
+      
+      if (userSnapshot.empty) {
+        throw new Error('User not found');
+      }
+  
+      // Extract user ID
+      const userId = userSnapshot.docs[0].id;
+      
+      return userId;
+    } catch (error) {
+      // Handle errors
+      console.error('Error fetching user:', error);
+      throw error;
+    }
+  }
 function validate_email(email) {
     expression = /^[^@]+@\w+(\.\w+)+\w$/
     if (expression.test(email) == true) {
