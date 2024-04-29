@@ -8,6 +8,7 @@ from dotenv import load_dotenv
 # Chat imports
 import openai
 import fitz  # PyMuPDF
+from firebase_admin import auth 
 
 app = Flask(__name__)
 CORS(app)
