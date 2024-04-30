@@ -1,0 +1,22 @@
+[
+    {
+        "front": "Q: How does friction affect the motion of an object?",
+        "back": "A: Friction opposes the motion of an object, causing it to slow down and eventually come to a stop. Without friction, an object would continue moving indefinitely."
+    },
+    {
+        "front": "Q: Can you explain Newton's first law of motion in relation to the box sliding on a surface?",
+        "back": "A: Newton's first law states that an object in motion will remain in motion unless acted upon by a force. In the case of the box sliding on a surface, friction acts as the force opposing the motion of the box, eventually bringing it to a stop."
+    },
+    {
+        "front": "Q: How does the absence of friction impact the motion of objects in space?",
+        "back": "A: In space, where there is almost no friction, objects can continue to move indefinitely without any external force acting upon them. This is demonstrated by the Earth's movement around the sun in the vacuum of space."
+    },
+    {
+        "front": "Q: Explain the relationship between force, mass, and acceleration according to Newton's second law of motion.",
+        "back": "A: Newton's second law states that the net force acting on an object is equal to the product of the object's mass and its acceleration. This relationship is mathematically represented as F = ma, where F is the force, m is the mass, and a is the acceleration."
+    },
+    {
+        "front": "Q: How does applying a force to an object affect its velocity over time?",
+        "back": "A: When a force is applied to an object, it exerts an acceleration on the object, leading to an increase in velocity. This means that with each passing second, the velocity of the object will increase by the amount of acceleration applied."
+    }
+]
