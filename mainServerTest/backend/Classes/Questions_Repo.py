@@ -212,7 +212,7 @@ class Questions_Repo:
             if paragraphs[difficulty]:
                 mcqs = Questions_Repo.generate_mcqs(paragraphs, difficulty)
                 if mcqs:
-                    output_path = f'assets/output_files/mcqs/{difficulty}.json'
+                    output_path = f'assets/output_files/mcq/{difficulty}.json'
                     if not os.path.isfile(output_path):
                         os.makedirs(os.path.dirname(output_path), exist_ok=True)
                     Questions_Repo.save_mcqs_to_file(mcqs, output_path)
@@ -220,9 +220,9 @@ class Questions_Repo:
                     print(f"No {difficulty} MCQs were generated.")
             else:
                 print(f"No {difficulty} content extracted from the file.")
-        self.output_mcqs_easy = 'assets/output_files/mcqs/easy.json'
-        self.output_mcqs_medium = 'assets/output_files/mcqs/medium.json'
-        self.output_mcqs_hard = 'assets/output_files/mcqs/hard.json'
+        self.output_mcqs_easy = 'assets/output_files/mcq/easy.json'
+        self.output_mcqs_medium = 'assets/output_files/mcq/medium.json'
+        self.output_mcqs_hard = 'assets/output_files/mcq/hard.json'
 
         if not os.path.exists(self.output_mcqs_easy):
             output_mcqs_easy = None

@@ -368,7 +368,7 @@ class VideoProcessed_Repo:
                     "headline": chapter.headline
                 }) 
                     
-            json_chapters = f'assets/output_files/Chapters/chapters_results_{self.file_name}.json'
+            json_chapters = f'assets/output_files/Chapters/Chapters{self.file_name}.json'
 
     # Write the chapters data to a JSON file
             with open(json_chapters, 'w') as json_file:
@@ -377,7 +377,7 @@ class VideoProcessed_Repo:
             print(f"Chapters have been successfully saved to {json_chapters}.")
             
             
-            self.generated_summary_file_path = f'assets/output_files/Summaries/{self.file_name}.json'
+            self.generated_summary_file_path = f'assets/output_files/summaries/{self.file_name}.json'
             text = VideoProcessed_Repo.read_text_file(self.generated_text_file_path)
             prompt = "Provide a long summary of the transcript."
 
@@ -463,7 +463,7 @@ class VideoProcessed_Repo:
             print(f"Chapters have been successfully saved to {json_chapters}.")
             
            
-            self.generated_summary_file_path = f'assets/output_files/Summaries/{self.file_name}.json'
+            self.generated_summary_file_path = f'assets/output_files/summaries/{self.file_name}.json'
             
 
 
