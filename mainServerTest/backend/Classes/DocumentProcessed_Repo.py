@@ -292,7 +292,7 @@ class DocumentProcessed:
 
         # Extract the PDF name without the extension and create a folder
         pdf_name = os.path.splitext(os.path.basename(pdf_path))[0]
-        folder_path = f"assets/output_files/Images/{pdf_name}"
+        folder_path = f"mainServerTest/mainservertest/assets/output_files/Images/{pdf_name}"
         os.makedirs(folder_path, exist_ok=True)
 
         # Iterate through each page of the PDF
@@ -342,7 +342,7 @@ class DocumentProcessed:
         base_name = DocumentProcessed.getFileNameFromPathWithOutExtension(pptx_path)
         
         # Set the output directory to the base name of the file
-        output_images_dir = "assets/output_files/Images/" + base_name
+        output_images_dir = "mainservertest/assets/output_files/Images/" + base_name
 
         # Load the presentation
         prs = Presentation(pptx_path)
@@ -479,10 +479,10 @@ class DocumentProcessed:
     def get_long_summary_and_write_to_json(self,text, filename):
         result = DocumentProcessed.get_Long_summary(text)
         summary_data = {'long_summary': result}
-        with open(f"assets/output_files/summaries/{filename}.json", 'w') as json_file:
+        with open(f"mainservertest/assets/output_files/summaries/{filename}.json", 'w') as json_file:
             json.dump(summary_data, json_file, indent=4)
-            print(f"Long summary has been successfully saved in assets/output_files/summaries/{filename}.json") 
-        self.generated_summary_file_path = f"assets/output_files/summaries/{filename}.json" 
+            print(f"Long summary has been successfully saved in mainservertest/assets/output_files/summaries/{filename}.json") 
+        self.generated_summary_file_path = f"mainservertest/assets/output_files/summaries/{filename}.json" 
     def Document_Processing(self,file):
         if os.path.isfile(file) and file.endswith('.pdf'):
             self._file_path=str(file)
@@ -490,7 +490,7 @@ class DocumentProcessed:
             filename=DocumentProcessed.getFileNameFromPathWithOutExtension(file)
             self.file_name=filename
             self.file_type=DocumentProcessed.get_file_extension(file)
-            text_file_path =str(f'assets/output_files/text_files/{filename}.txt')
+            text_file_path =str(f'mainservertest/assets/output_files/text_files/{filename}.txt')
             self.generated_text_file_path=text_file_path
             print("self._file_path",self.generated_text_file_path)
             #self._file_path=  await self.upload_to_firebase(text_file_path,f'{kUserId}/Materials/{filename}')
@@ -518,7 +518,7 @@ class DocumentProcessed:
             self._file_path=file.replace("\\","/")
             filename=DocumentProcessed.getFileNameFromPathWithOutExtension(file)
             self.file_name=filename
-            self.generated_text_file_path = f'assets/output_files/text_files/{filename}.txt'
+            self.generated_text_file_path = f'mainservertest/assets/output_files/text_files/{filename}.txt'
             #self._file_path=self.upload_to_firebase(text_file_path,f'{kUserId}/Materials/{filename}')
           
             DocumentProcessed.extract_text_from_pdf_plumber(self._file_path, self.generated_text_file_path)
@@ -542,7 +542,7 @@ class DocumentProcessed:
             filename=DocumentProcessed.getFileNameFromPathWithOutExtension(file)
             self.file_name=filename
            
-            self.generated_text_file_path = f'assets/output_files/text_files/{filename}.txt'
+            self.generated_text_file_path = f'mainservertest/assets/output_files/text_files/{filename}.txt'
             #self._file_path=self.upload_to_firebase(text_file_path,f'{kUserId}/Materials/{filename}')
 
             DocumentProcessed.extract_text_from_pdf_plumber(self._file_path,self.generated_text_file_path)
@@ -565,7 +565,7 @@ class DocumentProcessed:
             text=DocumentProcessed.extract_text_from_word(txt_path)
             self.file_name=filename
             self.file_type=DocumentProcessed.get_file_extension(file)
-            text_file = 'f"assets/output_files/text_files/{filename}.txt'
+            text_file = 'f"mainservertest/assets/output_files/text_files/{filename}.txt'
             #self._file_path=self.upload_to_firebase(text_file,f'{kUserId}/Materials/{filename}')
 
             with open(text_file, 'w') as file:
@@ -575,10 +575,10 @@ class DocumentProcessed:
             summary_data = {
                 'long_summary': result
             }
-            with open(f"assets/output_files/summaries/{filename}_summary.json", 'w') as json_file:
+            with open(f"mainservertest/assets/output_files/summaries/{filename}_summary.json", 'w') as json_file:
                 json.dump(summary_data, json_file, indent=4)
-                print(f"Long summary has been successfully saved in assets/output_files/summaries/{filename}.json")
-                self.generated_summary_file_path=f"assets/output_files/summaries/{filename}.json" 
+                print(f"Long summary has been successfully saved in mainservertest/assets/output_files/summaries/{filename}.json")
+                self.generated_summary_file_path=f"mainservertest/assets/output_files/summaries/{filename}.json" 
             self.addProcessedMaterialToFirestore()
 
             flashcard=Flash_Cards(self.generated_text_file_path)
@@ -588,8 +588,8 @@ class DocumentProcessed:
 # #Testing
 
 def main():
-    D= DocumentProcessed("assets/input_files/text-based/test.pdf")
-    # file_path = "assets/input_files/text-based/test2.pdf"
+    D= DocumentProcessed("mainservertest/assets/input_files/text-based/test.pdf")
+    # file_path = "mainservertest/assets/input_files/text-based/test2.pdf"
     # folder_path = "test-based"  # Specify the desired folder path
     # file_name = "test2.pdf"
 

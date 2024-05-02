@@ -21,11 +21,11 @@ class Questions_Repo:
     output_mcqs_easy=""
     output_mcqs_medium=""
     output_mcqs_hard=""
-    def __init__(self,filepath):
+    def __init__(self,filepath,Type):
         self.filepath=filepath
         self.ProcessedMaterial=filepath  
         self.Questions_id=uuid.uuid4().hex
-        self.runMCQGenerator(self.ProcessedMaterial)
+        self.runMCQGenerator(self.ProcessedMaterial,Type)
     @staticmethod
     def read_text_file(file_path):
         with open(file_path, 'r') as file:
@@ -201,8 +201,8 @@ class Questions_Repo:
             json.dump(mcqs, file, indent=4)
         print(f"MCQs saved to {filepath}")
 
-    def runMCQGenerator(self,file_path):
-       
+    def runMCQGenerator(self,file_path,Type):
+      if Type!="Transcript":
         if not os.path.isfile(file_path):
             print(f"The file does not exist at the specified path: {file_path}")
             return
@@ -234,6 +234,9 @@ class Questions_Repo:
             output_mcqs_hard = None
         self.addQuestionsToFirestore()
         self.get_Questions_from_firestore()
+      else:
+          pass
+            
     @staticmethod
     def getUser_level_from_Firestore(ID):
         db_instance = FirestoreDB.get_instance()

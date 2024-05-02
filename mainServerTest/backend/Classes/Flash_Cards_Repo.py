@@ -276,7 +276,7 @@ class Flash_Cards:
                         qa_pairs.append(pair)
             except openai.error.RateLimitError:
                 print("Rate limit reached, waiting for 30 seconds...")
-                time.sleep(21)
+                time.sleep(20)
                 # Retry the request after waiting
                 response = openai.ChatCompletion.create(model="gpt-3.5-turbo", messages=prompt)
                 response_text = response.choices[0].message['content'].strip()

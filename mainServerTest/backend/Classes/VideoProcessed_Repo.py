@@ -17,6 +17,8 @@ from firebase_admin import credentials, storage
 from flask import request,jsonify,render_template
 import uuid
 from Flash_Cards_Repo import Flash_Cards
+from Questions_Repo import Questions_Repo
+
 from FirestoreDB import FirestoreDB
 from audiocutter import runaudiocutter
 aai.settings.api_key = "8d8390aa4ac24f7aa92d724e44370d73"
@@ -223,21 +225,20 @@ class VideoProcessed_Repo:
         seconds = int(ms / 1000)
         return str(timedelta(seconds=seconds))
     @staticmethod
-    def generate_concise_title(headline, api_key):
+    def generate_concise_title(headline, OPENAI_API_KEY):
         while True:
             try:
-                headers = {"Authorization": f"Bearer {api_key}"}
-                openai.api_key = api_key
-                response = openai.ChatCompletion.create(
-                                model="gpt-3.5-turbo",
-                                messages=[
-                                    {"role": "system", "content": "You are a helpful assistant."},
-                                    {"role": "user", "content": f"Convert this headline into a concise title: \"{headline}\""}
-                                ]
-                            )
-                return response['choices'][0]['message']['content'].strip()
-                
-            
+                        openai.api_key = OPENAI_API_KEY
+                        response = openai.ChatCompletion.create(
+                            model="gpt-3.5-turbo",
+                            messages=[
+                                {"role": "system", "content": "You are a helpful assistant."},
+                                {"role": "user", "content": f"Convert this headline into a concise title: \"{headline}\""}
+                            ]
+                        )
+
+                        return response['choices'][0]['message']['content'].strip()
+
             except openai.error.RateLimitError as e:
                 print("Rate limit exceeded, waiting to retry...")
                 time.sleep(20)
@@ -321,10 +322,10 @@ class VideoProcessed_Repo:
     # Check if the input is a local file with the extension .mp4
         
         if  self.is_mp4_file(file_path_or_url):
-
-            self.file_path = file_path_or_url.replace(" ", "_")
-            print(self.file_path)
-            os.rename(file_path_or_url, self.file_path)
+            self.file_path=file_path_or_url
+            # self.file_path = file_path_or_url.replace(" ", "_")
+            # print(self.file_path)
+            # os.rename(file_path_or_url, self.file_path)
             
             if Video_cutted:
                 self.generated_video_file_path = runaudiocutter(self.file_path)
@@ -341,8 +342,8 @@ class VideoProcessed_Repo:
             print('video is initialized')
             audio = video.audio
             print('video.audio is extracted')
-            audio.write_audiofile(f"assets/output_files/audio/{self.file_name}.wav")
-            self.generated_audio_file_path = f"assets/output_files/audio/{self.file_name}.wav"
+            audio.write_audiofile(f"mainServerTest/assets/output_files/audio/{self.file_name}.wav")
+            self.generated_audio_file_path = f"mainServerTest/assets/output_files/audio/{self.file_name}.wav"
             print(f"Audio file downloaded at: {self.generated_audio_file_path}") 
             config = aai.TranscriptionConfig(auto_chapters=True)
 
@@ -353,7 +354,7 @@ class VideoProcessed_Repo:
             else:
                 print(transcript.text)
             
-            self.generated_text_file_path = f"assets/output_files/text_files/{self.file_name}.txt"
+            self.generated_text_file_path = f"mainServerTest/assets/output_files/text_files/{self.file_name}.txt"
             with open(self.generated_text_file_path, 'w', encoding='utf-8',errors='ignore') as transcript_file:
                     transcript_file.write(transcript.text)
                     print(f"Full transcript has been successfully saved to {self.generated_text_file_path}.")
@@ -368,7 +369,7 @@ class VideoProcessed_Repo:
                     "headline": chapter.headline
                 }) 
                     
-            json_chapters = f'assets/output_files/Chapters/Chapters{self.file_name}.json'
+            json_chapters = f'mainServerTest/assets/output_files/Chapters/{self.file_name}.json'
 
     # Write the chapters data to a JSON file
             with open(json_chapters, 'w') as json_file:
@@ -376,8 +377,7 @@ class VideoProcessed_Repo:
             
             print(f"Chapters have been successfully saved to {json_chapters}.")
             
-            
-            self.generated_summary_file_path = f'assets/output_files/summaries/{self.file_name}.json'
+            self.generated_summary_file_path = f'mainServerTest/assets/output_files/summaries/{self.file_name}.json'
             text = VideoProcessed_Repo.read_text_file(self.generated_text_file_path)
             prompt = "Provide a long summary of the transcript."
 
@@ -395,18 +395,19 @@ class VideoProcessed_Repo:
                 start_hms = VideoProcessed_Repo.milliseconds_to_hms(chapter['start'])
                 end_hms = VideoProcessed_Repo.milliseconds_to_hms(chapter['end'])
                 concise_title = VideoProcessed_Repo.generate_concise_title(chapter['headline'], OPENAI_API_KEY)
-                
+                print("the processed chapter success")
                 processed_chapters.append({
                     'start': start_hms,
                     'end': end_hms,
                     'concise_title': concise_title
                 })
-            self.generated_chapters_file_path=f'assets/output_files/Processed_Chapters/{self.file_name}.json'
-            with open(f'assets/output_files/Processed_Chapters/{self.file_name}.json', 'w') as outfile:
+            self.generated_chapters_file_path=f'mainServerTest/assets/output_files/Processed_Chapters/{self.file_name}.json'
+            with open(f'mainServerTest/assets/output_files/Processed_Chapters/{self.file_name}.json', 'w') as outfile:
                 json.dump(processed_chapters, outfile, indent=4)
             self.addProcessedMaterialToFirestore()
 
-            Flash_Cards(self.generated_text_file_path,"TRANSCRIPT")
+            f=Flash_Cards(self.generated_text_file_path,"TRANSCRIPT")
+            #m=Questions_Repo(self.generated_text_file_path,"TRANSCRIPT")
 
 
         # Check if the input is a YouTube video link
@@ -418,7 +419,7 @@ class VideoProcessed_Repo:
         else:
             print("skipped if")
             video_url = file_path_or_url  
-            output_path = 'assets/input_files/videos'  
+            output_path = 'mainServerTest/assets/input_files/videos'  
             self.file_path,self.file_name = VideoProcessed_Repo.download_video_from_youtube(video_url, output_path)
             print("the video has been downloaded successfully")
             #videocutted=runaudiocutter(video_file_path)
@@ -432,14 +433,14 @@ class VideoProcessed_Repo:
                 video = mp.VideoFileClip(self.file_path)
 
             audio = video.audio
-            audio.write_audiofile(f"assets/output_files/audio/extracted_audio_from_{self.file_name}.wav")
-            self.generated_audio_file_path = f"assets/output_files/extracted_audio_from_{self.file_name}.wav"
+            audio.write_audiofile(f"mainServerTest/assets/output_files/audio/extracted_audio_from_{self.file_name}.wav")
+            self.generated_audio_file_path = f"mainServerTest/assets/output_files/extracted_audio_from_{self.file_name}.wav"
             print(f"Audio file downloaded at: {self.generated_audio_file_path}") 
             config = aai.TranscriptionConfig(auto_chapters=True,)
 
             # Transcribe the audio and get the result as a JSON object
             transcript = aai.Transcriber().transcribe(self.generated_audio_file_path, config)
-            self.generated_text_file_path = f"assets/output_files/extracted_transcripts/{self.file_name}.txt"
+            self.generated_text_file_path = f"mainServerTest/assets/output_files/extracted_transcripts/{self.file_name}.txt"
             with open( self.generated_text_file_path, 'w', encoding='utf-8') as transcript_file:
                     transcript_file.write(transcript.text)
                     print(f"Full transcript has been successfully saved to { self.generated_text_file_path}.")
@@ -454,7 +455,7 @@ class VideoProcessed_Repo:
                     "headline": chapter.headline
                 }) 
                     
-            json_chapters = f'assets/output_files/Chapters/chapters_results_{self.file_name}.json'
+            json_chapters = f'mainServerTest/assets/output_files/Chapters/chapters_results_{self.file_name}.json'
 
     # Write the chapters data to a JSON file
             with open(json_chapters, 'w') as json_file:
@@ -463,7 +464,7 @@ class VideoProcessed_Repo:
             print(f"Chapters have been successfully saved to {json_chapters}.")
             
            
-            self.generated_summary_file_path = f'assets/output_files/summaries/{self.file_name}.json'
+            self.generated_summary_file_path = f'mainServerTest/assets/output_files/summaries/{self.file_name}.json'
             
 
 
@@ -486,23 +487,23 @@ class VideoProcessed_Repo:
             for chapter in text:
                 start_hms = VideoProcessed_Repo.milliseconds_to_hms(chapter['start'])
                 end_hms = VideoProcessed_Repo.milliseconds_to_hms(chapter['end'])
-                concise_title = VideoProcessed_Repo.generate_concise_title(chapter['headline'], aai.settings.api_key)
+                concise_title = VideoProcessed_Repo.generate_concise_title(chapter['headline'], OPENAI_API_KEY)
                 
                 processed_chapters.append({
                     'start': start_hms,
                     'end': end_hms,
                     'concise_title': concise_title
                 })
-            self.generated_chapters_file_path=f'assets/output_files/Processed_Chapters/{self.file_name}.json'
-            with open(f'assets/output_files/Chapters/processed_chapters_{self.file_name}.json', 'w') as outfile:
+            self.generated_chapters_file_path=f'mainServerTest/assets/output_files/Processed_Chapters/{self.file_name}.json'
+            with open(f'mainServerTest/assets/output_files/Chapters/processed_chapters_{self.file_name}.json', 'w') as outfile:
                 json.dump(processed_chapters, outfile, indent=4)
             self.addProcessedMaterialToFirestore()
 
             Flash_Cards(self.generated_text_file_path,"TRANSCRIPT")
 
-            #self.Save_ProcessedVideo_to_database(json_file_path,audio_file_path,f'assets/output_files/Chapters/processed_chapters_{Video_name}.json',text_file_path,None,videocutted)
+            #self.Save_ProcessedVideo_to_database(json_file_path,audio_file_path,f'mainservertest/assets/output_files/Chapters/processed_chapters_{Video_name}.json',text_file_path,None,videocutted)
 def main():
- v=VideoProcessed_Repo("D:/COLLEGE/StudyWise/assets/input_files/videos/Physics_-_Basic_Introduction.mp4",False)
+ v=VideoProcessed_Repo("D:/COLLEGE/StudyWise/mainServerTest/assets/input_files/video-based/Inflation Explained in One Minute.mp4",False)
 if __name__ == '__main__':
      main()
      
