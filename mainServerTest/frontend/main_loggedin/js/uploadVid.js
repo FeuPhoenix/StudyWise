@@ -88,3 +88,22 @@ function confirmFile() {
         alert("No file selected");
     }
 }
+// Add dragover event listener to allow dropping files
+document.getElementById('drop-area').addEventListener('dragover', function(event) {
+    event.preventDefault();
+    event.stopPropagation();
+    // Add styling to indicate the drop area
+    this.classList.add('dragover');
+});
+
+// Add drop event listener to handle dropped files
+document.getElementById('drop-area').addEventListener('drop', function(event) {
+    event.preventDefault();
+    event.stopPropagation();
+    // Remove styling from drop area
+    this.classList.remove('dragover');
+    // Trigger file input element with dropped files
+    document.getElementById('fileElem').files = event.dataTransfer.files;
+    // Handle file selection
+    handleFileSelection(document.getElementById('fileElem'));
+});
