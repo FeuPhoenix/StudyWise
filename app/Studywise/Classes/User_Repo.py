@@ -8,13 +8,14 @@ from flask import request,jsonify,render_template
 from FirestoreDB import FirestoreDB
 class UserRepo:
     
-    def __init__(self,email, fullName, Role=None,User_Level=0,dateJoined=None ):
+    def __init__(self,email, fullName,password ,Role=None,User_Level=0,dateJoined=None ):
         self.email = email
         self.fullName = fullName
         self.dateJoined = dateJoined
         self.Role = Role
         self.User_Level=User_Level
         self.userID=uuid.uuid4().hex
+        self.password=password
         
 
     def getUserDataFromFirestore(self):
@@ -49,6 +50,7 @@ class UserRepo:
             email=data["Email"],
             fName=data["Full Name"],
             dateJoined=data["Joined on"],
+            password=data["Password"],
             Role=data["Role"],
             User_Level=data[0],
             
@@ -58,6 +60,7 @@ class UserRepo:
         data = {
             "Full Name": self.fullName,
             "Joined on": datetime.now().strftime("%d-%B-%Y"),
+            "Password":self.password,
             "Email": self.email,
             "Role": self.Role,
             "User_Level": 0,
@@ -74,7 +77,25 @@ class UserRepo:
         except Exception as e:
             print('Error creating new user:', e)
             #return None
+    @staticmethod
+    def Login(email, password):
+        db_instance = FirestoreDB.get_instance()
+        firestore_instance = db_instance.get_firestore_instance()
+        users_ref = firestore_instance.collection('Users')
 
+        # Query Firestore to find the document with the matching email and password
+        query = users_ref.where('Email', '==', email).where('Password', '==', password)    
+        docs = query.stream()
+
+        for doc in docs:
+            # Get the ID of the document
+            doc_id = doc.id
+
+            # Return the document ID and True
+            return doc_id, True
+
+        # If no document is found for the user's email and password
+        return None, False
     def add_user_to_firestore(self):
         db_instance = FirestoreDB.get_instance()
         firestore_instance = db_instance.get_firestore_instance()
@@ -137,11 +158,7 @@ class UserRepo:
         self.deleteFromAuthentication()
 #Testing
 def main():
-    n=UserRepo("abdelrahman1235@gmail.com","Abdelrahman Mohamed","User",0)
-    n.add_user_to_firestore()
-    n.getUserDataFromFirestore()
-    kUserId=n.userID
-    print(kUserId)
+    print(UserRepo.Login("a123451@.com","123456"))
 
 if __name__ == "__main__":
     main()

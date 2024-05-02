@@ -7,46 +7,17 @@ from Constants import OPENAI_API_KEY, MAX_TOKENS_PER_REQUEST,kUserId,kUserEmail 
 from flask import request,jsonify,render_template
 from FirestoreDB import FirestoreDB
 class UserRepo:
-    userID=uuid.uuid4().hex
-    def __init__(self,email, fullName,User_Level=0,dateJoined=None ):
+    
+    def __init__(self,email, fullName,password ,Role=None,User_Level=0,dateJoined=None ):
         self.email = email
         self.fullName = fullName
         self.dateJoined = dateJoined
-        
+        self.Role = Role
         self.User_Level=User_Level
+        self.userID=uuid.uuid4().hex
+        self.password=password
         
-    @staticmethod
-    def login(email,password):
-        try:
-            # Authenticate the user with the provided email and password
-            user= auth.sign_in_with_email_and_password(email, password)
-            
-            # If authentication succeeds, return the user's UID
-            UserRepo.get_document_id_by_email(email)
-        except auth.UserNotFoundError:
-            print(f"User with email {email} not found in Authentication.")
-            return None
-        # except auth.InvalidPasswordError:
-        #     print(f"Invalid password for user with email {email}.")
-        #     return None
-    @staticmethod
-    def get_document_id_by_email(email):
-        db_instance = FirestoreDB.get_instance()
-        firestore_instance = db_instance.get_firestore_instance()
 
-        users_ref = firestore_instance.collection('Users')
-
-        # Query Firestore to find the document with the matching email
-        query = users_ref.where('Email', '==', email)
-        docs = query.stream()
-
-        for doc in docs:
-            # Return the document ID if found
-            return doc.id
-        
-        # If no document is found for the email
-        print(f"No document found for user with email {email} in Firestore.")
-        return None
     def getUserDataFromFirestore(self):
         db_instance = FirestoreDB.get_instance()
         firestore_instance = db_instance.get_firestore_instance()
@@ -79,6 +50,8 @@ class UserRepo:
             email=data["Email"],
             fName=data["Full Name"],
             dateJoined=data["Joined on"],
+            password=data["Password"],
+            Role=data["Role"],
             User_Level=data[0],
             
         )
@@ -87,7 +60,9 @@ class UserRepo:
         data = {
             "Full Name": self.fullName,
             "Joined on": datetime.now().strftime("%d-%B-%Y"),
+            "Password":self.password,
             "Email": self.email,
+            "Role": self.Role,
             "User_Level": 0,
         }
         return data
@@ -102,35 +77,54 @@ class UserRepo:
         except Exception as e:
             print('Error creating new user:', e)
             #return None
+    @staticmethod
+    def Login(email, password):
+        db_instance = FirestoreDB.get_instance()
+        firestore_instance = db_instance.get_firestore_instance()
+        users_ref = firestore_instance.collection('Users')
 
+        # Query Firestore to find the document with the matching email and password
+        query = users_ref.where('Email', '==', email).where('Password', '==', password)    
+        docs = query.stream()
+
+        for doc in docs:
+            # Get the ID of the document
+            doc_id = doc.id
+
+            # Return the document ID and True
+            return doc_id, True
+
+        # If no document is found for the user's email and password
+        return None, False
     def add_user_to_firestore(self):
         db_instance = FirestoreDB.get_instance()
         firestore_instance = db_instance.get_firestore_instance()
 
+        # Check if the user already exists in Firestore using email
+        users_ref = firestore_instance.collection('Users')
+        query = users_ref.where('Email', '==', self.email)
+        docs = query.stream()
 
-        doc_ref = firestore_instance.collection('Users').document(self.userID)
-        
-            # print(f"User added to Firestore with ID: {doc_ref.id}")
-        
-            # Check if the user already exists in Firestore
-        existing_doc = doc_ref.get()
-        if existing_doc.exists:
+        for doc in docs:
             print(f"Document with email {self.email} already exists in Firestore.")
-        else:
+            return None  # Return None if the email already exists
+
+        # If the email doesn't exist in Firestore, proceed to add the user
+        try:
             # Check if the user exists in authentication
-            try:
-                user = auth.get_user_by_email(self.email)
-                print(f"User with email {self.email} already exists in Authentication.")
-            except auth.UserNotFoundError:
-                # User doesn't exist in authentication, proceed to add to Firestore and authentication
-                # Add user to authentication
-                user = auth.create_user(email=self.email, password="123456")
-                print(f"User added to Authentication with ID: {user.uid}")
-                
-                # Add user to Firestore
-                doc_ref.set(self.toJson())
-                print(f"User added to Firestore with email: {self.email}")
-        
+            user = auth.get_user_by_email(self.email)
+            print(f"User with email {self.email} already exists in Authentication.")
+        except auth.UserNotFoundError:
+            # User doesn't exist in authentication, proceed to add to Firestore and authentication
+            # Add user to authentication
+            user = auth.create_user(email=self.email, password=self.password)
+            print(f"User added to Authentication with ID: {user.uid}")
+            
+            # Add user to Firestore
+            doc_ref = users_ref.document(user.uid)
+            doc_ref.set(self.toJson())
+            print(f"User added to Firestore with email: {self.email}")
+
 
     def deleteFromFirestore(self):
         db_instance = FirestoreDB.get_instance()
@@ -165,7 +159,7 @@ class UserRepo:
         self.deleteFromAuthentication()
 #Testing
 def main():
-    print(UserRepo.login("abdelrahman123@gmail.com","123456"))
+    print(UserRepo.Login("a123451@.com","123456"))
 
 if __name__ == "__main__":
     main()

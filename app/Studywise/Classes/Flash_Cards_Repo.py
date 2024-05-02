@@ -8,20 +8,17 @@ import openai
 import time
 import json
 import re
-<<<<<<<< HEAD:mainServerTest/backend/Flash_Cards_Controller.py
-from backend.Constants import OPENAI_API_KEY, MAX_TOKENS_PER_REQUEST,kUserId,kUserEmail ,kDatejoined ,kFullName
-import backend.FirestoreDB 
-
-class FlashcardsController:
-    def __init__(self, ProcessedMaterial):
-========
+#from backend.Constants import OPENAI_API_KEY, MAX_TOKENS_PER_REQUEST,kUserId,kUserEmail ,kDatejoined ,kFullName
+#import backend.FirestoreDB 
 from Constants import OPENAI_API_KEY, MAX_TOKENS_PER_REQUEST,kUserId,kUserEmail ,kDatejoined ,kFullName
 from FirestoreDB import FirestoreDB # Assuming the Materials and Processed_Materials classes are defined in app.Studywise.Model
+
+
+
 
 class Flash_Cards:
     Flashcards=''
     def __init__(self,ProcessedMaterial,content_type='',):
->>>>>>>> main:app/Studywise/Classes/Flash_Cards_Repo.py
         openai.api_key = OPENAI_API_KEY
         self.content_type=content_type
         self.ProcessedMaterial=ProcessedMaterial  
@@ -326,14 +323,12 @@ class Flash_Cards:
     def runFlashcards(self, file_path, content_type = ''):
         content = []
 
-<<<<<<<< HEAD:mainServerTest/backend/Flash_Cards_Controller.py
         filename = self.filenameFromPath(file_path)
         output_path='mainServerTest/assets/output_files/flashcards/'+filename+'.json'
-========
+
         self.filename = self.filenameFromPath(file_path)
         output_path='assets/output_files/flashcards/'+self.filename+'.json' 
         self.Flashcards=output_path
->>>>>>>> main:app/Studywise/Classes/Flash_Cards_Repo.py
 
         if content_type == '':
             if file_path.endswith('.pdf'):

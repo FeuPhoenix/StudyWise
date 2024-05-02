@@ -53,11 +53,12 @@ class DocumentProcessed:
     generated_images_folder_path=""
 
   
-    def __init__(self, file):
+    def __init__(self, file,UserID):
         self.file=file
         self.db = FirestoreDB.get_instance()
         self.Document_Processing(file)
         self.material_id=uuid.uuid4().hex
+        self.userID=UserID
     def addProcessedMaterialToFirestore(self):
         db_instance = FirestoreDB.get_instance()
         firestore_instance = db_instance.get_firestore_instance()
