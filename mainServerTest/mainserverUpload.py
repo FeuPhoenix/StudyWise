@@ -9,6 +9,7 @@ from dotenv import load_dotenv
 import openai
 import fitz  # PyMuPDF
 
+
 app = Flask(__name__)
 CORS(app)
 socketio.init_app(app, cors_allowed_origins="http://127.0.0.1:5000") # , logger=True, engineio_logger=True

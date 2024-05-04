@@ -12,20 +12,20 @@ import textstat
 from typing import List, Dict, Tuple, Optional
 from Constants import OPENAI_API_KEY
 from FirestoreDB import FirestoreDB
-openai.api_key = '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'
+openai.api_key = OPENAI_API_KEY
 
 
 MAX_TOKENS_PER_REQUEST = 4096  # Safe limit for tokens per request
 user_points = 0  # Initialize user points
 class Questions_Repo:
-    output_mcqs_easy=""
-    output_mcqs_medium=""
-    output_mcqs_hard=""
-    def __init__(self,filepath):
+
+    def __init__(self,filepath,userid,materialid,Type):
         self.filepath=filepath
         self.ProcessedMaterial=filepath  
         self.Questions_id=uuid.uuid4().hex
-        self.runMCQGenerator(self.ProcessedMaterial)
+        self.userid=userid
+        self.materialid=materialid
+        self.runMCQGenerator(self.ProcessedMaterial,Type)
     @staticmethod
     def read_text_file(file_path):
         with open(file_path, 'r') as file:
@@ -71,26 +71,8 @@ class Questions_Repo:
         if current_chunk:
             chunks.append(current_chunk.strip())
         return chunks
-    @staticmethod
-    def generate_questions(text: str, model: str = "text-davinci-003", temperature: float = 0.7) -> List[str]:
-        """
-        Generates questions from the given text using the specified model.
-        """
-        try:
-            response = openai.Completion.create(
-                engine=model,
-                prompt=text,
-                temperature=temperature,
-                max_tokens=100,
-                top_p=1.0,
-                frequency_penalty=0.0,
-                presence_penalty=0.0,
-                stop=["\n", " Human:", " AI:"]
-            )
-            return response.choices[0].text.strip().split('\n')
-        except Exception as e:
-            print(f"Error generating questions: {e}")
-            return []
+    
+    
     @staticmethod
     def determine_difficulty(text: str) -> str:
         # Calculate readability scores and text metrics
@@ -201,66 +183,76 @@ class Questions_Repo:
             json.dump(mcqs, file, indent=4)
         print(f"MCQs saved to {filepath}")
 
-    def runMCQGenerator(self,file_path):
-       
-        if not os.path.isfile(file_path):
-            print(f"The file does not exist at the specified path: {file_path}")
-            return
+    def runMCQGenerator(self,file_path,Type):
+      if Type!="TRANSCRIPT":
+            if not os.path.isfile(file_path):
+                print(f"The file does not exist at the specified path: {file_path}")
+                return
 
-        paragraphs =Questions_Repo.extract_paragraphs_from_pdf(file_path)
+            paragraphs =Questions_Repo.extract_paragraphs_from_pdf(file_path)
+            for difficulty in ['easy', 'medium', 'hard']:
+                if paragraphs[difficulty]:
+                    mcqs = Questions_Repo.generate_mcqs(paragraphs, difficulty)
+                    if mcqs:
+                        output_path = f'mainServerTest/assets/output_files/mcq/{difficulty}.json'
+                        if not os.path.isfile(output_path):
+                            os.makedirs(os.path.dirname(output_path), exist_ok=True)
+                        Questions_Repo.save_mcqs_to_file(mcqs, output_path)
+                    else:
+                        print(f"No {difficulty} MCQs were generated.")
+                else:
+                    print(f"No {difficulty} content extracted from the file.")
+            self.output_mcqs_easy = 'mainServerTest/assets/output_files/mcq/easy.json'
+            self.output_mcqs_medium = 'mainServerTest/assets/output_files/mcq/medium.json'
+            self.output_mcqs_hard = 'mainServerTest/assets/output_files/mcq/hard.json'
+
+            if not os.path.exists(self.output_mcqs_easy):
+                self.output_mcqs_easy = None
+
+            if not os.path.exists(self.output_mcqs_medium):
+                self.output_mcqs_medium = None
+
+            if not os.path.exists(self.output_mcqs_hard):
+                self.output_mcqs_hard = None
+            self.addDocumentQuestionsToFirestore()
+            
+      else:
+        transcript_text = self.read_text_file(file_path)
+        cleaned_transcript = Questions_Repo.clean_text(transcript_text)
+        paragraphs = Questions_Repo.split_text(cleaned_transcript)
+
+        transcript_paragraphs = {'easy': [], 'medium': [], 'hard': []}
+        for paragraph in paragraphs:
+            difficulty = Questions_Repo.determine_difficulty(paragraph)
+            transcript_paragraphs[difficulty].append(paragraph)
+        
         for difficulty in ['easy', 'medium', 'hard']:
-            if paragraphs[difficulty]:
-                mcqs = Questions_Repo.generate_mcqs(paragraphs, difficulty)
+            if transcript_paragraphs[difficulty]:
+                mcqs = Questions_Repo.generate_mcqs(transcript_paragraphs, difficulty)
                 if mcqs:
-                    output_path = f'assets/output_files/mcq/{difficulty}.json'
+                    output_path = f'mainServerTest/assets/output_files/mcq/{difficulty}_transcript.json'
                     if not os.path.isfile(output_path):
                         os.makedirs(os.path.dirname(output_path), exist_ok=True)
                     Questions_Repo.save_mcqs_to_file(mcqs, output_path)
                 else:
-                    print(f"No {difficulty} MCQs were generated.")
+                    print(f"No {difficulty} MCQs were generated for the transcript.")
             else:
-                print(f"No {difficulty} content extracted from the file.")
-        self.output_mcqs_easy = 'assets/output_files/mcq/easy.json'
-        self.output_mcqs_medium = 'assets/output_files/mcq/medium.json'
-        self.output_mcqs_hard = 'assets/output_files/mcq/hard.json'
+                print(f"No {difficulty} content extracted from the transcript.")
+            self.output_mcqs_easy = 'mainServerTest/assets/output_files/mcq/easy.json'
+            self.output_mcqs_medium = 'mainServerTest/assets/output_files/mcq/medium.json'
+            self.output_mcqs_hard = 'mainServerTest/assets/output_files/mcq/hard.json'
+            if not os.path.exists(self.output_mcqs_easy):
+               self.output_mcqs_easy = None
 
-        if not os.path.exists(self.output_mcqs_easy):
-            output_mcqs_easy = None
+            if not os.path.exists(self.output_mcqs_medium):
+                self.output_mcqs_medium = None
 
-        if not os.path.exists(self.output_mcqs_medium):
-            output_mcqs_medium = None
-
-        if not os.path.exists(self.output_mcqs_hard):
-            output_mcqs_hard = None
-        self.addQuestionsToFirestore()
-        self.get_Questions_from_firestore()
-    @staticmethod
-    def getUser_level_from_Firestore(ID):
-        db_instance = FirestoreDB.get_instance()
-        firestore_instance = db_instance.get_firestore_instance()
-        user_doc_ref = firestore_instance.collection('Users').document(ID)
-
-        # Get the document snapshot
-        doc_snapshot = user_doc_ref.get()
-
-        # Check if the document exists
-        if doc_snapshot.exists:
-            # Get the data of the document
-            user_data = doc_snapshot.to_dict()
-            
-            # Get the value of the User_Level field
-            user_level = user_data.get('User_Level')
-
-            # Print the data of the document
-            print("User data retrieved from Firestore:")
-            print(user_data)
-
-            # Return the User_Level value
-            return user_level
-        else:
-            # If no document is found for the user's ID
-            print(f"No document found for user with ID {ID} in Firestore.")
-            return None
+            if not os.path.exists(self.output_mcqs_hard):
+                self.output_mcqs_hard = None
+            self.addVideoQuestionsToFirestore()
+             
+    
+ 
     @staticmethod
     def updateUserLevelInFirestore(user_id, new_level):
         db_instance = FirestoreDB.get_instance()
@@ -281,35 +273,39 @@ class Questions_Repo:
     def upload_material_to_storage(self,user_id, material_name, output_mcqs_easy, output_mcqs_medium, output_mcqs_hard):
         db_instance = FirestoreDB.get_instance()
         storage_instance = db_instance.get_storage_instance()
-
+        expiration = datetime.now() + timedelta(days=36500)
         # Constructing the full path for the folder using the material name
         folder_path = f"user/{user_id}/Uploaded Materials/{material_name}/"
 
         # Creating a folder with the material name as the folder name
         folder_blob = storage_instance.blob(folder_path)
         folder_blob.upload_from_string('')  # Upload an empty string to create the folder
-
-        output_mcqs_medium_blob_path = folder_path  +"output_mcqs_medium.json"
-        output_mcqs_medium_blob = storage_instance.blob(output_mcqs_medium_blob_path)
-        output_mcqs_medium_blob.upload_from_filename(output_mcqs_medium,timeout=600)
-
-        output_mcqs_hard_blob_path = folder_path  +"output_mcqs_hard.json"
-        output_mcqs_hard_blob = storage_instance.blob(output_mcqs_hard_blob_path,timeout=600)
-        output_mcqs_hard_blob.upload_from_filename(output_mcqs_hard)
-
-        output_mcqs_easy_blob_path = folder_path  +"output_mcqs_easy.json"
-        output_mcqs_easy_blob = storage_instance.blob(output_mcqs_easy_blob_path,timeout=600)
-        output_mcqs_easy_blob.upload_from_filename(output_mcqs_easy)
+        if output_mcqs_medium is not None:
+            output_mcqs_medium_blob_path = folder_path  +"output_mcqs_medium.json"
+            output_mcqs_medium_blob = storage_instance.blob(output_mcqs_medium_blob_path)
+            output_mcqs_medium_blob.upload_from_filename(output_mcqs_medium,timeout=600)
+            link_m=output_mcqs_medium_blob.generate_signed_url(expiration=expiration)
+        else:
+            link_m=None
+        if output_mcqs_hard is not None:
+            output_mcqs_hard_blob_path = folder_path  +"output_mcqs_hard.json"
+            output_mcqs_hard_blob = storage_instance.blob(output_mcqs_hard_blob_path)
+            output_mcqs_hard_blob.upload_from_filename(output_mcqs_hard,timeout=600)
+            link_h=output_mcqs_hard_blob.generate_signed_url(expiration=expiration)
+        else:
+            link_h=None
+        if output_mcqs_easy is not None:
+            output_mcqs_easy_blob_path = folder_path  +"output_mcqs_easy.json"
+            output_mcqs_easy_blob = storage_instance.blob(output_mcqs_easy_blob_path)
+            output_mcqs_easy_blob.upload_from_filename(output_mcqs_easy,timeout=600)
+            link_E=output_mcqs_easy_blob.generate_signed_url(expiration=expiration)
+        else:
+            link_E=None
         
-        expiration = datetime.now() + timedelta(days=36500)
-        # download_urls = {
-        #     "material_url": material_blob.generate_signed_url(expiration=expiration),
-        #     "text_url": text_blob.generate_signed_url(expiration=expiration),
-        #     "summary_url": summary_blob.generate_signed_url(expiration=expiration)
-        # }
+
 
         print("Successfully uploaded material to Storage")
-        return output_mcqs_easy_blob.generate_signed_url(expiration=expiration),output_mcqs_medium_blob.generate_signed_url(expiration=expiration),output_mcqs_hard_blob.generate_signed_url(expiration=expiration)
+        return link_E,link_m,link_h
     @staticmethod
     def getFileNameFromPathWithOutExtension(input_string):
         last_slash_index = input_string.rfind('/')
@@ -323,19 +319,20 @@ class Questions_Repo:
         result_string=result_string.replace('.json','')
         result_string=result_string.replace('.txt','')
         return result_string
-    def addQuestionsToFirestore(self):
+    def addVideoQuestionsToFirestore(self):
         db_instance = FirestoreDB.get_instance()
         firestore_instance = db_instance.get_firestore_instance()
         #document('13ffe4704e2d423ea7751cb88d599db7') the number will be replaced with the user id
         #document(rmk3SGTciwNRdo9pT4CO) this will be replaced with the material id
         
-        Questions_easy_location,Questions_medium_location,Questions_hard_location=self.upload_material_to_storage("13ffe4704e2d423ea7751cb88d599db7",Questions_Repo.getFileNameFromPathWithOutExtension(self.ProcessedMaterial),self.output_mcqs_easy,self.output_mcqs_medium,self.output_mcqs_hard)
+        Questions_easy_location,Questions_medium_location,Questions_hard_location=self.upload_material_to_storage(self.userid,Questions_Repo.getFileNameFromPathWithOutExtension(self.ProcessedMaterial),self.output_mcqs_easy,self.output_mcqs_medium,self.output_mcqs_hard)
         Questions_medium_location,Questions_hard_location
 
         #document('13ffe4704e2d423ea7751cb88d599db7') the number will be replaced with the user id
         #document(rmk3SGTciwNRdo9pT4CO) this will be replaced with the material id
         try:
-            doc_ref=firestore_instance.collection('Users').document('13ffe4704e2d423ea7751cb88d599db7').collection('DocumentMaterial').document("rmk3SGTciwNRdo9pT4CO").collection('Questions').document(self.Questions_id).set({
+            # doc_ref=firestore_instance.collection('Users').document(self.userid).collection('VideoMaterial').document(self.materialid).collection('Questions').document(self.Questions_id).set({
+            doc_ref=firestore_instance.collection('Users').document(self.userid).collection('VideoMaterial').document(self.materialid).collection('Questions').document(self.Questions_id).set({
 
                 "Questions_easy_location": Questions_easy_location,
                 "Questions_medium_location": Questions_medium_location,
@@ -344,101 +341,29 @@ class Questions_Repo:
             print("Successfully added processed material to firestore")
         except Exception as e:
             print(e)
-    def get_Questions_from_firestore(self):
-        db_instance = FirestoreDB.get_instance()
-        firestore_instance = db_instance.get_firestore_instance()
-        try:
-        # Reference to the document
-            doc_ref = firestore_instance.collection('Users').document('13ffe4704e2d423ea7751cb88d599db7') \
-                .collection('DocumentMaterial').document("rmk3SGTciwNRdo9pT4CO") \
-                .collection('Questions').document(self.Questions_id)
-            
-            # Get the document snapshot
-            doc = doc_ref.get()
-            
-            # Check if the document exists
-            if doc.exists:
-                # Get the data from the document
-                data = doc.to_dict()
-                print("Questions Data:", data)  # Print the data
 
-                return data
-            else:
-                print("Document does not exist")
-                return None
-        except Exception as e:
-            print("Error:", e)
-            return None
-    def get_easy_Questions_from_firestore(self):
+    def addDocumentQuestionsToFirestore(self):
         db_instance = FirestoreDB.get_instance()
         firestore_instance = db_instance.get_firestore_instance()
+        #document('13ffe4704e2d423ea7751cb88d599db7') the number will be replaced with the user id
+        #document(rmk3SGTciwNRdo9pT4CO) this will be replaced with the material id
+        
+        Questions_easy_location,Questions_medium_location,Questions_hard_location=self.upload_material_to_storage(self.userid,Questions_Repo.getFileNameFromPathWithOutExtension(self.ProcessedMaterial),self.output_mcqs_easy,self.output_mcqs_medium,self.output_mcqs_hard)
+        Questions_medium_location,Questions_hard_location
+
+        #document('13ffe4704e2d423ea7751cb88d599db7') the number will be replaced with the user id
+        #document(rmk3SGTciwNRdo9pT4CO) this will be replaced with the material id
         try:
-        # Reference to the document
-            doc_ref = firestore_instance.collection('Users').document('13ffe4704e2d423ea7751cb88d599db7') \
-                .collection('DocumentMaterial').document("rmk3SGTciwNRdo9pT4CO") \
-                .collection('Questions').document(self.Questions_id)
-            
-            # Get the document snapshot
-            doc = doc_ref.get()
-            
-            # Check if the document exists
-            if doc.exists:
-                # Get the data from the document
-                data = doc.to_dict()
-                print("Questions Data:", data)  # Print the data
-                specific_attribute = data.get('Questions_easy_location')
-                return specific_attribute
-            else:
-                print("Document does not exist")
-                return None
+            doc_ref=firestore_instance.collection('Users').document(self.userid).collection('DocumentMaterial').document(self.materialid).collection('Questions').document(self.Questions_id).set({
+
+                "Questions_easy_location": Questions_easy_location,
+                "Questions_medium_location": Questions_medium_location,
+                "Questions_hard_location": Questions_hard_location,
+            })
+            print("Successfully added processed material to firestore")
         except Exception as e:
-            print("Error:", e)
-            return None
-    def get_medium_Questions_from_firestore(self):
-        db_instance = FirestoreDB.get_instance()
-        firestore_instance = db_instance.get_firestore_instance()
-        try:
-        # Reference to the document
-            doc_ref = firestore_instance.collection('Users').document('13ffe4704e2d423ea7751cb88d599db7') \
-                .collection('DocumentMaterial').document("rmk3SGTciwNRdo9pT4CO") \
-                .collection('Questions').document(self.Questions_id)
-            
-            # Get the document snapshot
-            doc = doc_ref.get()
-            
-            # Check if the document exists
-            if doc.exists:
-                # Get the data from the document
-                data = doc.to_dict()
-                specific_attribute = data.get('Questions_medium_location')
-                return specific_attribute
-            else:
-                print("Document does not exist")
-                return None
-        except Exception as e:
-            print("Error:", e)
-            return None
-    def get_hard_Questions_from_firestore(self):
-        db_instance = FirestoreDB.get_instance()
-        firestore_instance = db_instance.get_firestore_instance()
-        try:
-        # Reference to the document
-            doc_ref = firestore_instance.collection('Users').document('13ffe4704e2d423ea7751cb88d599db7') \
-                .collection('DocumentMaterial').document("rmk3SGTciwNRdo9pT4CO") \
-                .collection('Questions').document(self.Questions_id)
-            
-            # Get the document snapshot
-            doc = doc_ref.get()
-            
-            # Check if the document exists
-            if doc.exists:
-                # Get the data from the document
-                data = doc.to_dict()
-                specific_attribute = data.get('Questions_hard_location')
-                return specific_attribute
-            else:
-                print("Document does not exist")
-                return None
-        except Exception as e:
-            print("Error:", e)
-            return None
+            print(e)
+    
+    
+# if __name__ == "__main__":
+#     Questions_Repo("mainServerTest/assets/input_files/text-based/test.pdf",None)

@@ -124,7 +124,7 @@ def generate_qa_pairs(paragraphs, content_type):
                     qa_pairs.append(pair)
         except openai.error.RateLimitError:
             print("Rate limit reached, waiting for 30 seconds...")
-            time.sleep(30)
+            time.sleep(20)
             # Retry the request after waiting
             response = openai.ChatCompletion.create(model="gpt-3.5-turbo", messages=prompt)
             potential_qa_pairs = json.loads(response.choices[0].message['content'])

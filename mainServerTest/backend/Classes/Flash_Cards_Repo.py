@@ -13,20 +13,22 @@ from FirestoreDB import FirestoreDB # Assuming the Materials and Processed_Mater
 
 class Flash_Cards:
     Flashcards=''
-    def __init__(self,ProcessedMaterial,content_type='',):
+    def __init__(self,ProcessedMaterial,userid,materialid,content_type=''):
         openai.api_key = OPENAI_API_KEY
         self.content_type=content_type
-        self.ProcessedMaterial=ProcessedMaterial  
+        self.ProcessedMaterial=ProcessedMaterial 
+        self.userid=userid
+        self.materialid=materialid
         #self.db = FirestoreDB.get_instance()
         self.flashcard_id=uuid.uuid4().hex
         self.runFlashcards(self.ProcessedMaterial)
         if content_type=="TRANSCRIPT":
             self.add_FlashCards_Video_ToFirestore()
-            self.get_Flashcards_Video_from_firestore()
+        
 
         else:
-            self.addFlashCardsToFirestore()
-            self.get_Flashcards_from_firestore()
+            self.addDocumentFlashCardsToFirestore()
+        
     @staticmethod    
     def getFileNameFromPathWithOutExtension(input_string):
         last_slash_index = input_string.rfind('/')
@@ -40,56 +42,7 @@ class Flash_Cards:
         result_string=result_string.replace('.json','')
         result_string=result_string.replace('.txt','')
         return result_string
-    def get_Flashcards_from_firestore(self):
-            db_instance = FirestoreDB.get_instance()
-            firestore_instance = db_instance.get_firestore_instance()
-            try:
-            # Reference to the document
-                doc_ref = firestore_instance.collection('Users').document('13ffe4704e2d423ea7751cb88d599db7')\
-                    .collection('DocumentMaterial').document("rmk3SGTciwNRdo9pT4CO")\
-                    .collection('FlashCards').document(self.flashcard_id)
-                
-                # Get the document snapshot
-                doc = doc_ref.get()
-                
-                # Check if the document exists
-                if doc.exists:
-                    # Get the data from the document
-                    data = doc.to_dict()
-                    print("FlashCards Data:", data)  # Print the data
-
-                    return data
-                else:
-                    print("Document does not exist")
-                    return None
-            except Exception as e:
-                print("Error:", e)
-                return None
-    def get_Flashcards_Video_from_firestore(self):
-            db_instance = FirestoreDB.get_instance()
-            firestore_instance = db_instance.get_firestore_instance()
-            try:
-            # Reference to the document
-                doc_ref = firestore_instance.collection('Users').document('13ffe4704e2d423ea7751cb88d599db7')\
-                    .collection('VideoMaterial').document("rmk3SGTciwNRdo9pT4CO")\
-                    .collection('FlashCards').document(self.flashcard_id)
-                
-                # Get the document snapshot
-                doc = doc_ref.get()
-                
-                # Check if the document exists
-                if doc.exists:
-                    # Get the data from the document
-                    data = doc.to_dict()
-                    print("FlashCards Data:", data)  # Print the data
-
-                    return data
-                else:
-                    print("Video does not exist")
-                    return None
-            except Exception as e:
-                print("Error:", e)
-                return None
+   
     @staticmethod
     def upload_material_to_storage(user_id, material_name, flashcard_file_path):
         db_instance = FirestoreDB.get_instance()
@@ -118,30 +71,31 @@ class Flash_Cards:
         #document('13ffe4704e2d423ea7751cb88d599db7') the number will be replaced with the user id
         #document(rmk3SGTciwNRdo9pT4CO) this will be replaced with the material id
 
-        flash_card_location=Flash_Cards.upload_material_to_storage("13ffe4704e2d423ea7751cb88d599db7",Flash_Cards.getFileNameFromPathWithOutExtension(self.ProcessedMaterial),self.Flashcards)
+        flash_card_location=Flash_Cards.upload_material_to_storage(self.userid,Flash_Cards.getFileNameFromPathWithOutExtension(self.ProcessedMaterial),self.Flashcards)
         
         #document('13ffe4704e2d423ea7751cb88d599db7') the number will be replaced with the user id
         #document(rmk3SGTciwNRdo9pT4CO) this will be replaced with the material id
         try:
-            doc_ref=firestore_instance.collection('Users').document('13ffe4704e2d423ea7751cb88d599db7').collection('VideoMaterial').document("rmk3SGTciwNRdo9pT4CO").collection('FlashCards').document(self.flashcard_id).set({
+            doc_ref=firestore_instance.collection('Users').document(self.userid).collection('VideoMaterial').document(self.materialid).collection('FlashCards').document(self.flashcard_id).set({
 
                 "flash_card_location": flash_card_location,
             })
             print("Successfully added processed material to firestore")
         except Exception as e:
             print(e)
-    def addFlashCardsToFirestore(self):
+
+    def addDocumentFlashCardsToFirestore(self):
         db_instance = FirestoreDB.get_instance()
         firestore_instance = db_instance.get_firestore_instance()
         #document('13ffe4704e2d423ea7751cb88d599db7') the number will be replaced with the user id
         #document(rmk3SGTciwNRdo9pT4CO) this will be replaced with the material id
 
-        flash_card_location=Flash_Cards.upload_material_to_storage("13ffe4704e2d423ea7751cb88d599db7",Flash_Cards.getFileNameFromPathWithOutExtension(self.ProcessedMaterial),self.Flashcards)
+        flash_card_location=Flash_Cards.upload_material_to_storage(self.userid,Flash_Cards.getFileNameFromPathWithOutExtension(self.ProcessedMaterial),self.Flashcards)
         
         #document('13ffe4704e2d423ea7751cb88d599db7') the number will be replaced with the user id
         #document(rmk3SGTciwNRdo9pT4CO) this will be replaced with the material id
         try:
-            doc_ref=firestore_instance.collection('Users').document('13ffe4704e2d423ea7751cb88d599db7').collection('DocumentMaterial').document("rmk3SGTciwNRdo9pT4CO").collection('FlashCards').document(self.flashcard_id).set({
+            doc_ref=firestore_instance.collection('Users').document(self.userid).collection('DocumentMaterial').document(self.materialid).collection('FlashCards').document(self.flashcard_id).set({
 
                 "flash_card_location": flash_card_location,
             })
@@ -276,7 +230,7 @@ class Flash_Cards:
                         qa_pairs.append(pair)
             except openai.error.RateLimitError:
                 print("Rate limit reached, waiting for 30 seconds...")
-                time.sleep(21)
+                time.sleep(20)
                 # Retry the request after waiting
                 response = openai.ChatCompletion.create(model="gpt-3.5-turbo", messages=prompt)
                 response_text = response.choices[0].message['content'].strip()
