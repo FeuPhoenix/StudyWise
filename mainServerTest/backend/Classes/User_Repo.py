@@ -64,38 +64,43 @@ class UserRepo:
             "Email": self.email,
             "Role": self.Role,
             "User_Level": 0,
+            "last_login_time":"" 
         }
         return data
-    def add_user_to_auth(self, email, password):
+    @staticmethod
+    def check_user_exists_in_auth(email):
         try:
-            user = auth.create_user(
-                email=email,
-                password=password
-            )
-            print('Successfully created new user:', user.uid)
-            #return user
-        except Exception as e:
-            print('Error creating new user:', e)
-            #return None
+            user = auth.get_user_by_email(email)
+            print(True)
+            return True
+        except auth.UserNotFoundError:
+            print(False)
+            return False
     @staticmethod
     def Login(email, password):
-        db_instance = FirestoreDB.get_instance()
-        firestore_instance = db_instance.get_firestore_instance()
-        users_ref = firestore_instance.collection('Users')
+            db_instance = FirestoreDB.get_instance()
+            firestore_instance = db_instance.get_firestore_instance()
+            users_ref = firestore_instance.collection('Users')
+            if UserRepo.check_user_exists_in_auth(email):
+                # Query Firestore to find the document with the matching email and password
+                query = users_ref.where('Email', '==', email).where('Password', '==', password)    
+                docs = query.stream()
 
-        # Query Firestore to find the document with the matching email and password
-        query = users_ref.where('Email', '==', email).where('Password', '==', password)    
-        docs = query.stream()
+                for doc in docs:
+                    # Get the ID of the document
+                    doc_id = doc.id
 
-        for doc in docs:
-            # Get the ID of the document
-            doc_id = doc.id
-
-            # Return the document ID and True
-            return doc_id, True
-
-        # If no document is found for the user's email and password
-        return None, False
+                    # Get a reference to the document
+                    doc_ref = users_ref.document(doc_id)
+                    now=datetime.now()
+                    # Update a field (e.g., 'last_login_time') before returning
+                    doc_ref.update({'last_login_time':f'{now.strftime("%m/%d/%Y, %H:%M:%S")}'})
+                    
+                    # Return the document ID and True
+                    return doc_id, True
+            else:
+            # If no document is found for the user's email and password
+                return None, False
     def add_user_to_firestore(self):
         db_instance = FirestoreDB.get_instance()
         firestore_instance = db_instance.get_firestore_instance()
@@ -157,9 +162,40 @@ class UserRepo:
         
         # Delete from Authentication
         self.deleteFromAuthentication()
+    @staticmethod
+    def getUser_level_from_Firestore(ID):
+        db_instance = FirestoreDB.get_instance()
+        firestore_instance = db_instance.get_firestore_instance()
+        user_doc_ref = firestore_instance.collection('Users').document(ID)
+
+        # Get the document snapshot
+        doc_snapshot = user_doc_ref.get()
+
+        # Check if the document exists
+        if doc_snapshot.exists:
+            # Get the data of the document
+            user_data = doc_snapshot.to_dict()
+            
+            # Get the value of the User_Level field
+            user_level = user_data.get('User_Level')
+
+            # Print the data of the document
+            print("User data retrieved from Firestore:")
+            print(user_data)
+
+            # Return the User_Level value
+            return user_level
+        else:
+            # If no document is found for the user's ID
+            print(f"No document found for user with ID {ID} in Firestore.")
+            return None
 #Testing
 def main():
-    print(UserRepo.Login("a123451@.com","123456"))
+    # print(UserRepo.Login("a123451@.com","123456"))
+    a=UserRepo("a1234@gmail.com","Mohamed Abdallah","123456")
+    a.add_user_to_firestore()
+    z,b=UserRepo.Login("a1234@gmail.com","123456")
+    print(z,b)
 
 if __name__ == "__main__":
     main()
