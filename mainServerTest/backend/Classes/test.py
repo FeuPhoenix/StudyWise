@@ -1,28 +1,28 @@
+import requests
 from FirestoreDB import FirestoreDB
 
 
-def fetch_all_data_in_collection(userid,materialid):
-    db_instance = FirestoreDB.get_instance()
-    firestore_instance = db_instance.get_firestore_instance()
+def fetch_json_from_url(url):
     try:
-        # Reference to the collection
-        collection_ref = firestore_instance.collection("Users").document(userid).collection("VideoMaterial").document(materialid).collection("FlashCards")
+        # Make a GET request to download the JSON file
+        response = requests.get(url)
+        response.raise_for_status()  # Raise an exception for any HTTP error status codes
         
-        # Get all documents in the collection
-        documents = collection_ref.get()
-        
-        # Initialize an empty list to store all data
-        all_data = []
-        
-        # Iterate over each document
-        for doc in documents:
-            # Get the data from the document
-            data = doc.to_dict()
-            # Append the data to the list
-            all_data.append(data)
-        
-        return all_data
-    except Exception as e:
+        # Load the JSON data
+        data = response.json()
+        return data
+    except requests.exceptions.RequestException as e:
         print("Error:", e)
         return None
-print(fetch_all_data_in_collection("3f803d991c5b490887e6992fa5e58f71","7710458347274783820eaab3812e8d9f"))
+
+# URL of the JSON file
+url = "https://storage.googleapis.com/studywise-dba07.appspot.com/user/62a9c20699654da5b14cca9d21cd8ef6/Uploaded%20Materials/Inflation%20Explained%20in%20One%20Minute/chapters.json?Expires=4868440853&GoogleAccessId=firebase-adminsdk-56dni%40studywise-dba07.iam.gserviceaccount.com&Signature=P9hjrJXBYTH6M3%2B632apIPbQ3r4dhprAgvf6cbdnlDDNkv4EDa7j7r6NU05OWxHfuhaArefXvIMfiEW33FqMYNCCwN%2BRVpI6erxZqoKdIxMJ%2Fyg4RCZA12GrPh4jypKq6nGenIR0TPPP9x7S9NsP3mzOqzFKF72DeijEsPMU8n0E7uxxrXSvk%2BfXt0X1vjVvL51gLeTXx%2FEh8qcJRyCR06SX8dzS2dTqTRaac%2BxPt%2BP9uSQFal4cW4xftdW0hjSvqVCcNqNSPJcxOQfv3Pqt5feuuPSViTuRe2Pl9S7Kpm0bhgoiBupIccvwXgiCRCkoVY2ZX0k9yRf3TgJ%2BzRuVmg%3D%3D"
+
+# Fetch JSON data from the URL
+json_data = fetch_json_from_url(url)
+
+if json_data:
+    print("JSON data:")
+    print(json_data)
+else:
+    print("Failed to fetch JSON data from the URL.")

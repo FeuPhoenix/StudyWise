@@ -68,7 +68,7 @@ class DocumentProcessed:
 
         #document('13ffe4704e2d423ea7751cb88d599db7') the number will be replaced with the user id
         #document(rmk3SGTciwNRdo9pT4CO) this will be replaced with the material id
-
+        
         try:
             doc_ref=firestore_instance.collection('Users').document(self.userid).collection('DocumentMaterial').document(self.material_id).set({
                 "file_name": self.file_name,
@@ -535,12 +535,12 @@ class DocumentProcessed:
             print(self.userid)
             self.addProcessedMaterialToFirestore()
             #Testing
-            self.get_Document_from_firestore()
+            
             print("self.generated_summary_file_path",self.generated_summary_file_path)
             flashcard=Flash_Cards(self._file_path,self.userid,self.material_id)
-            print(self._file_path,self.userid,self.material_id,None)
+            
             mcq=Questions_Repo(self._file_path,self.userid,self.material_id,None)
-            self.get_Document_from_firestore()
+            return self.file_name,self.material_id
             #DocumentProcessed.extract_images_from_pdf( self._file_path)
             
         elif os.path.isfile(file) and (file.endswith('.ppt') or file.endswith('.pptx') or file.endswith('.ppsx')):
@@ -564,7 +564,8 @@ class DocumentProcessed:
 
             flashcard=Flash_Cards(self._file_path,self.userid,self.material_id)
             mcq=Questions_Repo( self._file_path,self.userid,self.material_id,None)
-            DocumentProcessed.extract_images_from_pdf( self._file_path)
+            # DocumentProcessed.extract_images_from_pdf( self._file_path)
+            return self.file_name,self.material_id
 
         elif os.path.isfile(file) and (file.endswith('.doc') or file.endswith('.docx')):
             self.file_type=DocumentProcessed.get_file_extension(file)
@@ -588,7 +589,8 @@ class DocumentProcessed:
 
             flashcard=Flash_Cards(self._file_path,self.userid,self.material_id)
             mcq=Questions_Repo( self._file_path,self.userid,self.material_id,None)
-            DocumentProcessed.extract_images_from_pdf( self._file_path)
+            # DocumentProcessed.extract_images_from_pdf( self._file_path)
+            return self.file_name,self.material_id
           
         elif os.path.isfile(file) and (file.endswith('.txt') ):
             txt_path = file
@@ -615,6 +617,7 @@ class DocumentProcessed:
             self.addProcessedMaterialToFirestore()
             mcq=Questions_Repo( self._file_path,None,self.userid,self.material_id,None)
             flashcard=Flash_Cards(self._file_path,self.userid,self.material_id)
+            return self.file_name,self.material_id
         else:
             print("Please provide a valid file path")
            

@@ -131,37 +131,9 @@ class UserRepo:
             print(f"User added to Firestore with email: {self.email}")
 
 
-    def deleteFromFirestore(self):
-        db_instance = FirestoreDB.get_instance()
-        firestore_instance = db_instance.get_firestore_instance()
-
-        users_ref = firestore_instance.collection('Users')
-
-        # Query Firestore to find the document with the matching email
-        query = users_ref.where('Email', '==', self.email)
-        docs = query.stream()
-
-        for doc in docs:
-            # Delete the document from Firestore
-            doc.reference.delete()
-            print(f"User with email {self.email} deleted from Firestore.")
 
 
-    def deleteFromAuthentication(self):
-        try:
-            # Delete the user from authentication
-            user = auth.get_user_by_email(self.email)
-            auth.delete_user(user.uid)
-            print(f"User with email {self.email} deleted from Authentication.")
-        except auth.UserNotFoundError:
-            print(f"User with email {self.email} not found in Authentication.")
-
-    def deleteUser(self):
-        # Delete from Firestore
-        self.deleteFromFirestore()
-        
-        # Delete from Authentication
-        self.deleteFromAuthentication()
+    
     @staticmethod
     def getUser_level_from_Firestore(ID):
         db_instance = FirestoreDB.get_instance()
@@ -191,11 +163,12 @@ class UserRepo:
             return None
 #Testing
 def main():
-    # print(UserRepo.Login("a123451@.com","123456"))
+    print(UserRepo.Login("a123451@.com","123456"))
     a=UserRepo("a1234@gmail.com","Mohamed Abdallah","123456")
     a.add_user_to_firestore()
     z,b=UserRepo.Login("a1234@gmail.com","123456")
-    print(z,b)
-
-if __name__ == "__main__":
-    main()
+    # print(z,b)
+    
+if __name__ == '__main__':
+     main()
+     
