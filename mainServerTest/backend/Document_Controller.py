@@ -23,8 +23,9 @@ from backend.Constants import OPENAI_API_KEY
 from config import socketio
 
 class DocumentProcessedController:
-    def __init__(self, file) :
+    def __init__(self, file, socketID) :
         self.file = file
+        self.socketID = socketID
         self.Document_Processing(file)
     
     # Additional methods for updating and deleting processed documents can be added here
@@ -292,21 +293,21 @@ class DocumentProcessedController:
     def Document_Processing(self, file):
         if os.path.isfile(file) and file.endswith('.pdf'):
 
-            socketio.emit('update', {'message': 'PDF accepted.'})
+            socketio.emit('update', {'message': 'PDF accepted.'}, to=self.socketID)
 
             PDFFile = file
             filename = DocumentProcessedController.getFileNameFromPathWithOutExtension(file)
             file = f'mainServerTest/assets/input_files/text_based/{filename}.pdf'
             text_file_path = f'mainServerTest/assets/output_files/text_files/{filename}.txt'
 
-            socketio.emit('update', {'message': 'Extracting text..'})
+            socketio.emit('update', {'message': 'Extracting text..'}, to=self.socketID)
             DocumentProcessedController.extract_text_from_pdf_plumber(PDFFile, text_file_path)
             text = DocumentProcessedController.read_text_file(text_file_path)
 
-            socketio.emit('update', {'message': 'Formatting text..'})
+            socketio.emit('update', {'message': 'Formatting text..'}, to=self.socketID)
             text = DocumentProcessedController.clean_text(text)
 
-            socketio.emit('update', {'message': 'Generating Summary..'})
+            socketio.emit('update', {'message': 'Generating Summary..'}, to=self.socketID)
             result = DocumentProcessedController.get_Long_summary(text)
 
             summary_data = {
@@ -318,13 +319,13 @@ class DocumentProcessedController:
                 print(f"Long summary has been successfully saved in mainServerTest/assets/output_files/summaries/{filename}.json") 
                 summary_jsonfile = f"mainServerTest/assets/output_files/summaries/{filename}.json" 
             
-            socketio.emit('update', {'message': 'Generating Flashcards..'})
+            socketio.emit('update', {'message': 'Generating Flashcards..'}, to=self.socketID)
             flashcard = FlashcardsController(text_file_path)
 
-            socketio.emit('update', {'message': 'Generating MCQs..'})
+            socketio.emit('update', {'message': 'Generating MCQs..'}, to=self.socketID)
             mcq = QuestionController(PDFFile)
 
-            socketio.emit('update', {'message': 'Extracting images..'})
+            socketio.emit('update', {'message': 'Extracting images..'}, to=self.socketID)
             DocumentProcessedController.extract_images_from_pdf(file)
 
             #processd_material_id=uuid.uuid4().hex
@@ -334,21 +335,21 @@ class DocumentProcessedController:
             #DocumentProcessedController.addProcessedMaterialToFirestore()
 
         elif os.path.isfile(file) and (file.endswith('.ppt') or file.endswith('.pptx') or file.endswith('.ppsx')):
-            socketio.emit('update', {'message': 'Powerpoint accepted. Converting to PDF..'})
+            socketio.emit('update', {'message': 'Powerpoint accepted. Converting to PDF..'}, to=self.socketID)
             file = DocumentProcessedController.convert_ppt_to_pdf(file)
 
             file = file.replace("\\","/")
             filename = DocumentProcessedController.getFileNameFromPathWithOutExtension(file)
             text_file_path = f'mainServerTest/assets/output_files/text_files/{filename}.txt'
 
-            socketio.emit('update', {'message': 'Extracting text..'})
+            socketio.emit('update', {'message': 'Extracting text..'}, to=self.socketID)
             DocumentProcessedController.extract_text_from_pdf_plumber(file, text_file_path)
             text = DocumentProcessedController.read_text_file(text_file_path)
 
-            socketio.emit('update', {'message': 'Formatting text..'})
+            socketio.emit('update', {'message': 'Formatting text..'}, to=self.socketID)
             text = DocumentProcessedController.clean_text(text)
 
-            socketio.emit('update', {'message': 'Generating Summary..'})
+            socketio.emit('update', {'message': 'Generating Summary..'}, to=self.socketID)
             result = DocumentProcessedController.get_Long_summary(text)
 
             summary_data = {
@@ -359,13 +360,13 @@ class DocumentProcessedController:
                 print(f"Long summary has been successfully saved in mainServerTest/assets/output_files/summaries/{filename}.json") 
                 summary_jsonfile=f"mainServerTest/assets/output_files/summaries/{filename}.json"
             
-            socketio.emit('update', {'message': 'Generating Flashcards..'})
+            socketio.emit('update', {'message': 'Generating Flashcards..'}, to=self.socketID)
             flashcard = FlashcardsController(text_file_path)
 
-            socketio.emit('update', {'message': 'Generating MCQs..'})
+            socketio.emit('update', {'message': 'Generating MCQs..'}, to=self.socketID)
             mcq = QuestionController(file)
 
-            socketio.emit('update', {'message': 'Extracting images..'})
+            socketio.emit('update', {'message': 'Extracting images..'}, to=self.socketID)
             DocumentProcessedController.extract_images_from_pdf(file)
 
             # processd_material_id=uuid.uuid4().hex
@@ -375,21 +376,21 @@ class DocumentProcessedController:
             # DocumentProcessedController.addProcessedMaterialToFirestore()
 
         elif os.path.isfile(file) and (file.endswith('.doc') or file.endswith('.docx')):
-            socketio.emit('update', {'message': 'Accepted Word document. Converting to PDF'})
+            socketio.emit('update', {'message': 'Accepted Word document. Converting to PDF'}, to=self.socketID)
             file = DocumentProcessedController.convert_word_to_pdf(file)
 
             file = file.replace("\\","/")
             filename = DocumentProcessedController.getFileNameFromPathWithOutExtension(file)
             text_file_path = f'mainServerTest/assets/output_files/text_files/{filename}.txt'
           
-            socketio.emit('update', {'message': 'Extracting text..'})
+            socketio.emit('update', {'message': 'Extracting text..'}, to=self.socketID)
             DocumentProcessedController.extract_text_from_pdf_plumber(file, text_file_path)
             text = DocumentProcessedController.read_text_file(text_file_path)
 
-            socketio.emit('update', {'message': 'Formatting text..'})
+            socketio.emit('update', {'message': 'Formatting text..'}, to=self.socketID)
             text = DocumentProcessedController.clean_text(text)
 
-            socketio.emit('update', {'message': 'Generating Summary..'})
+            socketio.emit('update', {'message': 'Generating Summary..'}, to=self.socketID)
             result = DocumentProcessedController.get_Long_summary(text)
 
             summary_data = {
@@ -400,13 +401,13 @@ class DocumentProcessedController:
                 print(f"Long summary has been successfully saved in mainServerTest/assets/output_files/summaries/{filename}.json") 
                 summary_jsonfile = f"mainServerTest/assets/output_files/summaries/{filename}.json" 
 
-            socketio.emit('update', {'message': 'Generating Flashcards..'})
+            socketio.emit('update', {'message': 'Generating Flashcards..'}, to=self.socketID)
             flashcard = FlashcardsController(text_file_path)
 
-            socketio.emit('update', {'message': 'Generating MCQs..'})
+            socketio.emit('update', {'message': 'Generating MCQs..'}, to=self.socketID)
             mcq = QuestionController(file)
 
-            socketio.emit('update', {'message': 'Exctracting images..'})
+            socketio.emit('update', {'message': 'Exctracting images..'}, to=self.socketID)
             DocumentProcessedController.extract_images_from_pdf(file)
 
             # processd_material_id=uuid.uuid4().hex
@@ -416,18 +417,18 @@ class DocumentProcessedController:
             # DocumentProcessedController.addProcessedMaterialToFirestore()
 
         elif os.path.isfile(file) and (file.endswith('.txt') ):
-            socketio.emit('update', {'message': 'Accepted text file (.txt)'})
+            socketio.emit('update', {'message': 'Accepted text file (.txt)'}, to=self.socketID)
             txt_path = file
             filename = DocumentProcessedController.getFileNameFromPathWithOutExtension(file)
 
-            socketio.emit('update', {'message': 'Extracting text..'})
+            socketio.emit('update', {'message': 'Extracting text..'}, to=self.socketID)
             text = DocumentProcessedController.extract_text_from_word(txt_path)
 
             text_file = f'mainServerTest/assets/output_files/text_files/{filename}.txt'
             with open(text_file, 'w') as file:
                 file.write(text)
 
-            socketio.emit('update', {'message': 'Generating Summary..'})
+            socketio.emit('update', {'message': 'Generating Summary..'}, to=self.socketID)
             result = DocumentProcessedController.get_Long_summary(text)
 
             summary_data = {
@@ -438,11 +439,11 @@ class DocumentProcessedController:
                 print(f"Long summary has been successfully saved in mainServerTest/assets/output_files/summaries/{filename}.json")
                 summary_jsonfile = f"mainServerTest/assets/output_files/summaries/{filename}.json" 
             
-            socketio.emit('update', {'message': 'Generating Flashcards..'})
+            socketio.emit('update', {'message': 'Generating Flashcards..'}, to=self.socketID)
             flashcard = FlashcardsController(text_file)
 
-def main(file = 'mainServerTest/assets/input_files/text_based/lecture 07 Business Modeling.pdf'):
+def main(file, socketID):
     print("Current Working Directory: \n", os.getcwd())
-    D = DocumentProcessedController(file)
+    D = DocumentProcessedController(file, socketID)
 if __name__ == "__main__":
     main()

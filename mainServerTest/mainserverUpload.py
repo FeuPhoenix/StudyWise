@@ -66,6 +66,30 @@ def pdf_display():
 @app.route('/video-display')
 def video_display():
     return render_template('main_loggedin/view-video.html')
+
+@app.route('/login')
+def login():
+    return render_template('main_landing/login.html')
+
+
+@app.route('/process-login', methods = ['POST']) 
+def process_login():
+    data = request.json
+    loginEmail = data.get('loginEmail')
+    loginPW = data.get('loginPW')
+    
+    socketID = data.get('socketID')
+    from backend.User_Repo import UserRepo
+    userID, fullName, status = UserRepo.Login(loginEmail, loginPW)
+
+    if status :
+        socketio.emit('update', {'message': 'Login Successful'}, to=socketID)
+        print(f"Logged in: {fullName}")
+        return jsonify({'message': 'Login Success'}), 200
+    else :
+        print(f"Failed Login attempt")
+        return jsonify({'message': 'Failed Login attempt'}), 406
+
     
 @app.route('/generateContent', methods = ['POST'])
 def generate_content():
@@ -79,7 +103,7 @@ def generate_content():
         print("Sending path to process: "+file_path)
 
         socketio.emit('update', {'message': f'Starting processing for {filename}'}, to=socketID)
-        processDoc(file_path)
+        processDoc(file_path, socketID)
         
         # Simulate processing completion
         socketio.emit('update', {'message': 'Processing completed'})

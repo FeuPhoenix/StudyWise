@@ -2,101 +2,101 @@
     {
         "question": "1. What is the fundamental idea behind DSDM?",
         "options": [
-            "D. Fixing resources",
-            "B. Fixing time and resources",
-            "C. Adjusting time and resources",
-            "A. Fixing functionality"
+            "C. Adjusting the amount of work",
+            "D. None of the above",
+            "A. Fixing the amount of functionality",
+            "B. Fixing time and resources"
         ],
-        "correct_answer": "D. Fixing resources"
+        "correct_answer": "C. Adjusting the amount of work"
     },
     {
-        "question": "2. What do DSDM teams focus on achieving?",
+        "question": "2. What is a key focus of DSDM teams?",
         "options": [
-            "C. Personal goals",
-            "B. Greater business objectives",
-            "A. Technical excellence",
-            "D. Project completion"
+            "D. None of the above",
+            "A. Achieving personal objectives",
+            "B. Aligning with greater business objectives",
+            "C. Working independently"
         ],
-        "correct_answer": "C. Personal goals"
+        "correct_answer": "D. None of the above"
     },
     {
-        "question": "3. Prompt delivery is a vital part of DSDM projects to:",
+        "question": "3. Why is prompt delivery important in DSDM projects?",
         "options": [
-            "B. Reap benefits early",
-            "D. Reduce quality of work",
-            "A. Delay benefits",
-            "C. Extend project timelines"
+            "A. To delay projects",
+            "C. To increase costs",
+            "D. None of the above",
+            "B. To reap benefits early"
         ],
-        "correct_answer": "B. Reap benefits early"
+        "correct_answer": "A. To delay projects"
     },
     {
-        "question": "4. What tools can DSDM teams use to provide updates?",
+        "question": "4. Which of the following tools is NOT used to provide updates in DSDM?",
         "options": [
-            "D. Written and verbal only",
-            "A. Written, verbal, and visual",
-            "B. Verbal and visual only",
-            "C. Written and visual only"
+            "D. Electronic",
+            "B. Verbal",
+            "A. Written",
+            "C. Visual"
         ],
-        "correct_answer": "D. Written and verbal only"
+        "correct_answer": "D. Electronic"
     },
     {
-        "question": "5. What is a critical element of DSDM projects?",
+        "question": "5. What role is vital in providing structure for DSDM teams?",
         "options": [
-            "D. Revisiting work",
-            "C. Meeting deadlines",
-            "B. Feedback",
-            "A. Testing"
+            "A. Tester",
+            "C. Customer",
+            "D. Developer",
+            "B. Project manager"
         ],
-        "correct_answer": "D. Revisiting work"
+        "correct_answer": "A. Tester"
     },
     {
-        "question": "6. What type of team structure works best for DSDM projects?",
+        "question": "6. What is reviewed during the stage of determining project realism?",
         "options": [
-            "B. Informal",
-            "D. Flexible",
-            "C. Reliable",
-            "A. Hierarchical"
+            "D. All of the above",
+            "B. Timeline",
+            "A. Budget",
+            "C. Specifications"
         ],
-        "correct_answer": "B. Informal"
+        "correct_answer": "D. All of the above"
     },
     {
-        "question": "7. What can you review during the project specification stage?",
+        "question": "7. What happens during the prototype building phase in DSDM?",
         "options": [
-            "C. Team communication",
-            "D. Project budget",
-            "B. Business perspective",
-            "A. Technical feasibility"
+            "D. None of the above",
+            "C. Building multiple prototypes",
+            "A. Testing and evaluation",
+            "B. Learning to operate the product"
         ],
-        "correct_answer": "C. Team communication"
+        "correct_answer": "D. None of the above"
     },
     {
-        "question": "8. What is the purpose of building a prototype in DSDM projects?",
+        "question": "8. Which role in DSDM is responsible for giving teams ad hoc business advice?",
         "options": [
-            "B. Testing",
-            "A. Final product",
-            "C. User feedback",
-            "D. Technical evaluation"
+            "D. None of the above",
+            "C. DSDM Coach",
+            "A. Business Advisor",
+            "B. Solution Tester"
         ],
-        "correct_answer": "B. Testing"
+        "correct_answer": "D. None of the above"
     },
     {
-        "question": "9. What is the role of a DSDM Coach?",
+        "question": "9. What is one of the principles of Kanban?",
         "options": [
-            "C. Manage the project",
-            "B. Provide advice on business aspects",
-            "A. Test the product",
-            "D. Develop the prototype"
+            "A. Start with what do want now",
+            "C. Use unlimited work-in-process",
+            "D. None of the above",
+            "B. Make process policies explicit"
         ],
-        "correct_answer": "C. Manage the project"
+        "correct_answer": "A. Start with what do want now"
     },
     {
-        "question": "10. What is the emphasis of Kanban in managing knowledge work?",
+        "question": "10. How do teams measure their effectiveness in Kanban?",
         "options": [
-            "C. Workflow",
-            "D. Decision-making",
-            "B. Creativity",
-            "A. Flexibility"
+            "D. All of the above",
+            "C. Collective understanding of issues",
+            "B. Shared vision of a better future",
+            "A. Shared understanding of theories"
         ],
-        "correct_answer": "C. Workflow"
+        "correct_answer": "D. All of the above"
     }
 ]

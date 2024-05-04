@@ -1,26 +1,46 @@
 [
     {
-        "front": "**1. What is the fundamental idea behind the Dynamic Systems Development Method (DSDM) as outlined in the text?**",
-        "back": "- Answer: The fundamental idea behind DSDM is to fix time and resources first, and then adjust the amount of functionality accordingly, rather than fixing the amount of functionality and adjusting time and resources to reach it."
+        "front": "Q: What is the main purpose of the text?",
+        "back": "A: The main purpose of the text is to explain technical and conceptual content related to a specific topic."
     },
     {
-        "front": "**2. How many core principles of DSDM are mentioned in the text and what are they?**",
-        "back": "- Answer: There are six core principles of DSDM mentioned in the text. They include focusing on the business need, delivering on time, collaborating, maintaining high quality, building incrementally from firm foundations, and developing iteratively."
+        "front": "Q: Can you explain a key technical concept discussed in the text?",
+        "back": "A: One key technical concept discussed in the text is [provide an example concept, such as machine learning algorithms]."
     },
     {
-        "front": "**3. What are the major phases typically included in the lifecycle of DSDM as described in the text?**",
-        "back": "- Answer: The major phases mentioned in the DSDM lifecycle are Feasibility, Business study, Functional model iteration, Design and build, and Implementation."
+        "front": "Q: How are the technical details in the text relevant to its overall message?",
+        "back": "A: The technical details in the text provide a deeper understanding of the topic being discussed and support the overall message by offering insight and evidence."
     },
     {
-        "front": "**4. What roles are defined within the DSDM methodology as presented in the text?**",
-        "back": "- Answer: The roles within DSDM include Business Sponsor, Business Visionary, Project Manager, Technical Coordinator, Business Analyst, Technical Advisor, Business Advisor, Team Leader, Solution Developer, Solution Tester, Workshop Facilitator, and DSDM Coach."
+        "front": "Q: What are some key terms or jargon used in the text and what do they mean?",
+        "back": "A: Some key terms or jargon used in the text include [provide examples of terms like AI, data encryption, etc.]. These terms refer to specific technical concepts within the discussed subject matter."
     },
     {
-        "front": "**5. What are the five principles of the Kanban board discussed in the text?**",
-        "back": "- Answer: The five principles of the Kanban board include starting with what is wanted now, agreeing to pursue incremental, evolutionary change, respecting the current process, roles, and responsibilities, encouraging acts of leadership at all levels, and visualizing the workflow."
+        "front": "Q: What are the potential implications of the technical advancements discussed in the text?",
+        "back": "A: The potential implications of the technical advancements discussed in the text could include changes in industry practices, improvements in efficiency, advancements in technology, and impacts on society at large."
     },
     {
-        "front": "**6. How does the Kanban method manage flow, as highlighted in the text?**",
-        "back": "- Answer: The Kanban method manages flow by monitoring, measuring, and actively managing the transition between states in the workflow, evaluating continuous, incremental, and evolutionary changes in the system for positive or negative effects."
+        "front": "Q: What is the fundamental idea behind the Dynamic Systems Development Method (DSDM)?",
+        "back": "A: The fundamental idea behind DSDM is to fix time and resources first, and then adjust the amount of functionality accordingly, rather than vice versa."
+    },
+    {
+        "front": "Q: What are the core principles of DSDM?",
+        "back": "A: The core principles of DSDM include focusing on the business need, delivering on time, collaborating with relevant parties, maintaining high quality, building incrementally from firm foundations, developing iteratively, communicating continuously and clearly, and demonstrating control."
+    },
+    {
+        "front": "Q: What are the disadvantages of the Dynamic Systems Development Method (DSDM)?",
+        "back": "A: Some disadvantages of DSDM include minimizing creativity by focusing on quick work, demanding structure for successful implementation, and potentially limiting risk-taking due to iterative development."
+    },
+    {
+        "front": "Q: What are the major lifecycle phases typically included in DSDM?",
+        "back": "A: The major lifecycle phases in DSDM generally consist of feasibility, business study, functional model iteration, design and build, and implementation."
+    },
+    {
+        "front": "Q: What are some key roles involved in DSDM projects?",
+        "back": "A: Roles in DSDM projects include the Business Sponsor, Business Visionary, Project Manager, Technical Coordinator, Business Analyst, Technical Advisor, Business Advisor, Team Leader, Solution Developer, Solution Tester, Workshop Facilitator, and DSDM Coach."
+    },
+    {
+        "front": "Q: What are the principles and practices of Kanban?",
+        "back": "A: The principles of Kanban include starting with what is wanted now, agreeing to pursue incremental change, respecting the current process, and encouraging acts of leadership. The practices of Kanban involve visualizing the workflow, limiting work in progress, managing flow, making process policies explicit, implementing feedback loops, and improving collaboratively."
     }
 ]

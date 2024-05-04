@@ -1,175 +1,19 @@
-#needs to be improved
-from datetime import datetime, timedelta
-import uuid
-from firebase_admin import firestore
-from Constants import OPENAI_API_KEY, MAX_TOKENS_PER_REQUEST,kUserId,kUserEmail ,kDatejoined ,kFullName
 import pdfplumber
 import openai
 import time
 import json
 import re
-<<<<<<<< HEAD:mainServerTest/backend/Flash_Cards_Controller.py
 from backend.Constants import OPENAI_API_KEY, MAX_TOKENS_PER_REQUEST,kUserId,kUserEmail ,kDatejoined ,kFullName
 import backend.FirestoreDB 
 
 class FlashcardsController:
     def __init__(self, ProcessedMaterial):
-========
-from Constants import OPENAI_API_KEY, MAX_TOKENS_PER_REQUEST,kUserId,kUserEmail ,kDatejoined ,kFullName
-from FirestoreDB import FirestoreDB # Assuming the Materials and Processed_Materials classes are defined in app.Studywise.Model
-
-class Flash_Cards:
-    Flashcards=''
-    def __init__(self,ProcessedMaterial,content_type='',):
->>>>>>>> main:app/Studywise/Classes/Flash_Cards_Repo.py
         openai.api_key = OPENAI_API_KEY
-        self.content_type=content_type
         self.ProcessedMaterial=ProcessedMaterial  
         #self.db = FirestoreDB.get_instance()
-        self.flashcard_id=uuid.uuid4().hex
-        self.runFlashcards(self.ProcessedMaterial)
-        if content_type=="TRANSCRIPT":
-            self.add_FlashCards_Video_ToFirestore()
-            self.get_Flashcards_Video_from_firestore()
+        self.runFlashcards(self.ProcessedMaterial, content_type = '')
+       
 
-        else:
-            self.addFlashCardsToFirestore()
-            self.get_Flashcards_from_firestore()
-    @staticmethod    
-    def getFileNameFromPathWithOutExtension(input_string):
-        last_slash_index = input_string.rfind('/')
-        result_string = input_string[last_slash_index + 1:]
-        result_string=result_string.replace('.mp4','')
-        result_string=result_string.replace('.docx','')
-        result_string=result_string.replace('.doc','')
-        result_string=result_string.replace('.pptx','')
-        result_string=result_string.replace('.ppt','')
-        result_string=result_string.replace('.pdf','')
-        result_string=result_string.replace('.json','')
-        result_string=result_string.replace('.txt','')
-        return result_string
-    def get_Flashcards_from_firestore(self):
-            db_instance = FirestoreDB.get_instance()
-            firestore_instance = db_instance.get_firestore_instance()
-            try:
-            # Reference to the document
-                doc_ref = firestore_instance.collection('Users').document('13ffe4704e2d423ea7751cb88d599db7')\
-                    .collection('DocumentMaterial').document("rmk3SGTciwNRdo9pT4CO")\
-                    .collection('FlashCards').document(self.flashcard_id)
-                
-                # Get the document snapshot
-                doc = doc_ref.get()
-                
-                # Check if the document exists
-                if doc.exists:
-                    # Get the data from the document
-                    data = doc.to_dict()
-                    print("FlashCards Data:", data)  # Print the data
-
-                    return data
-                else:
-                    print("Document does not exist")
-                    return None
-            except Exception as e:
-                print("Error:", e)
-                return None
-    def get_Flashcards_Video_from_firestore(self):
-            db_instance = FirestoreDB.get_instance()
-            firestore_instance = db_instance.get_firestore_instance()
-            try:
-            # Reference to the document
-                doc_ref = firestore_instance.collection('Users').document('13ffe4704e2d423ea7751cb88d599db7')\
-                    .collection('VideoMaterial').document("rmk3SGTciwNRdo9pT4CO")\
-                    .collection('FlashCards').document(self.flashcard_id)
-                
-                # Get the document snapshot
-                doc = doc_ref.get()
-                
-                # Check if the document exists
-                if doc.exists:
-                    # Get the data from the document
-                    data = doc.to_dict()
-                    print("FlashCards Data:", data)  # Print the data
-
-                    return data
-                else:
-                    print("Video does not exist")
-                    return None
-            except Exception as e:
-                print("Error:", e)
-                return None
-    @staticmethod
-    def upload_material_to_storage(user_id, material_name, flashcard_file_path):
-        db_instance = FirestoreDB.get_instance()
-        storage_instance = db_instance.get_storage_instance()
-
-        # Constructing the full path for the folder using the material name
-        folder_path = f"user/{user_id}/Uploaded Materials/{material_name}/"
-
-        # Creating a folder with the material name as the folder name
-        folder_blob = storage_instance.blob(folder_path)
-        folder_blob.upload_from_string('')  # Upload an empty string to create the folder
-
-        # Upload the material file inside the folder
-        flashcard_blob_path = folder_path + "flashcards"
-        flashcard_blob = storage_instance.blob(flashcard_blob_path)
-        flashcard_blob.upload_from_filename(flashcard_file_path,timeout=600)
-    
-        expiration = datetime.now() + timedelta(days=36500)
-
-
-        print("Successfully uploaded material to Storage")
-        return flashcard_blob.generate_signed_url(expiration=expiration)
-    def add_FlashCards_Video_ToFirestore(self):
-        db_instance = FirestoreDB.get_instance()
-        firestore_instance = db_instance.get_firestore_instance()
-        #document('13ffe4704e2d423ea7751cb88d599db7') the number will be replaced with the user id
-        #document(rmk3SGTciwNRdo9pT4CO) this will be replaced with the material id
-
-        flash_card_location=Flash_Cards.upload_material_to_storage("13ffe4704e2d423ea7751cb88d599db7",Flash_Cards.getFileNameFromPathWithOutExtension(self.ProcessedMaterial),self.Flashcards)
-        
-        #document('13ffe4704e2d423ea7751cb88d599db7') the number will be replaced with the user id
-        #document(rmk3SGTciwNRdo9pT4CO) this will be replaced with the material id
-        try:
-            doc_ref=firestore_instance.collection('Users').document('13ffe4704e2d423ea7751cb88d599db7').collection('VideoMaterial').document("rmk3SGTciwNRdo9pT4CO").collection('FlashCards').document(self.flashcard_id).set({
-
-                "flash_card_location": flash_card_location,
-            })
-            print("Successfully added processed material to firestore")
-        except Exception as e:
-            print(e)
-    def addFlashCardsToFirestore(self):
-        db_instance = FirestoreDB.get_instance()
-        firestore_instance = db_instance.get_firestore_instance()
-        #document('13ffe4704e2d423ea7751cb88d599db7') the number will be replaced with the user id
-        #document(rmk3SGTciwNRdo9pT4CO) this will be replaced with the material id
-
-        flash_card_location=Flash_Cards.upload_material_to_storage("13ffe4704e2d423ea7751cb88d599db7",Flash_Cards.getFileNameFromPathWithOutExtension(self.ProcessedMaterial),self.Flashcards)
-        
-        #document('13ffe4704e2d423ea7751cb88d599db7') the number will be replaced with the user id
-        #document(rmk3SGTciwNRdo9pT4CO) this will be replaced with the material id
-        try:
-            doc_ref=firestore_instance.collection('Users').document('13ffe4704e2d423ea7751cb88d599db7').collection('DocumentMaterial').document("rmk3SGTciwNRdo9pT4CO").collection('FlashCards').document(self.flashcard_id).set({
-
-                "flash_card_location": flash_card_location,
-            })
-            print("Successfully added processed material to firestore")
-        except Exception as e:
-            print(e)
-    @classmethod
-    def fromJson(cls, data, processed_material):
-        # Assuming you also want to pass a Processed_Materials object when creating from JSON
-        return cls(
-            flashcard_id=data.get("flashcard_id", ""),
-         # Pass the Processed_Materials object here
-        )
-
-    def toJson(self):
-        return {
-            "flashcard_id": self.flashcard_id,
-            
-            
-        }
     def is_conceptually_relevant(self,question):
         # Patterns for non-conceptual questions
         non_conceptual_patterns = [
@@ -284,7 +128,7 @@ class Flash_Cards:
                         qa_pairs.append(pair)
             except openai.error.RateLimitError:
                 print("Rate limit reached, waiting for 30 seconds...")
-                time.sleep(21)
+                time.sleep(30)
                 # Retry the request after waiting
                 response = openai.ChatCompletion.create(model="gpt-3.5-turbo", messages=prompt)
                 response_text = response.choices[0].message['content'].strip()
@@ -326,14 +170,8 @@ class Flash_Cards:
     def runFlashcards(self, file_path, content_type = ''):
         content = []
 
-<<<<<<<< HEAD:mainServerTest/backend/Flash_Cards_Controller.py
         filename = self.filenameFromPath(file_path)
         output_path='mainServerTest/assets/output_files/flashcards/'+filename+'.json'
-========
-        self.filename = self.filenameFromPath(file_path)
-        output_path='assets/output_files/flashcards/'+self.filename+'.json' 
-        self.Flashcards=output_path
->>>>>>>> main:app/Studywise/Classes/Flash_Cards_Repo.py
 
         if content_type == '':
             if file_path.endswith('.pdf'):
@@ -347,8 +185,16 @@ class Flash_Cards:
         qa_pairs = self.generate_qa_pairs(content, content_type)
         formatted_cards = self.format_flash_cards(qa_pairs)
         self.save_flash_cards_to_file(formatted_cards, output_path)
-        self.Flashcards=output_path
         print(f"Flash cards saved to {output_path}")
         
 
-  
+    # openai_api_key = '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'
+    # flashcards_controller = FlashcardsController(openai_api_key)
+    # pdf_path = 'StudyWise/flashcards_from_pdf/test.pdf'
+    # output_file = 'StudyWise/flashcards_from_pdf/JS/flash_cards.json'
+    # flashcards_controller.process_pdf_to_flashcards(pdf_path, output_file)
+    #------------------
+    # qa_pairs = generate_qa_pairs(content, content_type)
+    #         formatted_cards = format_flash_cards(qa_pairs)
+    #         save_flash_cards_to_file(formatted_cards, output_path)
+    #         print(f"Flash cards saved to {output_path}")

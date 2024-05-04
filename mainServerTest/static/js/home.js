@@ -1,3 +1,19 @@
+// Same setup as in PDFView.js
+const urlParams = new URLSearchParams(window.location.search);
+const UserID = urlParams.get('user');
+console.log(`User doc ID: ${UserID}`);
+
+
+function contentClickHandler(content) {
+    console.log(`${content} clicked`);
+}
+
+function imageClickHandler(image) {
+    console.log(`${image} clicked`);
+    event.stopPropagation(); // Prevent triggering content's click event
+}
+
+
 // Popup Handling
 function popupPrompt() {
     document.getElementById('popup-overlay').style.display = 'block';
@@ -37,12 +53,3 @@ document.onkeydown = function(evt) {
     }
 };
 // End of Popup Handling
-
-function contentClickHandler(content) {
-    console.log(`${content} clicked`);
-}
-
-function imageClickHandler(image) {
-    console.log(`${image} clicked`);
-    event.stopPropagation(); // Prevent triggering content's click event
-}
