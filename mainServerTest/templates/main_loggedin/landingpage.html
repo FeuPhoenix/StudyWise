@@ -1,16 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <link rel="shortcut icon" href="{{ url_for('static', filename='assets/images/Studywise_Logo.png') }}" type="image/x-icon">
+        <!-- <link rel="shortcut icon" href="{{ url_for('static', filename='assets/images/Studywise_Logo.png') }}" type="image/x-icon">
         <title>StudyWise</title>
         <link rel="stylesheet" href="https://unpkg.com/plyr@3/dist/plyr.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
         <link rel="stylesheet" href="{{ url_for('static', filename='css/homestyle.css') }}">
-        <link rel="stylesheet" href="{{ url_for('static', filename='css/landingpage.css') }}">                                
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/landingpage.css') }}"> -->
+        <link rel="shortcut icon" href="C:\Users\AMR\Desktop\Graduation Project\StudyWise\mainServerTest\frontend\main_loggedin\assets\images\Studywise_Logo.png" type="image/x-icon">
+        <link rel="stylesheet" href="https://unpkg.com/plyr@3/dist/plyr.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+        <link rel="stylesheet" href="C:\Users\AMR\Desktop\Graduation Project\StudyWise\mainServerTest\static\css\homestyle.css">
+        <link rel="stylesheet" href="C:\Users\AMR\Desktop\Graduation Project\StudyWise\mainServerTest\static\css\landingpage.css">                     
     </head>
     <body>
         <div class="main-navbar">
-            <img src="{{ url_for('static', filename='assets/images/Studywise_Logo.png') }}" alt="Studywise Logo" class="navbar-logo">
+            <link rel="shortcut icon" href="C:\Users\AMR\Desktop\Graduation Project\StudyWise\mainServerTest\frontend\main_loggedin\assets\images\Studywise_Logo.png" type="image/x-icon">
             <div class="navbar-btns">
                 <a href=""><button>Home</button></a>
                 <a href="/"><button>Upload Material</button></a>
@@ -18,26 +23,23 @@
                 <a onclick="popupPrompt()"><button>Reviews</button></a>
             </div>
         </div> 
-
-
     <main>
         <div class="content-container">
-            <div class="image-column">
-                <div class="image-container">
-                    <img src="{{ url_for('static', filename='assets/images/Brain.png') }}" alt="Brain" class="brain-image">
-                    <img src="{{ url_for('static', filename='assets/images/Books.png') }}" alt="Books" class="books-image">
-                </div>
+
+            <div class="section image-column">
+                <img src="C:\Users\AMR\Desktop\Graduation Project\StudyWise\mainServerTest\static\assets\images\Brain.png" alt="Brain">
                 <h2>WHY USE STUDYWISE?</h2>
                 <p>Study Wise offers a multifaceted solution to enhance your studying experience. By harnessing cutting-edge technology, it simplifies the learning process, providing automatic question generation, concise summaries, and interactive flashcards. With Study Wise, studying becomes more efficient and engaging, catering to diverse learning styles and empowering users to achieve academic success.</p>
-
-
+    
             </div>
-            <div class="text-column">
+    
+            <div class="section text-column">
                 <h1>STUDYWISE</h1>
                 <p>Study Wise is a dynamic platform designed to revolutionize the way you study. Offering a versatile array of features, it enables users to upload various study materials, including videos, documents, and presentations. Through the power of AI, Study Wise generates interactive study aids such as questions at different difficulty levels, flashcards, summaries, and more, tailored to your learning needs.</p>
-                <img src="{{ url_for('static', filename='assets/images/3.png') }}" alt="Lots of Books">
-                
+                <img src="C:\Users\AMR\Desktop\Graduation Project\StudyWise\mainServerTest\static\assets\images\3.png" alt="Lots of Books">
             </div>
+    
+        </div>
         </div>
     </main>
 

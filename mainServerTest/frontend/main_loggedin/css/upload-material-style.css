@@ -51,6 +51,10 @@ button {
     position: relative;
     display: inline-block;
 }
+#drop-area.dragover {
+    border-color: green; /* Example styling for dragover */
+    /* Add any other styling for dragover state */
+}
 
 .navbar-btns {
     display: flex;
