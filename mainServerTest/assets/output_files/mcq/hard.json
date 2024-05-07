@@ -1,0 +1,82 @@
+[
+    {
+        "question": "1. Which term refers to the systematic representation of software architecture that includes various perspectives and viewpoints?",
+        "options": [
+            "B. Architectural blueprint",
+            "A. Software design",
+            "D. System modeling",
+            "C. Architectural description"
+        ],
+        "correct_answer": "B. Architectural blueprint"
+    },
+    {
+        "question": "2. In software architecture, what is the purpose of using viewpoints?",
+        "options": [
+            "C. To define the software requirements",
+            "D. To create a high-level overview of the system",
+            "A. To provide explicit guidance on code implementation",
+            "B. To organize the architectural description"
+        ],
+        "correct_answer": "C. To define the software requirements"
+    },
+    {
+        "question": "3. What does the term \"implicit structure\" refer to in software architecture?",
+        "options": [
+            "B. The underlying logic of the system",
+            "D. The direct mapping of requirements to code",
+            "A. The hidden design patterns within the code",
+            "C. The structure that is not explicitly represented in the architecture"
+        ],
+        "correct_answer": "B. The underlying logic of the system"
+    },
+    {
+        "question": "4. How do stakeholders benefit from using viewpoints in software architecture?",
+        "options": [
+            "B. By providing clear guidelines for system testing",
+            "A. By simplifying the development process",
+            "C. By facilitating communication and understanding",
+            "D. By speeding up the deployment of the software"
+        ],
+        "correct_answer": "B. By providing clear guidelines for system testing"
+    },
+    {
+        "question": "6. According to Dr. Nissreen El-Saber, what role do stakeholders play in software architecture?",
+        "options": [
+            "C. They oversee the deployment process",
+            "A. They are responsible for writing the code",
+            "D. They conduct testing and debugging",
+            "B. They provide input and requirements for the system"
+        ],
+        "correct_answer": "C. They oversee the deployment process"
+    },
+    {
+        "question": "8. In software architecture, what are the key components of an architectural description?",
+        "options": [
+            "D. Design patterns and algorithms",
+            "A. Class diagrams and sequence diagrams",
+            "B. Requirements documents and user stories",
+            "C. Views and viewpoints"
+        ],
+        "correct_answer": "D. Design patterns and algorithms"
+    },
+    {
+        "question": "9. How does the use of viewpoints benefit the overall development process?",
+        "options": [
+            "C. By automating the coding process",
+            "A. By reducing the complexity of the system",
+            "D. By eliminating the need for system testing",
+            "B. By providing a clear roadmap for design and implementation"
+        ],
+        "correct_answer": "C. By automating the coding process"
+    },
+    {
+        "question": "10. What distinguishes software architecture from software design?",
+        "options": [
+            "D. Architecture is only relevant for small-scale projects, while design is for large-scale projects.",
+            "C. Architecture is a one-time process, while design is iterative",
+            "B. Architecture is concerned with coding, while design is concerned with testing",
+            "A. Architecture focuses on high-level structures, while design focuses on low-level details"
+        ],
+        "correct_answer": "D. Architecture is only relevant for small-scale projects, while design is for large-scale projects."
+    }
+]

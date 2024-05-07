@@ -1,5 +1,6 @@
 #needs to be improved
 from datetime import datetime, timedelta
+import os
 import uuid
 from firebase_admin import firestore
 from Constants import OPENAI_API_KEY, MAX_TOKENS_PER_REQUEST,kUserId,kUserEmail ,kDatejoined ,kFullName
@@ -10,7 +11,8 @@ import json
 import re
 from Constants import OPENAI_API_KEY, MAX_TOKENS_PER_REQUEST,kUserId,kUserEmail ,kDatejoined ,kFullName
 from FirestoreDB import FirestoreDB # Assuming the Materials and Processed_Materials classes are defined in app.Studywise.Model
-
+from dotenv import load_dotenv
+load_dotenv
 class Flash_Cards:
     Flashcards=''
     def __init__(self,ProcessedMaterial,userid,materialid,content_type=''):

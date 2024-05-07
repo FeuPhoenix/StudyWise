@@ -11,6 +11,8 @@ import json
 import textstat
 from typing import List, Dict, Tuple, Optional
 from Constants import OPENAI_API_KEY
+from dotenv import load_dotenv
+load_dotenv()
 from FirestoreDB import FirestoreDB
 openai.api_key = OPENAI_API_KEY
 

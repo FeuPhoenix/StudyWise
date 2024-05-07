@@ -1,1 +1,14 @@
-[]
+[
+    {
+        "front": "Q: What happens if your monthly income doubles but everyone else's income also doubles?",
+        "back": "A: In that case, you would not be able to buy two times more stuff because the increased income of everyone else would lead to more money chasing a similar number of goods, resulting in inflation."
+    },
+    {
+        "front": "Q: How does an increase in income in proportion to others impact your purchasing power?",
+        "back": "A: If your income doubles but everyone else's income triples, you may actually become poorer because your increase in income is not enough to keep up with the higher income of others, leading to a decrease in your purchasing power."
+    },
+    {
+        "front": "Q: How does inflation affect your ability to maintain the same standard of living?",
+        "back": "A: If there is an overall increase in the price of goods and services due to inflation, you need to earn at least the same percentage more than the previous year to avoid becoming poorer and maintain your standard of living."
+    }
+]

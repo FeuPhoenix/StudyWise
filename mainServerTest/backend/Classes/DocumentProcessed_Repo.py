@@ -36,11 +36,14 @@ from firebase_admin import credentials, storage
 import fitz  # PyMuPDF
 import os
 import comtypes.client
+from dotenv import load_dotenv
 
 from FirestoreDB import FirestoreDB
 from Flash_Cards_Repo import Flash_Cards
 from Questions_Repo import Questions_Repo
 from FirebaseStorage import firebaseStorage
+load_dotenv()
+
 class DocumentProcessed:
     #material_id=uuid.uuid4().hex#done
     # file_name=""#done
@@ -68,7 +71,7 @@ class DocumentProcessed:
 
         #document('13ffe4704e2d423ea7751cb88d599db7') the number will be replaced with the user id
         #document(rmk3SGTciwNRdo9pT4CO) this will be replaced with the material id
-        
+
         try:
             doc_ref=firestore_instance.collection('Users').document(self.userid).collection('DocumentMaterial').document(self.material_id).set({
                 "file_name": self.file_name,
@@ -165,7 +168,7 @@ class DocumentProcessed:
     def toJson(self):
         data = {
             "material_id": self.material_id,
-            "user_ID": self.user_ID,
+            "user_ID": self.userid,
             "file_name": self.file_name,
             "_file_path": self._file_path,
             "file_type": self.file_type,
@@ -370,6 +373,29 @@ class DocumentProcessed:
 
         print(f"Images extracted and saved in folder: {output_images_dir}")
     @staticmethod
+    
+    def check_value_exists_in_DocumentMaterial(userid, attribute_value):
+        db_instance = FirestoreDB.get_instance()  # Assuming FirestoreDB is a class or method to access Firestore
+        firestore_instance = db_instance.get_firestore_instance()
+        try:
+            # Reference to the collection
+            doc_material_ref = firestore_instance.collection("Users").document(userid).collection("VideoMaterial")
+
+            # Query documents where the attribute name matches the value
+            query = doc_material_ref.where("file_name", "==", attribute_value).stream()
+
+            # Iterate over the query results
+            for doc in query:
+                # If any document matches the query, return False
+                print("The Video already exists")
+                return False
+
+            # If no matching document is found, return True
+            return True
+        except Exception as e:
+            print("Error:", e)
+            return None
+    @staticmethod
     def convert_word_to_pdf(docx_path):
         # Determine the output folder based on the docx_path
         output_folder = os.path.dirname(docx_path)
@@ -513,114 +539,117 @@ class DocumentProcessed:
             print(f"Long summary has been successfully saved in mainServerTest/assets/output_files/summaries/{filename}.json") 
         self.generated_summary_file_path = f"mainServerTest/assets/output_files/summaries/{filename}.json" 
     def Document_Processing(self,file):
-        if os.path.isfile(file) and file.endswith('.pdf'):
-            self._file_path=str(file)
-            print("self._file_path",self._file_path)
-            filename=DocumentProcessed.getFileNameFromPathWithOutExtension(file)
-            self.file_name=filename
-            self.file_type=DocumentProcessed.get_file_extension(file)
-            text_file_path =str(f'mainServerTest/assets/output_files/text_files/{filename}.txt')
-            self.generated_text_file_path=text_file_path
-            print("self._file_path",self.generated_text_file_path)
-            #self._file_path=  await self.upload_to_firebase(text_file_path,f'{kUserId}/Materials/{filename}')
-            DocumentProcessed.extract_text_from_pdf_plumber(self._file_path,text_file_path)
-            text =DocumentProcessed. read_text_file(text_file_path)
-            
-            
-            
-            text=DocumentProcessed.clean_text(text)
-            result = DocumentProcessed.get_Long_summary(text)
+        self.file_name = DocumentProcessed.getFileNameFromPathWithOutExtension(file)
+        if DocumentProcessed.check_value_exists_in_DocumentMaterial(self.userid,self.file_name):    
+            if os.path.isfile(file) and file.endswith('.pdf'):
+                self._file_path=str(file)
+                print("self._file_path",self._file_path)
+                filename=DocumentProcessed.getFileNameFromPathWithOutExtension(file)
+                self.file_name=filename
+                self.file_type=DocumentProcessed.get_file_extension(file)
+                text_file_path =str(f'mainServerTest/assets/output_files/text_files/{filename}.txt')
+                self.generated_text_file_path=text_file_path
+                print("self._file_path",self.generated_text_file_path)
+                #self._file_path=  await self.upload_to_firebase(text_file_path,f'{kUserId}/Materials/{filename}')
+                DocumentProcessed.extract_text_from_pdf_plumber(self._file_path,text_file_path)
+                text =DocumentProcessed. read_text_file(text_file_path)
+                
+                
+                
+                text=DocumentProcessed.clean_text(text)
+                result = DocumentProcessed.get_Long_summary(text)
 
-            self.get_long_summary_and_write_to_json(result,filename)
-            print(self.userid)
-            self.addProcessedMaterialToFirestore()
-            #Testing
+                self.get_long_summary_and_write_to_json(result,filename)
+                print(self.userid)
+                self.addProcessedMaterialToFirestore()
+                #Testing
+                
+                print("self.generated_summary_file_path",self.generated_summary_file_path)
+                flashcard=Flash_Cards(self._file_path,self.userid,self.material_id)
+                
+                mcq=Questions_Repo(self._file_path,self.userid,self.material_id,None)
+                return self.file_name,self.material_id
+                #DocumentProcessed.extract_images_from_pdf( self._file_path)
+                
+            elif os.path.isfile(file) and (file.endswith('.ppt') or file.endswith('.pptx') or file.endswith('.ppsx')):
+                self.file_type=DocumentProcessed.get_file_extension(file)
+                self._file_path=DocumentProcessed.convert_ppt_to_pdf(file)
+                self._file_path=file.replace("\\","/")
+                filename=DocumentProcessed.getFileNameFromPathWithOutExtension(file)
+                self.file_name=filename
+                self.generated_text_file_path = f'mainServerTest/assets/output_files/text_files/{filename}.txt'
+                #self._file_path=self.upload_to_firebase(text_file_path,f'{kUserId}/Materials/{filename}')
             
-            print("self.generated_summary_file_path",self.generated_summary_file_path)
-            flashcard=Flash_Cards(self._file_path,self.userid,self.material_id)
-            
-            mcq=Questions_Repo(self._file_path,self.userid,self.material_id,None)
-            return self.file_name,self.material_id
-            #DocumentProcessed.extract_images_from_pdf( self._file_path)
-            
-        elif os.path.isfile(file) and (file.endswith('.ppt') or file.endswith('.pptx') or file.endswith('.ppsx')):
-            self.file_type=DocumentProcessed.get_file_extension(file)
-            self._file_path=DocumentProcessed.convert_ppt_to_pdf(file)
-            self._file_path=file.replace("\\","/")
-            filename=DocumentProcessed.getFileNameFromPathWithOutExtension(file)
-            self.file_name=filename
-            self.generated_text_file_path = f'mainServerTest/assets/output_files/text_files/{filename}.txt'
-            #self._file_path=self.upload_to_firebase(text_file_path,f'{kUserId}/Materials/{filename}')
-          
-            DocumentProcessed.extract_text_from_pdf_plumber(self._file_path, self.generated_text_file_path)
-            text =DocumentProcessed. read_text_file( self.generated_text_file_path)
-            
-            
-            
-            text=DocumentProcessed.clean_text(text)
-            result = DocumentProcessed.get_Long_summary(text)
-            self.get_long_summary_and_write_to_json(result,filename) 
-            self.addProcessedMaterialToFirestore()
+                DocumentProcessed.extract_text_from_pdf_plumber(self._file_path, self.generated_text_file_path)
+                text =DocumentProcessed. read_text_file( self.generated_text_file_path)
+                
+                
+                
+                text=DocumentProcessed.clean_text(text)
+                result = DocumentProcessed.get_Long_summary(text)
+                self.get_long_summary_and_write_to_json(result,filename) 
+                self.addProcessedMaterialToFirestore()
 
-            flashcard=Flash_Cards(self._file_path,self.userid,self.material_id)
-            mcq=Questions_Repo( self._file_path,self.userid,self.material_id,None)
-            # DocumentProcessed.extract_images_from_pdf( self._file_path)
-            return self.file_name,self.material_id
+                flashcard=Flash_Cards(self._file_path,self.userid,self.material_id)
+                mcq=Questions_Repo( self._file_path,self.userid,self.material_id,None)
+                # DocumentProcessed.extract_images_from_pdf( self._file_path)
+                return self.file_name,self.material_id
 
-        elif os.path.isfile(file) and (file.endswith('.doc') or file.endswith('.docx')):
-            self.file_type=DocumentProcessed.get_file_extension(file)
-            self._file_path=DocumentProcessed.convert_word_to_pdf(file)
-            self._file_path=file.replace("\\","/")
-            filename=DocumentProcessed.getFileNameFromPathWithOutExtension(file)
-            self.file_name=filename
-           
-            self.generated_text_file_path = f'mainServerTest/assets/output_files/text_files/{filename}.txt'
-            #self._file_path=self.upload_to_firebase(text_file_path,f'{kUserId}/Materials/{filename}')
-
-            DocumentProcessed.extract_text_from_pdf_plumber(self._file_path,self.generated_text_file_path)
-            text =DocumentProcessed.read_text_file(self.generated_text_file_path)
+            elif os.path.isfile(file) and (file.endswith('.doc') or file.endswith('.docx')):
+                self.file_type=DocumentProcessed.get_file_extension(file)
+                self._file_path=DocumentProcessed.convert_word_to_pdf(file)
+                self._file_path=file.replace("\\","/")
+                filename=DocumentProcessed.getFileNameFromPathWithOutExtension(file)
+                self.file_name=filename
             
+                self.generated_text_file_path = f'mainServerTest/assets/output_files/text_files/{filename}.txt'
+                #self._file_path=self.upload_to_firebase(text_file_path,f'{kUserId}/Materials/{filename}')
+
+                DocumentProcessed.extract_text_from_pdf_plumber(self._file_path,self.generated_text_file_path)
+                text =DocumentProcessed.read_text_file(self.generated_text_file_path)
+                
+                
             
-           
-            text=DocumentProcessed.clean_text(text)
-            result = DocumentProcessed.get_Long_summary(text)
-            self.get_long_summary_and_write_to_json(result,filename)
-            self.addProcessedMaterialToFirestore()
+                text=DocumentProcessed.clean_text(text)
+                result = DocumentProcessed.get_Long_summary(text)
+                self.get_long_summary_and_write_to_json(result,filename)
+                self.addProcessedMaterialToFirestore()
 
-            flashcard=Flash_Cards(self._file_path,self.userid,self.material_id)
-            mcq=Questions_Repo( self._file_path,self.userid,self.material_id,None)
-            # DocumentProcessed.extract_images_from_pdf( self._file_path)
-            return self.file_name,self.material_id
-          
-        elif os.path.isfile(file) and (file.endswith('.txt') ):
-            txt_path = file
-            filename=DocumentProcessed.getFileNameFromPathWithOutExtension(file)
-            text=DocumentProcessed.extract_text_from_word(txt_path)
-            self.file_name=filename
-            self.file_type=DocumentProcessed.get_file_extension(file)
-            text_file = f'mainServerTest/assets/output_files/text_files/{filename}.txt'
-            self._file_path=DocumentProcessed.convert_txt_to_pdf(file)
-
-            #self._file_path=self.upload_to_firebase(text_file,f'{kUserId}/Materials/{filename}')
-
-            with open(text_file, 'w') as file:
-                file.write(text)
+                flashcard=Flash_Cards(self._file_path,self.userid,self.material_id)
+                mcq=Questions_Repo( self._file_path,self.userid,self.material_id,None)
+                # DocumentProcessed.extract_images_from_pdf( self._file_path)
+                return self.file_name,self.material_id
             
-            result = DocumentProcessed.get_Long_summary(text)
-            summary_data = {
-                'long_summary': result
-            }
-            with open(f"mainServerTest/assets/output_files/summaries/{filename}_summary.json", 'w') as json_file:
-                json.dump(summary_data, json_file, indent=4)
-                print(f"Long summary has been successfully saved in mainServerTest/assets/output_files/summaries/{filename}.json")
-                self.generated_summary_file_path=f"mainServerTest/assets/output_files/summaries/{filename}.json" 
-            self.addProcessedMaterialToFirestore()
-            mcq=Questions_Repo( self._file_path,None,self.userid,self.material_id,None)
-            flashcard=Flash_Cards(self._file_path,self.userid,self.material_id)
-            return self.file_name,self.material_id
+            elif os.path.isfile(file) and (file.endswith('.txt') ):
+                txt_path = file
+                filename=DocumentProcessed.getFileNameFromPathWithOutExtension(file)
+                text=DocumentProcessed.extract_text_from_word(txt_path)
+                self.file_name=filename
+                self.file_type=DocumentProcessed.get_file_extension(file)
+                text_file = f'mainServerTest/assets/output_files/text_files/{filename}.txt'
+                self._file_path=DocumentProcessed.convert_txt_to_pdf(file)
+
+                #self._file_path=self.upload_to_firebase(text_file,f'{kUserId}/Materials/{filename}')
+
+                with open(text_file, 'w') as file:
+                    file.write(text)
+                
+                result = DocumentProcessed.get_Long_summary(text)
+                summary_data = {
+                    'long_summary': result
+                }
+                with open(f"mainServerTest/assets/output_files/summaries/{filename}_summary.json", 'w') as json_file:
+                    json.dump(summary_data, json_file, indent=4)
+                    print(f"Long summary has been successfully saved in mainServerTest/assets/output_files/summaries/{filename}.json")
+                    self.generated_summary_file_path=f"mainServerTest/assets/output_files/summaries/{filename}.json" 
+                self.addProcessedMaterialToFirestore()
+                mcq=Questions_Repo( self._file_path,None,self.userid,self.material_id,None)
+                flashcard=Flash_Cards(self._file_path,self.userid,self.material_id)
+                return self.file_name,self.material_id
+            else:
+               print("Please provide a valid file path")
         else:
-            print("Please provide a valid file path")
-           
+                print("the Document already exists")    
 
 # #Testing
 

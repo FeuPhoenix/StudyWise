@@ -14,6 +14,7 @@ from PIL import Image
 from docx import Document
 from PIL import Image
 from io import BytesIO
+import requests
 from summarizer import Summarizer
 from firebase_admin import credentials, storage
 from Flash_Cards_Controller import FlashcardsController
@@ -69,6 +70,72 @@ class DocumentProcessedController:
         except Exception as e:
             print("Error:", e)
             return None
+    @staticmethod
+    def retrieveVideoMaterialFromFirestore(user_id, material_id):
+        db_instance = FirestoreDB.get_instance()
+        firestore_instance = db_instance.get_firestore_instance()
+
+        try:
+            doc_ref = firestore_instance.collection('Users').document(user_id).collection('DocumentMaterial').document(material_id)
+            doc = doc_ref.get()
+            if doc.exists:
+                video_material_data = doc.to_dict()
+
+                # Fetch data from FlashCards collection if it exists
+                flashcards_ref = doc_ref.collection('FlashCards')
+                flashcards_data = []
+                for flashcard_doc in flashcards_ref.stream():
+                    flashcards_data.append(flashcard_doc.to_dict())
+
+                # Fetch data from Questions collection if it exists
+                questions_ref = doc_ref.collection('Questions')
+                questions_data = []
+                for question_doc in questions_ref.stream():
+                    questions_data.append(question_doc.to_dict())
+
+                # Add FlashCards and Questions data to the video_material_data
+                video_material_data['FlashCards'] = flashcards_data
+                video_material_data['Questions'] = questions_data
+                flash_card_data = video_material_data['FlashCards']
+                Questions_data = video_material_data['Questions']
+                for question in questions_data:
+                    medium_location = question['Questions_medium_location']
+                    hard_location = question['Questions_hard_location']
+                    easy_location = question['Questions_easy_location']
+                
+
+                Summary=DocumentProcessedController.fetch_json_from_url(video_material_data['generated_summary_file_path'])
+                
+                
+                flashcards=DocumentProcessedController.fetch_json_from_url( flash_card_data[0]['flash_card_location'])
+                
+                MCQ_E=DocumentProcessedController.fetch_json_from_url(easy_location)
+                
+                MCQ_M=DocumentProcessedController.fetch_json_from_url(medium_location)
+                
+                MCQ_H=DocumentProcessedController.fetch_json_from_url(hard_location)
+                
+                return video_material_data['_file_path'],Summary,flashcards,MCQ_E,MCQ_M,MCQ_H
+            else:
+                print(f"No such document with user_id: {user_id} and material_id: {material_id}")
+                return None
+        except Exception as e:
+            print(f"Error retrieving document: {e}")
+            return None
+    @staticmethod
+    
+    def fetch_json_from_url(url):
+            try:
+                # Make a GET request to download the JSON file
+                response = requests.get(url)
+                response.raise_for_status()  # Raise an exception for any HTTP error status codes
+                
+                # Load the JSON data
+                data = response.json()
+                return data
+            except requests.exceptions.RequestException as e:
+                print("Error: 7mada 2", e)
+                return None
     @staticmethod
     def fetch_data_by_file_name(userid, attribute_value):
         db_instance = FirestoreDB.get_instance()  # Assuming FirestoreDB is a class or method to access Firestore

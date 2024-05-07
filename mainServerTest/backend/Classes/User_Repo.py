@@ -3,7 +3,6 @@ import uuid
 from firebase_admin import firestore, auth
 
 from FirestoreDB import FirestoreDB
-from Constants import OPENAI_API_KEY, MAX_TOKENS_PER_REQUEST,kUserId,kUserEmail ,kDatejoined ,kFullName 
 from flask import request,jsonify,render_template
 from FirestoreDB import FirestoreDB
 class UserRepo:

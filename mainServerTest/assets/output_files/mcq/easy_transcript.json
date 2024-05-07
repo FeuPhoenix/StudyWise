@@ -1,102 +1,92 @@
 [
     {
-        "question": "1. What happens to your purchasing power if your monthly income doubles, but the income of everyone else also doubles?",
+        "question": "1. If your monthly income were to double, how much more stuff would you be able to afford?",
         "options": [
-            "B) You can afford to buy four times more ",
-            "C) You can afford to buy the same amount ",
-            "A) You can afford to buy two times more ",
-            "D) You become poorer "
+            "C. 3 times more",
+            "B. 2 times more",
+            "A. 1.5 times more",
+            "D. 4 times more"
         ],
-        "correct_answer": "B) You can afford to buy four times more "
+        "correct_answer": "C. 3 times more"
     },
     {
-        "question": "2. If your income doubles but everyone else's income triples, what happens to your purchasing power?",
+        "question": "2. What would happen if the monthly income of everyone else were to double as well?",
         "options": [
-            "B) You become richer ",
-            "C) You become poorer ",
-            "D) You can afford to buy the same amount ",
-            "A) You can afford to buy more "
+            "B. You would still be able to afford 2 times more stuff",
+            "A. You would be able to afford even more stuff",
+            "C. You would be able to afford less due to price increases",
+            "D. Your income would also double"
         ],
-        "correct_answer": "B) You become richer "
+        "correct_answer": "B. You would still be able to afford 2 times more stuff"
     },
     {
-        "question": "3. If the overall price of goods and services increases by x percent this year, how much more do you need to earn compared to last year to avoid becoming poorer?",
+        "question": "3. If your income doubles but everyone else's triples, what would happen to your purchasing power?",
         "options": [
-            "B) Exactly x percent ",
-            "D) More than x percent ",
-            "C) At least x percent ",
-            "A) Less than x percent "
+            "D. It depends on the specific goods and services",
+            "A. You can buy more stuff",
+            "C. You would stay the same",
+            "B. You would become poorer"
         ],
-        "correct_answer": "B) Exactly x percent "
+        "correct_answer": "D. It depends on the specific goods and services"
     },
     {
-        "question": "4. How much less potatoes can you buy with each dollar today compared to 100 years ago?",
+        "question": "4. What is the relationship between inflation and the need for increased income?",
         "options": [
-            "A) 29 times less ",
-            "D) 39 times less ",
-            "B) 10 times less ",
-            "C) 15 times less "
+            "C. Increased income leads to inflation",
+            "A. Inflation has no effect on income",
+            "B. Income must increase at least the same rate as inflation to avoid becoming poorer",
+            "D. The government controls income based on inflation levels"
         ],
-        "correct_answer": "A) 29 times less "
+        "correct_answer": "C. Increased income leads to inflation"
     },
     {
-        "question": "5. How much less coffee can you buy with each dollar today compared to 100 years ago?",
+        "question": "5. How many times less potatoes can each dollar buy you compared to 100 years ago?",
         "options": [
-            "C) 10 times less ",
-            "A) 20 times less ",
-            "B) 5 times less ",
-            "D) 15 times less "
+            "A. 19 times less",
+            "B. 20 times less",
+            "D. 40 times less",
+            "C. 39 times less"
         ],
-        "correct_answer": "C) 10 times less "
+        "correct_answer": "A. 19 times less"
     },
     {
-        "question": "6. All else being equal, if the price of bread increases by 24 percent, how much more do you need to earn to maintain your purchasing power?",
+        "question": "6. How has the affordability of coffee changed in the last 100 years?",
         "options": [
-            "D) 30 percent more ",
-            "B) 20 percent more ",
-            "C) 24 percent more ",
-            "A) 25 percent more "
+            "B. 20 times less affordable",
+            "A. 19 times less affordable",
+            "C. 39 times less affordable",
+            "D. 40 times less affordable"
         ],
-        "correct_answer": "D) 30 percent more "
+        "correct_answer": "B. 20 times less affordable"
     },
     {
-        "question": "7. Why is it important to earn at least the same percentage increase in your income as the percentage increase in the price of goods and services?",
+        "question": "7. What is the general trend in the affordability of bread over the last century?",
         "options": [
-            "C) To buy more things ",
-            "B) To avoid becoming poorer ",
-            "A) To become richer ",
-            "D) To save money "
+            "D. It has become unaffordable",
+            "A. It has become more affordable",
+            "B. It has stayed relatively constant",
+            "C. It has become less affordable"
         ],
-        "correct_answer": "C) To buy more things "
+        "correct_answer": "D. It has become unaffordable"
     },
     {
-        "question": "8. If your income doubles and everyone else's income stays the same, what happens to your purchasing power?",
+        "question": "9. What is the key concept behind maintaining purchasing power in the face of inflation?",
         "options": [
-            "C) You can afford to buy the same amount ",
-            "A) You can afford to buy more ",
-            "B) You can afford to buy less ",
-            "D) You become richer "
+            "A. Saving money is the best strategy",
+            "B. Increasing income at least at the rate of inflation",
+            "D. Ignoring inflation altogether",
+            "C. Buying as many goods and services as possible"
         ],
-        "correct_answer": "C) You can afford to buy the same amount "
+        "correct_answer": "A. Saving money is the best strategy"
     },
     {
-        "question": "9. How does your income need to increase compared to the overall increase in prices to maintain your purchasing power?",
+        "question": "10. In order to avoid becoming poorer in an inflationary environment, what must happen to your income?",
         "options": [
-            "A) Less than the price increase ",
-            "D) No increase needed ",
-            "C) Exactly the same as the price increase ",
-            "B) More than the price increase "
+            "B. It must increase at a slower rate than inflation",
+            "C. It must increase at the same rate as inflation",
+            "D. It must increase at a faster rate than inflation.",
+            "A. It must decrease"
         ],
-        "correct_answer": "A) Less than the price increase "
-    },
-    {
-        "question": "10. Inflation can erode purchasing power over time due to:",
-        "options": [
-            "D) Stable market conditions",
-            "C) Increase in overall costs ",
-            "B) Increase in overall income ",
-            "A) Decrease in prices "
-        ],
-        "correct_answer": "D) Stable market conditions"
+        "correct_answer": "B. It must increase at a slower rate than inflation"
     }
 ]
