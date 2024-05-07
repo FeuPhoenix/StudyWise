@@ -71,7 +71,7 @@ class DocumentProcessedController:
             print("Error:", e)
             return None
     @staticmethod
-    def retrieveVideoMaterialFromFirestore(user_id, material_id):
+    def retrieveDocumentMaterialFromFirestore(user_id, material_id):
         db_instance = FirestoreDB.get_instance()
         firestore_instance = db_instance.get_firestore_instance()
 
@@ -97,7 +97,6 @@ class DocumentProcessedController:
                 video_material_data['FlashCards'] = flashcards_data
                 video_material_data['Questions'] = questions_data
                 flash_card_data = video_material_data['FlashCards']
-                Questions_data = video_material_data['Questions']
                 for question in questions_data:
                     medium_location = question['Questions_medium_location']
                     hard_location = question['Questions_hard_location']
@@ -159,8 +158,36 @@ class DocumentProcessedController:
         except Exception as e:
             print("Error:", e)
             return None
+    @staticmethod
+    def fetch_id_from_filename_in_Document_material(userid, filename):
+            db_instance = FirestoreDB.get_instance()
+            firestore_instance = db_instance.get_firestore_instance()
+            try:
+                # Reference to the "DocumentMaterial" collection
+                video_material_ref = firestore_instance.collection("Users").document(userid).collection("DocumentMaterial")
+
+                # Get all documents in the "DocumentMaterial" collection
+                video_material_docs = video_material_ref.stream()
+
+                # Iterate over each document in "DocumentMaterial" collection
+                for doc_material_doc in video_material_docs:
+                    doc_material_data = doc_material_doc.to_dict()
+
+                    # Check if the document has the "file_name" field and it's a string
+                    if 'file_name' in doc_material_data and isinstance(doc_material_data['file_name'], str):
+                        # Check if the filename matches the desired filename
+                        if doc_material_data['file_name'] == filename:
+                            # Return the document ID
+                          return  DocumentProcessedController.retrieveDocumentMaterialFromFirestore(userid,doc_material_doc.id)
+
+                # If filename is not found, return None
+                return None
+
+            except Exception as e:
+                print("Error:7amda3", e)
+                return None
 def main():
-    print(DocumentProcessedController.fetch_data_by_attribute_value("13ffe4704e2d423ea7751cb88d599db7","test"))
+    print(DocumentProcessedController.fetch_id_from_filename_in_Document_material("62a9c20699654da5b14cca9d21cd8ef6","test"))
 if __name__ == "__main__":
     main()
        

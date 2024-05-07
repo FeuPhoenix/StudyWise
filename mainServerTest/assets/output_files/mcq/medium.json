@@ -1,82 +1,72 @@
 [
     {
-        "question": "1. What is the relationship between views and viewpoints in software architecture?",
+        "question": "1. What is the purpose of views in structuring an architectural description?",
         "options": [
-            "A) Views describe different aspects of the system, while viewpoints provide a perspective on those views",
-            "B) Views and viewpoints are interchangeable terms",
-            "C) Views are used to describe the deployment structure, while viewpoints focus on functionality",
-            "D) Views and viewpoints are not related in software architecture "
+            "d) To focus on one specific aspect only ",
+            "a) To describe multiple aspects of the system ",
+            "b) To define the system's functionality ",
+            "c) To deploy the system "
         ],
-        "correct_answer": "A) Views describe different aspects of the system, while viewpoints provide a perspective on those views"
+        "correct_answer": "d) To focus on one specific aspect only "
     },
     {
-        "question": "3. Which ISO standard describes distributed object systems and their viewpoint set?",
+        "question": "2. How is the relationship between view and viewpoint similar to that of object and class?",
         "options": [
-            "B) SADP",
-            "D) IEEE",
-            "C) UML",
-            "A) RM-ODP"
+            "c) They both describe the overall system functionality ",
+            "d) They serve different purposes in software architecture ",
+            "b) They both focus on a specific aspect of a system ",
+            "a) They are completely unrelated "
         ],
-        "correct_answer": "B) SADP"
+        "correct_answer": "c) They both describe the overall system functionality "
     },
     {
-        "question": "4. What was the earliest mainstream description of the 4+1 architectural view model?",
+        "question": "3. What academic roots do architectural viewpoints have?",
         "options": [
-            "B) \"Software Architecture: Foundations, Theory, and Practice\"",
-            "C) \"Applied Software Architecture\"",
-            "A) \"An Introduction to Software Architecture\"",
-            "D) \"Large Scale Software Architecture\""
+            "c) 1988 ",
+            "d) 2005 ",
+            "a) 1993 ",
+            "b) 1995 "
         ],
-        "correct_answer": "B) \"Software Architecture: Foundations, Theory, and Practice\""
+        "correct_answer": "c) 1988 "
     },
     {
-        "question": "6. How does the set of viewpoints in \"Large Scale Software Architecture\" compare to the set in \"Perspectives\"?",
+        "question": "4. Which of the following is considered one of the earliest mainstream descriptions of architectural viewpoints?",
         "options": [
-            "C) The sets focus on different aspects of software architecture",
-            "B) The sets are created based on academic research",
-            "A) The sets are identical",
-            "D) The sets are practitioner-focused and based on experience"
+            "a) \"An Introduction to Software Architecture\" ",
+            "c) \"Software Architecture: Foundations, Theory, and Practice\" ",
+            "b) \"Large Scale Software Architecture\" ",
+            "d) \"Applied Software Architecture\" "
         ],
-        "correct_answer": "C) The sets focus on different aspects of software architecture"
+        "correct_answer": "a) \"An Introduction to Software Architecture\" "
     },
     {
-        "question": "7. What is the Conceptual model for how viewpoints used in software architecture?",
+        "question": "5. What does the Reference Model of Open Distributed Processing (RM-ODP) standard describe?",
         "options": [
-            "A) A method for organizing architectural descriptions",
-            "B) A standardized set of viewpoints",
-            "D) A visual representation of the architectural structure",
-            "C) A framework for mapping out system functionality"
+            "c) Viewpoints for information systems ",
+            "d) Functional structure of the system ",
+            "a) Centralized object systems ",
+            "b) Distributed object systems "
         ],
-        "correct_answer": "A) A method for organizing architectural descriptions"
+        "correct_answer": "c) Viewpoints for information systems "
     },
     {
-        "question": "8. What is the main purpose of viewpoints in software architecture?",
+        "question": "7. How does the set of viewpoints in \"Perspectives\" differ from G & A's viewpoints?",
         "options": [
-            "B) To create a single, unified view of the system",
-            "C) To focus solely on the functional aspects of the system",
-            "A) To provide multiple perspectives on the system",
-            "D) To simplify the architectural description process"
+            "a) They are practitioner-focused ",
+            "d) They are conceptually the same ",
+            "c) They focus on a different aspect of software architecture ",
+            "b) They are not related to information systems "
         ],
-        "correct_answer": "B) To create a single, unified view of the system"
+        "correct_answer": "a) They are practitioner-focused "
     },
     {
-        "question": "9. Why are views important in structuring architectural descriptions?",
+        "question": "9. What is the purpose of a conceptual model for viewpoints in software architecture?",
         "options": [
-            "B) To eliminate the need for viewpoints",
-            "D) To replace the need for a conceptual model",
-            "A) To provide different perspectives on the system",
-            "C) To focus solely on the deployment structure"
+            "a) To confuse developers ",
+            "c) To complicate the architectural description ",
+            "b) To provide a clear understanding of system aspects ",
+            "d) To limit the scope of the system "
         ],
-        "correct_answer": "B) To eliminate the need for viewpoints"
-    },
-    {
-        "question": "10. What is the significance of the 4+1 architectural view model in software architecture?",
-        "options": [
-            "D) It breaks down the architectural description into multiple aspects.",
-            "B) It offers a single perspective on the system",
-            "A) It provides a comprehensive overview of the system",
-            "C) It is a new concept in software architecture"
-        ],
-        "correct_answer": "D) It breaks down the architectural description into multiple aspects."
+        "correct_answer": "a) To confuse developers "
     }
 ]

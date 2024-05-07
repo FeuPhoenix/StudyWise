@@ -654,7 +654,7 @@ class DocumentProcessed:
 # #Testing
 
 def main():
-    D= DocumentProcessed("mainServerTest/assets/input_files/text-based/test.pdf","3f803d991c5b490887e6992fa5e58f71")
+    D= DocumentProcessed("mainServerTest/assets/input_files/text-based/test.pdf","62a9c20699654da5b14cca9d21cd8ef6")
     # file_path = "mainservertest/assets/input_files/text-based/test2.pdf"
     # folder_path = "test-based"  # Specify the desired folder path
     # file_name = "test2.pdf"

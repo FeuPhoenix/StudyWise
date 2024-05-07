@@ -1,0 +1,52 @@
+[
+    {
+        "question": "1. What is the purpose of using viewpoints in architecture? ",
+        "options": [
+            "C) To make the process more complicated ",
+            "B) To confuse architects ",
+            "A) To provide templates for views ",
+            "D) None of the above "
+        ],
+        "correct_answer": "C) To make the process more complicated "
+    },
+    {
+        "question": "4. What is the basis of ISO Standard 42010? ",
+        "options": [
+            "D) None of the above ",
+            "C) The foundation for the study of software architecture ",
+            "A) The development of viewpoints ",
+            "B) The 4+1 set "
+        ],
+        "correct_answer": "D) None of the above "
+    },
+    {
+        "question": "6. How do viewpoints help in organizing the software architecture process? ",
+        "options": [
+            "B) By defining how to represent views ",
+            "D) All of the above ",
+            "C) By warning of potential problems and their solutions ",
+            "A) By providing guidance on what the views should contain "
+        ],
+        "correct_answer": "B) By defining how to represent views "
+    },
+    {
+        "question": "7. What is the relationship between viewpoints and views? ",
+        "options": [
+            "A) They have no relationship ",
+            "B) Viewpoints provide templates for views ",
+            "D) None of the above ",
+            "C) Views provide guidance to viewpoints "
+        ],
+        "correct_answer": "A) They have no relationship "
+    },
+    {
+        "question": "9. Why are viewpoints and views considered effective in software architecture? ",
+        "options": [
+            "B) They provide guidance and organization ",
+            "C) They are unnecessary ",
+            "A) They make the process more complicated ",
+            "D) None of the above "
+        ],
+        "correct_answer": "B) They provide guidance and organization "
+    }
+]

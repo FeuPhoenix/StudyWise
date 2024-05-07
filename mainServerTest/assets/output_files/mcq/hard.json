@@ -1,82 +1,102 @@
 [
     {
-        "question": "1. Which term refers to the systematic representation of software architecture that includes various perspectives and viewpoints?",
+        "question": "1. Which of the following best defines software architecture?",
         "options": [
-            "B. Architectural blueprint",
-            "A. Software design",
-            "D. System modeling",
-            "C. Architectural description"
+            "D) The detailed implementation of software components",
+            "C) The high-level design decisions that define a system's structure",
+            "B) The arrangement of software components",
+            "A) The physical structure of a software system"
         ],
-        "correct_answer": "B. Architectural blueprint"
+        "correct_answer": "D) The detailed implementation of software components"
     },
     {
-        "question": "2. In software architecture, what is the purpose of using viewpoints?",
+        "question": "2. Why is it important to consider the viewpoints of stakeholders in software architecture design?",
         "options": [
-            "C. To define the software requirements",
-            "D. To create a high-level overview of the system",
-            "A. To provide explicit guidance on code implementation",
-            "B. To organize the architectural description"
+            "C) To minimize the impact of changes in stakeholder preferences",
+            "B) To address conflicting needs and requirements early in the design process",
+            "A) To ensure that all stakeholders are satisfied with the final product",
+            "D) To simplify the communication between architects and stakeholders"
         ],
-        "correct_answer": "C. To define the software requirements"
+        "correct_answer": "C) To minimize the impact of changes in stakeholder preferences"
     },
     {
-        "question": "3. What does the term \"implicit structure\" refer to in software architecture?",
+        "question": "3. What role do architectural views play in software architecture design?",
         "options": [
-            "B. The underlying logic of the system",
-            "D. The direct mapping of requirements to code",
-            "A. The hidden design patterns within the code",
-            "C. The structure that is not explicitly represented in the architecture"
+            "A) They provide a high-level overview of the entire system",
+            "C) They guide the implementation of software components",
+            "D) They define the physical structure of the software system",
+            "B) They organize the architectural description into coherent sections"
         ],
-        "correct_answer": "B. The underlying logic of the system"
+        "correct_answer": "A) They provide a high-level overview of the entire system"
     },
     {
-        "question": "4. How do stakeholders benefit from using viewpoints in software architecture?",
+        "question": "4. How do development constraints impact software architecture design?",
         "options": [
-            "B. By providing clear guidelines for system testing",
-            "A. By simplifying the development process",
-            "C. By facilitating communication and understanding",
-            "D. By speeding up the deployment of the software"
+            "B) They influence the choice of technologies and tools used in the system",
+            "A) They limit the number of stakeholders involved in the design process",
+            "C) They ensure that the software system meets all stakeholder requirements",
+            "D) They have no impact on the architectural decisions made"
         ],
-        "correct_answer": "B. By providing clear guidelines for system testing"
+        "correct_answer": "B) They influence the choice of technologies and tools used in the system"
     },
     {
-        "question": "6. According to Dr. Nissreen El-Saber, what role do stakeholders play in software architecture?",
+        "question": "5. What is the relationship between software architecture and software systems engineering?",
         "options": [
-            "C. They oversee the deployment process",
-            "A. They are responsible for writing the code",
-            "D. They conduct testing and debugging",
-            "B. They provide input and requirements for the system"
+            "C) Software architecture and software systems engineering are interchangeable terms",
+            "B) Software systems engineering is a subset of software architecture",
+            "D) Software architecture and software systems engineering have no relationship",
+            "A) Software architecture is a subset of software systems engineering"
         ],
-        "correct_answer": "C. They oversee the deployment process"
+        "correct_answer": "C) Software architecture and software systems engineering are interchangeable terms"
     },
     {
-        "question": "8. In software architecture, what are the key components of an architectural description?",
+        "question": "6. How do large-scale software systems differ from smaller software systems in terms of architecture design?",
         "options": [
-            "D. Design patterns and algorithms",
-            "A. Class diagrams and sequence diagrams",
-            "B. Requirements documents and user stories",
-            "C. Views and viewpoints"
+            "A) Large-scale systems require more complex architectural structures",
+            "D) Large-scale systems are easier to design and implement than smaller systems",
+            "C) Large-scale systems have fewer development constraints to work within",
+            "B) Large-scale systems have fewer stakeholders to consider in the design process"
         ],
-        "correct_answer": "D. Design patterns and algorithms"
+        "correct_answer": "A) Large-scale systems require more complex architectural structures"
     },
     {
-        "question": "9. How does the use of viewpoints benefit the overall development process?",
+        "question": "7. In the context of software architecture, what is the role of the architect?",
         "options": [
-            "C. By automating the coding process",
-            "A. By reducing the complexity of the system",
-            "D. By eliminating the need for system testing",
-            "B. By providing a clear roadmap for design and implementation"
+            "A) To make all high-level design decisions for the software system",
+            "D) To ensure that the software system meets all development constraints",
+            "C) To implement the software components defined in the architectural description",
+            "B) To communicate with stakeholders and understand their needs"
         ],
-        "correct_answer": "C. By automating the coding process"
+        "correct_answer": "A) To make all high-level design decisions for the software system"
     },
     {
-        "question": "10. What distinguishes software architecture from software design?",
+        "question": "8. How can the use of architectural viewpoints improve the quality of a software system?",
         "options": [
-            "D. Architecture is only relevant for small-scale projects, while design is for large-scale projects.",
-            "C. Architecture is a one-time process, while design is iterative",
-            "B. Architecture is concerned with coding, while design is concerned with testing",
-            "A. Architecture focuses on high-level structures, while design focuses on low-level details"
+            "D) By simplifying the communication between architects and stakeholders",
+            "C) By ensuring that all stakeholders' needs and requirements are considered",
+            "A) By providing a high-level overview of the system's structure",
+            "B) By organizing the architectural description into coherent sections"
         ],
-        "correct_answer": "D. Architecture is only relevant for small-scale projects, while design is for large-scale projects."
+        "correct_answer": "D) By simplifying the communication between architects and stakeholders"
+    },
+    {
+        "question": "9. What are some potential risks associated with ignoring the viewpoints of stakeholders in software architecture design?",
+        "options": [
+            "D) Architects may become overwhelmed with conflicting feedback",
+            "B) Conflicting requirements may arise later in the design process",
+            "C) The software system may not meet stakeholder needs or expectations",
+            "A) Development constraints may not be met"
+        ],
+        "correct_answer": "D) Architects may become overwhelmed with conflicting feedback"
+    },
+    {
+        "question": "10. How can software architects balance the competing needs and requirements of stakeholders in the design process?",
+        "options": [
+            "A) By prioritizing the needs of certain stakeholders over others",
+            "D) By making unilateral decisions without consulting stakeholders",
+            "B) By ignoring conflicting requirements to streamline the design process",
+            "C) By actively engaging with stakeholders to understand their perspectives"
+        ],
+        "correct_answer": "A) By prioritizing the needs of certain stakeholders over others"
     }
 ]
