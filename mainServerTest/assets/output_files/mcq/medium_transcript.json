@@ -1,0 +1,102 @@
+[
+    {
+        "question": "1. What type of exercise is recommended for maximum strength gains?",
+        "options": [
+            "A. Barbell squat",
+            "D. Deadlift",
+            "B. Leg press",
+            "C. Lunges"
+        ],
+        "correct_answer": "A. Barbell squat"
+    },
+    {
+        "question": "2. Which of the following activities would benefit from incorporating lower body endurance exercises?",
+        "options": [
+            "A. Weightlifting",
+            "D. Powerlifting",
+            "C. Road cycling",
+            "B. CrossFit"
+        ],
+        "correct_answer": "A. Weightlifting"
+    },
+    {
+        "question": "3. How many sets of repetitions are typically recommended for lower body endurance exercises?",
+        "options": [
+            "B. 3-4 sets",
+            "D. 7-8 sets",
+            "C. 5-6 sets",
+            "A. 1-2 sets"
+        ],
+        "correct_answer": "B. 3-4 sets"
+    },
+    {
+        "question": "4. What is the recommended range of repetitions for lower body endurance exercises?",
+        "options": [
+            "D. 100-200 repetitions",
+            "A. 10-20 repetitions",
+            "C. 50-100 repetitions",
+            "B. 30-40 repetitions"
+        ],
+        "correct_answer": "D. 100-200 repetitions"
+    },
+    {
+        "question": "5. How should lower body endurance exercises be performed to maximize benefits?",
+        "options": [
+            "C. Use heavy weights with lower repetitions",
+            "B. Perform each repetition with slow and controlled movements",
+            "D. None of the above",
+            "A. Lock out at the top of each repetition"
+        ],
+        "correct_answer": "C. Use heavy weights with lower repetitions"
+    },
+    {
+        "question": "6. What is the recommended frequency for performing lower body endurance exercises?",
+        "options": [
+            "A. Once a week",
+            "C. 3-4 days per week",
+            "D. Every day",
+            "B. Every other day"
+        ],
+        "correct_answer": "A. Once a week"
+    },
+    {
+        "question": "7. Why does the effectiveness of an exercise for muscle building decrease with higher repetitions?",
+        "options": [
+            "C. Fatigue sets in before muscle failure",
+            "B. The exercise targets endurance muscle fibers instead of strength muscle fibers",
+            "D. The muscle building stimulus decreases with higher repetitions",
+            "A. The muscle fibers get tired more quickly"
+        ],
+        "correct_answer": "C. Fatigue sets in before muscle failure"
+    },
+    {
+        "question": "8. How can lower body endurance exercises benefit overall work capacity?",
+        "options": [
+            "C. By enhancing muscle endurance and fatigue resistance",
+            "D. By increasing power and explosiveness",
+            "B. By improving cardiovascular endurance",
+            "A. By increasing muscle mass"
+        ],
+        "correct_answer": "C. By enhancing muscle endurance and fatigue resistance"
+    },
+    {
+        "question": "9. What is the time commitment for performing a set of lower body endurance exercises?",
+        "options": [
+            "D. 1 hour",
+            "A. 30 minutes",
+            "B. 15 minutes",
+            "C. 5 minutes"
+        ],
+        "correct_answer": "D. 1 hour"
+    },
+    {
+        "question": "10. Which of the following activities is NOT listed as benefiting from lower body endurance exercises?",
+        "options": [
+            "B. Running",
+            "A. Skiing",
+            "C. Weightlifting",
+            "D. Backpacking"
+        ],
+        "correct_answer": "B. Running"
+    }
+]

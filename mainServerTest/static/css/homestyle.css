@@ -35,19 +35,23 @@ button {
     display: flex;
     flex-direction: row;
     align-items: center;
+    justify-content: space-between; 
 
+    position: relative;
     margin: auto;
-    margin-top: 2%;
+    margin-top: 3%;
     width: 85%;
     height: 60px;
-    
+    left: -1%;
+
     background: linear-gradient(#023D98, #040F22, #022964);
     border: solid 2px #506387;
     border-radius: 30px;
 }
 
 .navbar-logo {
-    height: 100px;
+    height: 125px;
+    left: -1%;
     position: relative;
     display: inline-block;
 }
@@ -56,10 +60,10 @@ button {
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
-    justify-content: space-between;
+    justify-content: space-evenly;
     
     position: relative;
-    left: 5%;
+    left: -10%;
 
     width: 50%;
     height: inherit;
@@ -82,7 +86,7 @@ button {
 
     cursor: pointer;
     border: none;
-    min-width: 200px;
+    min-width: 100px;
     width: 100%;
     height: inherit;
     transition: ease 150ms;
@@ -93,6 +97,38 @@ button {
     font-size: 25px;
     border: 3px solid #D4DBE8;
     background: radial-gradient(61.54% 61.54% at 50% 50%, rgba(11, 61, 101, 0.75) 62.9%, #14598F 100%);
+}
+
+
+.navbar-avatar-frame {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 58px;
+    width: 58px;
+    border: solid 3px #506387;
+    border-radius: 30px;
+    z-index: 1;
+    cursor: pointer;
+}
+.navbar-avatar-frame::before {
+    position: absolute;
+    display: inline-block;
+    right: 64px;
+    z-index: 1;
+    content: var(--before-content, "User Name");
+    line-height: 1em;
+    width: fit-content;
+    max-width: 10em;
+    overflow-wrap: break-word;
+    pointer-events: none;
+}
+
+.navbar-user-avatar-SVG {
+    position: relative;
+    margin: -3px;
+    height: 61px;
+    width: 61px;
 }
 
 .page-content {
@@ -167,16 +203,18 @@ button {
 
 .content-row {
     display: flex;
+    flex-wrap: wrap;
     gap: 20px;
+    justify-content: center; /* Center the content columns */
 }
 
 .content-column {
     display: flex;
     flex-direction: column;
     line-height: normal;
-    width: 33%;
+    width: 100%; /* Each content column takes up the full width */
+    max-width: 300px; /* Limit the width of each content column */
     gap: 20px;
-    transition: 0.3s ease-in-out;
 }
 
 .content-column:hover {
@@ -190,18 +228,16 @@ button {
     border: 3px solid rgba(212, 219, 232, 1);
     background-color: #14223c;
     display: flex;
-    width: 100%;
-    flex-grow: 1;
     flex-direction: column;
-    margin: 0 auto;
-    padding: 0 10px 77px;
+    margin-bottom: 20px; /* Add some bottom margin to separate content blocks */
 }
 
 .title {
-    color: #f7ebe8;
-    font: 500 24px 'Cairo', sans-serif;
-    cursor: pointer;
-    transition: 0.2s ease-in-out;
+    padding: 10px; /* Add padding to the title */
+    text-align: center;
+    color: white;
+    font-weight: bold;
+    font-size: 1.2em;
 }
 .title:hover {
     transition: 0.1s ease-in-out;
@@ -254,6 +290,10 @@ button {
 
 
 @media (max-width: 767.5px) {
+    .navbar-avatar-frame::before {
+        display: none;
+    }
+
     .container {
         max-width: 100%;
         padding: 0 20px;

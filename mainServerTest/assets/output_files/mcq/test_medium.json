@@ -1,0 +1,72 @@
+[
+    {
+        "question": "1. What is the relationship between views and viewpoints in software architecture?",
+        "options": [
+            "B) Views and viewpoints are interchangeable terms",
+            "D) Views and viewpoints are unrelated concepts in software architecture",
+            "A) Views are used to structure the architectural description, while viewpoints describe one aspect of the system",
+            "C) Views are used to describe one aspect of the system, while viewpoints structure the architectural description"
+        ],
+        "correct_answer": "B) Views and viewpoints are interchangeable terms"
+    },
+    {
+        "question": "3. What is the purpose of the Reference Model of Open Distributed Processing (RM-ODP) standard?",
+        "options": [
+            "A) To describe distributed object systems and their viewpoint set",
+            "D) To promote open-source software development ",
+            "B) To standardize software development processes",
+            "C) To define software architecture patterns"
+        ],
+        "correct_answer": "A) To describe distributed object systems and their viewpoint set"
+    },
+    {
+        "question": "5. How is the set of viewpoints in \"Large Scale Software Architecture\" different from other sets mentioned?",
+        "options": [
+            "D) It is only applicable to small-scale software projects",
+            "A) It is more focused on architecture theory",
+            "C) It is practitioner-focused and based on real-world experience",
+            "B) It is entirely based on UML notation"
+        ],
+        "correct_answer": "D) It is only applicable to small-scale software projects"
+    },
+    {
+        "question": "7. What is the main focus of the viewpoints set described in \"Perspectives\"?",
+        "options": [
+            "B) Information systems and practitioners",
+            "A) Academic research",
+            "D) Object-oriented programming",
+            "C) Large-scale software development"
+        ],
+        "correct_answer": "B) Information systems and practitioners"
+    },
+    {
+        "question": "8. What role do viewpoints play in software architecture?",
+        "options": [
+            "A) They structure the architectural description",
+            "D) They represent different components of the system ",
+            "C) They determine the deployment of the system",
+            "B) They define the functional structure of the system"
+        ],
+        "correct_answer": "A) They structure the architectural description"
+    },
+    {
+        "question": "9. Which of the following definitions best describes the relationship between view and viewpoint in software architecture?",
+        "options": [
+            "C) A view and viewpoint are two terms for the same concept",
+            "B) A view represents a specific aspect, while a viewpoint structures the architectural description",
+            "A) A view represents the entire system, while a viewpoint represents a specific aspect",
+            "D) A view and viewpoint are unrelated in software architecture"
+        ],
+        "correct_answer": "C) A view and viewpoint are two terms for the same concept"
+    },
+    {
+        "question": "10. What software architecture standard is based on describing distributed object systems and their viewpoint set?",
+        "options": [
+            "A) UML",
+            "B) RM-ODP",
+            "C) 4+1 architectural view model",
+            "D) Perspectives model"
+        ],
+        "correct_answer": "A) UML"
+    }
+]

@@ -1,0 +1,72 @@
+[
+    {
+        "question": "1. What is the purpose of using views in architectural descriptions?",
+        "options": [
+            "a) To create a detailed diagram of the system",
+            "b) To structure the description into different aspects of the system",
+            "d) To hide complex details from developers",
+            "c) To simplify the architecture for non-technical stakeholders"
+        ],
+        "correct_answer": "a) To create a detailed diagram of the system"
+    },
+    {
+        "question": "2. How is the relationship between view and viewpoint compared in software architecture?",
+        "options": [
+            "a) Similar to parent and child",
+            "d) Similar to function and method",
+            "b) Similar to object and class",
+            "c) Similar to system and module"
+        ],
+        "correct_answer": "a) Similar to parent and child"
+    },
+    {
+        "question": "3. Which academic roots can be traced back to the concept of architectural viewpoints?",
+        "options": [
+            "d) Jeff Garland and Richard Anthony",
+            "b) Philippe Kruchten",
+            "c) Reference Model of Open Distributed Processing (RM-ODP)",
+            "a) David Garlan and Mary Shaw"
+        ],
+        "correct_answer": "d) Jeff Garland and Richard Anthony"
+    },
+    {
+        "question": "4. What is the purpose of the Reference Model of Open Distributed Processing (RM-ODP)?",
+        "options": [
+            "d) To define software architecture principles",
+            "a) To describe distributed object systems and viewpoints",
+            "c) To standardize architectural descriptions",
+            "b) To provide guidelines for software development"
+        ],
+        "correct_answer": "d) To define software architecture principles"
+    },
+    {
+        "question": "7. How does the set of viewpoints in \"Perspectives\" differ from others in software architecture?",
+        "options": [
+            "d) It is aimed at hardware systems",
+            "b) It includes only technical aspects",
+            "a) It is practitioner-focused",
+            "c) It is based on academic research"
+        ],
+        "correct_answer": "d) It is aimed at hardware systems"
+    },
+    {
+        "question": "9. What is the role of viewpoints in software architecture?",
+        "options": [
+            "d) To define hardware requirements",
+            "c) To hide complexity from developers",
+            "a) To create detailed diagrams of the system",
+            "b) To structure the architecture into different aspects"
+        ],
+        "correct_answer": "d) To define hardware requirements"
+    },
+    {
+        "question": "10. Which standard is used to describe distributed object systems and their viewpoint set?",
+        "options": [
+            "a) UML",
+            "d) ACM SIGSOFT",
+            "c) IEEE",
+            "b) ISO's Reference Model of Open Distributed Processing (RM-ODP)"
+        ],
+        "correct_answer": "a) UML"
+    }
+]

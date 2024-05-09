@@ -1,12 +1,12 @@
-import datetime
 import sys
 from firebase_admin import firestore,auth
-from FirestoreDB import FirestoreDB
-from User_Repo import UserRepo
-from Constants import OPENAI_API_KEY, MAX_TOKENS_PER_REQUEST,kUserId,kUserEmail ,kDatejoined ,kFullName 
-from flask import request,jsonify,render_template
 from firebase_admin import auth
+from Crypto.Cipher import AES
+from Crypto.Util.Padding import unpad
+import binascii
 
+from backend.Classes.FirestoreDB import FirestoreDB
+from backend.Classes.User_Repo import UserRepo
 sys.path.append('D:/COLLEGE/StudyWise/app/StudyWise')
 
 class UserController:
@@ -42,12 +42,52 @@ class UserController:
             doc.reference.delete()
             print(f"User with email {email} deleted from Firestore.")
     @staticmethod
-    def Login(email,password):
-        return UserRepo.Login(email,password)
+    def decrypt_string(encrypted_string, key='88055dab046b3213660080bc5bd4db00'):
+
+        iv_hex, encrypted_data_hex = encrypted_string.split(':')
+        iv = binascii.unhexlify(iv_hex)
+        encrypted_data = binascii.unhexlify(encrypted_data_hex)
+        cipher = AES.new(key.encode('utf-8'), AES.MODE_CBC, iv)
+        decrypted_data = unpad(cipher.decrypt(encrypted_data), AES.block_size)
+        return decrypted_data.decode('utf-8')
+
+    
     @staticmethod
-    def SignUp(email,Fullname,password):
-        a=UserRepo(email,Fullname,password)
-        a.add_user_to_firestore()
+    def check_email_exists_in_firestore(email):
+        db_instance = FirestoreDB.get_instance()
+        firestore_instance = db_instance.get_firestore_instance()
+
+        # Reference to the collection
+        users_ref = firestore_instance.collection('Users')
+
+        # Query Firestore to find the document with the matching email
+        query = users_ref.where('Email', '==', email)
+        docs = query.stream()
+
+        # Check if any documents match the query
+        for doc in docs:
+            # Email exists in Firestore
+            return True
+
+        # Email does not exist in Firestore
+        return False
+    
+
+    @staticmethod
+    def Login(email,password):
+        email = UserController.decrypt_string(email)
+        password = UserController.decrypt_string(password)
+
+        return UserRepo.Login(email,password)
+    
+    @staticmethod
+    def SignUp(email, Fullname, password):
+        email = UserController.decrypt_string(email)
+        password = UserController.decrypt_string(password)
+        Fullname = UserController.decrypt_string(Fullname)
+        a = UserRepo(email, Fullname, password)
+        return a.add_user_to_firestore()
+    
     @staticmethod
     def ChangePassword(Email,Password):
         db_instance = FirestoreDB.get_instance()

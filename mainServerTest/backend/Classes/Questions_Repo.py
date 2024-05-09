@@ -9,13 +9,14 @@ import re
 import random
 import json
 import textstat
-from typing import List, Dict, Tuple, Optional
-from Constants import OPENAI_API_KEY
-from FirestoreDB import FirestoreDB
+from typing import List
+
+from backend.Classes.Constants import OPENAI_API_KEY, MAX_TOKENS_PER_REQUEST
+from backend.Classes.FirestoreDB import FirestoreDB
+
 openai.api_key = OPENAI_API_KEY
 
 
-MAX_TOKENS_PER_REQUEST = 4096  # Safe limit for tokens per request
 user_points = 0  # Initialize user points
 class Questions_Repo:
 

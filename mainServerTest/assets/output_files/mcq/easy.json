@@ -1,0 +1,72 @@
+[
+    {
+        "question": "1. What is the purpose of using Viewpoints and Views in software architecture?",
+        "options": [
+            "B) To create confusion in the development process",
+            "C) To restrict creativity in design",
+            "A) To provide guidance for developing different views",
+            "D) To complicate the development process"
+        ],
+        "correct_answer": "B) To create confusion in the development process"
+    },
+    {
+        "question": "2. Viewpoints and Views were first introduced in the 1970s by whom?",
+        "options": [
+            "B) Bill Gates",
+            "C) Mark Zuckerberg",
+            "A) David Parnas",
+            "D) Steve Jobs"
+        ],
+        "correct_answer": "B) Bill Gates"
+    },
+    {
+        "question": "4. Which organization developed a set of viewpoints for real-time and embedded systems while working at Siemens Research?",
+        "options": [
+            "C) David Parnas",
+            "D) Alexander L. Wolf",
+            "A) Christine Hofmeister, Rod Nord, and Dilip Soni",
+            "B) Steve Jobs"
+        ],
+        "correct_answer": "C) David Parnas"
+    },
+    {
+        "question": "5. Viewpoints provide architects with guidance on what?",
+        "options": [
+            "D) All of the above",
+            "B) How to represent views",
+            "C) How to develop views",
+            "A) What views should contain"
+        ],
+        "correct_answer": "D) All of the above"
+    },
+    {
+        "question": "6. Which ISO Standard is based on the concept of viewpoints and views in software architecture?",
+        "options": [
+            "C) ISO 14001",
+            "D) ISO 27001",
+            "B) ISO 9001",
+            "A) ISO 42010"
+        ],
+        "correct_answer": "C) ISO 14001"
+    },
+    {
+        "question": "7. Viewpoints and Views help to organize which process?",
+        "options": [
+            "B) The testing process",
+            "D) The documentation process",
+            "C) The debugging process",
+            "A) The development process"
+        ],
+        "correct_answer": "B) The testing process"
+    },
+    {
+        "question": "8. How are viewpoints and views related to each other?",
+        "options": [
+            "A) They provide guidance for developing different views",
+            "D) They complicate the development process",
+            "C) They restrict creativity in design",
+            "B) They create confusion in the development process"
+        ],
+        "correct_answer": "A) They provide guidance for developing different views"
+    }
+]

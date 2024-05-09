@@ -2,10 +2,7 @@ from datetime import datetime
 import uuid
 from firebase_admin import firestore, auth
 
-from FirestoreDB import FirestoreDB
-from Constants import OPENAI_API_KEY, MAX_TOKENS_PER_REQUEST,kUserId,kUserEmail ,kDatejoined ,kFullName 
-from flask import request,jsonify,render_template
-from FirestoreDB import FirestoreDB
+from backend.Classes.FirestoreDB import FirestoreDB
 class UserRepo:
     
     def __init__(self,email, fullName,password ,Role=None,User_Level=0,dateJoined=None ):
@@ -28,19 +25,20 @@ class UserRepo:
         docs = query.stream()
 
         for doc in docs:
-            # Get the data of the document
-            user_data = doc.to_dict()
-            
-            # Print the data of the document
-            print("User data retrieved from Firestore:")
-            print(user_data)
+            # Get the ID of the document
+            doc_id = doc.id
 
-            # Return the data of the document
-            return user_data
+            full_name = doc.to_dict().get('Full Name')
+            if full_name:
+                print(f'Logged in: {full_name}')
+            else:
+                print('Full Name field is empty in this document.')
 
-        # If no document is found for the user's email
-        print(f"No document found for user with email {self.email} in Firestore.")
-        return None
+            # Return the document ID, Full Name, and True
+            return doc_id, full_name, True
+
+        # If no document is found with the given email and password
+        return None, None, False
 
 
         
@@ -67,6 +65,7 @@ class UserRepo:
             "last_login_time":"" 
         }
         return data
+    
     @staticmethod
     def check_user_exists_in_auth(email):
         try:
@@ -76,6 +75,7 @@ class UserRepo:
         except auth.UserNotFoundError:
             print(False)
             return False
+    
     @staticmethod
     def Login(email, password):
             db_instance = FirestoreDB.get_instance()
@@ -90,17 +90,14 @@ class UserRepo:
                     # Get the ID of the document
                     doc_id = doc.id
 
-                    # Get a reference to the document
-                    doc_ref = users_ref.document(doc_id)
-                    now=datetime.now()
-                    # Update a field (e.g., 'last_login_time') before returning
-                    doc_ref.update({'last_login_time':f'{now.strftime("%m/%d/%Y, %H:%M:%S")}'})
-                    
-                    # Return the document ID and True
-                    return doc_id, True
-            else:
-            # If no document is found for the user's email and password
-                return None, False
+                    full_name = doc.to_dict().get('Full Name')
+
+                    # Return the document ID, Full Name, and True
+                    return doc_id, full_name, True
+
+            # If no document is found with the given email and password
+            return None, None, False
+            
     def add_user_to_firestore(self):
         db_instance = FirestoreDB.get_instance()
         firestore_instance = db_instance.get_firestore_instance()
@@ -111,7 +108,7 @@ class UserRepo:
         docs = query.stream()
 
         for doc in docs:
-            print(f"Document with email {self.email} already exists in Firestore.")
+            print(f"User with email {self.email} already exists in Firestore.")
             return None  # Return None if the email already exists
 
         # If the email doesn't exist in Firestore, proceed to add the user
@@ -119,8 +116,9 @@ class UserRepo:
             # Check if the user exists in authentication
             user = auth.get_user_by_email(self.email)
             print(f"User with email {self.email} already exists in Authentication.")
-        except auth.UserNotFoundError:
-            # User doesn't exist in authentication, proceed to add to Firestore and authentication
+
+        except auth.UserNotFoundError: # User doesn't exist in authentication, proceed to add to Firestore and authentication
+            import time
             # Add user to authentication
             user = auth.create_user(email=self.email, password=self.password)
             print(f"User added to Authentication with ID: {user.uid}")
@@ -128,7 +126,9 @@ class UserRepo:
             # Add user to Firestore
             doc_ref = users_ref.document(user.uid)
             doc_ref.set(self.toJson())
+            time.sleep(1) # Give the User Creation a chance to execute
             print(f"User added to Firestore with email: {self.email}")
+            return True
 
 
 

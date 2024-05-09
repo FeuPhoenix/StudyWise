@@ -1,0 +1,92 @@
+[
+    {
+        "question": "1. Which term refers to the explicit guidance provided by viewpoints in software architecture?",
+        "options": [
+            "C. Stakeholders",
+            "A. Views",
+            "D. Constraints",
+            "B. Artefacts"
+        ],
+        "correct_answer": "C. Stakeholders"
+    },
+    {
+        "question": "2. According to the text, what does the architectural description encompass?",
+        "options": [
+            "A. Development constraints",
+            "C. Implicit structures",
+            "D. Explicit guidance",
+            "B. Stakeholders' viewpoints"
+        ],
+        "correct_answer": "A. Development constraints"
+    },
+    {
+        "question": "3. In the context of software architecture, what is meant by \"large-scale architectural structures\"?",
+        "options": [
+            "A. Architectural constraints",
+            "C. Complex system interactions",
+            "D. Stakeholder communication",
+            "B. Organizational hierarchy"
+        ],
+        "correct_answer": "A. Architectural constraints"
+    },
+    {
+        "question": "4. How do viewpoints provide implicit structure in software architecture?",
+        "options": [
+            "C. By creating artefacts",
+            "D. By collaborating with stakeholders",
+            "B. By defining development constraints",
+            "A. By organizing the architectural description"
+        ],
+        "correct_answer": "C. By creating artefacts"
+    },
+    {
+        "question": "5. What role do stakeholders play in software architecture?",
+        "options": [
+            "B. Creating organizational structure",
+            "C. Defining development constraints",
+            "D. Working with architects to develop viewpoints",
+            "A. Providing explicit guidance"
+        ],
+        "correct_answer": "B. Creating organizational structure"
+    },
+    {
+        "question": "7. How do systems architects contribute to the software architecture process?",
+        "options": [
+            "C. By collaborating with stakeholders",
+            "A. By defining constraints",
+            "D. By implementing viewpoints",
+            "B. By creating artefacts"
+        ],
+        "correct_answer": "C. By collaborating with stakeholders"
+    },
+    {
+        "question": "8. What is the role of the environmental context in software architecture?",
+        "options": [
+            "D. Guiding stakeholders' viewpoints",
+            "C. Creating artefacts",
+            "B. Organizing architectural description",
+            "A. Defining development constraints"
+        ],
+        "correct_answer": "D. Guiding stakeholders' viewpoints"
+    },
+    {
+        "question": "9. What distinguishes a complex architectural structure in software systems?",
+        "options": [
+            "B. Explicit guidance",
+            "A. Implicit structure",
+            "D. Large-scale interactions",
+            "C. Organizational hierarchy"
+        ],
+        "correct_answer": "B. Explicit guidance"
+    },
+    {
+        "question": "10. How do advances in software engineering impact the development of software architecture?",
+        "options": [
+            "B. By organizing the architectural description",
+            "A. By defining constraints",
+            "C. By providing explicit guidance",
+            "D. By enhancing stakeholder communication"
+        ],
+        "correct_answer": "B. By organizing the architectural description"
+    }
+]

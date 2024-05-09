@@ -1,4 +1,3 @@
-
 from firebase_admin import credentials, initialize_app, firestore, storage
 
 class FirestoreDB:

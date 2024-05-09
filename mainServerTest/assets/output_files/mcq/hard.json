@@ -1,0 +1,92 @@
+[
+    {
+        "question": "2. In software architecture, what is the purpose of viewpoints and perspectives?",
+        "options": [
+            "D) To limit the creativity of architects",
+            "C) To confuse stakeholders",
+            "A) To create complexity in the architecture",
+            "B) To provide explicit guidance for developers"
+        ],
+        "correct_answer": "D) To limit the creativity of architects"
+    },
+    {
+        "question": "3. How do stakeholders play a role in software architecture?",
+        "options": [
+            "D) They are solely responsible for development",
+            "A) They have no impact on the architecture",
+            "B) They provide requirements and constraints",
+            "C) They provide coding assistance"
+        ],
+        "correct_answer": "D) They are solely responsible for development"
+    },
+    {
+        "question": "4. In the context of software architecture, what is an architectural description?",
+        "options": [
+            "C) A marketing document",
+            "D) A bug report",
+            "A) A detailed breakdown of the code",
+            "B) A high-level overview of the system structure"
+        ],
+        "correct_answer": "C) A marketing document"
+    },
+    {
+        "question": "5. What is the purpose of using viewpoints in software architecture?",
+        "options": [
+            "B) To organize the architectural description",
+            "C) To add unnecessary complexity",
+            "D) To limit the functionality of the system",
+            "A) To confuse developers"
+        ],
+        "correct_answer": "B) To organize the architectural description"
+    },
+    {
+        "question": "6. How do advances in software engineering impact software architecture design?",
+        "options": [
+            "C) They have no impact on architecture",
+            "A) They make it more difficult to create architectures",
+            "D) They make it more expensive",
+            "B) They simplify the process"
+        ],
+        "correct_answer": "C) They have no impact on architecture"
+    },
+    {
+        "question": "7. What is the relationship between software systems architecture and stakeholders?",
+        "options": [
+            "D) Stakeholders are only involved in testing",
+            "A) Stakeholders have no influence on architecture",
+            "B) Stakeholders provide requirements and constraints",
+            "C) Stakeholders are responsible for coding"
+        ],
+        "correct_answer": "D) Stakeholders are only involved in testing"
+    },
+    {
+        "question": "8. What role do viewpoints play in working with stakeholders in software architecture?",
+        "options": [
+            "A) They provide explicit guidance for developers",
+            "C) They limit the creativity of architects",
+            "B) They confuse stakeholders",
+            "D) They have no impact on stakeholders"
+        ],
+        "correct_answer": "A) They provide explicit guidance for developers"
+    },
+    {
+        "question": "9. How do software architects design systems to address development constraints?",
+        "options": [
+            "D) By following a rigid set of guidelines",
+            "C) By adding unnecessary complexity",
+            "B) By considering constraints when designing the architecture",
+            "A) By ignoring constraints"
+        ],
+        "correct_answer": "D) By following a rigid set of guidelines"
+    },
+    {
+        "question": "10. In the context of software architecture, what is the purpose of using perspectives?",
+        "options": [
+            "D) To confuse stakeholders",
+            "A) To add unnecessary complexity",
+            "C) To limit the creativity of architects",
+            "B) To provide explicit guidance for developers"
+        ],
+        "correct_answer": "D) To confuse stakeholders"
+    }
+]

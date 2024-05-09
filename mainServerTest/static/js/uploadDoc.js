@@ -68,6 +68,7 @@ function confirmFile() {
 
         socket.on("connect", function() {
             socketID = socket.id;
+            console.log("Socket ID: ", socketID);
         })
 
         var statusElement = document.getElementById('processingStatus');
@@ -93,7 +94,7 @@ function confirmFile() {
 
         // Set up XMLHttpRequest to send the filename to the server
         var request = new XMLHttpRequest();
-        request.open('POST', 'http://127.0.0.1:5000/generateContent', true);
+        request.open('POST', 'http://127.0.0.1:5000/generateTextContent', true);
         request.setRequestHeader('Content-Type', 'application/json');
         request.onload = function() {
             // Handle response from server
@@ -111,3 +112,44 @@ function confirmFile() {
         alert("No file selected");
     }
 }
+
+// function confirmFile() {
+//     // Giive a static test filename and the socket ID
+//     const filename = 'test.txt';
+//     let socketID;
+
+//     const socket = io.connect('http://127.0.0.1:5000');
+
+//     socket.on('connect', () => {
+//         socketID = socket.id;
+//         console.log(`Connected with socket ID: ${socketID}`);
+//     });
+    
+//     // Request body
+//     const data = {
+//     filename: filename,
+//     socketID: socketID
+//     };
+
+//     // Make a POST request to the Flask route
+//     fetch('http://127.0.0.1:5000/generateTextContent', {
+//     method: 'POST',
+//     headers: {
+//         'Content-Type': 'application/json'
+//     },
+//     body: JSON.stringify(data)
+//     })
+//     .then(response => {
+//     if (!response.ok) {
+//         throw new Error('Network response was not ok');
+//     }
+//     return response.json();
+//     })
+//     .then(data => {
+//     console.log(data);
+//     })
+//     .catch(error => {
+//     console.error('There was a problem with your fetch operation:', error);
+//     });
+
+// }

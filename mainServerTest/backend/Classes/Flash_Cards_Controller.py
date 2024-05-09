@@ -4,7 +4,7 @@ import time
 import json
 import re
 from Constants import OPENAI_API_KEY, MAX_TOKENS_PER_REQUEST,kUserId,kUserEmail ,kDatejoined ,kFullName
-import FirestoreDB 
+import backend.Classes.FirestoreDB as FirestoreDB
 
 class FlashcardsController:
     @staticmethod
