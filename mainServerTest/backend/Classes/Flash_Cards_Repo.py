@@ -1,5 +1,6 @@
 #needs to be improved
 from datetime import datetime, timedelta
+import os
 import uuid
 from firebase_admin import firestore
 import pdfplumber

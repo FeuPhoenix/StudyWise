@@ -78,6 +78,7 @@ class VideoProcessed_Repo:
 
             # Query documents where the attribute name matches the value
             query = doc_material_ref.where("meta_data", "==", attribute_value).stream()
+            query = doc_material_ref.where("meta_data", "==", attribute_value).stream()
 
             # Iterate over the query results
             for doc in query:
@@ -106,13 +107,17 @@ class VideoProcessed_Repo:
             doc_ref=firestore_instance.collection('Users').document(self.user_ID).collection('VideoMaterial').document(self.material_id).set({
                 "file_name": self.file_name,
                 "_file_path": self.file_path,
+                "_file_path": self.file_path,
                 "file_type": self.file_type,
                 "material_id": self.material_id,
                 "Material":file_path_location,
                 "meta_data": self.meta_data,
+                "meta_data": self.meta_data,
                 "generated_summary_file_path": generated_summary_file_path_Location,
                 "generated_text_file_path":generated_text_file_path_Location ,
                 "generated_chapters_file_path":generated_chapters_file_path_Location,
+                "generated_audio_file_path":generated_audio_file_path_Location,
+                
                 "generated_audio_file_path":generated_audio_file_path_Location,
                 
 
@@ -330,8 +335,10 @@ class VideoProcessed_Repo:
         return str(timedelta(seconds=seconds))
     @staticmethod
     def generate_concise_title(headline):
+    def generate_concise_title(headline):
         while True:
             try:
+                        openai.api_key ='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' 
                         openai.api_key ='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' 
                         response = openai.ChatCompletion.create(
                             model="gpt-3.5-turbo",
@@ -428,6 +435,19 @@ class VideoProcessed_Repo:
                                 print(f"Full transcript has been successfully saved to {self.generated_text_file_path}.")
                         
                         chapters_data = []
+                        # Transcribe the audio and get the result as a JSON object
+                        transcript = aai.Transcriber().transcribe(self.generated_audio_file_path, config)
+                        if transcript.status == aai.TranscriptStatus.error:
+                            print(transcript.error)
+                        else:
+                            print(transcript.text)
+                        
+                        self.generated_text_file_path = f"mainServerTest/assets/output_files/text_files/{self.file_name}.txt"
+                        with open(self.generated_text_file_path, 'w', encoding='utf-8',errors='ignore') as transcript_file:
+                                transcript_file.write(transcript.text)
+                                print(f"Full transcript has been successfully saved to {self.generated_text_file_path}.")
+                        
+                        chapters_data = []
 
                         # Iterate over chapters and add their data to the list
                         for chapter in transcript.chapters:
@@ -438,7 +458,25 @@ class VideoProcessed_Repo:
                             }) 
                                 
                         json_chapters = f'mainServerTest/assets/output_files/Chapters/{self.file_name}.json'
+                        # Iterate over chapters and add their data to the list
+                        for chapter in transcript.chapters:
+                            chapters_data.append({
+                                "start": chapter.start,
+                                "end": chapter.end,
+                                "headline": chapter.headline
+                            }) 
+                                
+                        json_chapters = f'mainServerTest/assets/output_files/Chapters/{self.file_name}.json'
 
+                # Write the chapters data to a JSON file
+                        with open(json_chapters, 'w') as json_file:
+                            json.dump(chapters_data, json_file, indent=4)
+                        
+                        print(f"Chapters have been successfully saved to {json_chapters}.")
+                        
+                        self.generated_summary_file_path = f'mainServerTest/assets/output_files/summaries/{self.file_name}.json'
+                        text = VideoProcessed_Repo.read_text_file(self.generated_text_file_path)
+                        prompt = "Provide a long summary of the transcript."
                 # Write the chapters data to a JSON file
                         with open(json_chapters, 'w') as json_file:
                             json.dump(chapters_data, json_file, indent=4)
@@ -473,7 +511,36 @@ class VideoProcessed_Repo:
                         with open(f'mainServerTest/assets/output_files/Processed_Chapters/{self.file_name}.json', 'w') as outfile:
                             json.dump(processed_chapters, outfile, indent=4)
                         self.addProcessedMaterialToFirestore()
+                        result = transcript.lemur.task(prompt)   
+                        summary_data = {
+                                'long_summary': result.response
+                            }
+                            # Write the summary data to a JSON file
+                        with open(self.generated_summary_file_path, 'w') as json_file:
+                                json.dump(summary_data, json_file, indent=4)
+                                print(f"Long summary has been successfully saved to {self.generated_summary_file_path}.") 
+                        text=VideoProcessed_Repo.Readjsonfile(json_chapters)
+                        processed_chapters = []
+                        for chapter in text:
+                            start_hms = VideoProcessed_Repo.milliseconds_to_hms(chapter['start'])
+                            end_hms = VideoProcessed_Repo.milliseconds_to_hms(chapter['end'])
+                            concise_title = VideoProcessed_Repo.generate_concise_title(chapter['headline'])
+                            print("the processed chapter success")
+                            processed_chapters.append({
+                                'start': start_hms,
+                                'end': end_hms,
+                                'concise_title': concise_title
+                            })
+                        self.generated_chapters_file_path=f'mainServerTest/assets/output_files/Processed_Chapters/{self.file_name}.json'
+                        with open(f'mainServerTest/assets/output_files/Processed_Chapters/{self.file_name}.json', 'w') as outfile:
+                            json.dump(processed_chapters, outfile, indent=4)
+                        self.addProcessedMaterialToFirestore()
 
+                        f=Flash_Cards(self.generated_text_file_path,self.user_ID,self.material_id,"TRANSCRIPT")
+                        m=Questions_Repo(self.generated_text_file_path,self.user_ID,self.material_id,"TRANSCRIPT")
+                        return self.file_name,self.material_id
+                   
+    
                         f=Flash_Cards(self.generated_text_file_path,self.user_ID,self.material_id,"TRANSCRIPT")
                         m=Questions_Repo(self.generated_text_file_path,self.user_ID,self.material_id,"TRANSCRIPT")
                         return self.file_name,self.material_id

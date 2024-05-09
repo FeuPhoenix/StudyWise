@@ -16,6 +16,7 @@ import subprocess
 import uuid
 import fitz  # PyMuPDF
 import comtypes.client
+from dotenv import load_dotenv
 
 from backend.Classes.Constants import OPENAI_API_KEY 
 from backend.Classes.FirestoreDB import FirestoreDB
@@ -52,6 +53,7 @@ class DocumentProcessed:
 
         #document('13ffe4704e2d423ea7751cb88d599db7') the number will be replaced with the user id
         #document(rmk3SGTciwNRdo9pT4CO) this will be replaced with the material id
+
 
         try:
             doc_ref=firestore_instance.collection('Users').document(self.userid).collection('DocumentMaterial').document(self.material_id).set({
@@ -149,6 +151,7 @@ class DocumentProcessed:
     def toJson(self):
         data = {
             "material_id": self.material_id,
+            "user_ID": self.userid,
             "user_ID": self.userid,
             "file_name": self.file_name,
             "_file_path": self._file_path,
@@ -576,6 +579,10 @@ class DocumentProcessed:
                 mcq=Questions_Repo( self._file_path,self.userid,self.material_id,None)
                 # DocumentProcessed.extract_images_from_pdf( self._file_path)
                 return self.file_name,self.material_id
+                flashcard=Flash_Cards(self._file_path,self.userid,self.material_id)
+                mcq=Questions_Repo( self._file_path,self.userid,self.material_id,None)
+                # DocumentProcessed.extract_images_from_pdf( self._file_path)
+                return self.file_name,self.material_id
 
             elif os.path.isfile(self.file) and (self.file.endswith('.doc') or self.file.endswith('.docx')):
                 
@@ -588,6 +595,15 @@ class DocumentProcessed:
                 self.generated_text_file_path = f'mainServerTest/assets/output_files/text_files/{filename}.txt'
                 #self._file_path=self.upload_to_firebase(text_file_path,f'{kUserId}/Materials/{filename}')
 
+                DocumentProcessed.extract_text_from_pdf_plumber(self._file_path,self.generated_text_file_path)
+                text =DocumentProcessed.read_text_file(self.generated_text_file_path)
+                
+                
+            
+                text=DocumentProcessed.clean_text(text)
+                result = DocumentProcessed.get_Long_summary(text)
+                self.get_long_summary_and_write_to_json(result,filename)
+                self.addProcessedMaterialToFirestore()
                 DocumentProcessed.extract_text_from_pdf_plumber(self._file_path,self.generated_text_file_path)
                 text =DocumentProcessed.read_text_file(self.generated_text_file_path)
                 
@@ -612,6 +628,7 @@ class DocumentProcessed:
                 text_file = f'mainServerTest/assets/output_files/text_files/{filename}.txt'
                 self._file_path=DocumentProcessed.convert_txt_to_pdf(self.file)
 
+                #self._file_path=self.upload_to_firebase(text_file,f'{kUserId}/Materials/{filename}')
                 #self._file_path=self.upload_to_firebase(text_file,f'{kUserId}/Materials/{filename}')
 
                 with open(text_file, 'w') as file:
