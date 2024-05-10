@@ -88,6 +88,7 @@ function confirmFile() {
         alert("No file selected");
     }
 }
+
 // Add dragover event listener to allow dropping files
 document.getElementById('drop-area').addEventListener('dragover', function(event) {
     event.preventDefault();

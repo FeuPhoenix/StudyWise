@@ -181,18 +181,18 @@ class DocumentProcessedController:
                     easy_location = question['Questions_easy_location']
                 
 
-                Summary=DocumentProcessedController.fetch_json_from_url(video_material_data['generated_summary_file_path'])
+                video_material_data['generated_summary_file_path']
                 
                 
-                flashcards=DocumentProcessedController.fetch_json_from_url( flash_card_data[0]['flash_card_location'])
+                flash_card_data[0]['flash_card_location']
                 
-                MCQ_E=DocumentProcessedController.fetch_json_from_url(easy_location)
+                easy_location
                 
-                MCQ_M=DocumentProcessedController.fetch_json_from_url(medium_location)
+                medium_location
                 
-                MCQ_H=DocumentProcessedController.fetch_json_from_url(hard_location)
+                hard_location
                 
-                return video_material_data['_file_path'],Summary,flashcards,MCQ_E,MCQ_M,MCQ_H
+                return video_material_data['_file_path'], video_material_data['generated_summary_file_path'], flash_card_data[0]['flash_card_location'], easy_location, medium_location, hard_location
             else:
                 print(f"No such document with user_id: {user_id} and material_id: {material_id}")
                 return None
@@ -240,7 +240,7 @@ class DocumentProcessedController:
             return None
         
     @staticmethod
-    def fetch_id_from_filename_in_Document_material(userid, filename):
+    def fetch_document_content(userid, filename):
             db_instance = FirestoreDB.get_instance()
             firestore_instance = db_instance.get_firestore_instance()
             try:
@@ -265,12 +265,14 @@ class DocumentProcessedController:
                 return None
 
             except Exception as e:
-                print("Error:7amda3", e)
+                print("Error:", e)
                 return None
             
 def main():
-    print(DocumentProcessedController.fetch_all_filenames_and_filetypes_in_Video_and_Document_material("0GKTloo0geWML96tvd9g27C99543"))
+    file,Summary,flashcards,MCQ_E,MCQ_M,MCQ_H= DocumentProcessedController.fetch_document_content("0GKTloo0geWML96tvd9g27C99543","test")
+    returns = [file,Summary,flashcards,MCQ_E,MCQ_M,MCQ_H]
+    for i in returns :
+       print(i, '============================================================\n\n\n\n\n\n')
 if __name__ == "__main__":
     main()
        
-    

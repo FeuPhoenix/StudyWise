@@ -335,7 +335,6 @@ class VideoProcessed_Repo:
         return str(timedelta(seconds=seconds))
     @staticmethod
     def generate_concise_title(headline):
-    def generate_concise_title(headline):
         while True:
             try:
                         openai.api_key ='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' 
@@ -405,11 +404,12 @@ class VideoProcessed_Repo:
                             print(self.file_path)
                             self.file_path = runaudiocutter(self.file_path)
                             print("Videot Cut output file: "+self.file_path)
-                            video = mp.VideoFileClip(self.material)
+                            video = mp.VideoFileClip(self.file_path)
 
                         else:
-                            video = mp.VideoFileClip(self.file_path)
                             self.file_path=self.material
+                            video = mp.VideoFileClip(self.file_path)
+                            
                             
                         self.file_name = VideoProcessed_Repo.getFileNameFromPathWithOutExtension(self.file_path)
                         print("Video_name: "+self.file_name)
@@ -556,12 +556,7 @@ class VideoProcessed_Repo:
                 #  os.remove(self.generated_video_file_path)
                 # os.remove(self.file_path)
 
-            # Check if the input is a YouTube video link
-            # youtube_regex = (
-            #     r'(https?://)?(www\.)?'
-            #     r'(youtube|youtu|youtube-nocookie)\.(com|be)/'
-            #     r'(watch\?v=|embed/|v/|.+\?v=)?([^&=%\?]{11})')
-            # match = re.match(youtube_regex, self.material)
+    
                 if re.match(r'(https?://)?(www\.)?(youtube\.com|youtu\.?be)/.+$', self.material):
                             self.file_path=self.material   
                             self.meta_data={

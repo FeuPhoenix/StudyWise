@@ -73,7 +73,7 @@ class Video_Processed_Controller:
                 print("Error: 7mada 2", e)
                 return None
     @staticmethod
-    def fetch_id_from_filename_in_Video_material(userid, filename):
+    def fetch_video_content(userid, filename):
             db_instance = FirestoreDB.get_instance()
             firestore_instance = db_instance.get_firestore_instance()
             try:
@@ -98,7 +98,7 @@ class Video_Processed_Controller:
                 return None
 
             except Exception as e:
-                print("Error:7amda3", e)
+                print("Error:", e)
                 return None
     @staticmethod
     def fetch_all_filenames_in_Video_material_with_id(userid):
@@ -127,7 +127,7 @@ class Video_Processed_Controller:
 
             return filenames_with_ids
         except Exception as e:
-            print("Error:7amda 4", e)
+            print("Error:", e)
             return None
 
     @staticmethod
@@ -164,19 +164,10 @@ class Video_Processed_Controller:
                     easy_location = question['Questions_easy_location']
                 
 
-                Summary=Video_Processed_Controller.fetch_json_from_url(video_material_data['generated_summary_file_path'])
+              
+
                 
-                Chapters=Video_Processed_Controller.fetch_json_from_url(video_material_data['generated_chapters_file_path'])
-                
-                flashcards=Video_Processed_Controller.fetch_json_from_url( flash_card_data[0]['flash_card_location'])
-                
-                MCQ_E=Video_Processed_Controller.fetch_json_from_url(easy_location)
-                
-                MCQ_M=Video_Processed_Controller.fetch_json_from_url(medium_location)
-                
-                MCQ_H=Video_Processed_Controller.fetch_json_from_url(hard_location)
-                
-                return video_material_data['Material'],video_material_data['generated_audio_file_path'],Summary,Chapters,flashcards,MCQ_E,MCQ_M,MCQ_H
+                return video_material_data['Material'], video_material_data['generated_audio_file_path'], video_material_data['generated_summary_file_path'], video_material_data['generated_chapters_file_path'], flash_card_data[0]['flash_card_location'], easy_location, medium_location, hard_location
             else:
                 print(f"No such document with user_id: {user_id} and material_id: {material_id}")
                 return None
@@ -185,6 +176,9 @@ class Video_Processed_Controller:
             return None
     
 # print(Video_Processed_Controller.retrieveVideoMaterialFromFirestore("62a9c20699654da5b14cca9d21cd8ef6","5465af372e4546df9f688e18e130150f"))
-#use this:
-#print(Video_Processed_Controller.fetch_id_from_filename_in_Video_material("62a9c20699654da5b14cca9d21cd8ef6","Inflation Explained in One Minute"))
-print(Video_Processed_Controller.fetch_all_filenames_and_filetypes_in_Video_and_Document_material("0GKTloo0geWML96tvd9g27C99543"))
+# use this:
+file, audio, Summary, chapters, flashcards, MCQ_E, MCQ_M, MCQ_H = Video_Processed_Controller.fetch_video_content("0GKTloo0geWML96tvd9g27C99543","The Greatest Bitcoin Explanation of ALL TIME (in Under 10 Minutes)")
+
+returns = [file,audio,Summary,chapters,flashcards,MCQ_E,MCQ_M,MCQ_H]
+for i in returns :
+       print(i, '============================================================\n\n\n\n\n\n')

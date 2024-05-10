@@ -74,7 +74,7 @@ function confirmFile() {
         console.log("Selected File Name: ", chosenFile);
 
         // Establish WebSocket connection
-        var socket = io.connect('http://127.0.0.1:5000');
+        var socket = io.connect('http://127.0.0.1:5000/');
         
         // Listen for 'update' events from the server to get real-time processing updates
         socket.on('update', function(data) {
@@ -103,6 +103,7 @@ function confirmFile() {
         alert("No file selected");
     }
 }
+
 // Add dragover event listener to allow dropping files
 document.getElementById('drop-area').addEventListener('dragover', function(event) {
     event.preventDefault();

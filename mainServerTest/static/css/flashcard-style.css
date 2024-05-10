@@ -135,7 +135,6 @@ div.study {
     display: inline-flex;
     flex-direction: column;
     justify-content: center;
-    height: 300px;
     resize: vertical;
     overflow: auto;
     background-color: white;
@@ -149,7 +148,6 @@ div.study {
     display: inline-flex;
     flex-direction: column;
     justify-content: center;
-    height: 300px;
     resize: vertical;
     overflow: auto;
     margin-bottom: 10px;

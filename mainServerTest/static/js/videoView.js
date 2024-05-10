@@ -3,79 +3,133 @@
 
 const player = new Plyr('video', {captions: {active: true}});
 
+const Youtube = /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.?be)\/.+$/;
+
 // Expose player so it can be used from the console
 window.player = player;
 
-function popupPrompt() {
-    document.getElementById('popup-overlay').style.display = 'block';
-}
+// Load video name and video URL into const variables
+const videoURL = localStorage.getItem('loadedVideoLink');
+const videoName = localStorage.getItem('fileName');
 
-const urlParams = new URLSearchParams(window.location.search);
-fileParam = urlParams.get('file');
-filename = fileParam.replace(/\s/g, '_'); // Replace spaces with '_' to fetch processed results
-filename = filename.replace(/\.[^.]+$/, ''); // Remove file extension
-console.log('Will now fetch ('+fileParam+')\'s processed files');
+// const urlParams = new URLSearchParams(window.location.search);
+// videoURL = urlParams.get('URL');
 
-if (fileParam) { // Process the 'file' that is received
-    console.log("Received File Name:", filename);
+console.log('Will now fetch ', videoName, '\'s processed files');
+console.log('Video Link: ', videoURL);
 
-    const VideoViewer = document.getElementById('video-viewer');
-    VideoViewer.src = `/api/files/video-mp4/${encodeURIComponent(fileParam)}`; // Use fileParam for the Video source
+if (videoURL) { // Process the 'file' that is received
 
-    fetch(`/api/files/summaries/${filename}.json`) // Fetch summary JSON
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Network response error');
-        }
-        return response.json();
-    })
-    .then(jsonObject => {
-        const summaryText = jsonObject.long_summary;
-        document.getElementById('summaryText').innerHTML = summaryText;
-    })
-    .catch(error => {
-        console.error('There was a problem fetching the Summary:', error);
-    });
+    if (Youtube.test(videoURL)) {
+        const youtubeURL = videoURL;
+        const playerSource = {
+            type: 'video',
+            sources: [
+                {
+                    src: youtubeURL,
+                    provider: 'youtube',
+                },
+            ],
+        };
+        player.source = playerSource;
+    }
+    else {
+        const VideoViewer = document.getElementById('video-viewer');
+        VideoViewer.src = videoURL; // Use videoURL for the Video source
+    }
+
+    // Get the JSON object from localStorage
+    const loadedVideoSummary = JSON.parse(localStorage.getItem('loadedVideoSummary'));
+
+    // Fetch Summary
+    const summaryText = loadedVideoSummary.long_summary;
+    console.log('Summary: ', loadedVideoSummary.long_summary);
+    document.getElementById('summaryText').innerHTML = summaryText;
 
     // NOTE: FLASHCARD FETCH CODE IS IN THE FLASHCARDSV1_JS FILE
 
-    fetch(`/api/files/indexing/${filename}.json`) // Fetch Video Indexing
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Network response error');
-        }
-        return response.json();
-    })
-    .then(jsonArray => {
-        const indexesArray = jsonArray.map(obj => {
-            // Extract values from each object
-            const startValue = String(obj.start);
-            const endValue = String(obj.end);
-            const conciseTitleValue = String(obj.concise_title);
-            // Concatenate values and return
-            return startValue +' - '+ endValue +'\n'+ conciseTitleValue;
-        });
-
+    // Fetch video chapters
+    try { 
+            const chaptersData = JSON.parse(localStorage.getItem('loadedVideoChapters'));
+            console.log('Mapping Chapters onto elements');
+            const indexesArray = chaptersData.map(obj => {
+                const startValue = String(obj.start);
+                const endValue = String(obj.end);
+                let conciseTitleValue = String(obj.concise_title);
+            
+                if (conciseTitleValue.startsWith("Title: ")) {
+                    conciseTitleValue = conciseTitleValue.slice(7); // Remove "Title: "
+                }
+            
+                return startValue + ' - ' + endValue + '\n' + conciseTitleValue;
+            });
+    
         console.log("indexesArray:", indexesArray);
-
-        // Join indexesArray with newline characters
+    
         const indexes = indexesArray.join('\n');
-
+    
         console.log("indexes: " + indexes);
-
-        // Display concatenated values in the HTML element with id 'videoIndexes'
+    
         document.getElementById('videoIndexes').innerHTML = indexes;
-    })
-    .catch(error => {
-        console.error('There was a problem with the fetch operation:', error);
-    });
+    } catch (error) {
+        console.error('Error loading chapters:', error);
+    }
 
     
 } else {
     console.log("No input file provided.");
 }
 
+// CHAT FOR VIDEO COMING SOON
+function goToChat() {
+    if (videoName) {
+        alert('Chat with videos coming soon.')
+        // window.location.href = `/chatwithpdf?file=${encodeURIComponent(videoName)}`;
+    } else {
+        console.error("No video name found in URL.");
+    }
+}
 
+function goToMCQ() {
+    if (videoName) {
+        window.location.href = `/mcq?file=${encodeURIComponent(videoName)}`;
+    } else {
+        console.error("No file parameter found in URL.");
+    }
+}
+
+function bypassCORS(link) {
+   return fetch(`https://cors-anywhere.herokuapp.com/${link}`, {
+    headers: {
+        'x-requested-with': 'XMLHttpRequest'
+    }
+   })
+  .then(response => response.json())
+  .then(data => console.log(data));
+}
+
+function returnURL(url) {
+    console.log(url);
+    return fetch(`/proxy?url=${url}`)
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response error');
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log(data);
+    })
+    .catch(error => {
+        console.error('Error fetching data:', error);
+    });
+}
+
+// Popup Handling                           POPUP
+function popupPrompt() {
+    document.getElementById('popup-overlay').style.display = 'block';
+}
+//                                          POPUP
 function chooseOption(option) {
     closePopup();
     if (option === 'text') {
@@ -89,12 +143,12 @@ function chooseOption(option) {
     }
 }
 
-// Close popup using 'x' button
+// Close popup using 'x' button             POPUP
 function closePopup() {
     document.getElementById('popup-overlay').style.display = 'none';
 }
 
-// Close popup when clicking outside
+// Close popup when clicking outside        POPUP
 window.onclick = function(event) {
     var popup = document.querySelector('.popup-overlay');
     if (event.target == popup) {
@@ -102,7 +156,7 @@ window.onclick = function(event) {
     }
 }
 
-// Close popup when pressing Escape key
+// Close popup when pressing Escape key     POPUP
 document.onkeydown = function(evt) {
     evt = evt || window.event;
     if (evt.keyCode == 27) {

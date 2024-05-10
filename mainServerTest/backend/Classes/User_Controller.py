@@ -75,16 +75,16 @@ class UserController:
 
     @staticmethod
     def Login(email,password):
-        email = UserController.decrypt_string(email)
-        password = UserController.decrypt_string(password)
+        # email = UserController.decrypt_string(email)
+        # password = UserController.decrypt_string(password)
 
         return UserRepo.Login(email,password)
     
     @staticmethod
     def SignUp(email, Fullname, password):
-        email = UserController.decrypt_string(email)
-        password = UserController.decrypt_string(password)
-        Fullname = UserController.decrypt_string(Fullname)
+        # email = UserController.decrypt_string(email)
+        # password = UserController.decrypt_string(password)
+        # Fullname = UserController.decrypt_string(Fullname)
         a = UserRepo(email, Fullname, password)
         return a.add_user_to_firestore()
     

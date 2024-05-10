@@ -152,6 +152,7 @@ button {
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin-top: 0;
 
     width: -webkit-fill-available;
     max-width: 37%;
@@ -361,7 +362,13 @@ button {
     mask-repeat: no-repeat;
     -webkit-mask-size: 100% 100%;
     mask-size: 100% 100%;
-  }
+}
+
+.choice-icon {
+    width: 45px;
+    height: 50px;
+    margin-right: 5px;
+}
 
 .summary {
     color: var(--primaryFontColor);

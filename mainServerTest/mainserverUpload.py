@@ -1,18 +1,18 @@
 from flask import Flask, jsonify, render_template, request, send_from_directory, url_for, redirect, session
-import time
 from config import socketio
 import os
 from werkzeug.utils import secure_filename
 from werkzeug.security import safe_join
-from flask_cors import CORS
+from flask_cors import CORS, cross_origin
 from dotenv import load_dotenv
 # Chat imports
 import openai
+import requests
 import fitz  # PyMuPDF
 
 app = Flask(__name__)
-CORS(app)
-socketio.init_app(app, cors_allowed_origins="http://127.0.0.1:5000") # , logger=True, engineio_logger=True
+CORS(app, origins="*", allow_headers="*")
+socketio.init_app(app, cors_allowed_origins="*") # , logger=True, engineio_logger=True
 
 app.secret_key = os.getenv('FLASK_APP_SECRET_KEY', 'a_default_secret_key')
 
@@ -40,17 +40,23 @@ def allowed_file(filename):
 # ↓ Mainly for SocketIO connection debugging ↓
 @socketio.on('connect')
 def handle_connect():
-    print('Client connected')
+    if "UserID" in session : 
+        print('\nClient connected: ', session["UserName"], '\n')
+    else : 
+        print('\nSocketIO connection established\n')
 
 @socketio.on('disconnect')
 def handle_disconnect():
-    print('Client disconnected')
+    if "UserID" in session : 
+        print('\nClient disconnected: ', session["UserName"], '\n')
+    else : 
+        print('\nSocketIO connection terminated\n')
 
 
 
 @app.route('/')
 def landing_page():
-    return render_template('main_landing/login.html')
+    return render_template('main_landing/index.html')
 
 @app.route('/text-upload')
 def text_home():
@@ -65,12 +71,26 @@ def pdf_display():
     return render_template('main_loggedin/view-pdf.html')
 
 @app.route('/video-display')
+@cross_origin()
 def video_display():
     return render_template('main_loggedin/view-video.html')
     
 @app.route('/login')
 def login():
+    handle_connect()
     return render_template('main_landing/login.html')
+
+@app.route('/log-out')
+def log_out():
+    handle_disconnect()
+    session.clear()
+    print('\n==============================================================\n',
+          '\n',
+          '\t\tCLEARED SESSION VARIABLES\n',
+          '\n',
+          '\n==============================================================\n')
+    
+    return redirect(url_for('login'))
 
 
 @app.route('/home')
@@ -80,11 +100,11 @@ def home():
         userName = session['UserName']
         
         print('\n==============================USER IN HOME================================\n',
-                f'\t\tID: {userID}\n',
-                f'\t\tName: {userName}',
-                '\n================================USER IN HOME==============================\n')
+             f'\t\tID: {userID}\n',
+             f'\t\tName: {userName}',
+              '\n================================USER IN HOME==============================\n')
     else : 
-        return redirect(url_for(login))
+        return redirect(url_for('login'))
 
     return render_template('main_loggedin/index.html')
 
@@ -92,36 +112,104 @@ def home():
 def get_user_name_JSON():
     return jsonify({'userName':f'{session['UserName']}'})
 
-@app.route('/load-user-content')
-def load_user_content():
+@app.route('/load-user-content-JSON', methods=['POST'])
+def load_user_content_JSON():
     from backend.Classes.Document_Controller import DocumentProcessedController
-    
-    contentJson = DocumentProcessedController.fetch_all_filenames_and_filetypes_in_Video_and_Document_material(userID)
-    session["usercontent"]
-    if "UserContent" in session : 
-        if contentJson != None : 
+    userID = session['UserID']
+    print('Fetching user content')
+    contentJSON = DocumentProcessedController.fetch_all_filenames_and_filetypes_in_Video_and_Document_material(userID)
+    print('Returned user content: ', contentJSON)
+    session["userContent"] = contentJSON
+    if "userContent" in session : 
+        if contentJSON != None :
             print('\n==============================USER CONTENT================================\n',
-                f'\t\tName: {session['userName']}\n',
-                f'\t\tCONTENT: \n{contentJson}',
-                '\n================================USER CONTENT==============================\n')
-            return contentJson, '200 - User countent sent'
+                 f'\t\t\tName: {session['UserName']}\n',
+                 f'CONTENT: \n{contentJSON}',
+                  '\n================================USER CONTENT==============================\n')
+            
+            return jsonify(contentJSON), 200
+        
         else : 
             print('\n==============================USER CONTENT================================\n',
-                f'\t\tName: {session['userName']}\n',
-                f'\t\tNO USER CONTENT FOUND',
-                '\n================================USER CONTENT==============================\n')
-            return jsonify({'status': 'No user content'}), '404 - User content not found'
-        
-@app.route('/sign-out')
-def sign_out():
-    session.clear()
-    print('\n==============================================================\n',
-          '\n',
-          '\t\t\tCLEARED SESSION VARIABLES\n',
-          '\n',
-          '\n==============================================================\n')
-    return redirect(url_for('login'))
+                 f'\t\tName: {session['userName']}\n',
+                 f'\t\tNO USER CONTENT FOUND',
+                  '\n================================USER CONTENT==============================\n')
+            
+            return jsonify({'status': 'No user content'}), 404
+    url = request.args.get('url')
+    if not url:
+        return jsonify({'error': 'Missing URL parameter'}), 400
 
+    response = requests.get(url)
+    if response.status_code != 200:
+        return jsonify({'error': 'Failed to fetch URL'}), response.status_code
+
+    return response.content, 200, {'Content-Type': response.headers['Content-Type']}
+
+@app.route('/load-document-content', methods = ['POST'])
+def load_document_content() : 
+    if "UserID" in session : 
+        userID = session['UserID']
+        data = request.json
+        fileName = data.get('fileName')
+        print('\n======================================================================\n',
+              '\t\t\tfilename from JS: ', fileName)
+
+        from backend.Classes.Document_Controller import DocumentProcessedController as Document_Fetcher
+        File, Summary, Flashcards, MCQ_E, MCQ_M, MCQ_H = Document_Fetcher.fetch_document_content(userID, fileName)
+
+        return jsonify({'file': File, 
+                        'summary': Summary, 
+                        'flashcards': Flashcards, 
+                        'MCQ_E': MCQ_E, 
+                        'MCQ_M': MCQ_M, 
+                        'MCQ_H': MCQ_H
+                    })
+    else : 
+        return redirect(url_for(login))
+    
+@app.route('/load-video-content', methods = ['POST'])
+@cross_origin(origins="*")
+def load_video_content() : 
+    if "UserID" in session : 
+        userID = session['UserID']
+        data = request.json
+        fileName = data.get('fileName')
+        print('\n================================JS-FILE================================\n',
+              '\t\t\tfilename from JS: ', userID,
+              '\t\t\tfilename from JS: ', fileName,
+              '\n================================JS-FILE================================\n')
+
+        from backend.Classes.VideoProcessed_Controller import Video_Processed_Controller as Video_Fetcher
+        File_link, Audio_link, Summary, Chapters, Flashcards, MCQ_E, MCQ_M, MCQ_H = Video_Fetcher.fetch_video_content(userID, fileName)
+
+        
+        print(  'Summary: \n', Summary, #
+                'Chapters: \n', Chapters, 
+                'Flashcards: \n', Flashcards)
+
+        return jsonify({
+                    'method': 'POST',
+                    'headers': {
+                        'Content-Type': 'application/json',
+                    },
+                    'data': {
+                        'fileName':     fileName,   # String
+                        'file':         File_link,  # Fetch Link
+                        'audio':        Audio_link, # Fetch Link
+                        'summary':      Summary,    # Fetch JSON
+                        'chapters':     Chapters,   # Fetch JSON
+                        'flashcards':   Flashcards, # Fetch JSON
+                        'MCQ_E':        MCQ_E,      # Fetch JSON
+                        'MCQ_M':        MCQ_M,      # Fetch JSON
+                        'MCQ_H':         MCQ_H      # Fetch JSON
+                    }})
+    else : 
+        return redirect(url_for(login))
+
+# @app.route('/proxy', methods=['GET'])
+# @cross_origin(origins="*")
+# def proxy():
 
 @app.route('/process-signup', methods = ['POST']) 
 def process_signup():
@@ -140,11 +228,11 @@ def process_signup():
 
         status = UserController.SignUp(signupEmail, fName, signupPW) # Returns true when User is created, None if User exists
         
-        print('\tDecrypted: Name:', UserController.decrypt_string(fName), ', Email:', UserController.decrypt_string(signupEmail), ', Password:', UserController.decrypt_string(signupPW), 
+        print('\tDecrypted: Name:', fName, ', Email:', signupEmail, ', Password:', signupPW, 
               '\n=============================_END SIGN UP_=============================\n')
         if status == True :
             socketio.emit('update', {'message': 'Signup Success'}, to=socketID)
-            print(f"Signed up: {UserController.decrypt_string(fName)} \nWith Email: {UserController.decrypt_string(signupEmail)}\n\nLogging in\n\n")
+            # print(f"Signed up: {UserController.decrypt_string(fName)} \nWith Email: {UserController.decrypt_string(signupEmail)}\n\nLogging in\n\n")
 
             userID, fullName, status = UserController.Login(signupEmail, signupPW)
 
@@ -178,7 +266,6 @@ def process_login():
     loginPW = data.get('loginPW')
     socketID = data.get('socketID')
 
-
     from backend.Classes.User_Controller import UserController
     userID, fullName, status = UserController.Login(loginEmail, loginPW)
 
@@ -211,7 +298,7 @@ def generate_content():
     file_path = os.path.join(app.config['UPLOAD_FOLDER'], 'text-based\\'+filename)
 
     if os.path.exists(file_path):
-        from backend.Document_Controller import main as processDoc
+        from backend.Classes.Document_Controller import main as processDoc
         print("Sending path to process: "+file_path)
 
         socketio.emit('update', {'message': f'Starting processing for {filename}'}, to=socketID)
@@ -236,7 +323,7 @@ def generate_text_content():
     print('UPLOAD FOLDER: ',file_path)
 
     if os.path.exists(file_path):
-        from backend.Document_Controller import main as processDoc
+        from backend.Classes.Document_Controller import main as processDoc
         print("Sending path to process: "+file_path)
 
         socketio.emit('update', {'message': f'Starting processing for {filename}'}, to=socketID)
@@ -256,19 +343,23 @@ def generate_video_content():
     socketID = data.get('socketID')
     file_path = os.path.join(app.config['UPLOAD_FOLDER'], 'video-based/'+filename)
 
-    if os.path.exists(file_path):
-        from backend.VideoProcessed_Controller import main as processVid
-        print("Sending path to process: "+file_path)
+    if "UserID" in session : 
 
-        socketio.emit('update', {'message': f'Started processing for {filename}'}, to=socketID)
-        processVid(file_path)
-        
-        # Simulate processing completion
-        socketio.emit('update', {'message': 'Processing completed'})
-        
-        return jsonify({'message': 'Processing initiated'}), 200
-    else:
-        return jsonify({'error': '('+file_path+') File not found'}), 404
+        if os.path.exists(file_path):
+            from backend.Classes.VideoProcessed_Controller import main as processVid
+            print("Sending path to process: "+file_path)
+
+            socketio.emit('update', {'message': f'Started processing for {filename}'}, to=socketID)
+            processVid(file_path)
+            
+            # Simulate processing completion
+            socketio.emit('update', {'message': 'Processing completed'})
+            
+            return jsonify({'message': 'Processing initiated'}), 200
+        else:
+            return jsonify({'error': '('+file_path+') File not found'}), 404
+    else : 
+        return jsonify({'error': 'No user detected'}), '406 - User not logged in'
     
 @app.route('/uploads/<filename>')
 def serve_file(filename):
@@ -383,6 +474,5 @@ def mcq():
     return render_template('main_loggedin/generate_mcqs.html', file_url=file_url)
 
 if __name__ == '__main__':
-    # from backend.Classes.FirestoreDB import FirestoreDB
-    # FirestoreDB.get_instance()
-    socketio.run(app, port="5000", debug=True)
+    # socketio.run(app, host='0.0.0.0', debug=True)
+    socketio.run(app, debug=True)

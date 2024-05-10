@@ -8,7 +8,7 @@ import FirestoreDB
 
 class FlashcardsController:
     @staticmethod
-    def get_Flashcards_Video_from_firestore(userid,materialid):
+    def get_Flashcards_Video_from_firestore(userid, materialid):
                 
         db_instance = FirestoreDB.get_instance()
         firestore_instance = db_instance.get_firestore_instance()

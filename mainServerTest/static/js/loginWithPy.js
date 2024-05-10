@@ -1,3 +1,4 @@
+// const crypto = require('crypto-browserify');
 async function encryptString(stringToEncrypt, key) {
     const keyBuffer = await crypto.subtle.importKey(
         'raw', 
@@ -30,9 +31,14 @@ async function signUp() {
 
     const cKey='88055dab046b3213660080bc5bd4db00';
 
-    var encryptedEmail = await encryptString(email, cKey);
-    var encryptedPW = await encryptString(password, cKey);
-    var encryptedName = await encryptString(fullname, cKey);
+    var encryptedEmail = email;
+    var encryptedPW = password;
+    var encryptedName = fullname;
+
+
+    // var encryptedEmail = await encryptString(email, cKey);
+    // var encryptedPW = await encryptString(password, cKey);
+    // var encryptedName = await encryptString(fullname, cKey);
 
     console.log('email:', encryptedEmail);
     console.log('pw:', encryptedPW);
@@ -41,7 +47,7 @@ async function signUp() {
     let socketID = undefined;
 
     // Establish WebSocket connection
-    var socket = io.connect('http://127.0.0.1:5000');
+    var socket = io.connect('http://127.0.0.1:5000/');
 
     socket.on("connect", function() {
         socketID = socket.id;
@@ -98,7 +104,7 @@ async function signUp() {
 //     console.log('pw:', password);
 
 //     // Establish WebSocket connection
-//     var socket = io.connect('http://127.0.0.1:5000');
+//     var socket = io.connect('http://127.0.0.1:5000/');
 
 //     socket.on("connect", function() {
 //         socketID = socket.id;
@@ -146,25 +152,28 @@ async function signIn(event) { // Testing Function
 
     const cKey='88055dab046b3213660080bc5bd4db00';
 
-    var encryptedEmail = await encryptString(email, cKey);
-    var encryptedPW = await encryptString(password, cKey);
+    var encryptedEmail = email;
+    var encryptedPW = password;
+
+    // var encryptedEmail = await encryptString(email, cKey);
+    // var encryptedPW = await encryptString(password, cKey);
 
     let socketID = undefined;
 
-    encryptString(email, cKey)
-    .then((encryptedEmail) => {
-        console.log('email:', encryptedEmail);
-        return encryptString(password, cKey);
-    })
-    .then((encryptedPW) => {
-        console.log('pw:', encryptedPW);
-    })
-    .catch((error) => {
-        console.error('Encryption error:', error);
-    });
+    // encryptString(email, cKey)
+    // .then((encryptedEmail) => {
+    //     console.log('email:', encryptedEmail);
+    //     return encryptString(password, cKey);
+    // })
+    // .then((encryptedPW) => {
+    //     console.log('pw:', encryptedPW);
+    // })
+    // .catch((error) => {
+    //     console.error('Encryption error:', error);
+    // });
 
     // Establish WebSocket connection
-    var socket = io.connect('http://127.0.0.1:5000');
+    var socket = io.connect('http://127.0.0.1:5000/');
 
     socket.on("connect", function() {
         socketID = socket.id;
@@ -292,14 +301,14 @@ function popupPrompt() {
 
 function chooseOption(option) {
     closePopup();
-    if (option === 'text') {
+    if (option === 'text') { // Text document Upload is chosen
         window.location.href = 'upload-doc.html';
     }
-    else if (option === 'video') {
+    else if (option === 'video') { // Video Upload is chosen
         window.location.href = 'upload-video-based.html';
     }
-    else {
-        alert("Invalid input");
+    else { // Video Link is chosen
+        window.location.href = 'upload-video-based.html';
     }
 }
 
@@ -323,4 +332,3 @@ document.onkeydown = function(evt) {
         closePopup();
     }
 };
-

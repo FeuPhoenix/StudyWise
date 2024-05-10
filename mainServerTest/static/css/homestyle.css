@@ -1,4 +1,6 @@
-@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;900;1000&display=swap');html {
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;900;1000&display=swap');
+
+html {
     font-family: 'Cairo', sans-serif;
     font-size: 21;
     line-height: 2rem;
@@ -186,7 +188,7 @@ button {
 
 
 
-.container {
+.main-container {
     border-radius: 9px;
     border: 2px solid rgba(80, 99, 135, 1);
     background-color: #040f22;
@@ -195,13 +197,28 @@ button {
     margin-top: 28px;
     padding: 28px;
     gap: 20px;
+    max-width: 49%;
 }
 
-.content-section {
-    padding: 0 1px;
+.side-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: -webkit-fill-available;
+    max-width: 44%;
+    min-height: 100%;
+    
+    margin: auto 1% auto 1%;
+    flex-shrink: 0;
+    border-radius: var(--primaryBorderRadius);
+    border: 2px solid #506387;
+    background: linear-gradient(270deg, #0A2F66 -27.93%, #131F38 100%);
+    align-self: flex-start;
+    margin-top: 28px;
 }
 
 .content-row {
+    padding: 0 1px;
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
@@ -222,7 +239,7 @@ button {
     scale: 1.05;
 }
 
-.content-block {
+.content-card {
     justify-content: center;
     border-radius: 6px;
     border: 3px solid rgba(212, 219, 232, 1);
@@ -231,6 +248,9 @@ button {
     flex-direction: column;
     margin-bottom: 20px; /* Add some bottom margin to separate content blocks */
 }
+.content-card:hover {
+    cursor: pointer;
+}
 
 .title {
     padding: 10px; /* Add padding to the title */
@@ -238,11 +258,17 @@ button {
     color: white;
     font-weight: bold;
     font-size: 1.2em;
+    overflow-wrap: anywhere;
+    max-height: 50px;
 }
 .title:hover {
     transition: 0.1s ease-in-out;
     font-weight: 700;
     transform: translateX(-1.5px);
+}
+
+.type {
+    margin: 5px;
 }
 
 .image-container {
@@ -294,7 +320,7 @@ button {
         display: none;
     }
 
-    .container {
+    .main-container {
         max-width: 100%;
         padding: 0 20px;
     }
@@ -313,7 +339,7 @@ button {
         width: 100%;
     }
 
-    .content-block {
+    .content-card {
         margin-top: 15px;
     }
 

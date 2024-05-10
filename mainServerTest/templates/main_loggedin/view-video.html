@@ -13,7 +13,7 @@
         <div class="main-navbar">
             <img src="{{ url_for('static', filename='assets/images/Studywise_Logo.png') }}" alt="Studywise Logo" class="navbar-logo">
             <div class="navbar-btns">
-                <a href=""><button>Home</button></a>
+                <a href="/home"><button>Home</button></a>
                 <a href="pdf-page.html"><button>Your Content</button></a>
                 <a onclick="popupPrompt()"><button>Upload Material</button></a>
             </div>
@@ -24,17 +24,13 @@
                 <button class="back-btn" onclick="history.back()"><i class="fa-solid fa-left-long"></i></button>
                 
                 <div class="video-container">
-                    <video id="video" controls crossorigin playsinline poster="">
+                    <video id="video" controls playsinline>
                         <source src="" type="video/mp4" id="video-viewer"/>
                         <track kind="captions" label="English" srclang="en" src="" default>
                     </video> <!-- Video Tag End -->
                     
-                    <div class="video-btns">
-
-                    </div>
-                    <div id="videoIndexes">
-
-                    </div>
+                    <div class="video-btns"></div>
+                    <div id="videoIndexes"></div>
                 </div>
             </div> <!-- Main Frame end -->
             <div class="sidebar-viewer">
@@ -83,16 +79,21 @@
                 </div> -->
                 <div class="sidebar-menu">
                     <button class="flashcard-btn" onclick="toggleFlashcards(this)">
-                        
                         <h3> Flashcards </h3><img src="{{ url_for('static', filename='assets/images/flashcards.png') }}" alt="Flashcards!">
                     </button>
-
+    
                     <button class="summary-btn" onclick="toggleSummary(this)">
                         <h3> Summary </h3><i class="fa-solid fa-align-center"></i>
                     </button>
-
-                    <button></button>
-                    <button></button>
+    
+                    <button class="chat-btn" onclick="goToChat()">
+                        <h3> Go to Chat </h3><img src="{{ url_for('static', filename='assets/images/bot.png') }}" alt="" class="choice-icon">
+                    </button>
+    
+                    <button class="mcq-btn" onclick="goToMCQ()">
+                        <h3>Go to MCQ</h3><span class="fa6-solid--file-pen"></span>
+                    </button>
+    
                     <button></button>
                     <button></button>
                 </div>

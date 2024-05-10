@@ -8,12 +8,12 @@ import time
 import json
 import re
 
-from Constants import OPENAI_API_KEY, MAX_TOKENS_PER_REQUEST,kUserId,kUserEmail ,kDatejoined ,kFullName
+from Constants import OPENAI_API_KEY, MAX_TOKENS_PER_REQUEST
 from FirestoreDB import FirestoreDB # Assuming the Materials and Processed_Materials classes are defined in app.Studywise.Model
 
 class Flash_Cards:
     Flashcards=''
-    def __init__(self,ProcessedMaterial,userid,materialid,content_type=''):
+    def __init__(self, ProcessedMaterial, userid, materialid, content_type=''):
         openai.api_key = OPENAI_API_KEY
         self.content_type=content_type
         self.ProcessedMaterial=ProcessedMaterial 
@@ -22,10 +22,10 @@ class Flash_Cards:
         #self.db = FirestoreDB.get_instance()
         self.flashcard_id=uuid.uuid4().hex
         self.runFlashcards(self.ProcessedMaterial)
-        if content_type=="TRANSCRIPT":
+
+        if content_type == "TRANSCRIPT" : 
             self.add_FlashCards_Video_ToFirestore()
         
-
         else:
             self.addDocumentFlashCardsToFirestore()
         
@@ -269,7 +269,7 @@ class Flash_Cards:
         with open(filepath, 'w') as file:
             json.dump(formatted_cards, file, indent=4)
 
-    def runFlashcards(self,file_path, content_type = ''):
+    def runFlashcards(self, file_path, content_type = ''):
         content = []
 
         self.filename = self.filenameFromPath(file_path)

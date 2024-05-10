@@ -129,7 +129,7 @@ function signUp() {
 //     var email = document.getElementById('signInEmail').value;
 //     var password = document.getElementById('signInPassword').value;
     
-//     var socket = io.connect('http://127.0.0.1:5000');
+//     var socket = io.connect('http://127.0.0.1:5000/');
 
 //         socket.on("connect", function() {
 //             socketID = socket.id;
@@ -139,7 +139,7 @@ function signUp() {
 // }
 async function signIn() {
     
-    var socket = io.connect('http://127.0.0.1:5000');
+    var socket = io.connect('http://127.0.0.1:5000/');
         
         // Listen for 'update' events from the server to get real-time processing updates
         socket.on('update', function(data) {
@@ -161,7 +161,7 @@ async function signIn() {
         request.onload = function() {
             // Handle response from server
             if (request.status >= 200 && request.status < 400) {
-                console.log('user successfully loged in');
+                console.log('user successfully logged in');
             } else {
                 console.log('Server returned an error:', request.status);
             }
@@ -171,6 +171,7 @@ async function signIn() {
         alert(error.message || 'Failed to sign in');
     }
 }
+
 async function fetchUserIdFromEmail(email) {
     try {
       // Fetch user data based on email
@@ -189,7 +190,8 @@ async function fetchUserIdFromEmail(email) {
       console.error('Error fetching user:', error);
       throw error;
     }
-  }
+}
+
 function validate_email(email) {
     expression = /^[^@]+@\w+(\.\w+)+\w$/
     if (expression.test(email) == true) {
@@ -228,14 +230,14 @@ function popupPrompt() {
 
 function chooseOption(option) {
     closePopup();
-    if (option === 'text') {
+    if (option === 'text') { // Text document Upload is chosen
         window.location.href = 'upload-doc.html';
     }
-    else if (option === 'video') {
+    else if (option === 'video') { // Video Upload is chosen
         window.location.href = 'upload-video-based.html';
     }
-    else {
-        alert("Invalid input");
+    else { // Video Link is chosen
+        window.location.href = 'upload-video-based.html';
     }
 }
 

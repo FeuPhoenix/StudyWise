@@ -1,0 +1,62 @@
+/* General styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+/* Style for the main content container */
+.content-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch; /* Adjusted to stretch items vertically */
+    padding: 50px;
+}
+
+/* Style for each section */
+.section {
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 30px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    height: 100%; /* Adjusted to fill the container height */
+}
+
+/* Style for the image column */
+.image-column {
+    flex: 1;
+    margin-right: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+/* Style for the text column */
+.text-column {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+/* Style for the images */
+.image-column img {
+    max-width: 100%;
+    max-height: 100%; /* Adjusted to fill the container height */
+    width: auto;
+    height: auto;
+    margin-bottom: 20px;
+    align-self: center; /* Centering the image */
+}
+
+/* Style for the headings */
+h1, h2 {
+    color: #333;
+}
+
+/* Style for the text */
+p {
+    color: #666;
+    line-height: 1.5;
+}
