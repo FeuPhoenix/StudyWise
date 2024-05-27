@@ -8,7 +8,7 @@ class FirestoreDB:
     @classmethod
     def get_instance(cls):
         if cls._instance is None:
-            cred = credentials.Certificate("mainServerTest/backend/key.json")
+            cred = credentials.Certificate("D:/COLLEGE/StudyWise/mainServerTest/backend/key.json")
             initialize_app(cred, {
     'storageBucket': 'studywise-dba07.appspot.com'
 })
