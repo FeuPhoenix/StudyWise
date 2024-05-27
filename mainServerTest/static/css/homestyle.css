@@ -197,7 +197,10 @@ button {
     margin-top: 28px;
     padding: 28px;
     gap: 20px;
+    width: 49%;
+    height: 67vh;
     max-width: 49%;
+    max-height: 67vh;
 }
 
 .side-container {
@@ -246,7 +249,10 @@ button {
     background-color: #14223c;
     display: flex;
     flex-direction: column;
-    margin-bottom: 20px; /* Add some bottom margin to separate content blocks */
+    margin-bottom: 20px;
+    margin-bottom: 0px;
+    height: 32vh;
+    max-height: 32vh;
 }
 .content-card:hover {
     cursor: pointer;
@@ -257,14 +263,18 @@ button {
     text-align: center;
     color: white;
     font-weight: bold;
-    font-size: 1.2em;
+    font-size: calc(1vw + 0.4em);
     overflow-wrap: anywhere;
-    max-height: 50px;
+    overflow-y: hidden;
+
+    width: 90%;
+    max-height: 70px;
+    transition: 0.3s ease-in-out;
 }
 .title:hover {
-    transition: 0.1s ease-in-out;
+    transition: 0.3s ease-in-out;
     font-weight: 700;
-    transform: translateX(-1.5px);
+    scale: 1.1;
 }
 
 .type {
@@ -283,23 +293,24 @@ button {
     aspect-ratio: 1;
     object-fit: cover;
     object-position: center;
-    width: 91px;
+
     cursor: pointer;
+    width: calc(1vw + 3em);
 }
 
 .summary-img {
     aspect-ratio: 1;
     object-position: center;
-    height: 88px;
-    width: 81px;
     cursor: pointer;
+    height: calc(1vw + 3em);
+    width: calc(1vw + 2.6em);
 }
 
 .bot-img {
     aspect-ratio: 1;
     object-fit: cover;
     object-position: center;
-    width: 95px;
+    width: calc(1vw + 3.3em);
     cursor: pointer;
 }
 

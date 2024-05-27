@@ -15,7 +15,7 @@ body {
 
 /* Style for each section */
 .section {
-    background-color: rgba(255, 255, 255, 0.8);
+    background-color: rgba(255, 255, 255, 0.03);
     border-radius: 10px;
     padding: 20px;
     margin-bottom: 30px;
@@ -40,6 +40,18 @@ body {
     justify-content: center;
 }
 
+body > main > div > div.section.image-column > img {
+    max-width: 60%;
+}
+
+body > main > div > div.section.image-column > h2 {
+    margin-bottom: 0px;
+}
+
+body > main > div > div.section.text-column > h1 {
+    margin-bottom: 0px;
+}
+
 /* Style for the images */
 .image-column img {
     max-width: 100%;
@@ -57,6 +69,6 @@ h1, h2 {
 
 /* Style for the text */
 p {
-    color: #666;
+    color: #b5b5b5;
     line-height: 1.5;
 }

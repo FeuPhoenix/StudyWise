@@ -1,72 +1,62 @@
 [
     {
-        "question": "1. What is the purpose of using Viewpoints and Views in software architecture?",
+        "question": "1. What do viewpoints provide templates for?",
         "options": [
-            "B) To create confusion in the development process",
-            "C) To restrict creativity in design",
-            "A) To provide guidance for developing different views",
-            "D) To complicate the development process"
+            "D) Requirements",
+            "A) Views",
+            "B) Design patterns",
+            "C) Algorithms"
         ],
-        "correct_answer": "B) To create confusion in the development process"
+        "correct_answer": "D) Requirements"
     },
     {
-        "question": "2. Viewpoints and Views were first introduced in the 1970s by whom?",
+        "question": "2. What is the purpose of using viewpoints and views in software architecture?",
         "options": [
-            "B) Bill Gates",
-            "C) Mark Zuckerberg",
-            "A) David Parnas",
-            "D) Steve Jobs"
+            "D) To complicate decision-making",
+            "A) To confuse developers",
+            "C) To slow down the project",
+            "B) To organize the development process"
         ],
-        "correct_answer": "B) Bill Gates"
+        "correct_answer": "D) To complicate decision-making"
     },
     {
-        "question": "4. Which organization developed a set of viewpoints for real-time and embedded systems while working at Siemens Research?",
+        "question": "6. What does ISO Standard 42010 relate to in software architecture?",
         "options": [
-            "C) David Parnas",
-            "D) Alexander L. Wolf",
-            "A) Christine Hofmeister, Rod Nord, and Dilip Soni",
-            "B) Steve Jobs"
+            "B) Views",
+            "C) Viewpoints",
+            "D) Requirements",
+            "A) Design patterns"
         ],
-        "correct_answer": "C) David Parnas"
+        "correct_answer": "B) Views"
     },
     {
-        "question": "5. Viewpoints provide architects with guidance on what?",
+        "question": "8. How do viewpoints and views help architects in software development?",
         "options": [
-            "D) All of the above",
-            "B) How to represent views",
-            "C) How to develop views",
-            "A) What views should contain"
+            "D) They complicate decision-making",
+            "C) They slow down the development process",
+            "A) They provide guidance on what the corresponding view should contain",
+            "B) They make the project more complex"
         ],
-        "correct_answer": "D) All of the above"
+        "correct_answer": "D) They complicate decision-making"
     },
     {
-        "question": "6. Which ISO Standard is based on the concept of viewpoints and views in software architecture?",
+        "question": "9. What is the purpose of defining a set of viewpoints in software architecture?",
         "options": [
-            "C) ISO 14001",
-            "D) ISO 27001",
-            "B) ISO 9001",
-            "A) ISO 42010"
+            "C) To organize the views",
+            "B) To document the development process",
+            "D) To complicate the project",
+            "A) To create confusion"
         ],
-        "correct_answer": "C) ISO 14001"
+        "correct_answer": "C) To organize the views"
     },
     {
-        "question": "7. Viewpoints and Views help to organize which process?",
+        "question": "10. What is the basis of ISO Standard 42010 in software architecture?",
         "options": [
-            "B) The testing process",
-            "D) The documentation process",
-            "C) The debugging process",
-            "A) The development process"
+            "C) Design patterns",
+            "D) Viewpoints templates for views",
+            "A) Development of software",
+            "B) Views and viewpoints"
         ],
-        "correct_answer": "B) The testing process"
-    },
-    {
-        "question": "8. How are viewpoints and views related to each other?",
-        "options": [
-            "A) They provide guidance for developing different views",
-            "D) They complicate the development process",
-            "C) They restrict creativity in design",
-            "B) They create confusion in the development process"
-        ],
-        "correct_answer": "A) They provide guidance for developing different views"
+        "correct_answer": "C) Design patterns"
     }
 ]

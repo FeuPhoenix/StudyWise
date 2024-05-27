@@ -68,6 +68,8 @@ class DocumentProcessedController:
     @staticmethod
     def upload_document(file, userID) : 
         document = DocumentProcessed(file, userID)
+        document.Document_Processing()
+        return document.file_name, document.material_id
 
     @staticmethod
     def fetch_all_filenames_with_filetype_in_Document_material(userid):

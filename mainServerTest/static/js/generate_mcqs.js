@@ -1,17 +1,38 @@
-const urlParams = new URLSearchParams(window.location.search);
-const fileParam = urlParams.get('file');
-console.log(`Recieved File ${fileParam}`)
-const fileName = fileParam.replace(/\.[^.]+$/, '');;
-const fileUrl = `/api/files/mcqs/${encodeURIComponent(fileName)}`;
+// const urlParams = new URLSearchParams(window.location.search);
+// const fileParam = urlParams.get('file');
+// console.log(`Received File ${fileParam}`);
+// const fileName = fileParam.replace(/\.[^.]+$/, '');;
+// const fileUrl = `/api/files/mcqs/${encodeURIComponent(fileName)}`;
+
+// give the stored data a variable name
+const mcqsE = JSON.parse(localStorage.getItem('loadedMCQ_E') || '[]');
+const mcqsM = JSON.parse(localStorage.getItem('loadedMCQ_M') || '[]');
+const mcqsH = JSON.parse(localStorage.getItem('loadedMCQ_H') || '[]');
+
+
 
 let userPoints = 0; // Initialize user points
 let fetchTimeout;
 async function fetchMCQs() {
     try {
+        // retrieve the stored data from local storage
+        const mcqsE = JSON.parse(localStorage.getItem('loadedMCQ_E') || '[]');
+        const mcqsM = JSON.parse(localStorage.getItem('loadedMCQ_M') || '[]');
+        const mcqsH = JSON.parse(localStorage.getItem('loadedMCQ_H') || '[]');
+
         const difficulty = determineDifficulty(userPoints);
-        const response = await fetch(`${fileUrl}_${difficulty}.json`);
-        const mcqs = await response.json();
-        displayMCQs(mcqs);
+        let selectedMCQs;
+        if (difficulty === 'easy') {
+            selectedMCQs = mcqsE;
+        } else if (difficulty === 'medium') {
+            selectedMCQs = mcqsM;
+        } else {
+            selectedMCQs = mcqsH;
+        }
+
+        // Randomly select 6 questions from the selected difficulty level
+        const selectedQuestions = getRandomQuestions(selectedMCQs, 6);
+        displayMCQs(selectedQuestions);
     } catch (error) {
         console.error("Failed to fetch MCQs:", error);
     }
@@ -61,6 +82,13 @@ function displayMCQs(mcqs) {
     });
 }
 
+function getRandomQuestions(mcqs, count) {
+    const shuffled = mcqs.sort(() => 0.5 - Math.random());
+    return shuffled.slice(0, count);
+}
+
+
+
 function handleOptionClick(selectedOption, correctAnswer, optionDiv, optionsDiv) {
     const allOptions = optionsDiv.getElementsByClassName('option');
     Array.from(allOptions).forEach(option => {
@@ -80,7 +108,7 @@ function handleOptionClick(selectedOption, correctAnswer, optionDiv, optionsDiv)
     fetchTimeout=setTimeout(fetchMCQs, 5000);
 }
 document.getElementById('to-leaderboard').addEventListener('click', function() {
-    window.location.href = 'leaderboard.html'; // Assuming your leaderboard file is named 'leaderboard.html'
+    window.location.href = '/leaderboard'; // Assuming your leaderboard file is named 'leaderboard.html'
 });
 // Ensure the script runs after the DOM is fully loaded
 document.addEventListener('DOMContentLoaded', function() {

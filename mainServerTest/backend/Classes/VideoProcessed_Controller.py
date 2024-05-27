@@ -21,9 +21,16 @@ import json
 import requests
 
 from backend.Classes.FirestoreDB import FirestoreDB
+from backend.Classes.VideoProcessed_Repo import VideoProcessed_Repo
 aai.settings.api_key = "8d8390aa4ac24f7aa92d724e44370d73"
 
 class Video_Processed_Controller:
+    @staticmethod
+    def upload_video(file, userid):
+        Video=VideoProcessed_Repo(file,userid)
+        Video.Video_Processing()
+        return Video
+
     @staticmethod
     def fetch_all_filenames_and_filetypes_in_Video_material(userid):
         db_instance = FirestoreDB.get_instance()  # Assuming FirestoreDB is a class or method to access Firestore

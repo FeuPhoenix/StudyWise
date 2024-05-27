@@ -1,72 +1,72 @@
 [
     {
-        "question": "1. What is the purpose of using views in architectural descriptions?",
+        "question": "1. What is the purpose of using architectural viewpoints in software architecture?",
         "options": [
-            "a) To create a detailed diagram of the system",
-            "b) To structure the description into different aspects of the system",
-            "d) To hide complex details from developers",
-            "c) To simplify the architecture for non-technical stakeholders"
+            "C) To limit the scope of the architecture",
+            "A) To provide a detailed description of the entire system",
+            "B) To structure the architectural description into different aspects of the system",
+            "D) To simplify the architecture process"
         ],
-        "correct_answer": "a) To create a detailed diagram of the system"
+        "correct_answer": "C) To limit the scope of the architecture"
     },
     {
-        "question": "2. How is the relationship between view and viewpoint compared in software architecture?",
+        "question": "2. How does the relationship between view and viewpoint compare to object and class?",
         "options": [
-            "a) Similar to parent and child",
-            "d) Similar to function and method",
-            "b) Similar to object and class",
-            "c) Similar to system and module"
+            "D) They are interchangeable terms in software architecture",
+            "C) They are opposite concepts",
+            "B) They are similar in that a viewpoint describes one aspect of the system",
+            "A) They are unrelated concepts"
         ],
-        "correct_answer": "a) Similar to parent and child"
+        "correct_answer": "D) They are interchangeable terms in software architecture"
     },
     {
-        "question": "3. Which academic roots can be traced back to the concept of architectural viewpoints?",
+        "question": "3. What is the Reference Model of Open Distributed Processing (RM-ODP) used for?",
         "options": [
-            "d) Jeff Garland and Richard Anthony",
-            "b) Philippe Kruchten",
-            "c) Reference Model of Open Distributed Processing (RM-ODP)",
-            "a) David Garlan and Mary Shaw"
+            "A) Describing distributed object systems and their viewpoint set",
+            "D) Designing user interfaces",
+            "C) Standardizing programming languages",
+            "B) Creating software architecture blueprints"
         ],
-        "correct_answer": "d) Jeff Garland and Richard Anthony"
+        "correct_answer": "A) Describing distributed object systems and their viewpoint set"
     },
     {
-        "question": "4. What is the purpose of the Reference Model of Open Distributed Processing (RM-ODP)?",
+        "question": "6. How does the set of viewpoints in \"Applied Software Architecture\" compare to the set in \"Large Scale Software Architecture\"?",
         "options": [
-            "d) To define software architecture principles",
-            "a) To describe distributed object systems and viewpoints",
-            "c) To standardize architectural descriptions",
-            "b) To provide guidelines for software development"
+            "B) They have different purposes",
+            "A) They are identical",
+            "C) They both focus on practitioner experience",
+            "D) They have similar conceptual models"
         ],
-        "correct_answer": "d) To define software architecture principles"
+        "correct_answer": "B) They have different purposes"
     },
     {
-        "question": "7. How does the set of viewpoints in \"Perspectives\" differ from others in software architecture?",
+        "question": "7. In software architecture, viewpoints are used to:",
         "options": [
-            "d) It is aimed at hardware systems",
-            "b) It includes only technical aspects",
-            "a) It is practitioner-focused",
-            "c) It is based on academic research"
+            "C) Focus on technical implementation details",
+            "D) Ensure compatibility with all operating systems",
+            "A) Describe the system from the user's perspective",
+            "B) Structure the architectural description into different pieces"
         ],
-        "correct_answer": "d) It is aimed at hardware systems"
+        "correct_answer": "C) Focus on technical implementation details"
     },
     {
-        "question": "9. What is the role of viewpoints in software architecture?",
+        "question": "8. What is the main concept behind the 4+1 architectural view model?",
         "options": [
-            "d) To define hardware requirements",
-            "c) To hide complexity from developers",
-            "a) To create detailed diagrams of the system",
-            "b) To structure the architecture into different aspects"
+            "A) Providing multiple perspectives on the system",
+            "D) Using only one viewpoint for the entire system",
+            "C) Simplifying the architecture process by combining views",
+            "B) Creating a single comprehensive architectural view"
         ],
-        "correct_answer": "d) To define hardware requirements"
+        "correct_answer": "A) Providing multiple perspectives on the system"
     },
     {
-        "question": "10. Which standard is used to describe distributed object systems and their viewpoint set?",
+        "question": "9. How does the RM-ODP standardize distributed object systems?",
         "options": [
-            "a) UML",
-            "d) ACM SIGSOFT",
-            "c) IEEE",
-            "b) ISO's Reference Model of Open Distributed Processing (RM-ODP)"
+            "A) By providing a common framework for describing viewpoints",
+            "C) By focusing on software implementation details",
+            "B) By limiting the number of architectural views allowed",
+            "D) By eliminating the need for architectural viewpoints"
         ],
-        "correct_answer": "a) UML"
+        "correct_answer": "A) By providing a common framework for describing viewpoints"
     }
 ]

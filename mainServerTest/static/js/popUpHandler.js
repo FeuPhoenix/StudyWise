@@ -6,14 +6,16 @@ function popupPrompt() {
 function chooseOption(option) {
     closePopup();
     if (option === 'text') { // Text document Upload is chosen
-        window.location.href = 'upload-doc.html';
+        window.location.href = '/text-upload';
     }
     else if (option === 'video') { // Video Upload is chosen
-        window.location.href = 'upload-video-based.html';
+        window.location.href = '/video-upload';
     }
     else { // Video Link is chosen
-        YT_link = document.getElementById('YT_link');
-        window.location.href = `/process-video-link?link=${encodeURIComponent(YT_link)}`;
+        YT_link = document.getElementById('YT_link').value;
+        console.log('Link: ', YT_link);
+        alert('Link in console');
+        window.location.href = `/process-video-link=?link=${encodeURIComponent(YT_link)}`;
     }
 }
 

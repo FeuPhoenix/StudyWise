@@ -9,8 +9,13 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/view-pdf.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/pop-up-style.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/view-video-style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/pop-up-style.css') }}">
+    <!-- <link rel="stylesheet" href="{{ url_for('static', filename='css/flashcard-style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/pop-up-style.css') }}"> -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/flashcard-style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/pop-up-style.css') }}">
 </head>
 
 <body>
@@ -75,6 +80,7 @@
                                 <div id="bar"></div>
                                 <div id="bg-bar"></div>
                             </div>
+                            <div id="successRate"></div>
                         </div>
                             <button id="missed" type="button">Retry Missed</button>
                             <button id="full" type="button">Retry Full Set</button>
@@ -118,10 +124,14 @@
                 <h2>What kind of file do you want to upload?</h2>
                 <button onclick="chooseOption('text')">Text-based</button>
                 <button onclick="chooseOption('video')">Video-based</button>
-            </div>
+            <input type="text" placeholder="Insert YouTube video URL" id="YT_link">
+            <button type="submit" onclick="chooseOption('link')">Send Link</button>
+        </div>
         </div>
     </div>
     <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=es6,Array.prototype.includes,CustomEvent,Object.entries,Object.values,URL"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/16.8.6/umd/react.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/16.8.6/umd/react-dom.production.min.js"></script>
     <script src="{{ url_for('static', filename='js/uploadDoc.js') }}"></script>
     <script src="{{ url_for('static', filename='js/FlashcardsV1_JS.js') }}"></script>
     <script src="{{ url_for('static', filename='js/PDFView.js') }}"></script>

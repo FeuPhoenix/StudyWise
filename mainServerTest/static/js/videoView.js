@@ -86,15 +86,15 @@ function goToChat() {
         alert('Chat with videos coming soon.')
         // window.location.href = `/chatwithpdf?file=${encodeURIComponent(videoName)}`;
     } else {
-        console.error("No video name found in URL.");
+        console.error("No video name found in localStorage");
     }
 }
 
 function goToMCQ() {
     if (videoName) {
-        window.location.href = `/mcq?file=${encodeURIComponent(videoName)}`;
+        window.location.href = `/mcq`;
     } else {
-        console.error("No file parameter found in URL.");
+        console.error("No video name found in localStorage");
     }
 }
 

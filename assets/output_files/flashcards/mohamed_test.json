@@ -1,0 +1,22 @@
+[
+    {
+        "front": "Q1: What is the basis of the ISO Standard 42010 in relation to viewpoints and views?",
+        "back": "A1: The conceptual model for how viewpoints and views relate to each other and their environment forms the basis of ISO Standard 42010."
+    },
+    {
+        "front": "Q2: How does the ISO Standard 42010 relate to the previous IEEE Standard 1471?",
+        "back": "A2: The ISO Standard 42010 is a development of the previous IEEE Standard 1471."
+    },
+    {
+        "front": "Q3: In software systems architecture, how do architects use viewpoints and perspectives?",
+        "back": "A3: Architects use viewpoints and perspectives to understand how different stakeholders interact with the system and how the system fits into its environment."
+    },
+    {
+        "front": "Q4: What role do stakeholders play in the context of viewpoints and views in software systems architecture?",
+        "back": "A4: Stakeholders provide input into the creation and utilization of viewpoints and views in software systems architecture to ensure that the system meets their needs and requirements."
+    },
+    {
+        "front": "Q5: How do viewpoints and views help in working with stakeholders in software systems architecture?",
+        "back": "A5: Viewpoints and views help in working with stakeholders by providing a structured way to analyze and communicate various aspects of the system design and its impact on different stakeholders."
+    }
+]

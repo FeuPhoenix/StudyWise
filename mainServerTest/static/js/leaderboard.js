@@ -64,5 +64,5 @@ document.addEventListener('DOMContentLoaded', () => {
     updateLeaderboard();
 });
 document.getElementById('back-to-quiz').addEventListener('click', function() {
-    window.location.href = 'generate_mcqs.html'; // Assuming your quiz application file is named 'index.html'
+    history.back(); // Assuming your quiz application file is named 'index.html'
 });

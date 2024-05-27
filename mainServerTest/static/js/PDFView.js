@@ -1,50 +1,43 @@
-const urlParams = new URLSearchParams(window.location.search);
-const fileParam = urlParams.get('file');
+// const urlParams = new URLSearchParams(window.location.search);
+// const fileParam = urlParams.get('file');
 
-console.log('Fetching (' + fileParam + ')\'s processed files'); // Log fetch update
+const documentURL = localStorage.getItem('loadedDocumentLink');
+const documentName = localStorage.getItem('fileName');
+console.log('Fetching ' + documentName + '\'s processed files'); // Log fetch update
 
-function goToChat() {
-    if (fileParam) {
-        window.location.href = `/chatwithpdf?file=${encodeURIComponent(fileParam)}`;
-    } else {
-        console.error("No file parameter found in URL.");
-    }
-}
 
-function goToMCQ() {
-    if (fileParam) {
-        window.location.href = `/mcq?file=${encodeURIComponent(fileParam)}`;
-    } else {
-        console.error("No file parameter found in URL.");
-    }
-}
+if (documentURL) {
+    const pdfViewer = document.getElementById('pdf-viewer');
+    pdfViewer.src = documentURL;
 
-if (fileParam) {
-    const filename = fileParam.replace(/\.[^.]+$/, '');
-    console.log("Received File Name:", filename);
+    const fileName = localStorage.getItem('fileName');
+    console.log(`Received data for fileName: ${fileName}`);
 
-    const PDFViewer = document.getElementById('pdf-viewer');
-    PDFViewer.src = `/api/files/pdf/${encodeURIComponent(fileParam)}`; // Use fileParam for the PDF source
-
-    fetch(`/api/files/summaries/${filename}.json`) // Fetch summary JSON
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Network response error');
-        }
-        return response.json();
-    })
-    .then(jsonObject => {
-        const summaryText = jsonObject.long;
-        document.getElementById('summaryText').innerHTML = summaryText;
-    })
-    .catch(error => {
-        console.error('There was a problem fetching the Summary:', error);
-    });
+    const loadedDocumentSummary = JSON.parse(localStorage.getItem('loadedDocumentSummary'));
+    const summaryText = loadedDocumentSummary.long_summary;
+    console.log('Summary: ', loadedDocumentSummary.long_summary);
+    document.getElementById('summaryText').innerHTML = summaryText;
 
     // NOTE: FLASHCARD FETCH CODE IS IN THE FLASHCARDSV1_JS FILE
 
 } else {
     console.log("No input file provided.");
+}
+
+function goToChat() {
+    if (documentName) {
+        window.location.href = `/chatwithpdf`;
+    } else {
+        console.error("No document name found in localStorage");
+    }
+}
+
+function goToMCQ() {
+    if (documentName) {
+        window.location.href = `/mcq`;
+    } else {
+        console.error("No document name found in localStorage");
+    }
 }
 
 // Popup Handling

@@ -75,7 +75,9 @@
                 <h2>What kind of file do you want to upload?</h2>
                 <button onclick="chooseOption('text')">Text-based</button>
                 <button onclick="chooseOption('video')">Video-based</button>
-            </div>
+            <input type="text" placeholder="Insert YouTube video URL" id="YT_link">
+            <button type="submit" onclick="chooseOption('link')">Send Link</button>
+        </div>
         </div>
     </div>
     <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-app.js"></script>

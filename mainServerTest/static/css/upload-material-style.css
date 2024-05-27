@@ -141,6 +141,26 @@ button {
     background: radial-gradient(65.13% 77.87% at 118.98% 0%, #0A2F66 0%, #131F38 100%);
 }
 
+.custom-file-label {
+    display: inline-block;
+    padding: 0 10px 0 10px;
+    margin-bottom: 5%;
+    scale: 1.47;
+    cursor: pointer;
+
+    border: 1px solid #8f8f8f;
+    border-radius: 4px;
+    background-color: #f1f1f110;
+    transition: 0.3s;
+}
+
+.custom-file-label:hover {
+    scale: 1.5;
+    background-color: #f1f1f129;
+    border: 1px solid #ccc;
+    transition: 0.4s ease;
+}
+
 @media screen and (max-width = 900px) {
     .sidebar-title{
         font-size: 1.4rem;

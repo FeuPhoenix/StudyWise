@@ -467,6 +467,7 @@ class DocumentProcessed:
         # Return the path of the generated PDF
      
         return output_pdf_path
+    
     @staticmethod
     def get_file_extension(file_name):
         # Split the file name by the dot (.)
@@ -479,6 +480,7 @@ class DocumentProcessed:
         else:
             # No extension found
             return ""
+    
     @staticmethod
     def split_text(text, max_chunk_size=3800):  # Reduced max_chunk_size for safety
     
@@ -492,6 +494,7 @@ class DocumentProcessed:
             else:
                 current_chunk += " " + sentence
         yield current_chunk  # Yield the last chunk
+    
     @staticmethod
     def get_Long_summary(text):
         openai.api_key = OPENAI_API_KEY
@@ -515,6 +518,7 @@ class DocumentProcessed:
 
         full_summary = ' '.join(summaries)
         return full_summary
+    
     def get_long_summary_and_write_to_json(self,text, filename):
         result = DocumentProcessed.get_Long_summary(text)
         summary_data = {'long_summary': result}
@@ -522,6 +526,7 @@ class DocumentProcessed:
             json.dump(summary_data, json_file, indent=4)
             print(f"Long summary has been successfully saved in mainServerTest/assets/output_files/summaries/{filename}.json") 
         self.generated_summary_file_path = f"mainServerTest/assets/output_files/summaries/{filename}.json" 
+    
     def Document_Processing(self):
         self.file_name = DocumentProcessed.getFileNameFromPathWithOutExtension(self.file)
         if DocumentProcessed.check_value_exists_in_DocumentMaterial(self.userid,self.file_name):    
@@ -538,8 +543,6 @@ class DocumentProcessed:
                 DocumentProcessed.extract_text_from_pdf_plumber(self._file_path,text_file_path)
                 text =DocumentProcessed. read_text_file(text_file_path)
                 
-                
-                
                 text=DocumentProcessed.clean_text(text)
                 result = DocumentProcessed.get_Long_summary(text)
 
@@ -552,7 +555,7 @@ class DocumentProcessed:
                 flashcard=Flash_Cards(self._file_path,self.userid,self.material_id)
                 
                 mcq=Questions_Repo(self._file_path,self.userid,self.material_id,None)
-                return self.file_name,self.material_id
+                
                 #DocumentProcessed.extract_images_from_pdf( self._file_path)
                 
             elif os.path.isfile(self.file) and (self.file.endswith('.ppt') or self.file.endswith('.pptx') or self.file.endswith('.ppsx')):
@@ -578,11 +581,11 @@ class DocumentProcessed:
                 flashcard=Flash_Cards(self._file_path,self.userid,self.material_id)
                 mcq=Questions_Repo( self._file_path,self.userid,self.material_id,None)
                 # DocumentProcessed.extract_images_from_pdf( self._file_path)
-                return self.file_name,self.material_id
+                
                 flashcard=Flash_Cards(self._file_path,self.userid,self.material_id)
                 mcq=Questions_Repo( self._file_path,self.userid,self.material_id,None)
                 # DocumentProcessed.extract_images_from_pdf( self._file_path)
-                return self.file_name,self.material_id
+                
 
             elif os.path.isfile(self.file) and (self.file.endswith('.doc') or self.file.endswith('.docx')):
                 
@@ -617,7 +620,7 @@ class DocumentProcessed:
                 flashcard=Flash_Cards(self._file_path,self.userid,self.material_id)
                 mcq=Questions_Repo( self._file_path,self.userid,self.material_id,None)
                 # DocumentProcessed.extract_images_from_pdf( self._file_path)
-                return self.file_name,self.material_id
+                
             
             elif os.path.isfile(self.file) and (file.endswith('.txt') ):
                 txt_path = self.file
@@ -645,7 +648,7 @@ class DocumentProcessed:
                 self.addProcessedMaterialToFirestore()
                 mcq=Questions_Repo( self._file_path,None,self.userid,self.material_id,None)
                 flashcard=Flash_Cards(self._file_path,self.userid,self.material_id)
-                return self.file_name,self.material_id
+                
                 
             else:
                print("Please provide a valid file path")

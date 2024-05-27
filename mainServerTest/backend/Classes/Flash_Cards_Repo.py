@@ -248,7 +248,9 @@ class Flash_Cards:
         for pair in qa_pairs:
             if pair.count('\n') == 1:  # Expecting each pair to be two lines: question and answer
                 question, answer = pair.split('\n')
-                formatted_cards.append({'front': question, 'back': answer})
+                question = re.sub(r"^(Q:|A:|\s*\-\s*)", "", question)
+                answer = re.sub(r"^(Q:|A:|\s*\-\s*)", "", answer)
+                formatted_cards.append({'front': question.strip(), 'back': answer.strip()})
         return formatted_cards
 
     def filenameFromPath(self,filepath):
@@ -274,7 +276,7 @@ class Flash_Cards:
         content = []
 
         self.filename = self.filenameFromPath(file_path)
-        output_path='assets/output_files/flashcards/'+self.filename+'.json' 
+        output_path='C:/Users/AMR/Desktop/Graduation Project/StudyWise/mainServerTest/assets/output_files/flashcards/'+self.filename+'.json' 
         self.Flashcards=output_path
 
         if content_type == '':
@@ -291,6 +293,3 @@ class Flash_Cards:
         self.save_flash_cards_to_file(formatted_cards, output_path)
         self.Flashcards=output_path
         print(f"Flash cards saved to {output_path}")
-        
-
-  

@@ -1,6 +1,7 @@
 const urlParams = new URLSearchParams(window.location.search);
-const fileParam = urlParams.get('file');
-const fileUrl = `/api/files/pdf/${encodeURIComponent(fileParam)}`;
+const fileParam = localStorage.getItem('fileName');
+
+const fileUrl = localStorage.getItem('loadedDocumentLink');
 
 const pdfViewer = document.getElementById('pdf-viewer');
 pdfViewer.innerHTML = `<embed src="${fileUrl}" type="application/pdf" width="100%" height="600px" />`;
