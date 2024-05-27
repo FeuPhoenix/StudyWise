@@ -214,7 +214,7 @@ class DocumentProcessedController:
                 data = response.json()
                 return data
             except requests.exceptions.RequestException as e:
-                print("Error: 7mada 2", e)
+                print("Error:  2", e)
                 return None
     
     @staticmethod

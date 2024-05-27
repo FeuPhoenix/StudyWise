@@ -76,7 +76,7 @@ class Video_Processed_Controller:
                 data = response.json()
                 return data
             except requests.exceptions.RequestException as e:
-                print("Error: 7mada 2", e)
+                print("Error:  2", e)
                 return None
     @staticmethod
     def fetch_video_content(userid, filename):
@@ -173,6 +173,7 @@ class Video_Processed_Controller:
                 Summary= Video_Processed_Controller.fetch_json_from_url(video_material_data['generated_summary_file_path'])
 
                 Chapters= Video_Processed_Controller.fetch_json_from_url(video_material_data['generated_chapters_file_path'])
+                Transcript= Video_Processed_Controller.fetch_json_from_url(video_material_data['generated_text_file_path'])
 
                 flashcards= Video_Processed_Controller.fetch_json_from_url( flash_card_data[0]['flash_card_location'])
 
@@ -182,7 +183,7 @@ class Video_Processed_Controller:
 
                 MCQ_H= Video_Processed_Controller.fetch_json_from_url(hard_location)
             
-                return video_material_data['Material'],video_material_data['generated_audio_file_path'],Summary,Chapters,flashcards,MCQ_E,MCQ_M,MCQ_H
+                return video_material_data['Material'],video_material_data['generated_audio_file_path'],Summary,Chapters,flashcards,MCQ_E,MCQ_M,MCQ_H,Transcript
             
             else:
                 print(f"No such document with user_id: {user_id} and material_id: {material_id}")
