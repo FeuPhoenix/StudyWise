@@ -208,14 +208,16 @@ def load_video_content() :
               '\n===================================== JS-FILE =====================================\n')
 
         from backend.Classes.VideoProcessed_Controller import Video_Processed_Controller as Video_Fetcher
-        videoLink, audioLink, Summary, Chapters, Flashcards, MCQ_E, MCQ_M, MCQ_H = Video_Fetcher.fetch_video_content(userID, fileName)
+        videoLink, audioLink, summary, chapters, flashcards, MCQ_E, MCQ_M, MCQ_H, Transcript = Video_Fetcher.fetch_video_content(userID, fileName)
         
-        print(  '================================== VIDEO-CONTENT ==================================',
+        print(  '\n================================== VIDEO-CONTENT ==================================\n',
                 'Video name: ', fileName,
-                'Summary: \n', Summary, 
-                'Chapters: \n', Chapters, 
-                'Flashcards: \n', Flashcards, 
-                '================================== VIDEO-CONTENT ==================================')
+                '\n\nLink: \n', videoLink, 
+                '\n\nSummary: \n', summary, 
+                '\n\nChapters: \n', chapters, 
+                '\n\nFlashcards: \n', flashcards, 
+                '\n\nTranscript: \n', Transcript,
+                '\n================================== VIDEO-CONTENT ==================================\n')
 
         return jsonify({
                     'method': 'POST',
@@ -224,14 +226,15 @@ def load_video_content() :
                     },
                     'data': {
                         'fileName':     fileName,   # String
-                        'file':         videoLink,  # Fetch Link
-                        'audio':        audioLink, # Fetch Link
-                        'summary':      Summary,    # Fetch JSON
-                        'chapters':     Chapters,   # Fetch JSON
-                        'flashcards':   Flashcards, # Fetch JSON
+                        'videoLink':    videoLink,  # Fetch Link
+                        'audioLink':    audioLink,  # Fetch Link
+                        'summary':      summary,    # Fetch JSON
+                        'chapters':     chapters,   # Fetch JSON
+                        'flashcards':   flashcards, # Fetch JSON
                         'MCQ_E':        MCQ_E,      # Fetch JSON
                         'MCQ_M':        MCQ_M,      # Fetch JSON
-                        'MCQ_H':        MCQ_H      # Fetch JSON
+                        'MCQ_H':        MCQ_H,      # Fetch JSON
+                        'Transcript':   Transcript  # Fetch JSON
                     }
                 })
     else : 

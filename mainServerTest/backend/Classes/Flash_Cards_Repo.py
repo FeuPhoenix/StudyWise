@@ -9,8 +9,8 @@ import time
 import json
 import re
 
-from Constants import OPENAI_API_KEY, MAX_TOKENS_PER_REQUEST,kUserId,kUserEmail ,kDatejoined ,kFullName
-from FirestoreDB import FirestoreDB # Assuming the Materials and Processed_Materials classes are defined in app.Studywise.Model
+from backend.Classes.Constants import OPENAI_API_KEY, MAX_TOKENS_PER_REQUEST,kUserId,kUserEmail ,kDatejoined ,kFullName
+from backend.Classes.FirestoreDB import FirestoreDB # Assuming the Materials and Processed_Materials classes are defined in app.Studywise.Model
 
 class Flash_Cards:
     Flashcards=''
@@ -276,8 +276,8 @@ class Flash_Cards:
         content = []
 
         self.filename = self.filenameFromPath(file_path)
-        output_path='C:/Users/AMR/Desktop/Graduation Project/StudyWise/mainServerTest/assets/output_files/flashcards/'+self.filename+'.json' 
-        self.Flashcards=output_path
+        output_path = 'assets/output_files/flashcards/'+self.filename+'.json'
+        self.Flashcards = output_path
 
         if content_type == '':
             if file_path.endswith('.pdf'):

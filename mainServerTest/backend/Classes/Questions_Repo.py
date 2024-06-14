@@ -11,8 +11,8 @@ import json
 import textstat
 from typing import List
 
-from Constants import OPENAI_API_KEY, MAX_TOKENS_PER_REQUEST
-from FirestoreDB import FirestoreDB
+from backend.Classes.Constants import OPENAI_API_KEY, MAX_TOKENS_PER_REQUEST
+from backend.Classes.FirestoreDB import FirestoreDB
 
 openai.api_key = OPENAI_API_KEY
 

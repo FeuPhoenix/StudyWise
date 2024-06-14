@@ -127,6 +127,27 @@ div.study {
     font-size: 21px;
     text-align: center;
 }
+.card::-webkit-scrollbar
+{
+    width: 10px;
+}
+
+.card::-webkit-scrollbar-thumb
+{
+    border-radius: 10px;
+    background-color: rgba(67, 67, 67, 0.6);
+}
+
+.card::-webkit-scrollbar-thumb:hover
+{
+    border-radius: 10px;
+    background-color: rgba(124, 124, 124, 0.7);
+}
+.card::-webkit-scrollbar-thumb:active
+{
+    border-radius: 10px;
+    background-color: rgb(98, 98, 98);
+}
 
 .front {
     text-align:center;

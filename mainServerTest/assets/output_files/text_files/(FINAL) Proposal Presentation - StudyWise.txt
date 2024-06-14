@@ -1,0 +1,183 @@
+STUDY W I SE
+SUPERVISED BY
+DR. FATMA HELMY, ENG. MAHA SAYEDMEET OUR TEAM
+AMR ABDELRAHMAN ABDELRAHMAN MOHAMED
+MOHAMED MOHAMED ABDELMAGEED EHAB
+Team Leader Team Member Team Member Team Member
+2
+ESIWYDUTSIN THI S
+PR ESENTATI O
+N
+ INTRODUCTION  SIMILAR SYSTEMS
+ MOTIVATION  SYSTEM OVERVIEW
+ PROBLEM STATEMENT  DELIVERABLES
+ CHALLENGES  TIME PLAN
+ STAKEHOLDERS  SUPPORTIVE DOCUMENTS
+3
+ DEMO
+ESIWYDUTSINTRODUCTI ON
+StudyWise is a smart and versatile
+tutoring platform that
+accommodates both textual and
+video-based learning materials. It
+incorporates the use of a chatbot to
+aid text-based material, and
+several technologies to help make
+lecture videos a lot more
+interactive. StudyWise aims to
+make the process of studying and
+4
+learning more engaging and
+effective, giving users a clear
+indicator of progress to keep them on
+track.
+ESIWYDUTSBUSI NESS M OTI VATION
+• The growing demand for smart tutoring systems
+and personalized learning experiences
+• Facilitating adaptive learning to fit different needs, even
+beyond academic (learning & growing skills)
+• Possible revenue through subscription-based plans and
+advertising opportunities
+5
+ESIWYDUTSAC ADEMIC M OTIVATI ON
+• Helping students study more effectively
+• Helping keep track of the learning journey
+• Lack of involvement in traditional studying methods
+• Cutting costs by using adaptive tutoring techniques
+6
+ESIWYDUTSPROBL EM STATEMENT
+•
+Diversity of among learners and their abilities
+• Students often face difficulty managing their time
+•
+Planning study sessions can take more time than desired
+• Wordiness or complexity of study material
+• Maintaining focus throughout long lectures can be challenging
+7
+ESIWYDUTSPO SSIBL E CH ALL ENG ES
+• Data Extraction: Highly effective parsing methods needed to achieve
+consistent
+satisfactory results with various content formats (images, text-based
+documents).
+• Understanding the Content: Understanding the meaning of the information
+that’s been extracted can be very challenging. NLP techniques and machine
+learning models need to be employed efficiently to handle the textual content
+identify the key word and relate them to the user’s queries.
+• Structural variations: Word documents, PDFs, PowerPoints and videos have
+different structures. Our system must be able to handle these structural
+variations to extract relevant information consistently
+• Content Updates: Resources can undergo updates or new versions. Chatbots
+should be able to handle version control, track changes, and provide up-to-
+date and relevant information to users.
+8
+• Visual Content Interpretation: Extracting information from visual elements
+like images, charts, or diagrams is going to be challenging. Chatbots will need
+techniques like optical character recognition (OCR) or image analysis to
+interpret visual content and provide relevant insights.
+ESIWYDUTSEX TERNAL
+STAKEHO LD ER S
+• Students are the main focus and primary users of StudyWise.
+They will upload educational resources, receive tutoring on the
+resources they provide, and track their progress
+• Parents/Guardians of students can play a crucial role in their
+education. They can be engaged in the decision-making process
+and monitoring their child’s progress
+• Schools, colleges, and educational institutions could be
+external stakeholders if they engage with StudyWise. These
+institutions can partner with the platform or recommend it to the
+students.
+• Administrators and educational professionals, such as school
+principals or academic advisors may have an interest in
+9
+StudyWise. They could be involved in decision-making processes,
+evaluation of the system, or integration into the general
+educational framework.
+• Funding organizations or investors can become external
+stakeholders if StudyWise requires investment
+ESIWYDUTSSI M IL AR SYSTEM S
+• The VideoPoints project • ChatPDF • Mindgrasp
+10
+ESIWYDUTS(1 ) VI DEOPOINTS
+• This project turns video lectures or
+instructional videos into a sequence of
+topical segments.
+• It utilizes OCR in an algorithm to determine
+dominant keywords from the videos’
+frames and links them with their
+corresponding video segments for easy
+navigation.
+11
+ESIWYDUTS(2 ) CHATPDF
+• Summarize information included in PDF files to aid in
+comprehension
+• Answer questions about text included in a PDF file.
+•
+Analyze documents to aid in the
+quick extraction of information
+• Interpret and translate PDF files in
+any language.
+12
+ESIWYDUTS(3 ) M IND GRASP
+• Like ChatPDF, Mindgrasp allows you to ask questions about a
+document and get clear, easy-to-understand answers
+• Its AI can identify knowledge gaps
+and provide targeted remediation
+• Encourages more interaction
+through quizzes, challenges, and
+rewards
+13
+ESIWYDUTSSYSTEM OVERVIEW
+14
+ESIWYDUTSDELIVERABL ES
+OUR
+SRS SDD APPLICATION APPLICATION THESIS
+DOCUMENT DOCUMENT MODULES (STUDYWISE) PAPER
+Software Software Our Software's Our Working Our Final
+Requirement Design Main functionalities Application Research Paper
+Specifications Document
+15
+ESIWYDUTSTI M E PL AN
+Task Start Date End Date
+Ideas & supervisors 8/8/2023 10/1/2023
+Information collection and researches 10/1/2023 10/20/2023
+Survey and proposal Preparation 11/1/2023 11/10/2023
+Proposal presentation 10% 11/10/2023 11/15/2023
+SRS preparation
+SRS presentation 35%
+SDD preparation
+SDD presentation 65%
+Technical working implementation
+System prototype submission 80%
+Testing and Validation
+Technical Evaluation 90%
+Final thesis 100%
+16
+ESIWYDUTSTI M E PL AN
+17
+ESIWYDUTS35
+%
+Learning Thesis
+SRS
+Patterns Paper
+DEC FEB APR JUN
+NOV JAN MAR MAY
+User Our Application
+Interface (StudyWise)
+TI M E
+18
+PL AN
+ESIWYDUTSSU PPO RTIV
+E
+DOCUM ENT
+S
+19
+ESIWYDUTSDEMO
+Let’s take a look at some of our
+running code to be used in our
+system.
+20
+ESIWYDUTS(The audio is split into chunks)
+21
+ESIWYDUTS22
+ESIWYDUTS23
+ESIWYDUTSThank You

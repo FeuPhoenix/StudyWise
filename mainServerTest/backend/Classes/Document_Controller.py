@@ -13,7 +13,7 @@ from io import BytesIO
 from PIL import Image
 from docx import Document
 import requests
-from summarizer import Summarizer
+# from summarizer import Summarizer
 import fitz  # PyMuPDF
 import comtypes.client
 
@@ -66,9 +66,10 @@ class DocumentProcessedController:
             return None
         
     @staticmethod
-    def upload_document(file, userID) : 
+    async def upload_document(file, userID) : 
         document = DocumentProcessed(file, userID)
-        document.Document_Processing()
+        await document.Document_Processing()
+        print('Doc ID and Name', document.file_name, document.material_id)
         return document.file_name, document.material_id
 
     @staticmethod

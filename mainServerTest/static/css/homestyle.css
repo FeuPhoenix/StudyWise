@@ -116,7 +116,7 @@ button {
 .navbar-avatar-frame::before {
     position: absolute;
     display: inline-block;
-    right: 64px;
+    right: 69px;
     z-index: 1;
     content: var(--before-content, "User Name");
     line-height: 1em;
@@ -189,18 +189,53 @@ button {
 
 
 .main-container {
+    overflow-y: auto;
+    display: grid;
     border-radius: 9px;
     border: 2px solid rgba(80, 99, 135, 1);
     background-color: #040f22;
-    display: flex;
-    flex-direction: column;
     margin-top: 28px;
     padding: 28px;
-    gap: 20px;
-    width: 49%;
+    width: -webkit-fill-available;
     height: 67vh;
     max-width: 49%;
     max-height: 67vh;
+}
+
+.main-container::-webkit-scrollbar:active {
+    visibility: visible;
+}
+
+#style-7::-webkit-scrollbar-track 
+{
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	background-color: black;
+	border-radius: 10px;
+    opacity: 0.3;
+}
+
+#style-7::-webkit-scrollbar
+{
+    width: 10px;
+    visibility: hidden;
+}
+
+#style-7::-webkit-scrollbar-thumb
+{
+    width: 10px;
+	border-radius: 10px;
+	background-color: rgba(94, 110, 171, 0.6);
+}
+
+#style-7::-webkit-scrollbar-thumb:hover
+{
+	border-radius: 10px;
+    background-color: rgba(94, 110, 171, 0.7);
+}
+#style-7::-webkit-scrollbar-thumb:active
+{
+	border-radius: 10px;
+	background-color: rgba(94, 110, 171, 1);
 }
 
 .side-container {
@@ -221,37 +256,41 @@ button {
 }
 
 .content-row {
-    padding: 0 1px;
+    transition: 0.5s ease;
+    padding: 0 0 0 1px;
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
-    justify-content: center; /* Center the content columns */
+    justify-content: flex-start;
+    justify-self: center;
+    
+    width: 90%;
 }
 
 .content-column {
+    transition: 0.5s ease-in-out;
     display: flex;
     flex-direction: column;
     line-height: normal;
-    width: 100%; /* Each content column takes up the full width */
-    max-width: 300px; /* Limit the width of each content column */
     gap: 20px;
+
+    width: 100%; /* Each content column takes up the full width */
+    max-width: 48%; /* Limit the width of each content column */
 }
 
 .content-column:hover {
     transition: 0.3s ease-in-out;
-    scale: 1.05;
+    scale: 1.01;
 }
 
 .content-card {
-    justify-content: center;
+    justify-content: space-between;
     border-radius: 6px;
     border: 3px solid rgba(212, 219, 232, 1);
     background-color: #14223c;
     display: flex;
     flex-direction: column;
-    margin-bottom: 20px;
-    margin-bottom: 0px;
-    height: 32vh;
+    height: 100%;
     max-height: 32vh;
 }
 .content-card:hover {
@@ -271,11 +310,6 @@ button {
     max-height: 70px;
     transition: 0.3s ease-in-out;
 }
-.title:hover {
-    transition: 0.3s ease-in-out;
-    font-weight: 700;
-    scale: 1.1;
-}
 
 .type {
     margin: 5px;
@@ -284,7 +318,7 @@ button {
 .image-container {
     align-self: center;
     display: flex;
-    margin-top: 33px;
+    margin-top: 3px;
     align-items: center;
     gap: 10px;
 }
@@ -321,7 +355,7 @@ button {
 
 .card-img:hover {
     transition: 0.25s ease-in-out;
-    scale: 1.08;
+    scale: 1.05;
     opacity: 0.75;
 }
 
@@ -343,6 +377,7 @@ button {
     .content-row {
         flex-direction: column;
         align-items: stretch;
+        justify-content: center;
         gap: 0px;
     }
 

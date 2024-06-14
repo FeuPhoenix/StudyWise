@@ -1,72 +1,92 @@
 [
     {
-        "question": "1. What is the purpose of using architectural viewpoints in software architecture?",
+        "question": "1. What is one benefit of using adaptive tutoring techniques?",
         "options": [
-            "C) To limit the scope of the architecture",
-            "A) To provide a detailed description of the entire system",
-            "B) To structure the architectural description into different aspects of the system",
-            "D) To simplify the architecture process"
+            "A) Increased student engagement",
+            "C) Reduced diversity among learners",
+            "D) Higher costs for students",
+            "B) Decreased learning opportunities"
         ],
-        "correct_answer": "C) To limit the scope of the architecture"
+        "correct_answer": "A) Increased student engagement"
     },
     {
-        "question": "2. How does the relationship between view and viewpoint compare to object and class?",
+        "question": "2. Why is maintaining focus during long lectures challenging for students?",
         "options": [
-            "D) They are interchangeable terms in software architecture",
-            "C) They are opposite concepts",
-            "B) They are similar in that a viewpoint describes one aspect of the system",
-            "A) They are unrelated concepts"
+            "D) Lack of engagement with the content",
+            "B) Difficulty managing time",
+            "C) Structural variations in learning materials",
+            "A) Lack of interest in the subject matter"
         ],
-        "correct_answer": "D) They are interchangeable terms in software architecture"
+        "correct_answer": "D) Lack of engagement with the content"
     },
     {
-        "question": "3. What is the Reference Model of Open Distributed Processing (RM-ODP) used for?",
+        "question": "3. How can smart tutoring systems go beyond academic learning?",
         "options": [
-            "A) Describing distributed object systems and their viewpoint set",
-            "D) Designing user interfaces",
-            "C) Standardizing programming languages",
-            "B) Creating software architecture blueprints"
+            "D) By cutting costs for students",
+            "B) By providing revenue opportunities",
+            "C) By helping students grow their skills",
+            "A) By offering subscription-based plans"
         ],
-        "correct_answer": "A) Describing distributed object systems and their viewpoint set"
+        "correct_answer": "D) By cutting costs for students"
     },
     {
-        "question": "6. How does the set of viewpoints in \"Applied Software Architecture\" compare to the set in \"Large Scale Software Architecture\"?",
+        "question": "4. Why is it important for instructional videos to be sequenced properly?",
         "options": [
-            "B) They have different purposes",
-            "A) They are identical",
-            "C) They both focus on practitioner experience",
-            "D) They have similar conceptual models"
+            "D) To update content regularly",
+            "B) To maintain engagement with the content",
+            "A) To summarize information for students",
+            "C) To support different learning models"
         ],
-        "correct_answer": "B) They have different purposes"
+        "correct_answer": "D) To update content regularly"
     },
     {
-        "question": "7. In software architecture, viewpoints are used to:",
+        "question": "5. What role do external stakeholders, such as principals or academic advisors, play in using StudyWise?",
         "options": [
-            "C) Focus on technical implementation details",
-            "D) Ensure compatibility with all operating systems",
-            "A) Describe the system from the user's perspective",
-            "B) Structure the architectural description into different pieces"
+            "C) They may have a negative impact on students",
+            "A) They can engage in the decision-making process",
+            "D) They can limit the use of smart tutoring systems",
+            "B) They can create revenue opportunities"
         ],
-        "correct_answer": "C) Focus on technical implementation details"
+        "correct_answer": "C) They may have a negative impact on students"
     },
     {
-        "question": "8. What is the main concept behind the 4+1 architectural view model?",
+        "question": "6. How can chatbots help students engage with learning materials?",
         "options": [
-            "A) Providing multiple perspectives on the system",
-            "D) Using only one viewpoint for the entire system",
-            "C) Simplifying the architecture process by combining views",
-            "B) Creating a single comprehensive architectural view"
+            "A) By summarizing information",
+            "D) By reducing diversity among learners",
+            "C) By cutting costs for students",
+            "B) By offering interactivity and support"
         ],
-        "correct_answer": "A) Providing multiple perspectives on the system"
+        "correct_answer": "A) By summarizing information"
     },
     {
-        "question": "9. How does the RM-ODP standardize distributed object systems?",
+        "question": "8. Why is it important for resources to be updated regularly?",
         "options": [
-            "A) By providing a common framework for describing viewpoints",
-            "C) By focusing on software implementation details",
-            "B) By limiting the number of architectural views allowed",
-            "D) By eliminating the need for architectural viewpoints"
+            "B) To ensure up-to-date and relevant information",
+            "C) To reduce diversity among learners",
+            "D) To increase student engagement",
+            "A) To maintain focus during lectures"
         ],
-        "correct_answer": "A) By providing a common framework for describing viewpoints"
+        "correct_answer": "B) To ensure up-to-date and relevant information"
+    },
+    {
+        "question": "9. How can adaptive tutoring techniques help students study more effectively?",
+        "options": [
+            "A) By offering subscription-based plans",
+            "C) By providing personalized learning experiences",
+            "B) By cutting costs for students",
+            "D) By limiting involvement in academic learning"
+        ],
+        "correct_answer": "A) By offering subscription-based plans"
+    },
+    {
+        "question": "10. What potential benefit can StudyWise provide to students through video-based learning materials?",
+        "options": [
+            "B) Reduced diversity in learning styles",
+            "A) Increased revenue opportunities",
+            "C) Improved time management",
+            "D) Easy access to clear, easy-to-understand answers"
+        ],
+        "correct_answer": "B) Reduced diversity in learning styles"
     }
 ]

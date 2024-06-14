@@ -11,7 +11,7 @@ from pptx import Presentation
 from io import BytesIO
 from PIL import Image
 from docx import Document
-from summarizer import Summarizer
+# from summarizer import Summarizer
 import subprocess
 import uuid
 import fitz  # PyMuPDF
@@ -180,7 +180,7 @@ class DocumentProcessed:
 
     @staticmethod
     def getFileNameFromPathWithOutExtension(input_string):
-        last_slash_index = input_string.rfind('/')
+        last_slash_index = input_string.rfind('\\')
         result_string = input_string[last_slash_index + 1:]
         result_string=result_string.replace('.mp4','')
         result_string=result_string.replace('.docx','')
@@ -529,6 +529,9 @@ class DocumentProcessed:
     
     def Document_Processing(self):
         self.file_name = DocumentProcessed.getFileNameFromPathWithOutExtension(self.file)
+
+        print("File name without path: ", self.file_name)
+
         if DocumentProcessed.check_value_exists_in_DocumentMaterial(self.userid, self.file_name):
             if os.path.isfile(self.file):
                 if self.file.endswith('.pdf'):
