@@ -130,9 +130,64 @@ class UserRepo:
             print(f"User added to Firestore with email: {self.email}")
             return True
 
+    
+    @staticmethod
+    def update_user_name_by_id(doc_id, new_name):
+        db_instance = FirestoreDB.get_instance()
+        firestore_instance = db_instance.get_firestore_instance()
+        users_ref = firestore_instance.collection('Users')
 
+        # Retrieve the document with the matching document ID
+        doc_ref = users_ref.document(doc_id)
+        doc = doc_ref.get()
 
+        if doc.exists:
+            # Get the current full name
+            full_name = doc.to_dict().get('Full Name')
+            if full_name:
+                print(f'Logged in: {full_name}')
+            else:
+                print('Full Name field is empty in this document.')
 
+            # Update the document with the new full name
+            doc_ref.update({'Full Name': new_name})
+            print(f'Updated Full Name to: {new_name}')
+
+            # Return the document ID, new Full Name, and True
+            return doc_id, new_name, True
+        else:
+            # If no document is found with the given document ID
+            print(f'No document found with ID: {doc_id}')
+            return None, None, False
+    @staticmethod
+    def update_user_name_by_email(email, new_name):
+        db_instance = FirestoreDB.get_instance()
+        firestore_instance = db_instance.get_firestore_instance()
+        users_ref = firestore_instance.collection('Users')
+
+        # Query Firestore to find the document with the matching email
+        query = users_ref.where('Email', '==', email)
+        docs = query.stream()
+
+        for doc in docs:
+            # Get the ID of the document
+            doc_id = doc.id
+
+            full_name = doc.to_dict().get('Full Name')
+            if full_name:
+                print(f'Logged in: {full_name}')
+            else:
+                print('Full Name field is empty in this document.')
+
+            # Update the document with the new full name
+            users_ref.document(doc_id).update({'Full Name': new_name})
+            print(f'Updated Full Name to: {new_name}')
+
+            # Return the document ID, new Full Name, and True
+            return doc_id, new_name, True
+
+    # If no document is found with the given email
+        return None, None, False
     
     @staticmethod
     def getUser_level_from_Firestore(ID):

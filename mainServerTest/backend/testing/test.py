@@ -28,14 +28,18 @@
 #     print("Failed to fetch JSON data from the URL.")import pytesseract
 import fitz  # PyMuPDF
 
-# Path to your PDF file
-pdf_path = "C:/Users/Abdelrahman/Downloads/محاضرة د.محمود البحيري ٢ (1).pdf"
-# Open the PDF file
-doc = fitz.open(pdf_path)
+# # Path to your PDF file
+# pdf_path = "C:/Users/Abdelrahman/Downloads/محاضرة د.محمود البحيري ٢ (1).pdf"
+# # Open the PDF file
+# doc = fitz.open(pdf_path)
 
-# Iterate through pages and extract text
-for page_num in range(len(doc)):
-    page = doc.load_page(page_num)
-    text = page.get_text()
-    if text:
-        print(text)
+# # Iterate through pages and extract text
+# for page_num in range(len(doc)):
+#     page = doc.load_page(page_num)
+#     text = page.get_text()
+#     if text:
+#         print(text)
+# import easyocr
+# reader = easyocr.Reader(['ch_sim','en']) # this needs to run only once to load the model into memory
+# result = reader.readtext("D:/COLLEGE/StudyWise/mainServerTest/assets/output_files/Images/test/test_page_10_img_2.png",detail = 0)
+# print(result)

@@ -2,6 +2,7 @@ from datetime import datetime, timedelta
 import uuid
 from FirestoreDB import FirestoreDB
 import os
+import easyocr
 
 
 
@@ -13,6 +14,12 @@ class OCR_Repo:
         @staticmethod
         def get_filename(file_path):
             return os.path.basename(file_path)
+        def run_ocr(self):
+            reader = easyocr.Reader(['ch_sim','en']) # this needs to run only once to load the model into memory
+            result = reader.readtext(self.image_File,detail = 0)
+            result_string =', '.join(result)
+            return result_string
+            
         @staticmethod
         def upload_material_to_storage(user_id, material_name, image_file_path):
             db_instance = FirestoreDB.get_instance()
@@ -81,8 +88,19 @@ class OCR_Repo:
             except Exception as e:
                 print(f"Error fetching images: {e}")
                 return []
-        def get_image_from_firestore():  
-                pass  
+        def get_image_from_firestore(self, user_id, Material_Type, materialid, image_name):
+            try:
+                db_instance = FirestoreDB.get_instance()
+                firestore_instance = db_instance.get_firestore_instance()
+                images_ref = firestore_instance.collection('Users').document(user_id).collection(Material_Type).document(materialid).collection('Images')
+                docs = images_ref.where("image_name", "==", image_name).stream()
+                for doc in docs:
+                    if doc.exists:
+                        return doc.to_dict()
+                return None
+            except Exception as e:
+                print(f"Error searching for image: {e}")
+                return None
 def main():
   
     x= OCR_Repo("D:/COLLEGE/StudyWise/mainServerTest/assets/output_files/Images/test/test_page_1_img_1.png")
