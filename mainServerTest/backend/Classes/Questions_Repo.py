@@ -10,6 +10,7 @@ import random
 import json
 import textstat
 from typing import List
+from langdetect import detect
 
 from Constants import OPENAI_API_KEY, MAX_TOKENS_PER_REQUEST
 from FirestoreDB import FirestoreDB
@@ -72,8 +73,9 @@ class Questions_Repo:
         if current_chunk:
             chunks.append(current_chunk.strip())
         return chunks
-    
-    
+    @staticmethod
+    def detect_language(text):
+        return detect(text)
     @staticmethod
     def determine_difficulty(text: str) -> str:
         # Calculate readability scores and text metrics

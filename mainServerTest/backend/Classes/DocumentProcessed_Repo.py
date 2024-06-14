@@ -11,17 +11,21 @@ from pptx import Presentation
 from io import BytesIO
 from PIL import Image
 from docx import Document
-from summarizer import Summarizer
 import subprocess
 import uuid
 import fitz  # PyMuPDF
 import comtypes.client
 from dotenv import load_dotenv
+from langdetect import detect
 
-from backend.Classes.Constants import OPENAI_API_KEY 
-from backend.Classes.FirestoreDB import FirestoreDB
-from backend.Classes.Flash_Cards_Repo import Flash_Cards
-from backend.Classes.Questions_Repo import Questions_Repo
+# from backend.Classes.Constants import OPENAI_API_KEY 
+# from backend.Classes.FirestoreDB import FirestoreDB
+# from backend.Classes.Flash_Cards_Repo import Flash_Cards
+# from backend.Classes.Questions_Repo import Questions_Repo
+from Constants import OPENAI_API_KEY 
+from FirestoreDB import FirestoreDB
+from Flash_Cards_Repo import Flash_Cards
+from Questions_Repo import Questions_Repo
 
 from dotenv import load_dotenv
 load_dotenv()
@@ -43,7 +47,9 @@ class DocumentProcessed:
         self.material_id=uuid.uuid4().hex
         self.db = FirestoreDB.get_instance()
         
-        
+    @staticmethod
+    def detect_language(text):
+        return detect(text)    
     def addProcessedMaterialToFirestore(self):
         db_instance = FirestoreDB.get_instance()
         firestore_instance = db_instance.get_firestore_instance()
@@ -550,7 +556,6 @@ class DocumentProcessed:
                         file.write(text)
                 else:
                     print("Please provide a valid file path")
-
                 text = DocumentProcessed.read_text_file(self.generated_text_file_path)
                 text = DocumentProcessed.clean_text(text)
                 result = DocumentProcessed.get_Long_summary(text)
@@ -567,7 +572,7 @@ class DocumentProcessed:
 
 # Testing
 def main():
-    D = DocumentProcessed("D:/COLLEGE/StudyWise/mainServerTest/assets/input_files/text-based/test.pdf", "0GKTloo0geWML96tvd9g27C99543")
+    D = DocumentProcessed("C:/Users/Abdelrahman/Downloads/محاضرة د.محمود البحيري ٢ (1).pdf", "0GKTloo0geWML96tvd9g27C99543")
     a, b = D.Document_Processing()
     print('Material Filename and ID: \n', a, b)
 

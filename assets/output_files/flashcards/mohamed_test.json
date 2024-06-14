@@ -1,0 +1,18 @@
+[
+    {
+        "front": "What is the basis of the ISO Standard 42010 in relation to viewpoints and views?  ",
+        "back": "ISO Standard 42010 is based on a conceptual model that explains how viewpoints and views relate to each other and their environment, such as systems, architects, stakeholders, and so on."
+    },
+    {
+        "front": "Explain the connection between ISO Standard 42010 and the IEEE Standard 1471.  ",
+        "back": "ISO Standard 42010 is developed from the earlier IEEE Standard 1471, building upon its principles and concepts to define a framework for software systems architecture."
+    },
+    {
+        "front": "How are stakeholders involved in the context of viewpoints and views in software systems architecture according to ISO Standard 42010?  ",
+        "back": "Stakeholders are one of the elements involved in the relationship between viewpoints and views, as they contribute their needs, concerns, and perspectives that influence the software systems architecture design process."
+    },
+    {
+        "front": "What role does the conceptual model play in defining the relationships within software systems architecture as per ISO Standard 42010?  ",
+        "back": "The conceptual model provides a framework that helps clarify how different viewpoints interact with each other and with the broader environment, including systems, architects, and stakeholders, thus guiding the understanding and development of software systems architecture."
+    }
+]

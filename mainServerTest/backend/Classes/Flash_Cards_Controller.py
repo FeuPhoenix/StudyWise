@@ -6,7 +6,8 @@ import time
 import json
 import re
 from Constants import OPENAI_API_KEY, MAX_TOKENS_PER_REQUEST,kUserId,kUserEmail ,kDatejoined ,kFullName
-import backend.Classes.FirestoreDB as FirestoreDB
+import FirestoreDB as FirestoreDB
+from Flash_Cards_Repo import Flash_Cards
 
 class FlashcardsController:
     @staticmethod
@@ -146,6 +147,13 @@ class FlashcardsController:
         except Exception as e:
             print("Error:", e)
             print("Failed to update flashcards in Firestore")
-    def Generate_And_Replace_FlasCards():
-        pass
-       
+    @staticmethod
+    def Generate_And_Replace_FlasCards(ProcessedMaterial,userid,materialid,content_type=''):
+        F= Flash_Cards(ProcessedMaterial,userid,materialid,content_type)
+        time.sleep(1)
+
+def main():
+    FlashcardsController.Generate_And_Replace_FlasCards("D:/COLLEGE/StudyWise/mainServerTest/assets/input_files/text-based/mohamed_test.pdf","0GKTloo0geWML96tvd9g27C99543","cc20ce5446be455db89d88698929423a","pdf")
+if __name__ == "__main__":
+    main()
+             
