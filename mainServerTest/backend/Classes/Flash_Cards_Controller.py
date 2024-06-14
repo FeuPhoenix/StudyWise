@@ -5,8 +5,11 @@ import openai
 import time
 import json
 import re
+
+import requests
 from Constants import OPENAI_API_KEY, MAX_TOKENS_PER_REQUEST,kUserId,kUserEmail ,kDatejoined ,kFullName
-import FirestoreDB as FirestoreDB
+#import FirestoreDB as FirestoreDB
+from FirestoreDB import FirestoreDB
 from Flash_Cards_Repo import Flash_Cards
 
 class FlashcardsController:
@@ -31,8 +34,8 @@ class FlashcardsController:
                 data = doc.to_dict()
                 # Append the data to the list
                 all_data.append(data)
-            
-            return all_data
+            Data= FlashcardsController.fetch_json_from_url(all_data[0]['flash_card_location'])
+            return Data
         except Exception as e:
             print("Error:", e)
             return None
@@ -58,7 +61,7 @@ class FlashcardsController:
                 # Append the data to the list
                 all_data.append(data)
             
-            return all_data
+            Data= FlashcardsController.fetch_json_from_url(all_data[0]['flash_card_location'])
         except Exception as e:
             print("Error:", e)
             return None
@@ -149,11 +152,31 @@ class FlashcardsController:
             print("Failed to update flashcards in Firestore")
     @staticmethod
     def Generate_And_Replace_FlasCards(ProcessedMaterial,userid,materialid,content_type=''):
+        # content_type = "TRANSCRIPT"  to save the flashcards in a  videoMaterial Collection
         F= Flash_Cards(ProcessedMaterial,userid,materialid,content_type)
         time.sleep(1)
+        if content_type == "TRANSCRIPT":
+            return FlashcardsController.get_Flashcards_Video_from_firestore(userid,materialid)
+        else:
+            return FlashcardsController.get_Flashcards_Document_from_firestore(userid,materialid)
 
+
+       
+    @staticmethod 
+    def fetch_json_from_url(url):
+            try:
+                # Make a GET request to download the JSON file
+                response = requests.get(url)
+                response.raise_for_status()  # Raise an exception for any HTTP error status codes
+                
+                # Load the JSON data
+                data = response.json()
+                return data
+            except requests.exceptions.RequestException as e:
+                print("Error:  2", e)
+                return None
 def main():
-    FlashcardsController.Generate_And_Replace_FlasCards("D:/COLLEGE/StudyWise/mainServerTest/assets/input_files/text-based/mohamed_test.pdf","0GKTloo0geWML96tvd9g27C99543","cc20ce5446be455db89d88698929423a","pdf")
+    print(FlashcardsController.get_Flashcards_Video_from_firestore("0GKTloo0geWML96tvd9g27C99543","2115fd4ab01f46a58d6f7c78f32ded09"))
 if __name__ == "__main__":
     main()
              
