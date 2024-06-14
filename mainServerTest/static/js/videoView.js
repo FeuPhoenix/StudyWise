@@ -80,21 +80,32 @@ if (videoURL) { // Process the 'file' that is received
     console.log("No input file provided.");
 }
 
+document.getElementById('toggleButton').addEventListener('click', function() {
+    var videoIndexesDiv = document.getElementById('videoIndexes');
+    videoIndexesDiv.classList.toggle('expanded');
+    this.classList.toggle('collapsed');
+
+    if (document.getElementById('toggleButton').title == "Show Chapters")
+        document.getElementById('toggleButton').title = "Hide Chapters";
+    else 
+        document.getElementById('toggleButton').title = "Show Chapters";
+});
+
 // CHAT FOR VIDEO COMING SOON
 function goToChat() {
     if (videoName) {
         alert('Chat with videos coming soon.')
         // window.location.href = `/chatwithpdf?file=${encodeURIComponent(videoName)}`;
     } else {
-        console.error("No video name found in URL.");
+        console.error("No video name found in localStorage");
     }
 }
 
 function goToMCQ() {
     if (videoName) {
-        window.location.href = `/mcq?file=${encodeURIComponent(videoName)}`;
+        window.location.href = `/mcq`;
     } else {
-        console.error("No file parameter found in URL.");
+        console.error("No video name found in localStorage");
     }
 }
 

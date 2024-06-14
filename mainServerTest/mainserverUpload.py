@@ -1,4 +1,5 @@
 from flask import Flask, jsonify, render_template, request, send_from_directory, url_for, redirect, session
+import socket
 from config import socketio
 import os
 from werkzeug.utils import secure_filename
@@ -60,10 +61,19 @@ def landing_page():
 
 @app.route('/text-upload')
 def text_home():
+    session['fileType'] = 'document'
     return render_template('main_loggedin/upload-doc.html')
 
 @app.route('/video-upload')
 def video_home():
+    session['fileType'] = 'video'
+    return render_template('main_loggedin/upload-video-based.html')
+
+@app.route('/process-video-link<link>')
+def process_video_link(link):
+
+    print('Link to process:', link)
+
     return render_template('main_loggedin/upload-video-based.html')
 
 @app.route('/pdf-display')
@@ -152,18 +162,35 @@ def load_document_content() :
         userID = session['UserID']
         data = request.json
         fileName = data.get('fileName')
-        print('\n======================================================================\n',
-              '\t\t\tfilename from JS: ', fileName)
+        print('\n===================================== JS-FILE =====================================\n',
+              '\t\t\tfilename from JS: ', userID,
+              '\t\t\tfilename from JS: ', fileName,
+              '\n===================================== JS-FILE =====================================\n')
 
         from backend.Classes.Document_Controller import DocumentProcessedController as Document_Fetcher
-        File, Summary, Flashcards, MCQ_E, MCQ_M, MCQ_H = Document_Fetcher.fetch_document_content(userID, fileName)
+        documentLink, Summary, Flashcards, MCQ_E, MCQ_M, MCQ_H = Document_Fetcher.fetch_document_content(userID, fileName)
 
-        return jsonify({'file': File, 
-                        'summary': Summary, 
-                        'flashcards': Flashcards, 
-                        'MCQ_E': MCQ_E, 
-                        'MCQ_M': MCQ_M, 
-                        'MCQ_H': MCQ_H
+        print(  '\n================================= DOCUMENT-CONTENT =================================\n',
+                '\nDocument name: \n', fileName,
+                '\nLink: \n', documentLink,
+                '\nSummary: \n', Summary, 
+                '\nFlashcards: \n', Flashcards, 
+                '\n================================= DOCUMENT-CONTENT =================================\n')
+        
+        return jsonify({
+                        'method': 'POST',
+                        'headers': {
+                            'Content-Type': 'application/json',
+                        },
+                        'data': {
+                            'fileName':     fileName,       # String
+                            'documentLink': documentLink,   # Fetch Link
+                            'summary':      Summary,        # Fetch JSON
+                            'flashcards':   Flashcards,     # Fetch JSON
+                            'MCQ_E':        MCQ_E,          # Fetch JSON
+                            'MCQ_M':        MCQ_M,          # Fetch JSON
+                            'MCQ_H':        MCQ_H           # Fetch JSON
+                        }
                     })
     else : 
         return redirect(url_for(login))
@@ -175,18 +202,22 @@ def load_video_content() :
         userID = session['UserID']
         data = request.json
         fileName = data.get('fileName')
-        print('\n================================JS-FILE================================\n',
+        print('\n===================================== JS-FILE =====================================\n',
               '\t\t\tfilename from JS: ', userID,
               '\t\t\tfilename from JS: ', fileName,
-              '\n================================JS-FILE================================\n')
+              '\n===================================== JS-FILE =====================================\n')
 
         from backend.Classes.VideoProcessed_Controller import Video_Processed_Controller as Video_Fetcher
-        File_link, Audio_link, Summary, Chapters, Flashcards, MCQ_E, MCQ_M, MCQ_H = Video_Fetcher.fetch_video_content(userID, fileName)
-
+        videoLink, audioLink, summary, chapters, flashcards, MCQ_E, MCQ_M, MCQ_H, Transcript = Video_Fetcher.fetch_video_content(userID, fileName)
         
-        print(  'Summary: \n', Summary, #
-                'Chapters: \n', Chapters, 
-                'Flashcards: \n', Flashcards)
+        print(  '\n================================== VIDEO-CONTENT ==================================\n',
+                'Video name: ', fileName,
+                '\n\nLink: \n', videoLink, 
+                '\n\nSummary: \n', summary, 
+                '\n\nChapters: \n', chapters, 
+                '\n\nFlashcards: \n', flashcards, 
+                '\n\nTranscript: \n', Transcript,
+                '\n================================== VIDEO-CONTENT ==================================\n')
 
         return jsonify({
                     'method': 'POST',
@@ -195,15 +226,17 @@ def load_video_content() :
                     },
                     'data': {
                         'fileName':     fileName,   # String
-                        'file':         File_link,  # Fetch Link
-                        'audio':        Audio_link, # Fetch Link
-                        'summary':      Summary,    # Fetch JSON
-                        'chapters':     Chapters,   # Fetch JSON
-                        'flashcards':   Flashcards, # Fetch JSON
+                        'videoLink':    videoLink,  # Fetch Link
+                        'audioLink':    audioLink,  # Fetch Link
+                        'summary':      summary,    # Fetch JSON
+                        'chapters':     chapters,   # Fetch JSON
+                        'flashcards':   flashcards, # Fetch JSON
                         'MCQ_E':        MCQ_E,      # Fetch JSON
                         'MCQ_M':        MCQ_M,      # Fetch JSON
-                        'MCQ_H':         MCQ_H      # Fetch JSON
-                    }})
+                        'MCQ_H':        MCQ_H,      # Fetch JSON
+                        'Transcript':   Transcript  # Fetch JSON
+                    }
+                })
     else : 
         return redirect(url_for(login))
 
@@ -400,9 +433,65 @@ def serve_indexes(filename):
     return send_from_directory(directory, filename)
 
 
+# MODIFIED UPLOAD FUNCTION =========
+@app.route('/upload-file', methods=['POST'])
+def upload_file():
+    file = request.files.get('file')
+    session['FileType'] = request.form.get('FileType')
+    print('Got File Type:', session['FileType'])
+    fileType = session.get('FileType', '').lower()
+    userID = session.get('UserID')
+    
+    if file :
+        if fileType == 'document':
+            from backend.Classes.Document_Controller import DocumentProcessedController
+            
+            # Save the file to the specified directory (documents)
+            filepath = os.path.join(app.config['UPLOAD_FOLDER'], 'text-based', file.filename)
+            file.save(filepath)
+
+            # Call DocumentProcessedController to upload the document
+            doc_info = DocumentProcessedController.upload_document(filepath, userID)
+            print('Files generated and uploaded to Firebase.\n',
+                'Firebase File name: ', doc_info.file_name,
+                'Firebase doc ID: ', doc_info.material_id)
+
+            return 'Document uploaded successfully.'
+        
+        elif fileType == 'video':
+            from backend.Classes.VideoProcessed_Controller import Video_Processed_Controller
+
+            # Save the file to the specified directory (videos)
+            filepath = os.path.join(app.config['UPLOAD_FOLDER'], 'video-based', file.filename)
+            file.save(filepath)
+
+            # Call VideoProcessedController to upload the video
+            doc_info = Video_Processed_Controller.upload_video(filepath, userID)
+            print('Files generated and uploaded to Firebase.\n',
+                'Firebase File name: ', doc_info.file_name,
+                'Firebase doc ID: ', doc_info.material_id)
+
+            return 'Video uploaded successfully.'
+        
+        else : 
+            return 'Invalid file type!'
+    
+    else :
+        return 'No file uploaded.'
+
+@app.route('/filename', methods=['POST'])
+def receive_filename():
+    data = request.get_json()
+    filename = data.get('filename')
+    if filename:
+        # Do something with the filename
+        return jsonify({'message': 'Filename received', 'filename': filename}), 200
+    return jsonify({'message': 'No filename received'}), 400
+
+
 # PDF CHAT ========================================================================
 @app.route('/upload', methods=['POST'])
-def upload_file():
+def upload():
     file = request.files.get('file')
     if not file:
         return jsonify({'error': 'No file uploaded'}), 400
@@ -439,8 +528,7 @@ def extract_text_from_pdf(filepath):
 # Route to handle chat interaction
 @app.route('/chat/<file>', methods=['POST'])
 def chat(file):
-    text_file = file.rsplit('.', 1)[0]
-    text_file = text_file + ".txt"
+    text_file = file + ".txt"
 
     user_input = request.json['message']
     text_file_path = safe_join(app.root_path, f'assets/output_files/text_files/{text_file}')
@@ -463,15 +551,15 @@ def chat(file):
 
 @app.route('/chatwithpdf')
 def chat_with_pdf():
-    filename = request.args.get('file')
-    file_url = url_for('uploaded_file', filename=filename)
-    return render_template('main_loggedin/chatwithpdf.html', file_url=file_url)
+    return render_template('main_loggedin/chatwithpdf.html')
 
 @app.route('/mcq')
 def mcq():
-    filename = request.args.get('file')
-    file_url = url_for('uploaded_file', filename=filename)
-    return render_template('main_loggedin/generate_mcqs.html', file_url=file_url)
+    return render_template('main_loggedin/generate_mcqs.html')
+
+@app.route('/leaderboard')
+def leaderboard():
+    return render_template('main_loggedin/leaderboard.html')
 
 if __name__ == '__main__':
     # socketio.run(app, host='0.0.0.0', debug=True)

@@ -1,1 +1,58 @@
-[]
+[
+    {
+        "front": "1. What is StudyWise, and what are its primary features?",
+        "back": "StudyWise is a smart tutoring platform that accommodates both textual and video-based learning materials. It utilizes a chatbot to aid text-based material and various technologies to make lecture videos interactive."
+    },
+    {
+        "front": "2. What are the business motivations behind StudyWise?",
+        "back": "The business motivations for StudyWise include the growing demand for smart tutoring systems, personalized learning experiences, revenue generation through subscription plans, and advertising opportunities."
+    },
+    {
+        "front": "3. What are some academic motivations for using StudyWise?",
+        "back": "Academic motivations for StudyWise include helping students study more effectively, keeping track of the learning journey, and cutting costs through adaptive tutoring techniques."
+    },
+    {
+        "front": "4. What are some of the possible challenges faced by StudyWise?",
+        "back": "Challenges faced by StudyWise include data extraction issues, understanding content from different formats, handling structural variations in content, managing updates in resources, and interpreting visual content for insights."
+    },
+    {
+        "front": "6. Can you explain the purpose and functionality of the VideoPoints project?",
+        "back": "The VideoPoints project converts video lectures into a sequence of key points linked to relevant video segments using optical character recognition (OCR) to identify dominant keywords."
+    },
+    {
+        "front": "7. What is the aim of the ChatPDF tool mentioned within the study's context?",
+        "back": "ChatPDF summarizes information from PDF files to assist in answering questions about the text included in the PDF and aids in quickly extracting information from documents."
+    },
+    {
+        "front": "1. What functionalities does Mindgrasp offer for interacting with documents?",
+        "back": "Mindgrasp allows users to ask questions about a document and receive clear, easy-to-understand answers."
+    },
+    {
+        "front": "2. How does Mindgrasp's AI technology help users in understanding documents better?",
+        "back": "Mindgrasp's AI can identify knowledge gaps in users' understanding of documents and provide targeted remediation to address these gaps."
+    },
+    {
+        "front": "3. Why does Mindgrasp encourage more interaction through quizzes, challenges, and SRS SDD application?",
+        "back": "Mindgrasp encourages more interaction to enhance user engagement and comprehension of the document content."
+    },
+    {
+        "front": "4. What are the main modules or components mentioned in the document related to the software project?",
+        "back": "The main modules or components mentioned include Requirement Design, Research Paper Specifications, Task Start Date, and End Date."
+    },
+    {
+        "front": "5. What are the key phases involved in the software development process as outlined in the document?",
+        "back": "The key phases include Information collection and research, Survey and proposal preparation, Proposal presentation, Technical working implementation, System prototype submission, Testing and Validation, Technical Evaluation, and Interface (StudyWise)."
+    },
+    {
+        "front": "6. How is the progress of the software development project tracked based on the dates mentioned in the document?",
+        "back": "The progress of the project is tracked based on specific dates allocated for different tasks, such as Information collection and research starting on 10/1/2023 and Technical Evaluation scheduled for completion at 90%."
+    },
+    {
+        "front": "7. What is the significance of having supervisors and ideas associated with specific start and end dates in the project timeline?",
+        "back": "Having supervisors and ideas with specific start and end dates allocated in the project timeline enables proper planning, supervision, and timely execution of tasks leading to the successful completion of the project."
+    },
+    {
+        "front": "8. How does the document mention utilizing running code for application in the interface (StudyWise)?",
+        "back": "The document mentions leveraging running code for the interface (StudyWise) to facilitate implementation and functionality within the software application."
+    }
+]

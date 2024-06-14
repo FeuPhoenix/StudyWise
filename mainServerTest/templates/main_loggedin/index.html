@@ -8,6 +8,7 @@
     
     <link rel="shortcut icon" href="{{ url_for('static', filename='assets/images/Studywise_Logo.png') }}" type="image/x-icon">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/homestyle.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/scrollbar.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/pop-up-style.css') }}">
 </head>
 
@@ -30,7 +31,7 @@
         </div>
     </div>
     <div class="page-content">
-        <div class="main-container">
+        <div class="main-container" id="style-7">
         </div>
         <div class="side-container">
             <div class="title">
@@ -48,7 +49,8 @@
             <h2>What kind of file do you want to upload?</h2>
             <button onclick="chooseOption('text')">Text-based</button>
             <button onclick="chooseOption('video')">Video-based</button>
-            <input type="text" placeholder="Insert YouTube video URL">
+            <input type="text" placeholder="Insert YouTube video URL" id="YT_link">
+            <button type="submit" onclick="chooseOption('link')">Send Link</button>
         </div>
     </div>
 </div>
@@ -56,6 +58,7 @@
     src="https://cdn.polyfill.io/v2/polyfill.min.js?features=es6,Array.prototype.includes,CustomEvent,Object.entries,Object.values,URL"></script>
 <script src="https://unpkg.com/plyr@3"></script>
 <script src="{{ url_for('static', filename='js/home.js') }}"></script>
+<script src="{{ url_for('static', filename='js/popUpHandler.js') }}"></script>
 </body>
 
 </html>

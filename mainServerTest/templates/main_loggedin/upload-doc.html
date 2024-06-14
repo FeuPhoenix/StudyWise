@@ -3,7 +3,10 @@
     <link rel="shortcut icon" href="{{ url_for('static', filename='assets/images/Studywise_Logo.png') }}" type="image/x-icon">
     <title>StudyWise - Upload Document</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/upload-material-style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/pop-up-style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/scrollbar.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='js/uploadDoc.js') }}">
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 </head>
@@ -11,8 +14,8 @@
     <div class="main-navbar">
         <img src="{{ url_for('static', filename='assets/images/Studywise_Logo.png') }}" alt="Studywise Logo" class="navbar-logo">
         <div class="navbar-btns">
-            <a href=""><button>Home</button></a>
-            <a href="pdf-page.html"><button>Your Content</button></a>
+            <a href="/home"><button>Home</button></a>
+            <a href="/home"><button>Your Content</button></a>
             <a onclick="popupPrompt()"><button>Upload Material</button></a>
         </div>
     </div> <!-- Main Navbar end -->    
@@ -22,12 +25,24 @@
             <button class="back-btn" onclick="history.back()"><i class="fa-solid fa-left-long"></i></button>
 
             <div class="upload-section" id="drop-area">
-                <i class="fas fa-cloud-upload-alt upload-icon"></i>
-                <p class="upload-text">Drag & drop a .ppt, .pptx, .pdf, .doc, .docx, or .txt file to upload</p>
-                <input type="file" id="fileElem" style="scale: 1.2; cursor: pointer;" multiple accept=".pdf, .ppt, .pptx, .doc, .docx, .txt" onchange="handleFileSelection(this)"><br>
-                <label id="chosen-file" style="visibility: hidden;">
+                <form id="uploadForm" action="/upload" method="post" enctype="multipart/form-data">
+                        <i class="fas fa-cloud-upload-alt upload-icon"></i><br>
+                        <label class="upload-text">
+                            Drag & drop a .ppt, .pptx, .pdf, .doc, or .docx file to upload<br>
+                            (.txt is under development)
+                        </label><br>
+                        
+                        <input type="file" id="file" name="file" style="display: none;" multiple accept=".pdf, .ppt, .pptx, .doc, .docx" onchange="handleFileSelection(this)"><br>
+                        <label for="file" class="custom-file-label">Choose File</label><br>
+                        <label id="chosen-file">‎</label>
+                </form>
             </div>
-            <button class="file-upload-btn" onclick="confirmFile()">Confirm File Selection</button>
+            <!-- <button class="file-upload-btn" onclick="confirmFile()">Confirm File Selection</button> -->
+            <button type="submit" form="uploadForm" class="file-upload-btn" >Upload Selected File</button>
+                
+
+            </div>
+
         </div> <!-- Main Frame end -->
     </div>
 
@@ -49,11 +64,13 @@
                 <h2>What kind of file do you want to upload?</h2>
                 <button onclick="chooseOption('text')">Text-based</button>
                 <button onclick="chooseOption('video')">Video-based</button>
-            </div>
+                <input type="text" placeholder="Insert YouTube video URL" id="YT_link">
+                <button type="submit" onclick="chooseOption('link')">Send Link</button>
+        </div>
         </div>
     </div>
     <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
     <script src="{{ url_for('static', filename='js/uploadDoc.js') }}"></script>
-
+    <script src="{{ url_for('static', filename='js/popUpHandler.js') }}"></script>
 </body>
 </html>

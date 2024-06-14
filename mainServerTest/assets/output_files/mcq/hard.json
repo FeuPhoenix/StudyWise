@@ -1,92 +1,82 @@
 [
     {
-        "question": "2. In software architecture, what is the purpose of viewpoints and perspectives?",
+        "question": "1. Which stakeholder group would be most concerned with the wordiness or complexity of study material in StudyWise?",
         "options": [
-            "D) To limit the creativity of architects",
-            "C) To confuse stakeholders",
-            "A) To create complexity in the architecture",
-            "B) To provide explicit guidance for developers"
+            "B) Administrators and educational professionals",
+            "C) Funding organizations or investors",
+            "D) External evaluators and researchers",
+            "A) Teachers and tutors"
         ],
-        "correct_answer": "D) To limit the creativity of architects"
+        "correct_answer": "B) Administrators and educational professionals"
     },
     {
-        "question": "3. How do stakeholders play a role in software architecture?",
+        "question": "2. What methods would be essential for data extraction in StudyWise to achieve satisfactory results with various content formats?",
         "options": [
-            "D) They are solely responsible for development",
-            "A) They have no impact on the architecture",
-            "B) They provide requirements and constraints",
-            "C) They provide coding assistance"
+            "D) Content integration APIs",
+            "A) Adaptive learning algorithms",
+            "C) Visual content interpretation techniques",
+            "B) Parsing methods"
         ],
-        "correct_answer": "D) They are solely responsible for development"
+        "correct_answer": "D) Content integration APIs"
     },
     {
-        "question": "4. In the context of software architecture, what is an architectural description?",
+        "question": "3. How does visual content interpretation play a role in StudyWise's effectiveness?",
         "options": [
-            "C) A marketing document",
-            "D) A bug report",
-            "A) A detailed breakdown of the code",
-            "B) A high-level overview of the system structure"
+            "A) It allows for quick extraction of information",
+            "D) It ensures consistent extraction of relevant information from images",
+            "C) It provides targeted remediation",
+            "B) It helps with decision-making processes"
         ],
-        "correct_answer": "C) A marketing document"
+        "correct_answer": "A) It allows for quick extraction of information"
     },
     {
-        "question": "5. What is the purpose of using viewpoints in software architecture?",
+        "question": "4. Why are funding organizations or investors considered external stakeholders of StudyWise?",
         "options": [
-            "B) To organize the architectural description",
-            "C) To add unnecessary complexity",
-            "D) To limit the functionality of the system",
-            "A) To confuse developers"
+            "B) They receive tutoring on the platform",
+            "C) They may need to provide financial support",
+            "A) They upload educational resources",
+            "D) They evaluate the system for integration into educational institutions"
         ],
-        "correct_answer": "B) To organize the architectural description"
+        "correct_answer": "B) They receive tutoring on the platform"
     },
     {
-        "question": "6. How do advances in software engineering impact software architecture design?",
+        "question": "5. What is the significance of the System Requirements Specification (SRS) document in StudyWise development?",
         "options": [
-            "C) They have no impact on architecture",
-            "A) They make it more difficult to create architectures",
-            "D) They make it more expensive",
-            "B) They simplify the process"
+            "A) It outlines the main functionalities of the application",
+            "C) It sets deadlines for system prototype submission",
+            "B) It details the technical working implementation",
+            "D) It collects information from stakeholders and researchers"
         ],
-        "correct_answer": "C) They have no impact on architecture"
+        "correct_answer": "A) It outlines the main functionalities of the application"
     },
     {
-        "question": "7. What is the relationship between software systems architecture and stakeholders?",
+        "question": "6. Which document would be most focused on technical design and implementation details in StudyWise?",
         "options": [
-            "D) Stakeholders are only involved in testing",
-            "A) Stakeholders have no influence on architecture",
-            "B) Stakeholders provide requirements and constraints",
-            "C) Stakeholders are responsible for coding"
+            "B) Software Design Document (SDD)",
+            "D) Research Paper on the StudyWise application",
+            "C) Application Modules Documentation",
+            "A) System Requirements Specification (SRS)"
         ],
-        "correct_answer": "D) Stakeholders are only involved in testing"
+        "correct_answer": "B) Software Design Document (SDD)"
     },
     {
-        "question": "8. What role do viewpoints play in working with stakeholders in software architecture?",
+        "question": "7. What is the purpose of the StudyWise application?",
         "options": [
-            "A) They provide explicit guidance for developers",
-            "C) They limit the creativity of architects",
-            "B) They confuse stakeholders",
-            "D) They have no impact on stakeholders"
+            "D) To integrate visual content interpretation techniques",
+            "A) To conduct educational researches and information collection",
+            "C) To facilitate adaptive learning to fit different needs",
+            "B) To provide tutoring services for students"
         ],
-        "correct_answer": "A) They provide explicit guidance for developers"
+        "correct_answer": "D) To integrate visual content interpretation techniques"
     },
     {
-        "question": "9. How do software architects design systems to address development constraints?",
+        "question": "9. How does StudyWise aim to address the complexity of study material for personalized learning experiences?",
         "options": [
-            "D) By following a rigid set of guidelines",
-            "C) By adding unnecessary complexity",
-            "B) By considering constraints when designing the architecture",
-            "A) By ignoring constraints"
+            "C) By integrating visual content interpretation techniques",
+            "A) By extracting data using parsing methods",
+            "D) By conducting educational researches and information collection",
+            "B) By facilitating adaptive learning"
         ],
-        "correct_answer": "D) By following a rigid set of guidelines"
-    },
-    {
-        "question": "10. In the context of software architecture, what is the purpose of using perspectives?",
-        "options": [
-            "D) To confuse stakeholders",
-            "A) To add unnecessary complexity",
-            "C) To limit the creativity of architects",
-            "B) To provide explicit guidance for developers"
-        ],
-        "correct_answer": "D) To confuse stakeholders"
+        "correct_answer": "C) By integrating visual content interpretation techniques"
     }
 ]

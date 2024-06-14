@@ -216,14 +216,4 @@ class UserRepo:
             # If no document is found for the user's ID
             print(f"No document found for user with ID {ID} in Firestore.")
             return None
-#Testing
-def main():
-    print(UserRepo.Login("a123451@.com","123456"))
-    a=UserRepo("a1234@gmail.com","Mohamed Abdallah","123456")
-    a.add_user_to_firestore()
-    z,b=UserRepo.Login("a1234@gmail.com","123456")
-    # print(z,b)
-    
-if __name__ == '__main__':
-     main()
      

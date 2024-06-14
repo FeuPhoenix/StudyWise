@@ -197,14 +197,27 @@ button {
     flex-shrink: 0;
 }
 
-.pdf-section {
-    width: -webkit-fill-available;
-    max-width: 90%;
-    min-height: 800px;
+.main-section {
+    width: 100%;
+    max-width: 60%;
+    min-height: 760px;
+    height: fit-content;
     border-radius: var(--primaryBorderRadius);
-    border: 5px dotted #506387;
+    border: 2px solid #506387;
     background: radial-gradient(65.13% 77.87% at 118.98% 0%, #0A2F66 0%, #131F38 100%);
     transition: 0.5s ease-in-out;
+
+    flex-shrink: 0;
+    overflow: hidden;
+    display: grid;
+    align-items: center;
+}
+
+.main-section embed {
+    justify-self: center;
+    width: 97%;
+    margin: 10px;
+    height: 720px;
 }
 
 .choices-section {

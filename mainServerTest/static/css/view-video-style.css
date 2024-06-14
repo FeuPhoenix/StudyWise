@@ -128,7 +128,7 @@ button {
 }
 
 .main-frame {
-    width: -webkit-fill-available;
+    width: 100%;
     max-width: 60%;
     min-height: 100%;
     height: fit-content;
@@ -154,7 +154,7 @@ button {
     align-items: center;
     margin-top: 0;
 
-    width: -webkit-fill-available;
+    width: 100%;
     max-width: 37%;
     margin: auto 1% auto 1%;
     min-height: 100%;
@@ -253,13 +253,13 @@ button {
     transition: ease-in-out 150ms;
 }
 
-.sidebar-menu button:hover{
+.sidebar-menu button:hover {
     background: radial-gradient(61.54% 61.54% at 50% 50%, rgba(0, 0, 0, 0.50) 62.9%, #022964 100%);
     font-size: 25px;
 }
 
 .flashcard-btn h3 {
-    transition: linear 100ms;
+    transition: linear 50ms;
     font-size: 1px;
     position: absolute;
     visibility: hidden;
@@ -297,7 +297,7 @@ button {
 }
 
 .summary-btn h3 {
-    transition: linear 100ms;
+    transition: linear 50ms;
     font-size: 1px;
     position: absolute;
     visibility: hidden;
@@ -312,19 +312,30 @@ button {
     visibility: visible;
 }
 
+.summary-btn span {
+    transition: linear 50ms;
+    font-size: 1.2rem;
+}
+
+.summary-btn:hover span {
+    transition: linear 50ms;
+    font-size: 1.4rem;
+}
+
 .summary-btn.active{
     background: radial-gradient(61.54% 61.54% at 50% 50%, rgba(0, 0, 0, 0.50) 62.9%, #022964 100%);
     font-size: 27px;
 }
 
 .chat-btn h3 {
-    transition: linear 100ms;
+    transition: linear 0.1s;
     font-size: 1px;
     position: absolute;
     visibility: hidden;
 }
 
 .chat-btn:hover h3 {
+    transition: linear 0.1s;
     width: 6rem;
     font-size: 1.2rem;
     background-color: #0d121b63;
@@ -333,8 +344,13 @@ button {
     visibility: visible;
 }
 
+.chat-btn:hover img {
+    transition: linear 0.1s;
+    scale: 1.1;
+}
+
 .mcq-btn h3 {
-    transition: linear 100ms;
+    transition: linear 50ms;
     font-size: 1px;
     position: absolute;
     visibility: hidden;
@@ -364,6 +380,37 @@ button {
     mask-size: 100% 100%;
 }
 
+.noteBoard-btn h3 {
+    transition: linear 50ms;
+    font-size: 1px;
+    position: absolute;
+    visibility: hidden;
+}
+ 
+.noteBoard-btn:hover h3 {
+    width: 6rem;
+    font-size: 1.2rem;
+    background-color: #0d121b63;
+    border-radius: 9px;
+    margin-left: -10rem;
+    visibility: visible;
+}
+
+.noteBoard-btn span {
+    transition: linear 0.1s;
+    font-size: 1.4rem;
+}
+
+.noteBoard-btn:hover span {
+    transition: linear 0.1s;
+    font-size: 1.6rem;
+}
+
+.noteBoard-btn.active{
+    background: radial-gradient(61.54% 61.54% at 50% 50%, rgba(0, 0, 0, 0.50) 62.9%, #022964 100%);
+    font-size: 27px;
+}
+
 .choice-icon {
     width: 45px;
     height: 50px;
@@ -374,7 +421,7 @@ button {
     color: var(--primaryFontColor);
     padding: 20px;
     margin: auto;
-    line-height: 1.1rem;
+    line-height: 1.9rem;
 }
 
 #summaryText {
@@ -385,11 +432,83 @@ button {
 }
 
 #videoIndexes {
+    transition: height 0.5s ease-in-out;
+    background: #0d121b;
+    padding: 10px;
     white-space: pre-line;
     color: var(--primaryFontColor);
+    overflow-y: hidden;
+    height: 0;
 }
 
-.video-summary-title {
+#videoIndexes::-webkit-scrollbar:active {
+    visibility: visible;
+}
+
+.style-7::-webkit-scrollbar-track 
+{
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.1);
+	background-color: black;
+	border-radius: 10px;
+    opacity: 0.3;
+}
+
+.style-7::-webkit-scrollbar
+{
+    width: 10px;
+    visibility: hidden;
+}
+
+.style-7::-webkit-scrollbar-thumb
+{
+    width: 10px;
+	border-radius: 10px;
+	background-color: rgba(94, 110, 171, 0.6);
+}
+
+.style-7::-webkit-scrollbar-thumb:hover
+{
+	border-radius: 10px;
+    background-color: rgba(94, 110, 171, 0.7);
+}
+.style-7::-webkit-scrollbar-thumb:active
+{
+	border-radius: 10px;
+	background-color: rgba(94, 110, 171, 1);
+}
+
+#videoIndexes.expanded {
+    overflow: auto;
+    transition: height 0.5s ease;
+    height: 200px; /* Expanded height */
+}
+
+#toggleButton {
+    transition: background ease 0.5s;
+    width: 100%;
+    background: #121825;
+    border: none;
+    color: #9c9999;
+    font-size: 1.2em;
+    cursor: pointer;
+    outline: none;
+    padding: 0;
+}
+#toggleButton:hover {
+    background: #1b2437;
+}
+
+#toggleButton::before {
+    content: "▲"; /* Unicode for down arrow */
+    display: inline-block;
+    transition: transform 0.3s ease; /* Smooth transition for rotation */
+}
+
+#toggleButton.collapsed::before {
+    transform: rotate(180deg);
+}
+
+.summary-title {
     display: flex;
     justify-content: center;
     align-items: center;

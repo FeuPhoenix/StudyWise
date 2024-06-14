@@ -1,72 +1,102 @@
 [
     {
-        "question": "1. What is the purpose of using Viewpoints and Views in software architecture?",
+        "question": "1. What is StudyWise primarily focused on?",
         "options": [
-            "B) To create confusion in the development process",
-            "C) To restrict creativity in design",
-            "A) To provide guidance for developing different views",
-            "D) To complicate the development process"
+            "B. Tracking progress",
+            "C. Chatbot technology",
+            "A. Planning study sessions",
+            "D. Helping students study effectively"
         ],
-        "correct_answer": "B) To create confusion in the development process"
+        "correct_answer": "B. Tracking progress"
     },
     {
-        "question": "2. Viewpoints and Views were first introduced in the 1970s by whom?",
+        "question": "2. Which group is the main focus and primary users of StudyWise?",
         "options": [
-            "B) Bill Gates",
-            "C) Mark Zuckerberg",
-            "A) David Parnas",
-            "D) Steve Jobs"
+            "B. Institutions",
+            "A. Parents/Guardians",
+            "D. Students",
+            "C. Teachers"
         ],
-        "correct_answer": "B) Bill Gates"
+        "correct_answer": "B. Institutions"
     },
     {
-        "question": "4. Which organization developed a set of viewpoints for real-time and embedded systems while working at Siemens Research?",
+        "question": "3. What does the VideoPoints project do?",
         "options": [
-            "C) David Parnas",
-            "D) Alexander L. Wolf",
-            "A) Christine Hofmeister, Rod Nord, and Dilip Soni",
-            "B) Steve Jobs"
+            "C. Answer questions about videos",
+            "A. Translate video lectures",
+            "D. Link keywords from videos with frames",
+            "B. Track student progress"
         ],
-        "correct_answer": "C) David Parnas"
+        "correct_answer": "C. Answer questions about videos"
     },
     {
-        "question": "5. Viewpoints provide architects with guidance on what?",
+        "question": "4. What is the main purpose of ChatPDF?",
         "options": [
-            "D) All of the above",
-            "B) How to represent views",
-            "C) How to develop views",
-            "A) What views should contain"
+            "B. Answering questions about PDF files",
+            "D. Providing images for study materials",
+            "C. Tracking changes in documents",
+            "A. Turning videos into lectures"
         ],
-        "correct_answer": "D) All of the above"
+        "correct_answer": "B. Answering questions about PDF files"
     },
     {
-        "question": "6. Which ISO Standard is based on the concept of viewpoints and views in software architecture?",
+        "question": "5. How does Mindgrasp help identify knowledge gaps?",
         "options": [
-            "C) ISO 14001",
-            "D) ISO 27001",
-            "B) ISO 9001",
-            "A) ISO 42010"
+            "C. Through OCR algorithms",
+            "A. Through quizzes and challenges",
+            "B. By providing images and charts",
+            "D. By translating PDF files"
         ],
-        "correct_answer": "C) ISO 14001"
+        "correct_answer": "C. Through OCR algorithms"
     },
     {
-        "question": "7. Viewpoints and Views help to organize which process?",
+        "question": "6. What is one advantage of using NLP techniques and machine learning in StudyWise?",
         "options": [
-            "B) The testing process",
-            "D) The documentation process",
-            "C) The debugging process",
-            "A) The development process"
+            "D. Providing progress indicators",
+            "A. Identifying key words in queries",
+            "B. Handling version control",
+            "C. Creating study plans"
         ],
-        "correct_answer": "B) The testing process"
+        "correct_answer": "D. Providing progress indicators"
     },
     {
-        "question": "8. How are viewpoints and views related to each other?",
+        "question": "7. How does StudyWise help students stay on track with their learning journey?",
         "options": [
-            "A) They provide guidance for developing different views",
-            "D) They complicate the development process",
-            "C) They restrict creativity in design",
-            "B) They create confusion in the development process"
+            "B. Providing resources and progress tracking",
+            "A. By tracking changes in study materials",
+            "C. Partnering with institutions",
+            "D. Offering images and diagrams for study purposes"
         ],
-        "correct_answer": "A) They provide guidance for developing different views"
+        "correct_answer": "B. Providing resources and progress tracking"
+    },
+    {
+        "question": "8. What is the main challenge of incorporating different structures in a chatbot like StudyWise?",
+        "options": [
+            "A. Identifying knowledge gaps",
+            "C. Handling version control",
+            "B. Tracking changes in documents",
+            "D. Answering queries from users accurately"
+        ],
+        "correct_answer": "A. Identifying knowledge gaps"
+    },
+    {
+        "question": "9. What is one feature of StudyWise that makes it effective for students?",
+        "options": [
+            "D. Utilizing OCR in an algorithm to extract keywords",
+            "C. Offering progress indicators for tracking",
+            "B. Providing images and charts for study materials",
+            "A. Linking keywords from videos with frames"
+        ],
+        "correct_answer": "D. Utilizing OCR in an algorithm to extract keywords"
+    },
+    {
+        "question": "10. What role can parents/guardians play in assisting students with StudyWise?",
+        "options": [
+            "A. Partnering with institutions",
+            "D. Answering questions about text included in a PDF file",
+            "B. Translating PDF files for students",
+            "C. Monitoring progress and providing support"
+        ],
+        "correct_answer": "A. Partnering with institutions"
     }
 ]

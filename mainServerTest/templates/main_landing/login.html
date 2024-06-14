@@ -3,6 +3,7 @@
     <link rel="shortcut icon" href="{{ url_for('static', filename='assets/images/Studywise_Logo.png') }}" type="image/x-icon">
     <title>StudyWise - Login</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/login-style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/pop-up-style.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 </head>
@@ -79,7 +80,9 @@
                 <h2>What kind of file do you want to upload?</h2>
                 <button onclick="chooseOption('text')">Text-based</button>
                 <button onclick="chooseOption('video')">Video-based</button>
-            </div>
+            <input type="text" placeholder="Insert YouTube video URL" id="YT_link">
+            <button type="submit" onclick="chooseOption('link')">Send Link</button>
+        </div>
         </div>
     </div>
     <!-- <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-app.js"></script>

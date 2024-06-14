@@ -2,19 +2,26 @@
     <head>
         <link rel="shortcut icon" href="{{ url_for('static', filename='assets/images/Studywise_Logo.png') }}" type="image/x-icon">
         <title>StudyWise - Upload</title>
-        <link rel="stylesheet" href="https://unpkg.com/plyr@3/dist/plyr.css">
+
+        <!-- Third-party CSS -->
+        <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/smoothness/jquery-ui.css">
+        <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+        <link rel="stylesheet" href="https://unpkg.com/plyr@3/dist/plyr.css">
+
+        <!-- Custom CSS -->
         <link rel="stylesheet" href="{{ url_for('static', filename='css/view-video-style.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/scrollbar.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/pop-up-style.css') }}">
         <link rel="stylesheet" href="{{ url_for('static', filename='css/flashcard-style.css') }}">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-        <script src="https://cdn.rawgit.com/nnattawat/flip/master/dist/jquery.flip.min.js"></script>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/user-notes.scss') }}">
     </head>
     <body>
         <div class="main-navbar">
             <img src="{{ url_for('static', filename='assets/images/Studywise_Logo.png') }}" alt="Studywise Logo" class="navbar-logo">
             <div class="navbar-btns">
                 <a href="/home"><button>Home</button></a>
-                <a href="pdf-page.html"><button>Your Content</button></a>
+                <a href="/home"><button>Your Content</button></a>
                 <a onclick="popupPrompt()"><button>Upload Material</button></a>
             </div>
         </div> <!-- Main Navbar end -->
@@ -30,8 +37,24 @@
                     </video> <!-- Video Tag End -->
                     
                     <div class="video-btns"></div>
-                    <div id="videoIndexes"></div>
+                    <div class="style-7" id="videoIndexes"></div>
+                    <button id="toggleButton" class="collapsed" title="Show Chapters"></button>
+
                 </div>
+
+                <div id="board">
+                    <a href="javascript:;" class="button" id="add_new">Add New Note</a>
+                    <a onclick="save_notes()" class="button" id="save">Save Notes</a>
+
+                    <div id="delete-confirmation" class="modal">
+                        <div class="modal-content">
+                            <p>Are you sure you want to delete this note?</p>
+                            <button id="confirm-delete">Delete</button>
+                            <button id="cancel-delete">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+
             </div> <!-- Main Frame end -->
             <div class="sidebar-viewer">
 
@@ -67,8 +90,8 @@
                 </div> <!-- Flashcards End -->
 
                 <div class="summary">
-                    <h1 class="video-summary-title">Video Summary</h1>
-                    <p id="summaryText">
+                    <h1 class="summary-title">Summary</h1>
+                    <p id="summaryText" class="style-7">
                         Summary Processing...
                     </p>
                 </div>
@@ -77,26 +100,29 @@
                 <!-- <div class="sidebar-title">
                     Video Toolbar
                 </div> -->
-                <div class="sidebar-menu">
-                    <button class="flashcard-btn" onclick="toggleFlashcards(this)">
-                        <h3> Flashcards </h3><img src="{{ url_for('static', filename='assets/images/flashcards.png') }}" alt="Flashcards!">
-                    </button>
-    
-                    <button class="summary-btn" onclick="toggleSummary(this)">
-                        <h3> Summary </h3><i class="fa-solid fa-align-center"></i>
-                    </button>
-    
-                    <button class="chat-btn" onclick="goToChat()">
-                        <h3> Go to Chat </h3><img src="{{ url_for('static', filename='assets/images/bot.png') }}" alt="" class="choice-icon">
-                    </button>
-    
-                    <button class="mcq-btn" onclick="goToMCQ()">
-                        <h3>Go to MCQ</h3><span class="fa6-solid--file-pen"></span>
-                    </button>
-    
-                    <button></button>
-                    <button></button>
-                </div>
+            <div class="sidebar-menu">
+                <button class="flashcard-btn" onclick="toggleFlashcards(this)">
+                    <h3> Flashcards </h3><img src="{{ url_for('static', filename='assets/images/flashcards.png') }}" alt="Flashcards!">
+                </button>
+
+                <button class="summary-btn" onclick="toggleSummary(this)">
+                    <h3> Summary </h3><span class="fa-solid fa-align-center"></span>
+                </button>
+
+                <button class="chat-btn" onclick="goToChat()">
+                    <h3> Go to Chat </h3><img src="{{ url_for('static', filename='assets/images/bot.png') }}" alt="" class="choice-icon">
+                </button>
+
+                <button class="mcq-btn" onclick="goToMCQ()">
+                    <h3>Go to MCQ</h3><span class="fa6-solid--file-pen"></span>
+                </button>
+
+                <button class="noteBoard-btn" onclick="toggleBoard()">
+                    <h3>Note Board</h3><span class="fa-solid fa-clipboard"></span>
+                </button>
+
+                <button></button>
+            </div>
         </div>
         <div id="popup-overlay" class="popup-overlay">
             <div class="popup-prompt">
@@ -108,9 +134,20 @@
                 </div>
             </div>
         </div>
+
+        <!-- jQuery and other third-party JS -->
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
         <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=es6,Array.prototype.includes,CustomEvent,Object.entries,Object.values,URL"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/react/16.8.6/umd/react.production.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/16.8.6/umd/react-dom.production.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js" type="text/javascript"></script>
+        <script src="https://cdn.rawgit.com/nnattawat/flip/master/dist/jquery.flip.min.js"></script>
         <script src="https://unpkg.com/plyr@3"></script>
+
+        <!-- Custom JS -->
         <script src="{{ url_for('static', filename='js/videoView.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/user-notes.js') }}"></script>
         <script src="{{ url_for('static', filename='js/FlashcardsV1_JS.js') }}"></script>
         <!-- <script src="https://cdn.plyr.io/3.7.8/demo.js" crossorigin="anonymous"></script> -->
     </body>

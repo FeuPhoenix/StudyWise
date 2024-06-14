@@ -9,6 +9,10 @@ var isMissed = false;
 const flashcardElement = document.querySelector('.flashcards');
 const summaryElement = document.querySelector('.summary');
 const sidebarViewerElement = document.querySelector('.sidebar-viewer');
+var startingCards = []; // Initialize startingCards as an empty array
+
+// Or fetch startingCards from some source like localStorage
+var startingCards = JSON.parse(localStorage.getItem('loadedFlashcards')) || [];
 
 
 function toggleFlashcards(btn) {
@@ -91,69 +95,6 @@ $(document).ready(
   }
 );
 
-//card cardsay:
-var startingCards = [{
-  "front": "pwd",
-  "back": "print working directory"
-}, {
-  "front": "hostname",
-  "back": "my computer's network name"
-}, {
-  "front": "mkdir",
-  "back": "make directory"
-}, {
-  "front": "cd",
-  "back": "change directory"
-}, {
-  "front": "ls",
-  "back": "list directory"
-}, {
-  "front": "rmdir",
-  "back": "remove directory"
-}, {
-  "front": "pushd",
-  "back": "push directory"
-}, {
-  "front": "popd",
-  "back": "pop directory"
-}, {
-  "front": "cp",
-  "back": "copy a file or directory"
-}, {
-  "front": "robocopy",
-  "back": "robust copy"
-}, {
-  "front": "mv",
-  "back": "move a file or directory"
-}, {
-  "front": "more",
-  "back": "page through a file"
-}, {
-  "front": "type",
-  "back": "print the whole file"
-}, {
-  "front": "forfiles",
-  "back": "run a command on several files"
-}, {
-  "front": "select-string",
-  "back": "find things inside files"
-}, {
-  "front": "help",
-  "back": "read a manual page"
-}, {
-  "front": "echo",
-  "back": "print arguments"
-}, {
-  "front": "set",
-  "back": "export/set a new environment variable"
-}, {
-  "front": "attrib",
-  "back": "change permission modifiers"
-}, {
-  "front": "iCACLS",
-  "back": "change ownership"
-}];
-//copying the cardsays to preserve a copy of the original
 
 for (var i = 0; i < startingCards.length; i++) {
   startingCards[i].status = "unread";
@@ -175,24 +116,20 @@ function shuffle(cards) {
 
 
 function displayCard(index) {
-  cardFront(index, fullCards);
-  cardBack(index, fullCards);
+  if (index >= 0 && index < fullCards.length) {
+      cardFront(index, fullCards);
+      cardBack(index, fullCards);
+  } else {
+      console.error("Card at index", index, "is undefined.");
+  }
 }
 
 function loadCards() {
-
-  try {
-    const data = JSON.parse(localStorage.getItem('loadedVideoFlashcards'));
-    console.log('Mapping Flashcards onto elements');
-    fullCards = data.map(card => ({ ...card, status: "unread" }));
-    numberCards = fullCards.length;
-    setUp(); // Initialize the setup
-  } catch (error) {
-    console.error('Error loading flash cards:', error);
-  }
-
+  const data = JSON.parse(localStorage.getItem('loadedFlashcards'));
+  console.log('Mapping Flashcards onto elements');
+  fullCards = data.map(card => ({ ...card, status: "unread" }));
+  numberCards = fullCards.length;
 }
-
 function cleanFlashcards(flashcards) {
   return flashcards.map(card => {
     return {
@@ -205,11 +142,11 @@ function cleanFlashcards(flashcards) {
 
 document.addEventListener('DOMContentLoaded', () => {
   console.log(`Fetching ${localStorage.getItem('fileName')}'s flashcards`)
-  console.log(`Flashcards in FlashcardsV1_JS:`, JSON.parse(localStorage.getItem('loadedVideoFlashcards')))
+  console.log(`Flashcards in FlashcardsV1_JS:`, JSON.parse(localStorage.getItem('loadedFlashcards')))
 
   loadCards().then(() => {
     showAll();
-    // Log after loadCards completes
+    // show after loadCards completes
   });
 });
 
@@ -310,61 +247,12 @@ function setUpMissed() {
 //when someone clicks either 'Missed it' or 'Got it' this is what progresses the cards forward
 function nextCard() {
   if (indexCounter < fullCards.length - 1) {
-    indexCounter += 1;
-    cardFront(indexCounter, fullCards);
-    cardBack(indexCounter, fullCards);
-
-  } else if (successCounter === fullCards.length) {
-    //when someone reaches the end of a set and got them all right!
-    document.getElementById("full").innerHTML = "Retry";
-    $("#full").show();
-    $("#success").hide();
-    $("#fail").hide();
-    $("#progress").hide();
-    indexCounter = 0;
-    successCounter = 0;
-    failCounter = 0;
-    document.getElementById("successRate").innerHTML = "You killed it!!<br>Click below to retry the entire deck.";
-
-    $("#successRate").show();
-
-  } else if (failCounter === fullCards.length) {
-    //when someone reaches the end of the set and got them all wrong
-    $("#success").hide();
-    $("#fail").hide();
-    $("#progress").hide();
-    $("#missed").hide();
-    indexCounter = 0;
-    failCounter = 0;
-    successCounter = 0;
-    document.getElementById("full").innerHTML = "Retry";
-    $("#full").show();
-
-    document.getElementById("successRate").innerHTML = "You missed all the cards, but practice makes perfect.";
-    $("#successRate").show();
+      indexCounter += 1;
+      displayCard(indexCounter);
   } else {
-    //when someone reaches the end of a set having missed some
-    document.getElementById("successRate").innerHTML = "Known Cards: " + successCounter + "<br>" + "Missed Cards: " + failCounter;
-    $("#successRate").show();
-    shuffle(fullCards);
-
-    indexCounter = 0;
-    successCounter = 0;
-    failCounter = 0;
-    document.getElementById("success").innerHTML = "Got It!";
-    document.getElementById("fail").innerHTML = "Missed It!";
-    document.getElementById("full").innerHTML = "Retry Full Set";
-    $("#full").show();
-    $("#missed").show();
-    $("#success").hide();
-    $("#fail").hide();
-    $("#progress").hide();
-
+      console.log("End of session");
+      // Hide buttons or display appropriate messages here
   }
-  //happens each time a person progresses through the cards
-  var cardCounter = indexCounter + 1;
-  document.getElementById("percent").innerHTML = "Card " + cardCounter + " of " + numberCards;
-  document.getElementById("bar").style.width = (cardCounter / numberCards) * 100 + "%";
 }
 
 function nextCardMissed() {
@@ -436,6 +324,20 @@ document.getElementById("success").addEventListener("click", function addOneSucc
 
 });
 
+function whichCardSet() {
+  if (isMissed) {
+    nextCardMissed();
+  } else {
+    nextCard();
+  }
+  // Check if all cards are done
+  if (indexCounter >= fullCards.length) {
+    // If all cards are done, show options to retry missed cards only or all cards
+    $("#retryMissed").show();
+    $("#retryAll").show();
+  }
+}
+
 //fail counter goes up by one if 'Missed it' is clicked
 document.getElementById("fail").addEventListener("click", function addOneFailCounter() {
   failCounter = failCounter + 1;
@@ -452,13 +354,13 @@ document.getElementById("full").addEventListener("click", function () {
 });
 //marks card as known
 function markIfKnown() {
-  if (isMissed) {
+  if (isMissed && missedCards.length > 0) {
     missedCards[indexCounter].status = "known";
-  } else {
+  } else if (!isMissed) {
     fullCards[indexCounter].status = "known";
   }
-
 }
+
 document.getElementById("full").addEventListener("click", function () {
   $("#success").show();
   $("#fail").show();
@@ -494,6 +396,9 @@ function whichCardSet() {
 }
 document.getElementById("fail").addEventListener("click", whichCardSet);
 document.getElementById("success").addEventListener("click", whichCardSet);
+document.getElementById("retryMissed").addEventListener("click", retryMissedCardsOnly);
+document.getElementById("retryAll").addEventListener("click", retryAllCards);
+
 //end of 'Quiz Mode'
 //'Study Mode' - show all the cards in order 
 function showAll() {
@@ -518,6 +423,12 @@ function showAll() {
     studyCardsContainer.appendChild(backDiv);
   });
 }
+function retryMissedCardsOnly() {
+  setUpMissed(); // Reset the missed cards setup
+  isMissed = true; // Set the mode to missed cards
+  $("#retryMissed").hide(); // Hide the button to avoid multiple retries
+}
+document.getElementById("retryMissed").addEventListener("click", retryMissedCardsOnly);
 
 
 // document.addEventListener('DOMContentLoaded', () => {

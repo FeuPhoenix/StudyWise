@@ -115,7 +115,9 @@
                 <h2>What kind of file do you want to upload?</h2>
                 <button onclick="chooseOption('text')">Text-based</button>
                 <button onclick="chooseOption('video')">Video-based</button>
-            </div>
+            <input type="text" placeholder="Insert YouTube video URL" id="YT_link">
+            <button type="submit" onclick="chooseOption('link')">Send Link</button>
+        </div>
         </div>
     </div>
     <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=es6,Array.prototype.includes,CustomEvent,Object.entries,Object.values,URL"></script>

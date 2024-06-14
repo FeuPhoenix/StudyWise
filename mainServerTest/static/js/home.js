@@ -126,15 +126,15 @@ function setUpUserContent() {
         const type = document.createElement('div');
         type.classList.add('type');
 
-        // If content is document, onclick will call pdf view
-        if (contentItem.filetype == 'pdf') {
-            contentCard.onclick = () => contentClickHandler(contentItem.filename, 'document');
-            type.textContent = 'Document';
-        }
-        // else (content is video), onclick will call video view
-        else {
+        // If content is video-based, onclick will call pdf view
+        if (contentItem.filetype == 'mp4' || contentItem.filetype == 'YoutubeLink') {
             contentCard.onclick = () => contentClickHandler(contentItem.filename, 'video');
             type.textContent = 'Video';
+        }
+        // else (content is text-based), onclick will call video view
+        else {
+            contentCard.onclick = () => contentClickHandler(contentItem.filename, 'document');
+            type.textContent = 'Document';
         }
         contentCard.appendChild(type);
     });
@@ -142,71 +142,75 @@ function setUpUserContent() {
 
 
 function contentClickHandler(fileName, filetype) {
-    // If content is document, fetch its pdf view
+    // If content is document, fetch its pdf view ============================= DOCUMENT ↓
     if (filetype == 'document') {
         fetch('http://127.0.0.1:5000/load-document-content', {
                 method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
-                            'Access-Control-Allow-Origin': '*'
                         },
                         body: JSON.stringify({fileName: fileName})
             })
             .then(response => response.json())
             .then(data => {
-                file = data.file;
-                summary = data.summary;
-                flashcards = data.flashcards;
-                MCQ_E = data.MCQ_E;
-                MCQ_M = data.MCQ_M;
-                MCQ_H = data.MCQ_H;
-                console.log('Doc Links: \n', file, summary, flashcards, MCQ_E, MCQ_M, MCQ_H)
+                const { fileName, documentLink, summary, flashcards, MCQ_E, MCQ_M, MCQ_H } = data.data;
+
+                localStorage.setItem('fileName', fileName);
+                localStorage.setItem('loadedDocumentLink', documentLink);
+                localStorage.setItem('loadedDocumentSummary', JSON.stringify(summary));
+                localStorage.setItem('loadedFlashcards', JSON.stringify(flashcards));
+                localStorage.setItem('loadedMCQ_E', JSON.stringify(MCQ_E));
+                localStorage.setItem('loadedMCQ_M', JSON.stringify(MCQ_M));
+                localStorage.setItem('loadedMCQ_H', JSON.stringify(MCQ_H));
+
+                console.log('Document Link:', localStorage.getItem('loadedDocumentLink'));
+                console.log('Document Summary:', localStorage.getItem('loadedDocumentSummary'));
+                console.log('Document Flashcards:', localStorage.getItem('loadedFlashcards'));
+            })
+            .then(() => {
+                window.location.href = `/pdf-display`;
             })
             .catch(error => {
                 console.error('Error fetching JSON:', error);
             });
-            
-            alert(`Clicked Content for: ${fileName} ${filetype}`)
-            window.location.href = '/pdf-display';
-        }
-        // If content is video, fetch its video view
-        else if (filetype == 'video') {
-            fetch('http://127.0.0.1:5000/load-video-content', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ fileName: fileName })
-            })
-            .then(response => response.json())
-            .then(data => {
-                const { MCQ_E, MCQ_M, MCQ_H, audio, chapters, file, flashcards, summary } = data.data;
+        } // If Document END ================================================== DOCUMENT END 
+        
+        // If content is video, fetch its video view ========================== VIDEO ↓
+    else if (filetype == 'video') {
+        fetch('http://127.0.0.1:5000/load-video-content', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ fileName: fileName })
+        })
+        .then(response => response.json())
+        .then(data => {
+            const { fileName, videoLink, audioLink, summary, chapters, flashcards, MCQ_E, MCQ_M, MCQ_H } = data.data;
 
-                localStorage.setItem('fileName', fileName);
-                localStorage.setItem('loadedVideoLink', file);
-                localStorage.setItem('loadedVideoAudio', audio);
-                localStorage.setItem('loadedVideoSummary', JSON.stringify(summary));
-                localStorage.setItem('loadedVideoChapters', JSON.stringify(chapters));
-                localStorage.setItem('loadedVideoFlashcards', JSON.stringify(flashcards));
-                localStorage.setItem('loadedVideoMCQ_E', JSON.stringify(MCQ_E));
-                localStorage.setItem('loadedVideoMCQ_M', JSON.stringify(MCQ_M));
-                localStorage.setItem('loadedVideoMCQ_H', JSON.stringify(MCQ_H));
+            localStorage.setItem('fileName', fileName);
+            localStorage.setItem('loadedVideoLink', videoLink);
+            localStorage.setItem('loadedVideoAudio', audioLink);
+            localStorage.setItem('loadedVideoSummary', JSON.stringify(summary));
+            localStorage.setItem('loadedVideoChapters', JSON.stringify(chapters));
+            localStorage.setItem('loadedFlashcards', JSON.stringify(flashcards));
+            localStorage.setItem('loadedMCQ_E', JSON.stringify(MCQ_E));
+            localStorage.setItem('loadedMCQ_M', JSON.stringify(MCQ_M));
+            localStorage.setItem('loadedMCQ_H', JSON.stringify(MCQ_H));
 
-                console.log('Video Link:', localStorage.getItem('loadedVideoLink'));
-                console.log('Video Summary:', localStorage.getItem('loadedVideoSummary'));
-                console.log('Video Chapters:', localStorage.getItem('loadedVideoChapters'));
-                console.log('Video Flashcards:', localStorage.getItem('loadedVideoFlashcards'));
-            })
-            .then(() => {
-                alert(`Clicked Content for: ${fileName}, ${filetype}`);
-                window.location.href = `/video-display`;
-            })
-            .catch(error => {
-                console.error('Error fetching Content ALL Data JSON:', error);
-            });
-
-        }
-    }
+            console.log('Video Link:', localStorage.getItem('loadedVideoLink'));
+            console.log('Video Summary:', localStorage.getItem('loadedVideoSummary'));
+            console.log('Video Chapters:', localStorage.getItem('loadedVideoChapters'));
+            console.log('Video Flashcards:', localStorage.getItem('loadedFlashcards'));
+        })
+        .then(() => {
+            window.location.href = `/video-display`;
+        })
+        .catch(error => {
+            console.error('Error fetching Content ALL Data JSON:', error);
+        });
+    } // else if END ====================================================== VIDEO END
+}
 
 function imageClickHandler(image) {
     console.log(`${image} clicked`);

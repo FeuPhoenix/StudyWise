@@ -673,10 +673,10 @@ class DocumentProcessed:
 # #Testing
 
 def main():
-    D= DocumentProcessed("mainServerTest/assets/input_files/text-based/test.pdf","0GKTloo0geWML96tvd9g27C99543")
+    D= DocumentProcessed("mainServerTest/assets/input_files/text-based/mohamed_test.pdf","0GKTloo0geWML96tvd9g27C99543")
      # file_path = "mainservertest/assets/input_files/text-based/test2.pdf"
-    a,b = D.Document_Processing()
-    print('Material Filename and ID: \n',a,b)
+    D.Document_Processing()
+    
     # folder_path = "test-based"  # Specify the desired folder path
     # file_name = "test2.pdf"
 

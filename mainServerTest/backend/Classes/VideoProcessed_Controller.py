@@ -21,9 +21,16 @@ import json
 import requests
 
 from backend.Classes.FirestoreDB import FirestoreDB
+from backend.Classes.VideoProcessed_Repo import VideoProcessed_Repo
 aai.settings.api_key = "8d8390aa4ac24f7aa92d724e44370d73"
 
 class Video_Processed_Controller:
+    @staticmethod
+    def upload_video(file, userid):
+        Video=VideoProcessed_Repo(file,userid)
+        Video.Video_Processing()
+        return Video
+
     @staticmethod
     def fetch_all_filenames_and_filetypes_in_Video_material(userid):
         db_instance = FirestoreDB.get_instance()  # Assuming FirestoreDB is a class or method to access Firestore
@@ -58,6 +65,23 @@ class Video_Processed_Controller:
             print("Error:", e)
             return None
 
+    @staticmethod
+    def fetch_text_and_convert_to_json(url):
+        try:
+            # Make a GET request to download the text file
+            response = requests.get(url)
+            response.raise_for_status()  # Raise an exception for any HTTP error status codes
+
+            # Read the text data
+            text_data = response.text
+
+            # Create a JSON object with the attribute "Transcript"
+            data = {"Transcript": text_data}
+            return data
+        except requests.exceptions.RequestException as e:
+            print("Error:", e)
+            return None
+
     @staticmethod 
     def fetch_json_from_url(url):
             try:
@@ -71,6 +95,7 @@ class Video_Processed_Controller:
             except requests.exceptions.RequestException as e:
                 print("Error:  2", e)
                 return None
+    
     @staticmethod
     def fetch_video_content(userid, filename):
             db_instance = FirestoreDB.get_instance()
@@ -99,6 +124,7 @@ class Video_Processed_Controller:
             except Exception as e:
                 print("Error:", e)
                 return None
+    
     @staticmethod
     def fetch_all_filenames_in_Video_material_with_id(userid):
         db_instance = FirestoreDB.get_instance()  # Assuming FirestoreDB is a class or method to access Firestore
@@ -166,9 +192,10 @@ class Video_Processed_Controller:
                 Summary= Video_Processed_Controller.fetch_json_from_url(video_material_data['generated_summary_file_path'])
 
                 Chapters= Video_Processed_Controller.fetch_json_from_url(video_material_data['generated_chapters_file_path'])
-                Transcript= Video_Processed_Controller.fetch_json_from_url(video_material_data['generated_text_file_path'])
+                
+                Transcript= Video_Processed_Controller.fetch_text_and_convert_to_json(video_material_data['generated_text_file_path'])
 
-                flashcards= Video_Processed_Controller.fetch_json_from_url( flash_card_data[0]['flash_card_location'])
+                flashcards= Video_Processed_Controller.fetch_json_from_url(flash_card_data[0]['flash_card_location'])
 
                 MCQ_E= Video_Processed_Controller.fetch_json_from_url(easy_location)
 
@@ -176,7 +203,7 @@ class Video_Processed_Controller:
 
                 MCQ_H= Video_Processed_Controller.fetch_json_from_url(hard_location)
             
-                return video_material_data['Material'],video_material_data['generated_audio_file_path'],Summary,Chapters,flashcards,MCQ_E,MCQ_M,MCQ_H,Transcript
+                return video_material_data['Material'], video_material_data['generated_audio_file_path'], Summary, Chapters, flashcards, MCQ_E, MCQ_M, MCQ_H, Transcript
             
             else:
                 print(f"No such document with user_id: {user_id} and material_id: {material_id}")

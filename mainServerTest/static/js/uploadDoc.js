@@ -1,117 +1,102 @@
-var chosenFile;
+let chosenFile;
 let socketID = undefined;
 
-// Popup Handling
-function popupPrompt() {
-    document.getElementById('popup-overlay').style.display = 'block';
-}
+let inputFile; // Define formData globally
+let input;
 
-function chooseOption(option) {
-    closePopup();
-    if (option === 'text') {
-        window.location.href = '/text-upload';
-    }
-    else if (option === 'video') {
-        window.location.href = '/video-upload';
-    }
-    else {
-        alert("Invalid input");
-    }
-}
-
-// Close popup using 'x' button
-function closePopup() {
-    document.getElementById('popup-overlay').style.display = 'none';
-}
-
-// Close popup when clicking outside
-window.onclick = function(event) {
-    var popup = document.querySelector('.popup-overlay');
-    if (event.target == popup) {
-        closePopup();
-    }
-}
-
-// Close popup when pressing Escape key
-document.onkeydown = function(evt) {
-    evt = evt || window.event;
-    if (evt.keyCode == 27) {
-        closePopup();
-    }
-};
-// End of Popup Handling
-
-function handleFileSelection(input) {
+function handleFileSelection() {
+    input = document.getElementById('file');
+    var chosenFileLabel = document.getElementById('chosen-file');
+    chosenFileLabel = document.getElementById('chosen-file');
+    chosenFile = input.files[0];
+    input.files[0].name = null;
+    
     // Check if a file is selected
     if (input.files.length > 0) {
+        console.log('Ready to upload file!');
         // Get the first selected file
-        var file = input.files[0];
-        chosenFile = file.name;
 
-        // Display the file name
-        document.getElementById('chosen-file').textContent = 'Selected File:\n' + file.name;
-        document.getElementById('chosen-file').style.visibility = 'visible'
+        chosenFileLabel.textContent = 'Selected File: ' + chosenFile.name;
+        chosenFileLabel.style.visibility = 'visible';
     } else {
         // No file selected
         chosenFile = null;
         document.getElementById('chosen-file').textContent = 'No file selected';
-        document.getElementById('chosen-file').style.visibility = 'hidden'
+        document.getElementById('chosen-file').style.visibility = 'hidden';
     }
 }
 
-function confirmFile() {
-    if (chosenFile) {
-        console.log("Selected File Name: ", chosenFile);
+document.getElementById('uploadForm').addEventListener('submit', function(e) {
+    e.preventDefault();
 
-        // Establish WebSocket connection
-        var socket = io.connect('http://127.0.0.1:5000/');
+    var form = document.getElementById('uploadForm');
+    var formData = new FormData(form);
 
-        socket.on("connect", function() {
-            socketID = socket.id;
-            console.log("Socket ID: ", socketID);
-        })
+    // Append additional data
+    formData.append('FileType', 'document');
 
-        var statusElement = document.getElementById('processingStatus');
+    fetch('/upload-file', {
+        method: 'POST',
+        body: formData
+    }).then(response => {
+        if (response.ok) {
+            console.log('File uploaded successfully.');
+            response.text().then(text => console.log(text));
 
-        // Listen for 'update' events from the server to get real-time processing updates
-        socket.on('update', function(data) {
-            console.log('Update from server:', data.message);
-            statusElement.innerHTML = data.message; // Update UI
+            // Send the file name to the server
+            var fileInput = document.getElementById('file');
+            var fileName = fileInput.files[0].name;
 
-            if (data.message) {
-                progressWindow = document.getElementById('success-overlay')
-                progressWindow.style.display = 'block';
-            }
+            fetch('/filename', {
+                method: 'POST',
+                body: JSON.stringify({ filename: fileName, fileType: 'document' }),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }).then(response => {
+                if (response.ok) {
+                    console.log('File name sent to server.');
+                } else {
+                    console.error('Failed to send file name to server.');
+                }
+            });
+        } else {
+            console.error('Failed to upload file.');
+        }
+    });
+});
+
+
+// function confirmFile() {
+//     if (chosenFile) {
         
-            // Check if the received message is 'Processing completed'
-            if (data.message === 'Processing completed') {
-                statusElement.innerHTML = 'Processing completed, getting info';
-                setTimeout(function() {
-                    window.location.href = `/pdf-display?file=${encodeURIComponent(chosenFile)}`;
-                }, 3000); // Redirect to display page after 3 seconds
-            }
-        });
+//         // Fetch the URL from the Flask server
+//         fetch('/upload-file', {
+//             method: 'POST',
+//             body: {file: inputFile, FileType: 'document'},
+//         })
+//         .then(response => {
+//             if (response.ok) {
+//                 console.log('FILE UPLOADING')
+//                 return response.json();
+//             } else {
+//                 throw new Error('Failed to upload file');
+//             }
+//         })
+//         .then(data => {
+//             // Handle the response from the server
+//             console.log('FILE UPLOADED SUCCESSFULLY:', data);
+//         })
+//         .catch(error => {
+//             // Handle any errors that occur during the fetch request
+//             console.error('ERROR UPLOADING FILE:', error);
+//         });
 
-        // Set up XMLHttpRequest to send the filename to the server
-        var request = new XMLHttpRequest();
-        request.open('POST', 'http://127.0.0.1:5000/generateTextContent', true);
-        request.setRequestHeader('Content-Type', 'application/json');
-        request.onload = function() {
-            // Handle response from server
-            if (!(request.status >= 200 && request.status < 400)) {
-                console.log('Server returned an error:', request.status);
-            }
-        };
-        request.onerror = function() {
-            console.log('Request failed to reach the server');
-        };
-        
-        // Send the filename as JSON
-        request.send(JSON.stringify({ filename: chosenFile, socketID: socketID }));
-    } else {
-        alert("No file selected");
-    }
-}
+//     } else {
+//         alert("No file selected");
+//     }
+// }
+
 
 // function confirmFile() {
 //     // Giive a static test filename and the socket ID
