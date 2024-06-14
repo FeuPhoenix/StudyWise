@@ -116,7 +116,7 @@ class UserRepo:
             # Check if the user exists in authentication
             user = auth.get_user_by_email(self.email)
             print(f"User with email {self.email} already exists in Authentication.")
-
+            return None
         except auth.UserNotFoundError: # User doesn't exist in authentication, proceed to add to Firestore and authentication
             import time
             # Add user to authentication
