@@ -1,6 +1,7 @@
 #needs to be improved
 from datetime import datetime, timedelta
 import uuid
+from langdetect import detect
 from firebase_admin import firestore
 import pdfplumber
 import openai
@@ -133,6 +134,25 @@ class Flash_Cards:
             # Add more patterns as needed
         ]
         return not any(re.search(pattern, question.lower()) for pattern in non_conceptual_patterns)
+    
+    def is_conceptually_relevant_Arabic(self, question):
+        # Patterns for non-conceptual questions in Arabic
+        non_conceptual_patterns = [
+            r"\bمن\b",  # Who authored, who developed (من كتب, من طور)
+            r"\bمتى\b",  # When was it published/developed
+            r"\bأين\b",  # Where was it published
+            r"\bنشر\b",
+            r"\bمؤلف\b",
+            r"\bتاريخ\b",
+            r"\bكتاب\b",
+            r"\bISBN\b",
+            r"\bإصدار\b",
+            r"\bتاريخي\b",
+            r"\bتاريخية\b",
+            # Add more patterns as needed
+        ]
+        return not any(re.search(pattern, question.lower()) for pattern in non_conceptual_patterns)
+
 
     def extract_paragraphs_from_pdf(self,pdf_path):
         paragraphs = []
@@ -241,6 +261,66 @@ class Flash_Cards:
                         qa_pairs.append(pair)
 
         return qa_pairs
+    def generate_qa_pairs_arabic(self, paragraphs, content_type):
+        qa_pairs = []
+        batched_paragraphs = []
+        current_batch = ""
+
+        for paragraph in paragraphs:
+            base_prompt = "أنشئ أسئلة وأجوبة تركز على المحتوى التقني والمفاهيمي لهذا النص. "
+            
+            transcript_note = "مع ملاحظة أن النص الذي سيتم تقديمه قد يحتوي على أخطاء لغوية أو منطقية بسبب عدم دقة التحويل من الكلام إلى النص، يرجى التركيز على إنشاء أسئلة وأجوبة ذات صلة مفهوميًا وواضحة، وتجنب المحتوى غير الواضح. انشئ فقط أسئلة وأجوبة ذات صلة بالنص التالي: "
+            pdf_note = "تجنب الأسئلة حول الكتّاب، وتواريخ النشر، أو التطور التاريخي. لا تشير إلى المواد التي تم توفيرها باسم 'هذا النص' أو 'النص'، بل اشير إليها باسم الموضوع المعني، ولا تعتبر الأسئلة والأجوبة حصرية لهذا النص، على سبيل المثال، لا تسأل عن ماذا يتحدث هذا النص على وجه الخصوص. يمكنك السؤال عن تعريفات الأشياء التي تم شرحها في النص: "
+
+            if content_type.lower() == "pdf":
+                note = pdf_note
+            elif content_type.lower() == "transcript" or content_type.lower() == "video transcript":
+                note = transcript_note
+            elif content_type.lower() == "txt" or content_type.lower() == "text":
+                note = ""
+            else:
+                note = ""
+
+            if len(paragraph) > 20 and "http" not in paragraph:
+                if len(current_batch) + len(paragraph) < MAX_TOKENS_PER_REQUEST:
+                    current_batch += f"{paragraph}\n\n"
+                else:
+                    batched_paragraphs.append(current_batch)
+                    current_batch = f"{paragraph}\n\n"
+        
+        if current_batch:
+            batched_paragraphs.append(current_batch)
+
+        for batch in batched_paragraphs:
+            prompt_content = base_prompt + note
+            system_prompt = {"role": "system", "content": "أنت مساعد مفيد."}
+            user_prompt = {"role": "user", "content": prompt_content + ": " + batch}
+
+            print("This is the user prompt that will be sent: Prompt Content:\n" + prompt_content + "\nBatch:\n" + batch)
+
+            prompt = [system_prompt, user_prompt]
+            try:
+                response = openai.ChatCompletion.create(model="gpt-3.5-turbo", messages=prompt)
+                response_text = response.choices[0].message['content'].strip()
+                potential_qa_pairs = response_text.split('\n\n')
+                for pair in potential_qa_pairs:
+                    question = pair.split('\n')[0]
+                    if self.is_conceptually_relevant_Arabic(question):
+                        qa_pairs.append(pair)
+            except openai.error.RateLimitError:
+                print("Rate limit reached, waiting for 30 seconds...")
+                time.sleep(20)
+                # Retry the request after waiting
+                response = openai.ChatCompletion.create(model="gpt-3.5-turbo", messages=prompt)
+                response_text = response.choices[0].message['content'].strip()
+                potential_qa_pairs = response_text.split('\n\n')
+                for pair in potential_qa_pairs:
+                    question = pair.split('\n')[0]
+                    if self.is_conceptually_relevant_Arabic(question):
+                        qa_pairs.append(pair)
+
+        return qa_pairs
+
 
     def format_flash_cards(self,qa_pairs):
         formatted_cards = []
@@ -268,7 +348,9 @@ class Flash_Cards:
     def save_flash_cards_to_file(self,formatted_cards, filepath):
         with open(filepath, 'w') as file:
             json.dump(formatted_cards, file, indent=4)
-
+    @staticmethod
+    def detect_language(text):
+        return detect(text)
     def runFlashcards(self, file_path, content_type = ''):
         content = []
 
@@ -280,12 +362,19 @@ class Flash_Cards:
             if file_path.endswith('.pdf'):
                 content = self.extract_paragraphs_from_pdf(file_path)
                 content_type = 'pdf'
+                lang=Flash_Cards.detect_language(content)
             elif file_path.endswith('.txt'):
-                content = self.extract_and_split_text(file_path) 
+                content = self.extract_and_split_text(file_path)
+                lang=Flash_Cards.detect_language(content) 
             else:
                 raise ValueError("Unsupported file type. Only .pdf or .txt files are currently accepted.")
-        
-        qa_pairs = self.generate_qa_pairs(content, content_type)
+        if lang=='en':        
+            qa_pairs = self.generate_qa_pairs(content, content_type)
+        elif lang=='ar':
+            qa_pairs = self.generate_qa_pairs_arabic(content, content_type)
+        else:
+            raise ValueError("The lang has to be arabic or english.")
+
         formatted_cards = self.format_flash_cards(qa_pairs)
         self.save_flash_cards_to_file(formatted_cards, output_path)
         self.Flashcards=output_path

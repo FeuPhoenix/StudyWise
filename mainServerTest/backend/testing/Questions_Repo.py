@@ -10,7 +10,7 @@ import random
 import json
 import textstat
 from typing import List
-
+from langdetect import detect
 from Constants import OPENAI_API_KEY, MAX_TOKENS_PER_REQUEST
 from FirestoreDB import FirestoreDB
 
@@ -191,6 +191,7 @@ class Questions_Repo:
                 return
 
             paragraphs =Questions_Repo.extract_paragraphs_from_pdf(file_path)
+
             for difficulty in ['easy', 'medium', 'hard']:
                 if paragraphs[difficulty]:
                     mcqs = Questions_Repo.generate_mcqs(paragraphs, difficulty)

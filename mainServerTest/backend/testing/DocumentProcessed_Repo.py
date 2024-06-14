@@ -21,6 +21,8 @@ from Constants import OPENAI_API_KEY
 from FirestoreDB import FirestoreDB
 from Flash_Cards_Repo import Flash_Cards
 from Questions_Repo import Questions_Repo
+from langdetect import detect
+
 
 from dotenv import load_dotenv
 load_dotenv()
@@ -109,6 +111,9 @@ class DocumentProcessed:
             except Exception as e:
                 print("Error:", e)
                 return None
+    @staticmethod
+    def detect_language(text):
+        return detect(text)
     @staticmethod
     def upload_material_to_storage(user_id, material_name, material_file_path, text_file_path, summary_file_path):
         db_instance = FirestoreDB.get_instance()
@@ -512,6 +517,28 @@ class DocumentProcessed:
 
         full_summary = ' '.join(summaries)
         return full_summary
+    def get_Long_summary_Arabic(text):
+        openai.api_key = OPENAI_API_KEY
+        summaries = []
+
+        for chunk in DocumentProcessed.split_text(text):
+            while True:  # Keep trying until successful
+                try:
+                    response = openai.ChatCompletion.create(
+                        model="gpt-3.5-turbo",
+                        messages=[
+                            {"role": "system", "content": "أنت مساعد مفيد."},
+                            {"role": "user", "content": f"قم بتلخيص النص التالي إلى نقاط مختصرة، مركزاً فقط على المعلومات الأساسية:\n{chunk}"}
+                        ]
+                    )
+                    summaries.append(response['choices'][0]['message']['content'].strip())
+                    break  # Exit the loop if successful
+                except openai.error.RateLimitError as e:
+                    print("Rate limit exceeded, waiting to retry...")
+                    time.sleep(20)  # Wait for 20 seconds before retrying
+
+        full_summary = ' '.join(summaries)
+        return full_summary
     def get_long_summary_and_write_to_json(self,text, filename):
         result = DocumentProcessed.get_Long_summary(text)
         summary_data = {'long_summary': result}
@@ -537,10 +564,18 @@ class DocumentProcessed:
                 
                 
                 
+                
                 text=DocumentProcessed.clean_text(text)
-                result = DocumentProcessed.get_Long_summary(text)
+                if DocumentProcessed.detect_language(text)=="en":
 
-                self.get_long_summary_and_write_to_json(result,filename)
+                    result = DocumentProcessed.get_Long_summary(text)
+
+                    self.get_long_summary_and_write_to_json(result,filename)
+                if DocumentProcessed.detect_language(text)=="ar":
+
+                    result = DocumentProcessed.get_Long_summary_Arabic(text)
+
+                    self.get_long_summary_and_write_to_json(result,filename)
                 print(self.userid)
                 self.addProcessedMaterialToFirestore()
                 #Testing
