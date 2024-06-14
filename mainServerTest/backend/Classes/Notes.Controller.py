@@ -1,18 +1,20 @@
 from Notes_Repo import Notes
 from FirestoreDB import FirestoreDB
+from Notes_Repo import Notes
 class Notes_Controller:
     @staticmethod
-    def Add_Notes_tofirestore(JsonData,userid,materialid,Type,MaterialName):
-        N=Notes(JsonData,userid,materialid,Type,MaterialName)
+    def Add_Notes_tofirestore(JsonData,userid,Type,MaterialName):
+        N=Notes(JsonData,userid,Type,MaterialName)
         N.addNotesToFirestore()
     @staticmethod
-    def fetch_notes_if_exist(user_id, material_type, material_id):
+    def fetch_notes_if_exist(user_id, material_type, MaterialName):
+        Material_id=Notes.Retreave_MaterialID(user_id,material_type,MaterialName)
         db_instance = FirestoreDB.get_instance()
         firestore_instance = db_instance.get_firestore_instance()
 
         try:
             # Reference to the document
-            doc_ref = firestore_instance.collection('Users').document(user_id).collection(material_type).document(material_id)
+            doc_ref = firestore_instance.collection('Users').document(user_id).collection(material_type).document(Material_id)
             
             # Fetch the document
             doc = doc_ref.get()
