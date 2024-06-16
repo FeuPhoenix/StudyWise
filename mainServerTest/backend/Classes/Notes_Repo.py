@@ -1,18 +1,48 @@
 from datetime import datetime, timedelta
 import uuid
-from FirestoreDB import FirestoreDB
+from backend.Classes.FirestoreDB import FirestoreDB
 import json
 import os
 
 class Notes:
 #user id wa material id wa ha3ml collection esmha notes
-    def __init__(self,JsonData,userid,materialid,Type,MaterialName):
+    def __init__(self, JsonData, userid, Type, MaterialName):
         self.JsonData=JsonData
         self.userid=userid
-        self.materialid=materialid
-        self.Type=Type
+        self.NoteName=uuid.uuid4().hex
+        self.materialid=Notes.Retrieve_MaterialID(userid,Type,MaterialName)
         self.MaterialName=MaterialName
+        self.Type=Type
+    @staticmethod
+    def Retrieve_MaterialID(userid,Type,MaterialName):
+      
+            db_instance = FirestoreDB.get_instance()
+            firestore_instance = db_instance.get_firestore_instance()
+            try:
+                # Reference to the "VideoMaterial" collection
+                video_material_ref = firestore_instance.collection("Users").document(userid).collection(Type)
 
+                # Get all documents in the "VideoMaterial" collection
+                video_material_docs = video_material_ref.stream()
+
+                # Iterate over each document in "VideoMaterial" collection
+                for doc_material_doc in video_material_docs:
+                    doc_material_data = doc_material_doc.to_dict()
+
+                    # Check if the document has the "file_name" field and it's a string
+                    if 'file_name' in doc_material_data and isinstance(doc_material_data['file_name'], str):
+                        # Check if the filename matches the desired filename
+                        if doc_material_data['file_name'] == MaterialName:
+                            # Return the document ID
+                          return  doc_material_doc.id
+
+                # If filename is not found, return None
+                return None
+
+            except Exception as e:
+                print("Error:", e)
+                return None
+  
     @staticmethod
     def save_json_to_file(json_data,filename ):
         file_path=f"D:/COLLEGE/StudyWise/mainServerTest/assets/output_files/Notes/{filename}.json"
@@ -41,7 +71,7 @@ class Notes:
     def addNotesToFirestore(self):
         db_instance = FirestoreDB.get_instance()
         firestore_instance = db_instance.get_firestore_instance()
-        self.file=Notes.save_json_to_file(self.JsonData,self.MaterialName)
+        self.file=Notes.save_json_to_file(self.JsonData,self.NoteName)
         print("file",self.file,"======================")
         file_Location=Notes.upload_notes_to_storage(self.userid,self.MaterialName, self.file)
         try:
@@ -54,7 +84,7 @@ class Notes:
               
             })
             
-            print("Successfully added youtube video to firestore")
+            print("Successfully added notes to firestore")
         except Exception as e:
             print(e)
 
@@ -82,14 +112,5 @@ class Notes:
 
         # Returning the signed URL for the uploaded notes file
         return notes_blob.generate_signed_url(expiration=expiration)
-# def main():
-#     data = {
-#     "name": "John Doe",
-#     "age": 30,
-#     "city": "New York"
-# }
-#     x= Notes(data,"62a9c20699654da5b14cca9d21cd8ef6","49599b1f50d04a099f35d51c70117e9f","DocumentMaterial","test")
-#     x.addNotesToFirestore()
-# if __name__ == "__main__":
-#     main()
+
        

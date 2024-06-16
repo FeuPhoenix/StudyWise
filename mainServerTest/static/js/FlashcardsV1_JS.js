@@ -11,39 +11,8 @@ const summaryElement = document.querySelector('.summary');
 const sidebarViewerElement = document.querySelector('.sidebar-viewer');
 var startingCards = []; // Initialize startingCards as an empty array
 
-// Or fetch startingCards from some source like localStorage
-var startingCards = JSON.parse(localStorage.getItem('loadedFlashcards')) || [];
-
-
-function toggleFlashcards(btn) {
-  if (flashcardElement.style.display === 'none') {
-    sidebarViewerElement.style.display = 'flex';
-    flashcardElement.style.display = 'flex';
-    btn.classList.add('active');
-  } else {
-    flashcardElement.style.display = 'none';
-    btn.classList.remove('active');
-  }
-  if (flashcardElement.style.display == 'none' && summaryElement.style.display == 'none') {
-    console.log('Hiding Sidebar Viewer');
-    sidebarViewerElement.style.display = 'none';
-  }
-}
-
-function toggleSummary(btn) {
-  if (summaryElement.style.display === 'none') {
-    sidebarViewerElement.style.display = 'flex';
-    summaryElement.style.display = 'block';
-    btn.classList.add('active');
-  } else {
-    summaryElement.style.display = 'none';
-    btn.classList.remove('active');
-  }
-  if (flashcardElement.style.display == 'none' && summaryElement.style.display == 'none') {
-    console.log('Hiding Sidebar Viewer');
-    sidebarViewerElement.style.display = 'none';
-  }
-}
+// Or fetch startingCards from some source like sessionStorage
+var startingCards = JSON.parse(sessionStorage.getItem('loadedFlashcards')) || [];
 
 //tabs
 $('ul.tabs').each(function () {
@@ -125,7 +94,7 @@ function displayCard(index) {
 }
 
 function loadCards() {
-  const data = JSON.parse(localStorage.getItem('loadedFlashcards'));
+  const data = JSON.parse(sessionStorage.getItem('loadedFlashcards'));
   console.log('Mapping Flashcards onto elements');
   fullCards = data.map(card => ({ ...card, status: "unread" }));
   numberCards = fullCards.length;
@@ -141,8 +110,8 @@ function cleanFlashcards(flashcards) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  console.log(`Fetching ${localStorage.getItem('fileName')}'s flashcards`)
-  console.log(`Flashcards in FlashcardsV1_JS:`, JSON.parse(localStorage.getItem('loadedFlashcards')))
+  console.log(`Fetching ${sessionStorage.getItem('fileName')}'s flashcards`)
+  console.log(`Flashcards in FlashcardsV1_JS:`, JSON.parse(sessionStorage.getItem('loadedFlashcards')))
 
   loadCards().then(() => {
     showAll();

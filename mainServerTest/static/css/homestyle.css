@@ -255,48 +255,6 @@ button {
     margin-top: 28px;
 }
 
-.content-row {
-    transition: 0.5s ease;
-    padding: 0 0 0 1px;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    justify-content: flex-start;
-    justify-self: center;
-    
-    width: 90%;
-}
-
-.content-column {
-    transition: 0.5s ease-in-out;
-    display: flex;
-    flex-direction: column;
-    line-height: normal;
-    gap: 20px;
-
-    width: 100%; /* Each content column takes up the full width */
-    max-width: 48%; /* Limit the width of each content column */
-}
-
-.content-column:hover {
-    transition: 0.3s ease-in-out;
-    scale: 1.01;
-}
-
-.content-card {
-    justify-content: space-between;
-    border-radius: 6px;
-    border: 3px solid rgba(212, 219, 232, 1);
-    background-color: #14223c;
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    max-height: 32vh;
-}
-.content-card:hover {
-    cursor: pointer;
-}
-
 .title {
     padding: 10px; /* Add padding to the title */
     text-align: center;
@@ -311,8 +269,77 @@ button {
     transition: 0.3s ease-in-out;
 }
 
+.content-row {
+    transition: 0.5s ease;
+    padding: 0 0 0 1px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: flex-start;
+    justify-self: center;
+    
+    width: 90%;
+}
+
+.content-column {
+    display: flex;
+    flex-direction: column;
+    line-height: normal;
+    gap: 20px;
+
+    width: 100%; /* Each content column takes up the full width */
+    max-width: 48%; /* Limit the width of each content column */
+}
+
+a.content-card {
+    text-decoration: none;
+}
+.content-card {
+    transition: scale 0.4s;
+    justify-content: space-between;
+    border-radius: 6px;
+    border: 3px solid rgba(212, 219, 232, 1);
+    background-color: #14223c;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+.content-card:hover {
+    transition: scale 0.3s;
+    scale: 1.01;
+    cursor: pointer;
+}
+
+a > div.title {
+    padding: 10px; /* Add padding to the title */
+    text-align: center;
+    color: white;
+    font-weight: bold;
+    font-size: calc(1vw + 0.4em);
+    overflow-wrap: anywhere;
+    overflow-y: hidden;
+
+    line-height: 1.65rem;
+    width: 90%;
+    max-height: 70px;
+    transition: 0.3s ease-in-out;
+}
+
 .type {
-    margin: 5px;
+    color: var(--primaryFontColor);
+    text-decoration: none;
+    margin: 10px 0px 0px 10px;
+}
+
+.card-img {
+    transition: scale 0.2s;
+    scale: 1;
+}
+
+.card-img:hover {
+    transition: scale 0.2s ;
+    scale: 1.05;
+    opacity: 0.75;
 }
 
 .image-container {
@@ -346,17 +373,6 @@ button {
     object-position: center;
     width: calc(1vw + 3.3em);
     cursor: pointer;
-}
-
-.card-img {
-    transition: 0.25s ease-in-out;
-    scale: 1;
-}
-
-.card-img:hover {
-    transition: 0.25s ease-in-out;
-    scale: 1.05;
-    opacity: 0.75;
 }
 
 

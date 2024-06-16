@@ -76,8 +76,6 @@ function logOut() {
 
 function setUpUserContent() {
 
-    let fileName;
-
     const mainContainer = document.querySelector('.main-container');
     const contentRow = document.createElement('div');
     contentRow.classList.add('content-row');
@@ -89,7 +87,15 @@ function setUpUserContent() {
         contentColumn.classList.add('content-column');
         contentRow.appendChild(contentColumn);
 
-        const contentCard = document.createElement('button');
+        const contentCard = document.createElement('a');
+        var link;
+        if (contentItem.filetype == 'mp4' || contentItem.filetype == 'YoutubeLink') {
+            link = `/video-display?fileName=${encodeURIComponent(contentItem.filename)}`;
+        }
+        else {
+            link = `/pdf-display?fileName=${encodeURIComponent(contentItem.filename)}`;
+        }
+        contentCard.href = link;
         contentCard.classList.add('content-card');
         contentColumn.appendChild(contentCard);
 
@@ -128,88 +134,96 @@ function setUpUserContent() {
 
         // If content is video-based, onclick will call pdf view
         if (contentItem.filetype == 'mp4' || contentItem.filetype == 'YoutubeLink') {
-            contentCard.onclick = () => contentClickHandler(contentItem.filename, 'video');
+            // contentCard.onclick = () => contentClickHandler(contentItem.filename, 'video');
             type.textContent = 'Video';
         }
         // else (content is text-based), onclick will call video view
         else {
-            contentCard.onclick = () => contentClickHandler(contentItem.filename, 'document');
+            // contentCard.onclick = () => contentClickHandler(contentItem.filename, 'document');
             type.textContent = 'Document';
         }
         contentCard.appendChild(type);
     });
+
 }
 
 
 function contentClickHandler(fileName, filetype) {
-    // If content is document, fetch its pdf view ============================= DOCUMENT ↓
     if (filetype == 'document') {
-        fetch('http://127.0.0.1:5000/load-document-content', {
-                method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({fileName: fileName})
-            })
-            .then(response => response.json())
-            .then(data => {
-                const { fileName, documentLink, summary, flashcards, MCQ_E, MCQ_M, MCQ_H } = data.data;
-
-                localStorage.setItem('fileName', fileName);
-                localStorage.setItem('loadedDocumentLink', documentLink);
-                localStorage.setItem('loadedDocumentSummary', JSON.stringify(summary));
-                localStorage.setItem('loadedFlashcards', JSON.stringify(flashcards));
-                localStorage.setItem('loadedMCQ_E', JSON.stringify(MCQ_E));
-                localStorage.setItem('loadedMCQ_M', JSON.stringify(MCQ_M));
-                localStorage.setItem('loadedMCQ_H', JSON.stringify(MCQ_H));
-
-                console.log('Document Link:', localStorage.getItem('loadedDocumentLink'));
-                console.log('Document Summary:', localStorage.getItem('loadedDocumentSummary'));
-                console.log('Document Flashcards:', localStorage.getItem('loadedFlashcards'));
-            })
-            .then(() => {
-                window.location.href = `/pdf-display`;
-            })
-            .catch(error => {
-                console.error('Error fetching JSON:', error);
-            });
-        } // If Document END ================================================== DOCUMENT END 
-        
-        // If content is video, fetch its video view ========================== VIDEO ↓
+        window.location.href = `/pdf-display?fileName=${encodeURIComponent(fileName)}`;
+    }
     else if (filetype == 'video') {
-        fetch('http://127.0.0.1:5000/load-video-content', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ fileName: fileName })
-        })
-        .then(response => response.json())
-        .then(data => {
-            const { fileName, videoLink, audioLink, summary, chapters, flashcards, MCQ_E, MCQ_M, MCQ_H } = data.data;
+        window.location.href = `/video-display?fileName=${encodeURIComponent(fileName)}`;
+    }
+    
+    // If content is document, fetch its pdf view ============================= DOCUMENT ↓
+    // if (filetype == 'document') {
+    //     fetch('http://127.0.0.1:5000/load-document-content', {
+    //             method: 'POST',
+    //                     headers: {
+    //                         'Content-Type': 'application/json',
+    //                     },
+    //                     body: JSON.stringify({fileName: fileName})
+    //         })
+    //         .then(response => response.json())
+    //         .then(data => {
+    //             const { fileName, documentLink, summary, flashcards, MCQ_E, MCQ_M, MCQ_H } = data.data;
 
-            localStorage.setItem('fileName', fileName);
-            localStorage.setItem('loadedVideoLink', videoLink);
-            localStorage.setItem('loadedVideoAudio', audioLink);
-            localStorage.setItem('loadedVideoSummary', JSON.stringify(summary));
-            localStorage.setItem('loadedVideoChapters', JSON.stringify(chapters));
-            localStorage.setItem('loadedFlashcards', JSON.stringify(flashcards));
-            localStorage.setItem('loadedMCQ_E', JSON.stringify(MCQ_E));
-            localStorage.setItem('loadedMCQ_M', JSON.stringify(MCQ_M));
-            localStorage.setItem('loadedMCQ_H', JSON.stringify(MCQ_H));
+    //             localStorage.setItem('fileName', fileName);
+    //             localStorage.setItem('loadedDocumentLink', documentLink);
+    //             localStorage.setItem('loadedDocumentSummary', JSON.stringify(summary));
+    //             localStorage.setItem('loadedFlashcards', JSON.stringify(flashcards));
+    //             localStorage.setItem('loadedMCQ_E', JSON.stringify(MCQ_E));
+    //             localStorage.setItem('loadedMCQ_M', JSON.stringify(MCQ_M));
+    //             localStorage.setItem('loadedMCQ_H', JSON.stringify(MCQ_H));
 
-            console.log('Video Link:', localStorage.getItem('loadedVideoLink'));
-            console.log('Video Summary:', localStorage.getItem('loadedVideoSummary'));
-            console.log('Video Chapters:', localStorage.getItem('loadedVideoChapters'));
-            console.log('Video Flashcards:', localStorage.getItem('loadedFlashcards'));
-        })
-        .then(() => {
-            window.location.href = `/video-display`;
-        })
-        .catch(error => {
-            console.error('Error fetching Content ALL Data JSON:', error);
-        });
-    } // else if END ====================================================== VIDEO END
+    //             console.log('Document Link:', localStorage.getItem('loadedDocumentLink'));
+    //             console.log('Document Summary:', localStorage.getItem('loadedDocumentSummary'));
+    //             console.log('Document Flashcards:', localStorage.getItem('loadedFlashcards'));
+    //         })
+    //         .then(() => {
+    //             window.location.href = `/pdf-display`;
+    //         })
+    //         .catch(error => {
+    //             console.error('Error fetching JSON:', error);
+    //         });
+    //     } // If Document END ================================================== DOCUMENT END 
+        
+    //     // If content is video, fetch its video view ========================== VIDEO ↓
+    // else if (filetype == 'video') {c
+    //     fetch('http://127.0.0.1:5000/load-video-content', {
+    //         method: 'POST',
+    //         headers: {
+    //             'Content-Type': 'application/json'
+    //         },
+    //         body: JSON.stringify({ fileName: fileName })
+    //     })
+    //     .then(response => response.json())
+    //     .then(data => {
+    //         const { fileName, videoLink, audioLink, summary, chapters, flashcards, MCQ_E, MCQ_M, MCQ_H } = data.data;
+
+    //         localStorage.setItem('fileName', fileName);
+    //         localStorage.setItem('loadedVideoLink', videoLink);
+    //         localStorage.setItem('loadedVideoAudio', audioLink);
+    //         localStorage.setItem('loadedVideoSummary', JSON.stringify(summary));
+    //         localStorage.setItem('loadedVideoChapters', JSON.stringify(chapters));
+    //         localStorage.setItem('loadedFlashcards', JSON.stringify(flashcards));
+    //         localStorage.setItem('loadedMCQ_E', JSON.stringify(MCQ_E));
+    //         localStorage.setItem('loadedMCQ_M', JSON.stringify(MCQ_M));
+    //         localStorage.setItem('loadedMCQ_H', JSON.stringify(MCQ_H));
+
+    //         console.log('Video Link:', localStorage.getItem('loadedVideoLink'));
+    //         console.log('Video Summary:', localStorage.getItem('loadedVideoSummary'));
+    //         console.log('Video Chapters:', localStorage.getItem('loadedVideoChapters'));
+    //         console.log('Video Flashcards:', localStorage.getItem('loadedFlashcards'));
+    //     })
+    //     .then(() => {
+    //         window.location.href = `/video-display`;
+    //     })
+    //     .catch(error => {
+    //         console.error('Error fetching Content ALL Data JSON:', error);
+    //     });
+    // } // else if END ====================================================== VIDEO END
 }
 
 function imageClickHandler(image) {

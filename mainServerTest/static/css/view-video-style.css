@@ -107,26 +107,6 @@ button {
     flex-shrink: 0;
 }
 
-.back-btn {
-    display: inline;
-    height: 2.2rem;
-    width: 2.2rem;
-    border: 2px solid #506387;
-    border-radius: 50px;
-    cursor: pointer;
-    margin: 10px 0 0 10px;
-
-    transition: ease 100ms;
-
-    font-size: 30px;
-}
-
-.back-btn:hover {
-    scale: 110%;
-    font-size: 31px;
-    background:rgba(11, 61, 101, 1);
-}
-
 .main-frame {
     width: 100%;
     max-width: 60%;
@@ -140,10 +120,37 @@ button {
     background: radial-gradient(65.13% 77.87% at 118.98% 0%, #0A2F66 0%, #131F38 100%);
 }
 
+.back-btn {
+    position: fixed;
+    display: inline;
+    height: 2.2rem;
+    width: 2.2rem;
+    border: 2px solid #506387;
+    border-radius: 50px;
+    cursor: pointer;
+    margin: 10px 0 0 10px;
+
+    transition: scale 100ms;
+
+    font-size: 30px;
+}
+
+.back-btn:hover {
+    transition: scale 50ms;
+    scale: 1.05;
+    font-size: 31px;
+    background:rgb(13, 67, 112);
+}
+
+#content-title {
+    word-break: break-all;
+    margin: 1rem .75rem 10px;
+}
+
 .video-container{
     display: block;
     box-shadow: 0px 0px 33px 33px rgba(0, 0, 0, 0.33);
-    margin: 0.5rem auto auto auto;
+    margin: 0 auto;
 
 	width: 85%;
 }
@@ -427,8 +434,8 @@ button {
 #summaryText {
     white-space: pre-line;
     font-size: 1rem;
-    max-height: 35rem;
-    overflow-y: scroll;
+    max-height: 33rem;
+    overflow-y: auto;
 }
 
 #videoIndexes {
