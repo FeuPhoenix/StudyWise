@@ -43,6 +43,9 @@ document.addEventListener("DOMContentLoaded", function() {
         
                 // NOTE: FLASHCARD FETCH CODE IS IN THE FLASHCARDSV1_JS FILE
         
+                document.getElementById('loaderOverlay').style.display = 'none';
+                document.getElementsByTagName("html")[0].style.overflowY = 'auto';
+                
             } else {
                 console.log("No input file provided.");
             }

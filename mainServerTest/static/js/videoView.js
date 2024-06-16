@@ -7,6 +7,7 @@ document.addEventListener("DOMContentLoaded", function() {
         document.getElementById("content-title").innerHTML = fileName;
 
         console.log('Fetching ' +fileName+ '\'s processed files');
+
         fetch('http://127.0.0.1:5000/load-video-content', {
             method: 'POST',
             headers: {
@@ -34,7 +35,7 @@ document.addEventListener("DOMContentLoaded", function() {
             console.log('Video Flashcards:', sessionStorage.getItem('loadedFlashcards'));
 
             const videoURL = sessionStorage.getItem('loadedVideoLink')
-            if (videoURL) { // Process the 'file' that is received
+            if (videoURL) { // Load the video content that is received
 
                 if (Youtube.test(videoURL)) {
                     const youtubeURL = videoURL;
@@ -90,7 +91,9 @@ document.addEventListener("DOMContentLoaded", function() {
                 } catch (error) {
                     console.error('Error loading chapters:', error);
                 }
-            
+
+                document.getElementById('loaderOverlay').style.display = 'none';
+                document.getElementsByTagName("html")[0].style.overflowY = 'auto';
                 
             } else {
                 console.log("No input file provided.");
