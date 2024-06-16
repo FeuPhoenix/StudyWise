@@ -9,8 +9,8 @@ class Notes:
     def __init__(self, JsonData, userid, Type, MaterialName):
         self.JsonData=JsonData
         self.userid=userid
-        self.NoteName=uuid.uuid4().hex
-        self.materialid=Notes.Retrieve_MaterialID(userid,Type,MaterialName)
+        self.NoteName = uuid.uuid4().hex
+        self.materialid = Notes.Retrieve_MaterialID(userid, Type, MaterialName)
         self.MaterialName=MaterialName
         self.Type=Type
     @staticmethod

@@ -9,14 +9,14 @@ class Notes_Controller:
 
     @staticmethod
     def fetch_notes_if_exist(user_id, material_type, MaterialName):
-        Material_id=Notes.Retreave_MaterialID(user_id,material_type,MaterialName)
+        Material_id = Notes.Retrieve_MaterialID(user_id, material_type, MaterialName)
         db_instance = FirestoreDB.get_instance()
         firestore_instance = db_instance.get_firestore_instance()
 
         try:
             # Reference to the document
             doc_ref = firestore_instance.collection('Users').document(user_id).collection(material_type).document(Material_id)
-
+            
             # Fetch the document
             doc = doc_ref.get()
 
