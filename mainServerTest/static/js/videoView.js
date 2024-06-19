@@ -1,7 +1,12 @@
 let urlParams = new URLSearchParams(window.location.search);
+const Youtube = /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.?be)\/.+$/;
 
 document.addEventListener("DOMContentLoaded", function() {
     const fileName = urlParams.get('fileName');
+
+    const player = new Plyr('#video', {captions: {active: true}});
+
+    const audioplayer = new Plyr('#audio', {});
 
     if (fileName) {
         document.getElementById("content-title").innerHTML = fileName;
@@ -17,7 +22,7 @@ document.addEventListener("DOMContentLoaded", function() {
         })
         .then(response => response.json())
         .then(data => {
-            const { videoLink, audioLink, summary, chapters, flashcards, MCQ_E, MCQ_M, MCQ_H } = data.data;
+            const { videoLink, audioLink, summary, chapters, flashcards, MCQ_E, MCQ_M, MCQ_H, Transcript} = data.data;
 
             sessionStorage.setItem('fileType', 'video');
             sessionStorage.setItem('loadedVideoLink', videoLink);
@@ -28,7 +33,9 @@ document.addEventListener("DOMContentLoaded", function() {
             sessionStorage.setItem('loadedMCQ_E', JSON.stringify(MCQ_E));
             sessionStorage.setItem('loadedMCQ_M', JSON.stringify(MCQ_M));
             sessionStorage.setItem('loadedMCQ_H', JSON.stringify(MCQ_H));
+            sessionStorage.setItem('Transcript', JSON.stringify(Transcript.Transcript));
 
+            // console.log('Transcript: ', sessionStorage.getItem('Transcript'));
             // console.log('Video Link:', sessionStorage.getItem('loadedVideoLink'));
             // console.log('Video Audio:', sessionStorage.getItem('loadedVideoAudio'));
             // console.log('Video Summary:', sessionStorage.getItem('loadedVideoSummary'));
@@ -40,7 +47,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
                 if (Youtube.test(videoURL)) {
                     const youtubeURL = videoURL;
-                    const playerSource = {
+                    player.source = {
                         type: 'video',
                         sources: [
                             {
@@ -49,11 +56,43 @@ document.addEventListener("DOMContentLoaded", function() {
                             },
                         ],
                     };
-                    player.source = playerSource;
+                    
+                    // Set Audio
+                    audioplayer.source = {
+                        type: 'audio',
+                        sources: [
+                            {
+                                src: sessionStorage.getItem('loadedVideoAudio'),
+                                type: 'audio/mp3'
+                            },
+                        ],
+                    };
+                    document.getElementById('transcript').innerHTML = (sessionStorage.getItem('Transcript'));
                 }
                 else {
-                    const VideoViewer = document.getElementById('video-viewer');
-                    VideoViewer.src = videoURL; // Use videoURL for the Video source
+                    // Use videoURL for the Video source
+                    player.source = {
+                        type: 'video',
+                        sources: [
+                            {
+                                src: videoURL,
+                                type: 'video/mp4'
+                            },
+                        ],
+                    };
+
+                    // Set Audio
+                    audioplayer.source = {
+                        type: 'audio',
+                        sources: [
+                            {
+                                src: sessionStorage.getItem('loadedVideoAudio'),
+                                type: 'audio/mp3'
+                            },
+                        ],
+                    };
+
+                    document.getElementById('transcript').innerHTML = (sessionStorage.getItem('Transcript'));
                 }
             
                 // Get the JSON object from sessionStorage
@@ -61,7 +100,6 @@ document.addEventListener("DOMContentLoaded", function() {
             
                 // Fetch Summary
                 const summaryText = loadedVideoSummary.long_summary;
-                console.log('Summary: ', loadedVideoSummary.long_summary);
                 document.getElementById('summaryText').innerHTML = summaryText;
             
                 // NOTE: FLASHCARD FETCH CODE IS IN THE FLASHCARDSV1_JS FILE
@@ -86,8 +124,6 @@ document.addEventListener("DOMContentLoaded", function() {
                 
                     const indexes = indexesArray.join('\n');
                 
-                    console.log("indexes: " + indexes);
-                
                     document.getElementById('videoIndexes').innerHTML = indexes;
                 } catch (error) {
                     console.error('Error loading chapters:', error);
@@ -107,44 +143,86 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 });
 
+function toggleAudio() {
+    const switchButton = document.querySelector("button.audio-switch > h3");
+    const headphonesIcon = document.querySelector('.fa-headphones');
+    const videoIcon = document.querySelector('.fa-video');
+    const audioContainer = document.querySelector('.audio-container');
+    const videoContainer = document.querySelector('.video-container');
+
+    if (switchButton.innerHTML === 'Switch to Audio') {
+        // Switch Button
+        headphonesIcon.style.display = 'none';
+        videoIcon.style.display = 'block';
+        switchButton.innerHTML = 'Switch to Video';
+
+        // Switch actual content
+        audioContainer.style.display = 'block';
+        videoContainer.style.display = 'none';
+    } else {
+        // Switch Button
+        headphonesIcon.style.display = 'block';
+        videoIcon.style.display = 'none';
+        switchButton.innerHTML = 'Switch to Audio';
+
+        // Switch actual content
+        audioContainer.style.display = 'none';
+        videoContainer.style.display = 'block';
+    }
+}
+
+function toggleTranscript(btn) {
+    transcriptElement = document.getElementById('transcript');
+    if (transcriptElement.style.display === 'none') {
+        transcriptElement.style.display = 'block';
+        btn.classList.add('active');
+    } else {
+        transcriptElement.style.display = 'none';
+        btn.classList.remove('active');
+    }
+}
+
 function toggleFlashcards(btn) {
     if (flashcardElement.style.display === 'none') {
-      sidebarViewerElement.style.display = 'flex';
-      flashcardElement.style.display = 'flex';
-      btn.classList.add('active');
+        sidebarViewerElement.style.display = 'flex';
+        flashcardElement.style.display = 'flex';
+        btn.classList.add('active');
     } else {
-      flashcardElement.style.display = 'none';
-      btn.classList.remove('active');
+        flashcardElement.style.display = 'none';
+        btn.classList.remove('active');
     }
     if (flashcardElement.style.display == 'none' && summaryElement.style.display == 'none') {
-      console.log('Hiding Sidebar Viewer');
-      sidebarViewerElement.style.display = 'none';
+        console.log('Hiding Sidebar Viewer');
+        sidebarViewerElement.style.display = 'none';
+        document.getElementById('main-frame').style.maxWidth = '99%';
     }
-  }
-  
-  function toggleSummary(btn) {
+    else {
+        sidebarViewerElement.style.display = 'flex';
+        console.log('Showing Sidebar Viewer');
+        document.getElementById('main-frame').style.maxWidth = '60%';
+    }
+}
+
+function toggleSummary(btn) {
     if (summaryElement.style.display === 'none') {
-      sidebarViewerElement.style.display = 'flex';
-      summaryElement.style.display = 'block';
-      btn.classList.add('active');
+        sidebarViewerElement.style.display = 'flex';
+        summaryElement.style.display = 'block';
+        btn.classList.add('active');
     } else {
-      summaryElement.style.display = 'none';
-      btn.classList.remove('active');
+        summaryElement.style.display = 'none';
+        btn.classList.remove('active');
     }
     if (flashcardElement.style.display == 'none' && summaryElement.style.display == 'none') {
-      console.log('Hiding Sidebar Viewer');
-      sidebarViewerElement.style.display = 'none';
+        console.log('Hiding Sidebar Viewer');
+        sidebarViewerElement.style.display = 'none';
+        document.getElementById('main-frame').style.maxWidth = '99%';
     }
-  }
-  
-
-const player = new Plyr('video', {captions: {active: true}});
-
-const Youtube = /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.?be)\/.+$/;
-
-// Expose player so it can be used from the console
-window.player = player;
-
+    else {
+        sidebarViewerElement.style.display = 'flex';
+        console.log('Showing Sidebar Viewer');
+        document.getElementById('main-frame').style.maxWidth = '60%';
+    }
+}
 
 document.getElementById('toggleButton').addEventListener('click', function() {
     var videoIndexesDiv = document.getElementById('videoIndexes');

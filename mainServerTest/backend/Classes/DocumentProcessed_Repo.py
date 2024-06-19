@@ -18,6 +18,7 @@ import comtypes.client
 from dotenv import load_dotenv
 from langdetect import detect
 
+
 # from backend.Classes.Constants import OPENAI_API_KEY 
 from backend.Classes.FirestoreDB import FirestoreDB
 from backend.Classes.Flash_Cards_Repo import Flash_Cards
@@ -502,7 +503,7 @@ class DocumentProcessed:
     
     @staticmethod
     def get_Long_summary(text):
-        openai.api_key = OPENAI_API_KEY
+        openai.api_key = os.getenv('OPENAI_API_KEY')
         summaries = []
 
         for chunk in DocumentProcessed.split_text(text):
@@ -532,7 +533,7 @@ class DocumentProcessed:
             print(f"Long summary has been successfully saved in mainServerTest/assets/output_files/summaries/{filename}.json") 
         self.generated_summary_file_path = f"mainServerTest/assets/output_files/summaries/{filename}.json" 
     
-    def Document_Processing(self):
+    async def Document_Processing(self):
         self.file_name = DocumentProcessed.getFileNameFromPathWithOutExtension(self.file)
 
         print("File name without path: ", self.file_name)

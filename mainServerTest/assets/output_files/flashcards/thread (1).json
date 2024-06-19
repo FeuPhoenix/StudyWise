@@ -1,0 +1,30 @@
+[
+    {
+        "front": "What are the key components that make up a thread in multicore programming?",
+        "back": "A thread comprises a thread ID, a program counter, a register set, and it shares the code section, data section, and other resources with other threads belonging to the same process."
+    },
+    {
+        "front": "How do threads enable the execution of multiple sections of a program simultaneously?",
+        "back": "Threads allow for the seamless execution of different sections of a program at the same time, enabling concurrent processing."
+    },
+    {
+        "front": "What are the advantages of using threads in an operating system environment?",
+        "back": "Threads offer benefits such as responsiveness, resource sharing, economy in terms of process creation, and scalability in utilizing multiprocessor architectures."
+    },
+    {
+        "front": "Can you explain the difference between concurrent execution on a single-core system and parallelism on a multi-core system in multicore programming?",
+        "back": "Concurrent execution on a single-core system involves interleaved processing of multiple tasks, while parallelism on a multi-core system enables tasks to truly run simultaneously on different processor cores."
+    },
+    {
+        "front": "What are the different multithreading models commonly used in operating systems?",
+        "back": "The common multithreading models include the one-to-one model, the many-to-one model, and the many-to-many model."
+    },
+    {
+        "front": "How does the one-to-one multithreading model work, and what is one of its drawbacks?",
+        "back": "The one-to-one model maps each user thread to a kernel thread, allowing for multiple threads to run in parallel. However, creating a user thread also requires creating a corresponding kernel thread, which can introduce overhead and limit the number of threads that can be supported by the system."
+    },
+    {
+        "front": "What is the advantage of the many-to-many multithreading model in terms of creating and managing threads?",
+        "back": "The many-to-many model allows for many user-level threads to be mapped to many kernel threads, providing flexibility in creating threads without restrictions on the number of threads that can be supported."
+    }
+]

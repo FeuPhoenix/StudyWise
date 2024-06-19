@@ -5,9 +5,9 @@
 // const fileUrl = `/api/files/mcqs/${encodeURIComponent(fileName)}`;
 
 // give the stored data a variable name
-const mcqsE = JSON.parse(localStorage.getItem('loadedMCQ_E') || '[]');
-const mcqsM = JSON.parse(localStorage.getItem('loadedMCQ_M') || '[]');
-const mcqsH = JSON.parse(localStorage.getItem('loadedMCQ_H') || '[]');
+const mcqsE = JSON.parse(sessionStorage.getItem('loadedMCQ_E') || '[]');
+const mcqsM = JSON.parse(sessionStorage.getItem('loadedMCQ_M') || '[]');
+const mcqsH = JSON.parse(sessionStorage.getItem('loadedMCQ_H') || '[]');
 
 
 
@@ -16,9 +16,9 @@ let fetchTimeout;
 async function fetchMCQs() {
     try {
         // retrieve the stored data from local storage
-        const mcqsE = JSON.parse(localStorage.getItem('loadedMCQ_E') || '[]');
-        const mcqsM = JSON.parse(localStorage.getItem('loadedMCQ_M') || '[]');
-        const mcqsH = JSON.parse(localStorage.getItem('loadedMCQ_H') || '[]');
+        const mcqsE = JSON.parse(sessionStorage.getItem('loadedMCQ_E') || '[]');
+        const mcqsM = JSON.parse(sessionStorage.getItem('loadedMCQ_M') || '[]');
+        const mcqsH = JSON.parse(sessionStorage.getItem('loadedMCQ_H') || '[]');
 
         const difficulty = determineDifficulty(userPoints);
         let selectedMCQs;

@@ -1,82 +1,102 @@
 [
     {
-        "question": "1. Which stakeholder group would be most concerned with the wordiness or complexity of study material in StudyWise?",
+        "question": "1. Which term refers to the ability of multiple threads to operate concurrently within the kernel of an operating system?",
         "options": [
-            "B) Administrators and educational professionals",
-            "C) Funding organizations or investors",
-            "D) External evaluators and researchers",
-            "A) Teachers and tutors"
+            "D) Device management",
+            "A) Parallelism",
+            "C) Interruption handling",
+            "B) Multithreading"
         ],
-        "correct_answer": "B) Administrators and educational professionals"
+        "correct_answer": "D) Device management"
     },
     {
-        "question": "2. What methods would be essential for data extraction in StudyWise to achieve satisfactory results with various content formats?",
+        "question": "2. What is the main advantage of multithreaded server architecture?",
         "options": [
-            "D) Content integration APIs",
-            "A) Adaptive learning algorithms",
-            "C) Visual content interpretation techniques",
-            "B) Parsing methods"
+            "B) Improved scalability",
+            "A) Increased power consumption",
+            "D) Decreased efficiency",
+            "C) Reduced responsiveness"
         ],
-        "correct_answer": "D) Content integration APIs"
+        "correct_answer": "B) Improved scalability"
     },
     {
-        "question": "3. How does visual content interpretation play a role in StudyWise's effectiveness?",
+        "question": "3. How does multithreaded programming facilitate more efficient use of multicore or multiprocessor systems?",
         "options": [
-            "A) It allows for quick extraction of information",
-            "D) It ensures consistent extraction of relevant information from images",
-            "C) It provides targeted remediation",
-            "B) It helps with decision-making processes"
+            "A) By limiting the number of cores in use",
+            "C) By preventing parallelism on a multi-core system",
+            "B) By enabling concurrent execution on a single-core system",
+            "D) By managing threads directly through the operating system"
         ],
-        "correct_answer": "A) It allows for quick extraction of information"
+        "correct_answer": "A) By limiting the number of cores in use"
     },
     {
-        "question": "4. Why are funding organizations or investors considered external stakeholders of StudyWise?",
+        "question": "4. In a multithreaded server architecture, how does the operating system manage memory and interrupt handling?",
         "options": [
-            "B) They receive tutoring on the platform",
-            "C) They may need to provide financial support",
-            "A) They upload educational resources",
-            "D) They evaluate the system for integration into educational institutions"
+            "A) Through sequential processing",
+            "B) Through concurrent execution",
+            "D) Through single-threaded programming",
+            "C) Through parallelism"
         ],
-        "correct_answer": "B) They receive tutoring on the platform"
+        "correct_answer": "A) Through sequential processing"
     },
     {
-        "question": "5. What is the significance of the System Requirements Specification (SRS) document in StudyWise development?",
+        "question": "5. What is the relationship between user threads and kernel threads in a multithreaded system?",
         "options": [
-            "A) It outlines the main functionalities of the application",
-            "C) It sets deadlines for system prototype submission",
-            "B) It details the technical working implementation",
-            "D) It collects information from stakeholders and researchers"
+            "D) They share memory resources",
+            "C) They can run in parallel on a multiprocessor",
+            "A) They operate independently",
+            "B) They are managed directly by the operating system"
         ],
-        "correct_answer": "A) It outlines the main functionalities of the application"
+        "correct_answer": "D) They share memory resources"
     },
     {
-        "question": "6. Which document would be most focused on technical design and implementation details in StudyWise?",
+        "question": "6. Which feature of multithreaded programming allows for continued execution if part of a thread is blocked?",
         "options": [
-            "B) Software Design Document (SDD)",
-            "D) Research Paper on the StudyWise application",
-            "C) Application Modules Documentation",
-            "A) System Requirements Specification (SRS)"
+            "C) Device management",
+            "B) Responsiveness",
+            "D) Memory management",
+            "A) Interrupt handling"
         ],
-        "correct_answer": "B) Software Design Document (SDD)"
+        "correct_answer": "C) Device management"
     },
     {
-        "question": "7. What is the purpose of the StudyWise application?",
+        "question": "7. How do most operating system kernels handle multiple threads in a multithreaded system?",
         "options": [
-            "D) To integrate visual content interpretation techniques",
-            "A) To conduct educational researches and information collection",
-            "C) To facilitate adaptive learning to fit different needs",
-            "B) To provide tutoring services for students"
+            "C) By limiting the number of threads",
+            "A) Through a single-threaded approach",
+            "B) By managing threads directly",
+            "D) Through parallel execution"
         ],
-        "correct_answer": "D) To integrate visual content interpretation techniques"
+        "correct_answer": "C) By limiting the number of threads"
     },
     {
-        "question": "9. How does StudyWise aim to address the complexity of study material for personalized learning experiences?",
+        "question": "8. Which component of a multithreaded system is responsible for scheduling threads for execution?",
         "options": [
-            "C) By integrating visual content interpretation techniques",
-            "A) By extracting data using parsing methods",
-            "D) By conducting educational researches and information collection",
-            "B) By facilitating adaptive learning"
+            "D) User application",
+            "A) Kernel",
+            "B) Device manager",
+            "C) Memory manager"
         ],
-        "correct_answer": "C) By integrating visual content interpretation techniques"
+        "correct_answer": "D) User application"
+    },
+    {
+        "question": "9. In what way does multithreaded programming improve the performance of a system with multiple cores or processors?",
+        "options": [
+            "B) By limiting parallelism",
+            "D) By reducing responsiveness",
+            "C) By enabling concurrent execution",
+            "A) By decreasing efficiency"
+        ],
+        "correct_answer": "B) By limiting parallelism"
+    },
+    {
+        "question": "10. How do Windows operating systems implement multithreading in order to support parallel execution on multiprocessor systems?",
+        "options": [
+            "A) By limiting the number of threads",
+            "B) By managing threads directly",
+            "C) Through single-threaded programming",
+            "D) By allowing kernel threads to run in parallel on a multiprocessor"
+        ],
+        "correct_answer": "A) By limiting the number of threads"
     }
 ]

@@ -134,6 +134,7 @@ function newNote(noteData) {
 }
 
 async function save_notes() {
+    document.getElementById('saved').style.display = 'none';
     document.getElementById('saving').style.display = 'block';
     var notesArray = [];
 
