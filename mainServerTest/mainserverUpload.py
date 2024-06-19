@@ -244,24 +244,7 @@ def load_document_content() :
                     })
     else : 
         return redirect(url_for(login))
-    
-@app.route('/save-content-notes', methods = ['POST'])
-def save_content_notes() : 
-    userID = session['UserID']
-    data = request.json
-    fileName = data.get('fileName')
-    Type = data.get('fileType')
-    notesJSON = data.get('notesArray')
-    
-    from backend.Classes.Notes_Controller import Add_Notes_tofirestore as save_notes
-    save_notes(notesJSON, userID, Type, fileName)
 
-
-@app.route('/load-content-notes', methods = ['POST'])
-def load_content_notes() : 
-    return 0
-
-    
 @app.route('/load-video-content', methods = ['POST'])
 @cross_origin(origins="*")
 def load_video_content() : 
@@ -306,6 +289,53 @@ def load_video_content() :
                 })
     else : 
         return redirect(url_for(login))
+
+@app.route('/save-content-notes', methods = ['POST'])
+def save_content_notes() : 
+    userID = session['UserID']
+    data = request.json
+    fileName = data.get('fileName')
+    fileType = data.get('fileType')
+    notes = data.get('notesArray')
+
+    print('================================= SAVING NOTES =========================================\n')
+    print('=== fileName recieved:\n', fileName)
+    print('=== fileType recieved:\n', fileType)
+    print('=== Notes recieved:\n', notes)
+    
+    from backend.Classes.Notes_Controller import Notes_Controller
+    Notes_Controller.Add_Notes_tofirestore(notes, userID, fileType, fileName)
+
+    return jsonify({"status": "success"}), 200
+
+
+@app.route('/load-content-notes', methods = ['POST'])
+def load_content_notes() : 
+    userID = session['UserID']
+    data = request.json
+    fileName = data.get('fileName')
+    fileType = data.get('fileType')
+
+    print('================================= LOADING NOTES =========================================\n')
+    print('=== fileName recieved:\n', fileName)
+    print('=== fileType recieved:\n', fileType)
+    print('\nFetching notes from Firestore...\n')
+    
+    from backend.Classes.Notes_Controller import Notes_Controller
+    fetchedNotes = Notes_Controller.fetch_notes_if_exist(userID, fileType, fileName)
+
+    print('=== Recieved from Firestore:\n', fetchedNotes)
+
+    if (fetchedNotes != None) : 
+        return jsonify({
+                        'method': 'POST',
+                        'headers': {
+                            'Content-Type': 'application/json',
+                        },
+                        'data': {'fetchedNotes': fetchedNotes}
+                    })
+    else : 
+        return jsonify({"status": "No notes found"}), 404
 
 # @app.route('/proxy', methods=['GET'])
 # @cross_origin(origins="*")

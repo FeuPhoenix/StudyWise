@@ -1,3 +1,5 @@
+let notesEdited = false;
+
 (function($) {
     $.fn.autogrow = function(options) {
         return this.filter('textarea').each(function() {
@@ -85,9 +87,9 @@ function hideDeleteConfirmation() {
 
 function deleteNote() {
     if (noteToDelete) {
-        $(noteToDelete).hide("puff", { percent: 133 }, 250, function() {
+        $(noteToDelete).hide("puff", { percent: 133 }, 250, async function() {
             $(this).remove();
-            save_notes(); // Save notes after deletion
+            await save_notes(); // Save notes after deletion
         });
         hideDeleteConfirmation();
     }
@@ -126,10 +128,13 @@ function newNote(noteData) {
         this.addEventListener('blur', removeFocus);
     });
 
+    notesEdited = true;
+
     return false;
 }
 
-function save_notes() {
+async function save_notes() {
+    document.getElementById('saving').style.display = 'block';
     var notesArray = [];
 
     $('.note').each(function() {
@@ -147,20 +152,104 @@ function save_notes() {
         notesArray.push(noteObject);
     });
 
-    localStorage.setItem('notes', JSON.stringify(notesArray));
-    console.log("Saving Notes...\n", JSON.stringify(notesArray));
+    sessionStorage.setItem('notes', JSON.stringify(notesArray));
+    console.log("Saving notes...\n", JSON.stringify(notesArray));
+    console.log("Saving with Name:\n", urlParams.get('fileName'));
+
+    var fileType = sessionStorage.getItem('fileType');
+    if (fileType == 'document') {
+        fileType = 'DocumentMaterial';
+        console.log("Saving with Type:\n", fileType);
+    }
+    else if (fileType == 'video') {
+        fileType = 'VideoMaterial'
+        console.log("Saving with Type:\n", fileType);
+    }
+
+    try {
+        fetch('http://127.0.0.1:5000/save-content-notes', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                    fileName: urlParams.get('fileName'),
+                    fileType: fileType,
+                    notesArray: notesArray
+                })
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+            notesEdited = false;
+        })
+        .catch(error => console.error('Error saving notes:', error));
+    }
+    catch (error) {
+        document.getElementById('saving').style.display = 'none';
+        console.error('Error saving notes:', error);
+    }
+    
+    setTimeout(() => {
+        document.getElementById('saving').style.display = 'none';
+        document.getElementById('saved').style.display = 'block';
+    }, 500);
+    
+    setTimeout(() => {
+        document.getElementById('saved').style.display = 'none';
+    }, 2000);
 }
 
 function load_notes() {
-    var savedNotes = localStorage.getItem('notes');
-    if (savedNotes) {
-        var notesArray = JSON.parse(savedNotes);
-        notesArray.forEach(function(noteData) {
-            newNote(noteData);
-        });
-    } else {
-        newNote(); // Create a new note if no saved notes are found
+    var thisURL = window.location.href;
+
+    if ( thisURL.includes('/pdf-display?fileName=') ) {
+        sessionStorage.setItem('fileType', 'DocumentMaterial');
+        console.log("Loading notes with Type:\n", sessionStorage.getItem('fileType'));
     }
+    else if ( thisURL.includes('/video-display?fileName=') ) {
+        sessionStorage.setItem('fileType', 'VideoMaterial');
+        console.log("Loading notes with Type:\n", sessionStorage.getItem('fileType'));
+    }
+    const fileType = sessionStorage.getItem('fileType')
+    console.log("fileType from URL:\n", fileType);
+
+    console.log('Loading notes...')
+    fetch('http://127.0.0.1:5000/load-content-notes', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                fileName: urlParams.get('fileName'),
+                fileType: fileType
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.data && data.data.fetchedNotes && data.data.fetchedNotes.length > 0) {
+                sessionStorage.setItem('notes', JSON.stringify(data.data.fetchedNotes));
+                console.log('Fetched notes: ', sessionStorage.getItem('notes'));
+
+                var notesArray = data.data.fetchedNotes;
+                notesArray.forEach(function(noteData) {
+                    newNote(noteData);
+                });
+
+                setTimeout(() => {
+                    document.getElementById('saving').style.display = 'none';
+                    document.getElementById('saved').style.display = 'block';
+                }, 500);
+                
+                setTimeout(() => {
+                    document.getElementById('saved').style.display = 'none';
+                }, 2000);
+            } else {
+                console.log('No notes found, creating new note...')
+                newNote(); // Create a new note if no saved notes are found
+            }
+        })
+        .catch(error => console.error('Error loading notes:', error));
 }
 
 $(document).ready(function() {
@@ -168,12 +257,15 @@ $(document).ready(function() {
 
     $("#add_new").click(newNote);
 
-    load_notes(); // Load notes from local storage when the page loads
+    window.onload = load_notes(); // Load notes when the page loads
 
     // Save notes when the user leaves the page
-    window.onbeforeunload = function() {
+    window.addEventListener('beforeunload', function() {
         save_notes();
-    };
+        // setTimeout(() => {
+        //     console.log('Notes saved.')
+        // }, 1000);
+    });
 
     // Event listeners for the delete confirmation modal
     $('#confirm-delete').click(deleteNote);

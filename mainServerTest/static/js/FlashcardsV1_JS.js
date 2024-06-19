@@ -99,6 +99,7 @@ function loadCards() {
   fullCards = data.map(card => ({ ...card, status: "unread" }));
   numberCards = fullCards.length;
 }
+
 function cleanFlashcards(flashcards) {
   return flashcards.map(card => {
     return {
@@ -110,7 +111,9 @@ function cleanFlashcards(flashcards) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  console.log(`Fetching ${sessionStorage.getItem('fileName')}'s flashcards`)
+  let urlParams = new URLSearchParams(window.location.search);
+  const fileName = urlParams.get('fileName');
+  console.log(`Fetching ${fileName}'s flashcards`)
   console.log(`Flashcards in FlashcardsV1_JS:`, JSON.parse(sessionStorage.getItem('loadedFlashcards')))
 
   loadCards().then(() => {
