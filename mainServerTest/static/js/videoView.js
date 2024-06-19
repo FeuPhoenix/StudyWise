@@ -19,6 +19,7 @@ document.addEventListener("DOMContentLoaded", function() {
         .then(data => {
             const { videoLink, audioLink, summary, chapters, flashcards, MCQ_E, MCQ_M, MCQ_H } = data.data;
 
+            sessionStorage.setItem('fileType', 'video');
             sessionStorage.setItem('loadedVideoLink', videoLink);
             sessionStorage.setItem('loadedVideoAudio', audioLink);
             sessionStorage.setItem('loadedVideoSummary', JSON.stringify(summary));
@@ -28,11 +29,11 @@ document.addEventListener("DOMContentLoaded", function() {
             sessionStorage.setItem('loadedMCQ_M', JSON.stringify(MCQ_M));
             sessionStorage.setItem('loadedMCQ_H', JSON.stringify(MCQ_H));
 
-            console.log('Video Link:', sessionStorage.getItem('loadedVideoLink'));
-            console.log('Video Audio:', sessionStorage.getItem('loadedVideoAudio'));
-            console.log('Video Summary:', sessionStorage.getItem('loadedVideoSummary'));
-            console.log('Video Chapters:', sessionStorage.getItem('loadedVideoChapters'));
-            console.log('Video Flashcards:', sessionStorage.getItem('loadedFlashcards'));
+            // console.log('Video Link:', sessionStorage.getItem('loadedVideoLink'));
+            // console.log('Video Audio:', sessionStorage.getItem('loadedVideoAudio'));
+            // console.log('Video Summary:', sessionStorage.getItem('loadedVideoSummary'));
+            // console.log('Video Chapters:', sessionStorage.getItem('loadedVideoChapters'));
+            // console.log('Video Flashcards:', sessionStorage.getItem('loadedFlashcards'));
 
             const videoURL = sessionStorage.getItem('loadedVideoLink')
             if (videoURL) { // Load the video content that is received

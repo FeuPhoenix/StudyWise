@@ -45,7 +45,7 @@ class Notes:
   
     @staticmethod
     def save_json_to_file(json_data,filename ):
-        file_path=f"D:/COLLEGE/StudyWise/mainServerTest/assets/output_files/Notes/{filename}.json"
+        file_path = f"mainServerTest/assets/output_files/Notes/{filename}.json"
         try:
             # Ensure the directory exists
             dir_path = os.path.dirname(file_path)
@@ -68,12 +68,14 @@ class Notes:
         except Exception as e:
             print(f"An unexpected error occurred: {e}")
         return file_path
+    
     def addNotesToFirestore(self):
         db_instance = FirestoreDB.get_instance()
         firestore_instance = db_instance.get_firestore_instance()
+        print('JSONData:\n', self.JsonData)
         self.file=Notes.save_json_to_file(self.JsonData,self.NoteName)
-        print("file",self.file,"======================")
-        file_Location=Notes.upload_notes_to_storage(self.userid,self.MaterialName, self.file)
+        print("file", self.file, "======================")
+        file_Location=Notes.upload_notes_to_storage(self.userid, self.MaterialName, self.file)
         try:
             # Reference to the document
             doc_ref = firestore_instance.collection('Users').document(self.userid).collection(self.Type).document(self.materialid)
@@ -81,7 +83,6 @@ class Notes:
             # Update the document with the new data
             doc_ref.update({
                 "notes": file_Location,
-              
             })
             
             print("Successfully added notes to firestore")

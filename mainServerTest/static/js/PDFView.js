@@ -17,6 +17,7 @@ document.addEventListener("DOMContentLoaded", function() {
         .then(data => {
             const { documentLink, summary, flashcards, MCQ_E, MCQ_M, MCQ_H } = data.data;
 
+            sessionStorage.setItem('fileType', 'document');
             sessionStorage.setItem('loadedDocumentLink', documentLink);
             sessionStorage.setItem('loadedDocumentSummary', JSON.stringify(summary));
             sessionStorage.setItem('loadedFlashcards', JSON.stringify(flashcards));
@@ -24,16 +25,15 @@ document.addEventListener("DOMContentLoaded", function() {
             sessionStorage.setItem('loadedMCQ_M', JSON.stringify(MCQ_M));
             sessionStorage.setItem('loadedMCQ_H', JSON.stringify(MCQ_H));
 
-            console.log('Document Link:', sessionStorage.getItem('loadedDocumentLink'));
-            console.log('Document Summary:', sessionStorage.getItem('loadedDocumentSummary'));
-            console.log('Document Flashcards:', sessionStorage.getItem('loadedFlashcards'));
+            // console.log('Document Link:', sessionStorage.getItem('loadedDocumentLink'));
+            // console.log('Document Summary:', sessionStorage.getItem('loadedDocumentSummary'));
+            // console.log('Document Flashcards:', sessionStorage.getItem('loadedFlashcards'));
 
             var documentURL = sessionStorage.getItem('loadedDocumentLink')
             if (documentURL) {
                 const pdfViewer = document.getElementById('pdf-viewer');
                 pdfViewer.src = documentURL;
         
-                const fileName = sessionStorage.getItem('fileName');
                 console.log(`Received data for fileName: ${fileName}`);
         
                 const loadedDocumentSummary = JSON.parse(sessionStorage.getItem('loadedDocumentSummary'));
@@ -45,7 +45,7 @@ document.addEventListener("DOMContentLoaded", function() {
         
                 document.getElementById('loaderOverlay').style.display = 'none';
                 document.getElementsByTagName("html")[0].style.overflowY = 'auto';
-                
+
             } else {
                 console.log("No input file provided.");
             }
@@ -105,31 +105,31 @@ function toggleFlashcards(btn) {
 
 // Resizing the frames
 
-var resize = document.querySelector("#resize");
-var left = document.querySelector(".pdf-section");
-var container = document.querySelector(".page-content");
-var moveX =
-left.getBoundingClientRect().width +
-resize.getBoundingClientRect().width / 2;
+// var resize = document.querySelector("#resize");
+// var left = document.querySelector(".pdf-section");
+// var container = document.querySelector(".page-content");
+// var moveX =
+// left.getBoundingClientRect().width +
+// resize.getBoundingClientRect().width / 2;
 
-var drag = false;
-resize.addEventListener("mousedown", function (e) {
-drag = true;
-moveX = e.x;
-});
+// var drag = false;
+// resize.addEventListener("mousedown", function (e) {
+// drag = true;
+// moveX = e.x;
+// });
 
-container.addEventListener("mousemove", function (e) {
-moveX = e.x;
-if (drag) {
-    left.style.width =
-        moveX - resize.getBoundingClientRect().width / 2 + "px";
-    e.preventDefault();
-}
-});
+// container.addEventListener("mousemove", function (e) {
+// moveX = e.x;
+// if (drag) {
+//     left.style.width =
+//         moveX - resize.getBoundingClientRect().width / 2 + "px";
+//     e.preventDefault();
+// }
+// });
 
-container.addEventListener("mouseup", function (e) {
-drag = false;
-});
+// container.addEventListener("mouseup", function (e) {
+// drag = false;
+// });
 
 
 // Popup Handling
