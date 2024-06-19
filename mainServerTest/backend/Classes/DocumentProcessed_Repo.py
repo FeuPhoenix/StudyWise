@@ -19,13 +19,12 @@ from dotenv import load_dotenv
 from langdetect import detect
 
 # from backend.Classes.Constants import OPENAI_API_KEY 
-# from backend.Classes.FirestoreDB import FirestoreDB
-# from backend.Classes.Flash_Cards_Repo import Flash_Cards
-# from backend.Classes.Questions_Repo import Questions_Repo
-from Constants import OPENAI_API_KEY 
-from FirestoreDB import FirestoreDB
-from Flash_Cards_Repo import Flash_Cards
-from Questions_Repo import Questions_Repo
+from backend.Classes.FirestoreDB import FirestoreDB
+from backend.Classes.Flash_Cards_Repo import Flash_Cards
+from backend.Classes.Questions_Repo import Questions_Repo
+# from FirestoreDB import FirestoreDB
+# from Flash_Cards_Repo import Flash_Cards
+# from Questions_Repo import Questions_Repo
 
 from dotenv import load_dotenv
 load_dotenv()

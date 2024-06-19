@@ -10,11 +10,11 @@ class Notes:
         self.JsonData=JsonData
         self.userid=userid
         self.NoteName=uuid.uuid4().hex
-        self.materialid=Notes.Retreave_MaterialID(userid,Type,MaterialName)
+        self.materialid=Notes.Retrieve_MaterialID(userid,Type,MaterialName)
         self.MaterialName=MaterialName
         self.Type=Type
     @staticmethod
-    def Retreave_MaterialID(userid,Type,MaterialName):
+    def Retrieve_MaterialID(userid,Type,MaterialName):
       
             db_instance = FirestoreDB.get_instance()
             firestore_instance = db_instance.get_firestore_instance()

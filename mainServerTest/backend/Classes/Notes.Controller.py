@@ -1,3 +1,6 @@
+import time
+
+import requests
 from Notes_Repo import Notes
 from FirestoreDB import FirestoreDB
 from Notes_Repo import Notes
@@ -5,10 +8,25 @@ class Notes_Controller:
     @staticmethod
     def Add_Notes_tofirestore(JsonData,userid,Type,MaterialName):
         N=Notes(JsonData,userid,Type,MaterialName)
+        time.sleep(1)
         N.addNotesToFirestore()
     @staticmethod
+    def fetch_json_from_url(url):
+            try:
+                # Make a GET request to download the JSON file
+                response = requests.get(url)
+                response.raise_for_status()  # Raise an exception for any HTTP error status codes
+                
+                # Load the JSON data
+                data = response.json()
+                print("dataaaaaaaa===============",data)
+                return data
+            except requests.exceptions.RequestException as e:
+                print("Error:  2", e)
+                return None
+    @staticmethod
     def fetch_notes_if_exist(user_id, material_type, MaterialName):
-        Material_id=Notes.Retreave_MaterialID(user_id,material_type,MaterialName)
+        Material_id=Notes.Retrieve_MaterialID(user_id,material_type,MaterialName)
         db_instance = FirestoreDB.get_instance()
         firestore_instance = db_instance.get_firestore_instance()
 
@@ -23,7 +41,7 @@ class Notes_Controller:
                 doc_data = doc.to_dict()
                 if "notes" in doc_data:
                     print("Notes found:", doc_data["notes"])
-                    return doc_data["notes"]
+                    return Notes_Controller.fetch_json_from_url(doc_data["notes"])
                 else:
                     print("Notes do not exist in the document.")
                     return None
@@ -34,3 +52,8 @@ class Notes_Controller:
         except Exception as e:
             print("An error occurred:", e)
             return None
+def main():
+   print(Notes_Controller.fetch_notes_if_exist("0GKTloo0geWML96tvd9g27C99543","DocumentMaterial","mohamed_test"))
+
+if __name__ == '__main__':
+    main()
