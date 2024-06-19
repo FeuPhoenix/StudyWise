@@ -85,6 +85,11 @@ def pdf_display():
 @cross_origin()
 def video_display():
     return render_template('main_loggedin/view-video.html')
+
+@app.route('/audio-display')
+@cross_origin()
+def audio_display():
+    return render_template('main_loggedin/view-audio.html')
     
 @app.route('/login')
 def login():
@@ -239,6 +244,23 @@ def load_document_content() :
                     })
     else : 
         return redirect(url_for(login))
+    
+@app.route('/save-content-notes', methods = ['POST'])
+def save_content_notes() : 
+    userID = session['UserID']
+    data = request.json
+    fileName = data.get('fileName')
+    Type = data.get('fileType')
+    notesJSON = data.get('notesArray')
+    
+    from backend.Classes.Notes_Controller import Add_Notes_tofirestore as save_notes
+    save_notes(notesJSON, userID, Type, fileName)
+
+
+@app.route('/load-content-notes', methods = ['POST'])
+def load_content_notes() : 
+    return 0
+
     
 @app.route('/load-video-content', methods = ['POST'])
 @cross_origin(origins="*")

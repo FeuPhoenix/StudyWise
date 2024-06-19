@@ -32,7 +32,7 @@ button {
     color: var(--primaryFontColor);
 }
 
-.login-success-overlay {
+.loader-overlay {
     display: none;
     position: fixed;
     top: 0;
@@ -45,7 +45,7 @@ button {
     text-align: center;
     padding-top: 20%;
 }
-.login-success-overlay h1 {
+.loader-overlay h1 {
     position: absolute;
     top: 19%;
     left: 50%;

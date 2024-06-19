@@ -2,7 +2,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="{{ url_for('static', filename='assets/images/Studywise_Logo.png') }}" type="image/x-icon">
-    <title>StudyWise - Features</title>
+    <title>StudyWise</title>
     
     <!-- Third-party CSS -->
     <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/smoothness/jquery-ui.css">
@@ -20,6 +20,11 @@
 </head>
 
 <body>
+    <div class="loader-overlay" id="loaderOverlay">
+        <h1 id="loadingMSG">Loading content...</h1>
+        <div class="loader"></div>
+    </div>
+    
     <div class="main-navbar">
         <img src="{{ url_for('static', filename='assets/images/Studywise_Logo.png') }}" alt="Studywise Logo" class="navbar-logo">
         <div class="navbar-btns">
@@ -30,6 +35,7 @@
     </div> <!-- Main Navbar end -->
     <div class="page-content">
         <div class="main-section">
+            <h2 id="content-title"></h2>
             <embed id="pdf-viewer" src="" width="100%" height="100%"/>
             <div id="board">
                 <a href="javascript:;" class="button" id="add_new">Add New Note</a>
@@ -130,7 +136,7 @@
             <div class="summary">
                 <h1 class="summary-title">Summary</h1>
                 <p id="summaryText" class="style-7">
-                    Summary Processing...
+                    Loading summary...
                 </p>
             </div>
 

@@ -1,16 +1,16 @@
 from datetime import datetime, timedelta
 import uuid
-from FirestoreDB import FirestoreDB
+from backend.Classes.FirestoreDB import FirestoreDB
 import json
 import os
 
 class Notes:
 #user id wa material id wa ha3ml collection esmha notes
-    def __init__(self,JsonData,userid,Type,MaterialName):
+    def __init__(self, JsonData, userid, Type, MaterialName):
         self.JsonData=JsonData
         self.userid=userid
-        self.NoteName=uuid.uuid4().hex
-        self.materialid=Notes.Retrieve_MaterialID(userid,Type,MaterialName)
+        self.NoteName = uuid.uuid4().hex
+        self.materialid = Notes.Retrieve_MaterialID(userid, Type, MaterialName)
         self.MaterialName=MaterialName
         self.Type=Type
     @staticmethod
@@ -84,7 +84,7 @@ class Notes:
               
             })
             
-            print("Successfully added youtube video to firestore")
+            print("Successfully added notes to firestore")
         except Exception as e:
             print(e)
 

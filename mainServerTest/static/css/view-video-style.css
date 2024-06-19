@@ -13,6 +13,10 @@
     --primaryBorderRadius: 9px;
 }
 
+html {
+    overflow-y: hidden;
+}
+
 body {
     background-color: #01163A;
     font-family: var(--primaryFontFamily);
@@ -107,24 +111,77 @@ button {
     flex-shrink: 0;
 }
 
-.back-btn {
-    display: inline;
-    height: 2.2rem;
-    width: 2.2rem;
-    border: 2px solid #506387;
-    border-radius: 50px;
-    cursor: pointer;
-    margin: 10px 0 0 10px;
-
-    transition: ease 100ms;
-
-    font-size: 30px;
+.loader-overlay {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 9999;
+    color: white;
+    text-align: center;
+    padding-top: 20%;
 }
+.loader-overlay h1 {
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+/* HTML: <div class="loader"></div> */
+.loader {
+    position: fixed;
+    top: 40%;
+    left: calc(50% - 30px);
+    width: 60px;
+    aspect-ratio: 1;
+    display: grid;
+    grid: 50%/50%;
+    animation: l4-0 2s infinite steps(1);
+}
+.loader::before {
+content: "";
+    transform-origin: bottom;
+    animation:
+        l4-1 0.5s infinite linear alternate,
+        l4-2 0.5s infinite steps(1) alternate;
+}
+@keyframes l4-0 {
+    0% {
+        transform: scale(1, 1) rotate(0deg)
+    }
 
-.back-btn:hover {
-    scale: 110%;
-    font-size: 31px;
-    background:rgba(11, 61, 101, 1);
+    25% {
+        transform: scale(1, -1) rotate(90deg)
+    }
+
+    50% {
+        transform: scale(-1, -1) rotate(0deg)
+    }
+
+    75% {
+        transform: scale(-1, 1) rotate(90deg)
+    }
+}
+@keyframes l4-1 {
+    0% {
+        transform: perspective(150px) rotateX(0deg)
+    }
+
+    100% {
+        transform: perspective(150px) rotateX(180deg)
+    }
+}
+@keyframes l4-2 {
+    0% {
+        background: #2e89cc
+    }
+
+    50% {
+        background: #c82d63
+    }
 }
 
 .main-frame {
@@ -140,10 +197,37 @@ button {
     background: radial-gradient(65.13% 77.87% at 118.98% 0%, #0A2F66 0%, #131F38 100%);
 }
 
+.back-btn {
+    position: fixed;
+    display: inline;
+    height: 2.2rem;
+    width: 2.2rem;
+    border: 2px solid #506387;
+    border-radius: 50px;
+    cursor: pointer;
+    margin: 10px 0 0 10px;
+
+    transition: scale 100ms;
+
+    font-size: 30px;
+}
+
+.back-btn:hover {
+    transition: scale 50ms;
+    scale: 1.05;
+    font-size: 31px;
+    background:rgb(13, 67, 112);
+}
+
+#content-title {
+    word-break: break-all;
+    margin: 1rem .75rem 10px;
+}
+
 .video-container{
     display: block;
     box-shadow: 0px 0px 33px 33px rgba(0, 0, 0, 0.33);
-    margin: 0.5rem auto auto auto;
+    margin: 0 auto;
 
 	width: 85%;
 }
@@ -427,8 +511,8 @@ button {
 #summaryText {
     white-space: pre-line;
     font-size: 1rem;
-    max-height: 35rem;
-    overflow-y: scroll;
+    max-height: 33rem;
+    overflow-y: auto;
 }
 
 #videoIndexes {

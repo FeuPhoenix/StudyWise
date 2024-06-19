@@ -1,7 +1,7 @@
 <html>
     <head>
         <link rel="shortcut icon" href="{{ url_for('static', filename='assets/images/Studywise_Logo.png') }}" type="image/x-icon">
-        <title>Studywise</title>
+        <title>StudyWise - Upload</title>
 
         <!-- Third-party CSS -->
         <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/smoothness/jquery-ui.css">
@@ -17,10 +17,6 @@
         <link rel="stylesheet" href="{{ url_for('static', filename='css/user-notes.scss') }}">
     </head>
     <body>
-        <div class="loader-overlay" id="loaderOverlay">
-            <h1 id="loadingMSG">Loading content...</h1>
-            <div class="loader"></div>
-        </div>
         <div class="main-navbar">
             <img src="{{ url_for('static', filename='assets/images/Studywise_Logo.png') }}" alt="Studywise Logo" class="navbar-logo">
             <div class="navbar-btns">
@@ -32,13 +28,13 @@
         <div class="page-content">
             <div class="main-frame">
 
-                <!-- <button class="back-btn" onclick="history.back()" title="Go back"><i class="fa-solid fa-left-long"></i></button> -->
-                <h2 id="content-title"></h2>
+                <button class="back-btn" onclick="history.back()"><i class="fa-solid fa-left-long"></i></button>
+                
                 <div class="video-container">
-                    <video id="video" controls playsinline>
-                        <source src="" type="video/mp4" id="video-viewer"/>
+                    <audio id="video" controls playsinline>
+                        <source src="" type="audio/mp3" id="video-viewer"/>
                         <track kind="captions" label="English" srclang="en" src="" default>
-                    </video> <!-- Video Tag End -->
+                    </audio> <!-- Video Tag End -->
                     
                     <div class="video-btns"></div>
                     <div class="style-7" id="videoIndexes"></div>
@@ -96,7 +92,7 @@
                 <div class="summary">
                     <h1 class="summary-title">Summary</h1>
                     <p id="summaryText" class="style-7">
-                        Loading summary...
+                        Summary Processing...
                     </p>
                 </div>
 

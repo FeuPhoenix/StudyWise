@@ -72,7 +72,7 @@ async function signUp() {
             update = data.message;
             if (update == 'Signup Success') {
                 console.log('Signed up, logging user in...');
-                document.getElementById('loginSuccessOverlay').style.display = 'block';
+                document.getElementById('loaderOverlay').style.display = 'block';
                 document.getElementById('loginSuccessMSG').innerHTML = 'Signed up, logging user in';
 
                 // Redirect to home page after 3 seconds
@@ -185,11 +185,11 @@ document.getElementById("forgotPasswordForm").addEventListener("submit", functio
 async function signIn(event) { // Testing Function
     event.preventDefault();
 
-    // Hardcoded email and password for testing
+    // Fetch email and password from their respective textboxes
     var email = document.getElementById('signInEmail').value;
     var password = document.getElementById('signInPassword').value;
 
-    const cKey='88055dab046b3213660080bc5bd4db00';
+    // const cKey='88055dab046b3213660080bc5bd4db00';
 
     var encryptedEmail = email;
     var encryptedPW = password;
@@ -236,7 +236,7 @@ async function signIn(event) { // Testing Function
             update = data.message;
             if (update == 'Login Success') { // Login Success
                 console.log('Signing user in...');
-                document.getElementById('loginSuccessOverlay').style.display = 'block';
+                document.getElementById('loaderOverlay').style.display = 'block';
 
                 // Redirect to home page after 3 seconds
                 setTimeout(function() {
