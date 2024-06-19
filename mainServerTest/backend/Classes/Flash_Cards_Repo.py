@@ -348,8 +348,8 @@ class Flash_Cards:
         for pair in qa_pairs:
             if pair.count('\n') == 1:  # Expecting each pair to be two lines: question and answer
                 question, answer = pair.split('\n')
-                question = re.sub(r"^(Q:|A:|\s*\-\s*)", "", question)
-                answer = re.sub(r"^(Q:|A:|\s*\-\s*)", "", answer)
+                question = re.sub(r"^(Q:|A:|\s*\-\s*|\d+\.\s*|\d+\-\s*)", "", question)
+                answer = re.sub(r"^(Q:|A:|\s*\-\s*|\d+\.\s*|\d+\-\s*)", "", answer)
                 formatted_cards.append({'front': question.strip(), 'back': answer.strip()})
         return formatted_cards
 
