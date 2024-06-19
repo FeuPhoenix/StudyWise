@@ -142,6 +142,45 @@ async function signUp() {
 //         console.log('Update from server:', data.message);
 //     });
 // }
+//FORGET PASSWORD 
+
+// Function to open the modal
+function openForgotPasswordModal() {
+    document.getElementById("forgotPasswordModal").style.display = "block";
+}
+
+// Function to close the modal
+function closeForgotPasswordModal() {
+    document.getElementById("forgotPasswordModal").style.display = "none";
+}
+
+// Handle form submission
+document.getElementById("forgotPasswordForm").addEventListener("submit", function(event) {
+    event.preventDefault(); // Prevent default form submission
+
+    var email = document.getElementById("email").value; // Get the email value
+
+    // AJAX request to Flask server
+    fetch('/get_password', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ email: email })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            document.getElementById("passwordDisplay").innerText = "Your password: " + data.password;
+        } else {
+            document.getElementById("passwordDisplay").innerText = "Error: " + data.message;
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        document.getElementById("passwordDisplay").innerText = "Error: Could not retrieve password.";
+    });
+});
 
 async function signIn(event) { // Testing Function
     event.preventDefault();

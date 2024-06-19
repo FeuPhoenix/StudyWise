@@ -11,18 +11,18 @@ sys.path.append('D:/COLLEGE/StudyWise/app/StudyWise')
 
 class UserController:
     @staticmethod
-    def deleteUser(email):
+    def deleteUser(id,email):
         # Delete from Firestore
-        UserController.deleteFromFirestore(email)
+        UserController.deleteFromFirestore(id)
         
         # Delete from Authentication
-        UserController.deleteFromAuthentication(email)
+        UserController.deleteFromAuthentication(email,id)
     @staticmethod
     def deleteFromAuthentication(email):
         try:
             # Delete the user from authentication
             user = auth.get_user_by_email(email)
-            auth.delete_user()
+            auth.delete_user(id)
             print(f"User with email {email} deleted from Authentication.")
         except auth.UserNotFoundError:
             print(f"User with email {email} not found in Authentication.")

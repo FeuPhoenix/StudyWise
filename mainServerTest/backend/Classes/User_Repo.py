@@ -3,6 +3,8 @@ import uuid
 from firebase_admin import firestore, auth
 
 from backend.Classes.FirestoreDB import FirestoreDB
+# from FirestoreDB import FirestoreDB
+
 class UserRepo:
     
     def __init__(self,email, fullName,password ,Role=None,User_Level=0,dateJoined=None ):
@@ -28,13 +30,13 @@ class UserRepo:
             # Get the ID of the document
             doc_id = doc.id
 
-            full_name = doc.to_dict().get('Full Name')
+            full_name = doc.to_dict().get('full_name')
             if full_name:
                 print(f'Logged in: {full_name}')
             else:
-                print('Full Name field is empty in this document.')
+                print('full_name field is empty in this document.')
 
-            # Return the document ID, Full Name, and True
+            # Return the document ID, full_name, and True
             return doc_id, full_name, True
 
         # If no document is found with the given email and password
@@ -46,7 +48,7 @@ class UserRepo:
     def fromJson(cls, data):
         return cls(
             email=data["Email"],
-            fName=data["Full Name"],
+            fName=data["full_name"],
             dateJoined=data["Joined on"],
             password=data["Password"],
             Role=data["Role"],
@@ -56,7 +58,7 @@ class UserRepo:
 
     def toJson(self):
         data = {
-            "Full Name": self.fullName,
+            "full_name": self.fullName,
             "Joined on": datetime.now().strftime("%d-%B-%Y"),
             "Password":self.password,
             "Email": self.email,
@@ -75,7 +77,17 @@ class UserRepo:
         except auth.UserNotFoundError:
             print(False)
             return False
-    
+    @staticmethod
+    def get_password_by_email(email):
+        db_instance = FirestoreDB.get_instance()
+        firestore_instance = db_instance.get_firestore_instance()
+        users_ref = firestore_instance.collection('Users')
+        query = users_ref.where('Email', '==', email)
+        docs = query.stream()
+        for doc in docs:
+            return doc.to_dict().get('Password')
+        return None
+
     @staticmethod
     def Login(email, password):
             db_instance = FirestoreDB.get_instance()
@@ -90,14 +102,46 @@ class UserRepo:
                     # Get the ID of the document
                     doc_id = doc.id
 
-                    full_name = doc.to_dict().get('Full Name')
+                    full_name = doc.to_dict().get('full_name')
 
-                    # Return the document ID, Full Name, and True
+                    # Return the document ID, full_name, and True
                     return doc_id, full_name, True
 
             # If no document is found with the given email and password
             return None, None, False
-            
+    # @staticmethod
+    # def Login(email, password):
+    #     try:
+    #         auth_instance = FirestoreDB.get_auth_instance()
+    #         # Authenticate user with provided email and password
+    #         user = auth_instance.get_user_by_email(email)
+
+    #         # Check if user exists and verify password
+    #         if user and auth.verify_password(email, password):
+    #             print(f"User logged in: {user.uid}")
+    #             db_instance = FirestoreDB.get_instance()
+    #             firestore_instance = db_instance.get_firestore_instance()
+    #             users_ref = firestore_instance.collection('Users')
+                
+    #                 # Query Firestore to find the document with the matching email and password
+    #             query = users_ref.where('Email', '==', email).where('Password', '==', password)    
+    #             docs = query.stream()
+
+    #             for doc in docs:
+    #                 # Get the ID of the document
+    #                 doc_id = doc.id
+
+    #                 full_name = doc.to_dict().get('full_name')
+
+    #                 # Return the document ID, full_name, and True
+    #                 return doc_id, full_name, True
+    #         else:
+    #             print("Invalid credentials")
+    #             return None
+
+    #     except Exception as e:
+    #         print(f"Error logging in: {e}")
+    #         return None
     def add_user_to_firestore(self):
         db_instance = FirestoreDB.get_instance()
         firestore_instance = db_instance.get_firestore_instance()
@@ -130,35 +174,40 @@ class UserRepo:
             print(f"User added to Firestore with email: {self.email}")
             return True
 
-    
     @staticmethod
     def update_user_name_by_id(doc_id, new_name):
         db_instance = FirestoreDB.get_instance()
         firestore_instance = db_instance.get_firestore_instance()
         users_ref = firestore_instance.collection('Users')
 
-        # Retrieve the document with the matching document ID
-        doc_ref = users_ref.document(doc_id)
-        doc = doc_ref.get()
+        try:
+            # Retrieve the document with the matching document ID
+            doc_ref = users_ref.document(doc_id)
+            doc = doc_ref.get()
 
-        if doc.exists:
-            # Get the current full name
-            full_name = doc.to_dict().get('Full Name')
-            if full_name:
-                print(f'Logged in: {full_name}')
+            if doc.exists:
+                # Get the current full_name
+                current_full_name = doc.to_dict().get('full_name')
+
+                if current_full_name:
+                    print(f'Current full_name: {current_full_name}')
+                else:
+                    print('full_name field is empty in this document.')
+
+                # Update the document with the new full_name
+                new_name = str(new_name)  # Ensure new_name is a string
+                doc_ref.update({'full_name': new_name})
+                print(f'Updated full_name to: {new_name}')
+
+                return True
             else:
-                print('Full Name field is empty in this document.')
+                print(f'No document found with ID: {doc_id}')
+                return False
 
-            # Update the document with the new full name
-            doc_ref.update({'Full Name': new_name})
-            print(f'Updated Full Name to: {new_name}')
+        except Exception as e:
+            print(f'Error updating name for document ID {doc_id}: {e}')
+            return False
 
-            # Return the document ID, new Full Name, and True
-            return doc_id, new_name, True
-        else:
-            # If no document is found with the given document ID
-            print(f'No document found with ID: {doc_id}')
-            return None, None, False
     @staticmethod
     def update_user_name_by_email(email, new_name):
         db_instance = FirestoreDB.get_instance()
@@ -173,17 +222,17 @@ class UserRepo:
             # Get the ID of the document
             doc_id = doc.id
 
-            full_name = doc.to_dict().get('Full Name')
+            full_name = doc.to_dict().get('full_name')
             if full_name:
                 print(f'Logged in: {full_name}')
             else:
-                print('Full Name field is empty in this document.')
+                print('full_name field is empty in this document.')
 
-            # Update the document with the new full name
-            users_ref.document(doc_id).update({'Full Name': new_name})
-            print(f'Updated Full Name to: {new_name}')
+            # Update the document with the new full_name
+            users_ref.document(doc_id).update({'full_name': new_name})
+            print(f'Updated full_name to: {new_name}')
 
-            # Return the document ID, new Full Name, and True
+            # Return the document ID, new full_name, and True
             return doc_id, new_name, True
 
     # If no document is found with the given email

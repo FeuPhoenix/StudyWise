@@ -26,7 +26,9 @@
 #     print(json_data)
 # else:
 #     print("Failed to fetch JSON data from the URL.")import pytesseract
-import fitz  # PyMuPDF
+import fitz
+
+from FirestoreDB import FirestoreDB  # PyMuPDF
 
 # # Path to your PDF file
 # pdf_path = "C:/Users/Abdelrahman/Downloads/محاضرة د.محمود البحيري ٢ (1).pdf"
@@ -43,3 +45,17 @@ import fitz  # PyMuPDF
 # reader = easyocr.Reader(['ch_sim','en']) # this needs to run only once to load the model into memory
 # result = reader.readtext("D:/COLLEGE/StudyWise/mainServerTest/assets/output_files/Images/test/test_page_10_img_2.png",detail = 0)
 # print(result)
+def deleteFromFirestore(user_id):
+        db_instance = FirestoreDB.get_instance()
+        firestore_instance = db_instance.get_firestore_instance()
+        users_ref = firestore_instance.collection('Users')
+        
+        doc_ref = users_ref.document(user_id)
+        doc = doc_ref.get()
+
+        if doc.exists:
+            doc_ref.delete()
+            print(f"Deleted user with ID {user_id} from Firestore.")
+        else:
+            print(f"No document found for user with ID {user_id} in Firestore.")
+deleteFromFirestore("CqgJfFbJBkb3TVa4jRngiSfax033")

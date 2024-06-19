@@ -1,3 +1,4 @@
+import smtplib
 from flask import Flask, jsonify, render_template, request, send_from_directory, url_for, redirect, session
 import socket
 from config import socketio
@@ -10,7 +11,7 @@ from dotenv import load_dotenv
 import openai
 import requests
 import fitz  # PyMuPDF
-
+from backend.Classes.User_Controller import UserController
 app = Flask(__name__)
 CORS(app, origins="*", allow_headers="*")
 socketio.init_app(app, cors_allowed_origins="*") # , logger=True, engineio_logger=True
@@ -106,13 +107,54 @@ def log_out():
           '\n==============================================================\n')
     
     return redirect(url_for('login'))
-
+@app.route('/change_name', methods=['POST'])
+def change_name():
+   
+    data = request.json
+    new_name = data.get('newName')
+    print(new_name)
+    # Your logic to update the username in Firebase or perform any other action
+    # Replace this example logic with your actual implementation
+    if new_name!=None:
+        try:
+            id=session['UserID']
+            print("id",id)
+            UserController.changeName(session['UserID'], new_name)
+            session['UserName'] = new_name
+            return jsonify({'success': True}), 200
+        except Exception as e:
+            print(e)
+            return jsonify({'success': False, 'error': str(e)}), 500
+    else:
+        return jsonify({'success': False, 'error': 'New name not provided'}), 400
+@app.route('/change_password', methods=['POST'])
+def change_password():
+    
+    data = request.json
+    newPassword = data.get('newPassword')
+    print(newPassword)
+    # Your logic to update the username in Firebase or perform any other action
+    # Replace this example logic with your actual implementation
+    if newPassword!=None:
+        try:
+            id=session['UserID']
+            print("id",id)
+            UserController.ChangePassword(session['UserID'], newPassword)
+            session['UserName'] = session['UserName']
+            return jsonify({'success': True}), 200
+        except Exception as e:
+            print(e)
+            return jsonify({'success': False, 'error': str(e)}), 500
+    else:
+        return jsonify({'success': False, 'error': 'New Password not provided'}), 400
 
 @app.route('/home')
 def home():    
     if "UserID" in session : 
+        
         userID = session['UserID']
         userName = session['UserName']
+        print("Username",userName)
         
         print('\n==============================USER IN HOME================================\n',
              f'\t\tID: {userID}\n',
@@ -125,7 +167,8 @@ def home():
 
 @app.route('/get-user-name-JSON', methods=['POST'])
 def get_user_name_JSON():
-    return jsonify({'userName':f'{session['UserName']}'})
+    # return jsonify({'userName':f'{session['UserName']}'})
+    return jsonify({'userName': f"{session['UserName']}"})
 
 @app.route('/load-user-content-JSON', methods=['POST'])
 def load_user_content_JSON():
@@ -138,7 +181,7 @@ def load_user_content_JSON():
     if "userContent" in session : 
         if contentJSON != None :
             print('\n==============================USER CONTENT================================\n',
-                 f'\t\t\tName: {session['UserName']}\n',
+                f'\t\t\tName: {session["UserName"]}\n',
                  f'CONTENT: \n{contentJSON}',
                   '\n================================USER CONTENT==============================\n')
             
@@ -146,7 +189,9 @@ def load_user_content_JSON():
         
         else : 
             print('\n==============================USER CONTENT================================\n',
-                 f'\t\tName: {session['userName']}\n',
+                #  f'\t\tName: {session['userName']}\n',
+                f'\t\tName: {session["UserName"]}\n',
+
                  f'\t\tNO USER CONTENT FOUND',
                   '\n================================USER CONTENT==============================\n')
             
@@ -364,11 +409,25 @@ def process_login():
         # Create session variables with user's firebase ID and user's full name as values
         session["UserID"] = userID
         session["UserName"] = fullName
+        session["Email"] = loginEmail
+        print("email=======================",session["Email"])
 
         return jsonify({'message': 'Login Success'})
     else :
         print(f"Failed Login attempt")
         return jsonify({'message': 'Failed Login attempt'}), 406
+@app.route('/get_password', methods=['POST'])
+def get_password():
+    data = request.get_json()
+    email = data.get('email')
+    if not email:
+        return jsonify({'success': False, 'message': 'Email is required.'}), 400
+    
+    password = UserController.get_password_by_email(email)
+    if password:
+        return jsonify({'success': True, 'password': password}), 200
+    else:
+        return jsonify({'success': False, 'message': 'Email not found.'}), 404
 
 @app.route('/process-logout', methods = ['POST']) 
 def process_logout():
@@ -600,7 +659,26 @@ def chat(file):
     # Extract the response text
     response_text = response.choices[0].message['content']
     return jsonify({'response': response_text})
+@app.route('/delete_account', methods=['POST'])
+def delete_account():
+    user_id = session.get('UserID')
+    email=session.get("Email")
+    print(email)
+    print(f"Deleting account for user ID {user_id}")
+    if not user_id:
+        return jsonify({'success': False, 'error': 'User not authenticated'}), 401
 
+    try:
+        # Call the UserController to delete the user by ID
+        UserController.deleteUser(user_id,email)
+
+        # Clear the session after deleting the account
+        session.clear()
+        return jsonify({'success': True}), 200
+
+    except Exception as e:
+        print(f"Error deleting account for user ID {user_id}: {e}")
+        return jsonify({'success': False, 'error': str(e)}), 500
 @app.route('/chatwithpdf')
 def chat_with_pdf():
     return render_template('main_loggedin/chatwithpdf.html')

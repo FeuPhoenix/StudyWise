@@ -1,5 +1,6 @@
 venv/
 env/
+__pycache__/
 node_modules/
 .env
 mainServerTest/assets/input_files/text-based/
