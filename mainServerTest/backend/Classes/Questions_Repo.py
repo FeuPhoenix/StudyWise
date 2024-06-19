@@ -29,6 +29,25 @@ class Questions_Repo:
         self.materialid=materialid
         self.runMCQGenerator(self.ProcessedMaterial,Type)
     @staticmethod
+    def clean_mcq(text):
+            """Cleans the input text by removing specific leading patterns."""
+            return re.sub(r"^(Q:|A:|\s*\-\s*|\d+\.\s*|\d+\-\s*)", "", text)
+    @staticmethod
+    def post_process_questions(mcq):
+        """Post-processes a list of questions to clean up the text."""
+        for question_data in mcq:
+            # Clean the question text
+            question_data['question'] = Questions_Repo.clean_mcq(question_data['question'])
+            
+            # Clean each option in the options list
+            question_data['options'] = [Questions_Repo.clean_mcq(option) for option in question_data['options']]
+            
+            # Clean the correct answer
+            question_data['correct_answer'] = Questions_Repo.clean_mcq(question_data['correct_answer'])
+            
+        return mcq
+
+    @staticmethod
     def read_text_file(file_path):
         with open(file_path, 'r') as file:
             return file.read()
@@ -233,6 +252,7 @@ class Questions_Repo:
             if transcript_paragraphs[difficulty]:
                 mcqs = Questions_Repo.generate_mcqs(transcript_paragraphs, difficulty)
                 if mcqs:
+                    mcqs=Questions_Repo.post_process_questions(mcqs)
                     output_path = f'mainServerTest/assets/output_files/mcq/{difficulty}_transcript.json'
                     if not os.path.isfile(output_path):
                         os.makedirs(os.path.dirname(output_path), exist_ok=True)
