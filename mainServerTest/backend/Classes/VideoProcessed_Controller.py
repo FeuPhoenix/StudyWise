@@ -29,7 +29,7 @@ class Video_Processed_Controller:
     def upload_video(file, userid):
         Video=VideoProcessed_Repo(file,userid)
         Video.Video_Processing()
-        return Video
+        return Video.file_name
 
     @staticmethod
     def fetch_all_filenames_and_filetypes_in_Video_material(userid):

@@ -5,6 +5,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/upload-material-style.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/pop-up-style.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/scrollbar.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/Avatar.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 </head>
@@ -15,6 +16,29 @@
             <a href=""><button>Home</button></a>
             <a href="/"><button>Your Content</button></a>
             <a onclick="popupPrompt()"><button>Upload Material</button></a>
+        </div>
+        <div class="navbar-avatar-frame" onclick="toggleMenu()">
+            <svg xmlns="http://www.w3.org/2000/svg" class="navbar-user-avatar-SVG" viewBox="0 0 65 65" fill="none">
+                <g>
+                    <ellipse id="Avatar background" cx="32.8781" cy="32.4216" rx="32.1222" ry="31.9431" fill="#D9D9D9"/>
+                    <path id="Avatar head" d="M33.4221 37.2943C38.2331 37.2943 42.1332 33.416 42.1332 28.6318C42.1332 23.8476 38.2331 19.9692 33.4221 19.9692C28.611 19.9692 24.7109 23.8476 24.7109 28.6318C24.7109 33.416 28.611 37.2943 33.4221 37.2943Z" fill="#010002"/>
+                    <path id="Avatar torso" d="M37.8465 38.377H27.9091C21.3326 38.377 16 42.5912 16 47.7916V55.707C16 55.707 22.5333 61.1232 32.8778 61.1161C43.2223 61.109 49.7556 55.707 49.7556 55.707L49.7556 47.7916C49.7556 42.5912 44.423 38.377 37.8465 38.377Z" fill="#010002"/>
+                </g>
+            </svg>
+            <div class="list-group list-group-light">
+                <button type="button" class="list-group-item list-group-item-action px-3 border-0 active" aria-current="true" onclick="openModal()">
+                    Change Name
+                </button>
+                <button type="button" class="list-group-item list-group-item-action px-3 border-0"onclick="openPasswordModal()">
+                    Change Password
+                </button>
+                <button id= "deleteAccountBtn" type="button" class="list-group-item list-group-item-action px-3 border-0" onclick="deleteAccount()">
+                    Delete Account
+               
+                <button type="button" class="list-group-item list-group-item-action px-3 border-0" onclick="logOut()">
+                    Signout
+               
+            </div>
         </div>
     </div> <!-- Main Navbar end -->    
     <div class="page-content">
@@ -55,7 +79,42 @@
         </div>
         </div>
     </div>
+    <div id="PasswordModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closePasswordModal()">&times;</span>
+            <h2>Change Password</h2>
+    
+            <form id="changePasswordForm" method="post" action="/change_password">
+                <label for="currentPassword">Current Password:</label>
+                <input type="password" id="currentPassword" name="currentPassword" required><br><br>
+                
+                <label for="newPassword">New Password:</label>
+                <input type="password" id="newPassword" name="newPassword" required>
+                <input type="checkbox" id="showNewPassword"> <label for="showNewPassword">Show Password</label><br><br>
+                
+                <label for="confirmPassword">Confirm New Password:</label>
+                <input type="password" id="confirmPassword" name="confirmPassword" required>
+                <input type="checkbox" id="showConfirmPassword"> <label for="showConfirmPassword">Show Password</label><br><br>
+                
+                <input type="submit" class="btn" value="Change Password">
+            </form>
+        </div>
+    <div id="nameModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2>Change Name</h2>
+             <label for="username">UserName</label>
+        <span id="usernamelabel">{{ session['UserName'] }}</span>
+            <form id="changeNameForm" method="post">
+                <label for="newName12">New Name:</label>
+                <input type="text" id="newName" name="newName"><br><br>
+                <input type="submit" class="btn" value="Submit">
+            </form>
+        </div>
+    </div>
+    
     <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
     <script src="{{ url_for('static', filename='js/uploadVid.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/Avatar.js') }}"></script>
 </body>
 </html>

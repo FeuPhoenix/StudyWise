@@ -32,7 +32,7 @@ class VideoProcessed_Repo:
         self.material_id=uuid.uuid4().hex#done
         self.material=material
         self.user_ID=userid
-        self.Video_Cut=True
+        self.Video_Cut=Video_Cut
         
         
         #self.db = FirestoreDB.get_instance()
