@@ -25,7 +25,8 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-openai.api_key = "os.getenv('OPENAI_API_KEY')"
+openai.api_key = os.getenv('OPENAI_API_KEY')
+
 aai.settings.api_key = os.getenv('AAI_API_key')
 class VideoProcessed_Repo:
     def __init__(self,material,userid,Video_Cut=True):
@@ -335,7 +336,8 @@ class VideoProcessed_Repo:
     def generate_concise_title(headline):
         while True:
             try:
-                        openai.api_key ='os.getenv('OPENAI_API_KEY')' 
+                        openai.api_key =os.getenv('OPENAI_API_KEY')
+
                         response = openai.ChatCompletion.create(
                             model="gpt-3.5-turbo",
                             messages=[

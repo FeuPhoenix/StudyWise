@@ -31,7 +31,7 @@ class Questions_Repo:
     @staticmethod
     def clean_mcq(text):
             """Cleans the input text by removing specific leading patterns."""
-            return re.sub(r"^(Q:|A:|\s*\-\s*|\d+\.\s*|\d+\-\s*)", "", text)
+            return re.sub(r"^(Q:|A:|\s*\-\s*|\s*\d+\.\s*|\s*\d+\-\s*|[A-Za-z]\.\s*|[A-Za-z]\)\s*|\s*\d+\)\s*)", "", text)
     @staticmethod
     def post_process_questions(mcq):
         """Post-processes a list of questions to clean up the text."""
@@ -215,6 +215,10 @@ class Questions_Repo:
             for difficulty in ['easy', 'medium', 'hard']:
                 if paragraphs[difficulty]:
                     mcqs = Questions_Repo.generate_mcqs(paragraphs, difficulty)
+                    mcqs=Questions_Repo.post_process_questions(mcqs)
+
+
+                    
                     if mcqs:
                         output_path = f'mainServerTest/assets/output_files/mcq/{difficulty}.json'
                         if not os.path.isfile(output_path):
@@ -251,8 +255,10 @@ class Questions_Repo:
         for difficulty in ['easy', 'medium', 'hard']:
             if transcript_paragraphs[difficulty]:
                 mcqs = Questions_Repo.generate_mcqs(transcript_paragraphs, difficulty)
+                print("MCQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQ",mcqs)
+                mcqs=Questions_Repo.post_process_questions(mcqs)
                 if mcqs:
-                    mcqs=Questions_Repo.post_process_questions(mcqs)
+                   
                     output_path = f'mainServerTest/assets/output_files/mcq/{difficulty}_transcript.json'
                     if not os.path.isfile(output_path):
                         os.makedirs(os.path.dirname(output_path), exist_ok=True)

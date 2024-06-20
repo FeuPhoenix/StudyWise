@@ -503,7 +503,8 @@ class DocumentProcessed:
     
     @staticmethod
     def get_Long_summary(text):
-        openai.api_key = "os.getenv('OPENAI_API_KEY')"
+        openai.api_key = os.getenv('OPENAI_API_KEY')
+
         summaries = []
 
         for chunk in DocumentProcessed.split_text(text):
