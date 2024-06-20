@@ -1,7 +1,9 @@
 #needs to be improved
 from datetime import datetime, timedelta
+import os
 import uuid
 from langdetect import detect
+
 from firebase_admin import firestore
 import pdfplumber
 import openai
@@ -9,12 +11,11 @@ import time
 import json
 import re
 
-from Constants import OPENAI_API_KEY, MAX_TOKENS_PER_REQUEST
-from FirestoreDB import FirestoreDB # Assuming the Materials and Processed_Materials classes are defined in app.Studywise.Model
+from backend.Classes.Constants import OPENAI_API_KEY, MAX_TOKENS_PER_REQUEST,kUserId,kUserEmail ,kDatejoined ,kFullName
+from backend.Classes.FirestoreDB import FirestoreDB # Assuming the Materials and Processed_Materials classes are defined in app.Studywise.Model
 
 class Flash_Cards:
-    Flashcards=''
-    def __init__(self, ProcessedMaterial, userid, materialid, content_type=''):
+    def __init__(self,ProcessedMaterial,userid,materialid,content_type=''):
         openai.api_key = OPENAI_API_KEY
         self.content_type=content_type
         self.ProcessedMaterial=ProcessedMaterial 
@@ -23,10 +24,10 @@ class Flash_Cards:
         #self.db = FirestoreDB.get_instance()
         self.flashcard_id=uuid.uuid4().hex
         self.runFlashcards(self.ProcessedMaterial)
-
-        if content_type == "TRANSCRIPT" : 
+        if content_type=="TRANSCRIPT":
             self.add_FlashCards_Video_ToFirestore()
         
+
         else:
             self.addDocumentFlashCardsToFirestore()
         
@@ -69,38 +70,62 @@ class Flash_Cards:
     def add_FlashCards_Video_ToFirestore(self):
         db_instance = FirestoreDB.get_instance()
         firestore_instance = db_instance.get_firestore_instance()
-        #document('13ffe4704e2d423ea7751cb88d599db7') the number will be replaced with the user id
-        #document(rmk3SGTciwNRdo9pT4CO) this will be replaced with the material id
 
-        flash_card_location=Flash_Cards.upload_material_to_storage(self.userid,Flash_Cards.getFileNameFromPathWithOutExtension(self.ProcessedMaterial),self.Flashcards)
+        flash_card_location = Flash_Cards.upload_material_to_storage(
+            self.userid,
+            Flash_Cards.getFileNameFromPathWithOutExtension(self.ProcessedMaterial),
+            self.Flashcards
+        )
         
-        #document('13ffe4704e2d423ea7751cb88d599db7') the number will be replaced with the user id
-        #document(rmk3SGTciwNRdo9pT4CO) this will be replaced with the material id
         try:
-            doc_ref=firestore_instance.collection('Users').document(self.userid).collection('VideoMaterial').document(self.materialid).collection('FlashCards').document(self.flashcard_id).set({
+            # Reference to the FlashCards collection
+            collection_ref = firestore_instance.collection('Users').document(self.userid).collection('VideoMaterial').document(self.materialid).collection('FlashCards')
 
+            # Fetch all existing documents in the collection
+            existing_docs = collection_ref.get()
+            
+            # Delete each existing document
+            for doc in existing_docs:
+                doc_ref = collection_ref.document(doc.id)
+                doc_ref.delete()
+            
+            # Add the new document to the collection
+            doc_ref = collection_ref.document(self.flashcard_id)
+            doc_ref.set({
                 "flash_card_location": flash_card_location,
             })
-            print("Successfully added processed material to firestore")
+            print("Successfully added processed material to Firestore")
         except Exception as e:
             print(e)
 
     def addDocumentFlashCardsToFirestore(self):
         db_instance = FirestoreDB.get_instance()
         firestore_instance = db_instance.get_firestore_instance()
-        #document('13ffe4704e2d423ea7751cb88d599db7') the number will be replaced with the user id
-        #document(rmk3SGTciwNRdo9pT4CO) this will be replaced with the material id
 
-        flash_card_location=Flash_Cards.upload_material_to_storage(self.userid,Flash_Cards.getFileNameFromPathWithOutExtension(self.ProcessedMaterial),self.Flashcards)
+        flash_card_location = Flash_Cards.upload_material_to_storage(
+            self.userid,
+            Flash_Cards.getFileNameFromPathWithOutExtension(self.ProcessedMaterial),
+            self.Flashcards
+        )
         
-        #document('13ffe4704e2d423ea7751cb88d599db7') the number will be replaced with the user id
-        #document(rmk3SGTciwNRdo9pT4CO) this will be replaced with the material id
         try:
-            doc_ref=firestore_instance.collection('Users').document(self.userid).collection('DocumentMaterial').document(self.materialid).collection('FlashCards').document(self.flashcard_id).set({
+            # Reference to the FlashCards collection
+            collection_ref = firestore_instance.collection('Users').document(self.userid).collection('DocumentMaterial').document(self.materialid).collection('FlashCards')
 
+            # Fetch all existing documents in the collection
+            existing_docs = collection_ref.get()
+            
+            # Delete each existing document
+            for doc in existing_docs:
+                doc_ref = collection_ref.document(doc.id)
+                doc_ref.delete()
+            
+            # Add the new document to the collection
+            doc_ref = collection_ref.document(self.flashcard_id)
+            doc_ref.set({
                 "flash_card_location": flash_card_location,
             })
-            print("Successfully added processed material to firestore")
+            print("Successfully added processed material to Firestore")
         except Exception as e:
             print(e)
     @classmethod
@@ -134,7 +159,6 @@ class Flash_Cards:
             # Add more patterns as needed
         ]
         return not any(re.search(pattern, question.lower()) for pattern in non_conceptual_patterns)
-    
     def is_conceptually_relevant_Arabic(self, question):
         # Patterns for non-conceptual questions in Arabic
         non_conceptual_patterns = [
@@ -152,8 +176,6 @@ class Flash_Cards:
             # Add more patterns as needed
         ]
         return not any(re.search(pattern, question.lower()) for pattern in non_conceptual_patterns)
-
-
     def extract_paragraphs_from_pdf(self,pdf_path):
         paragraphs = []
         with pdfplumber.open(pdf_path) as pdf:
@@ -198,7 +220,66 @@ class Flash_Cards:
             segments.append(current_segment.strip())
 
         return segments
+    def generate_qa_pairs_arabic(self, paragraphs, content_type):
+        qa_pairs = []
+        batched_paragraphs = []
+        current_batch = ""
 
+        for paragraph in paragraphs:
+
+            base_prompt = "قم بتوليد أسئلة وأجوبة تركز على المحتوى التقني والمفاهيمي لهذا النص. "
+
+            transcript_note = "مع ملاحظة أن النص المقدم قد يحتوي على أخطاء نحوية أو منطقية بسبب عدم دقة تحويل الكلام إلى نص، يرجى التركيز على توليد أسئلة وأجوبة ذات صلة ومفهومة، وتجنب المحتوى الغامض. قم فقط بتوليد الأسئلة والأجوبة ذات الصلة بالنص التالي: " 
+            pdf_note = "تجنب الأسئلة حول المؤلفين أو تواريخ النشر أو التطور التاريخي. لا تشير إلى المادة المقدمة لك على أنها 'هذا النص' أو 'النص'، بدلاً من ذلك، أشر إليها باسم الموضوع الحالي، ولا تعامل الأسئلة والأجوبة كما لو كانت حصرية لهذا النص، على سبيل المثال، لا تسأل عن ما يتحدث عنه هذا النص بالتحديد. يمكنك طرح أسئلة حول تعريفات الأشياء التي تم شرحها في النص: "
+
+            if content_type.lower() == "pdf":
+                note = pdf_note
+            elif content_type.lower() == "transcript" or content_type.lower() == "video transcript":
+                note = transcript_note
+            elif content_type.lower() == "txt" or content_type.lower() == "text":
+                note = ""
+            else:
+                note = ""
+
+            if len(paragraph) > 20 and "http" not in paragraph:
+                if len(current_batch) + len(paragraph) < MAX_TOKENS_PER_REQUEST:
+                    current_batch += f"{paragraph}\n\n"
+                else:
+                    batched_paragraphs.append(current_batch)
+                    current_batch = f"{paragraph}\n\n"
+        
+        if current_batch:
+            batched_paragraphs.append(current_batch)
+
+        for batch in batched_paragraphs:
+            prompt_content = base_prompt + note
+            system_prompt = {"role": "system", "content": "أنت مساعد ذكي ومفيد."}
+            user_prompt = {"role": "user", "content": prompt_content + ": " + batch}
+
+            print("This is the user prompt that will be sent: Prompt Content:\n" + prompt_content + "\nBatch:\n" + batch)
+
+            prompt = [system_prompt, user_prompt]
+            try:
+                response = openai.ChatCompletion.create(model="gpt-3.5-turbo", messages=prompt)
+                response_text = response.choices[0].message['content'].strip()
+                potential_qa_pairs = response_text.split('\n\n')
+                for pair in potential_qa_pairs:
+                    question = pair.split('\n')[0]
+                    if self.is_conceptually_relevant_Arabic(question):
+                        qa_pairs.append(pair)
+            except openai.error.RateLimitError:
+                print("Rate limit reached, waiting for 30 seconds...")
+                time.sleep(20)
+                # Retry the request after waiting
+                response = openai.ChatCompletion.create(model="gpt-3.5-turbo", messages=prompt)
+                response_text = response.choices[0].message['content'].strip()
+                potential_qa_pairs = response_text.split('\n\n')
+                for pair in potential_qa_pairs:
+                    question = pair.split('\n')[0]
+                    if self.is_conceptually_relevant_Arabic(question):
+                        qa_pairs.append(pair)
+
+        return qa_pairs
     def generate_qa_pairs(self,paragraphs, content_type):
         qa_pairs = []
         batched_paragraphs = []
@@ -261,73 +342,15 @@ class Flash_Cards:
                         qa_pairs.append(pair)
 
         return qa_pairs
-    def generate_qa_pairs_arabic(self, paragraphs, content_type):
-        qa_pairs = []
-        batched_paragraphs = []
-        current_batch = ""
-
-        for paragraph in paragraphs:
-            base_prompt = "أنشئ أسئلة وأجوبة تركز على المحتوى التقني والمفاهيمي لهذا النص. "
-            
-            transcript_note = "مع ملاحظة أن النص الذي سيتم تقديمه قد يحتوي على أخطاء لغوية أو منطقية بسبب عدم دقة التحويل من الكلام إلى النص، يرجى التركيز على إنشاء أسئلة وأجوبة ذات صلة مفهوميًا وواضحة، وتجنب المحتوى غير الواضح. انشئ فقط أسئلة وأجوبة ذات صلة بالنص التالي: "
-            pdf_note = "تجنب الأسئلة حول الكتّاب، وتواريخ النشر، أو التطور التاريخي. لا تشير إلى المواد التي تم توفيرها باسم 'هذا النص' أو 'النص'، بل اشير إليها باسم الموضوع المعني، ولا تعتبر الأسئلة والأجوبة حصرية لهذا النص، على سبيل المثال، لا تسأل عن ماذا يتحدث هذا النص على وجه الخصوص. يمكنك السؤال عن تعريفات الأشياء التي تم شرحها في النص: "
-
-            if content_type.lower() == "pdf":
-                note = pdf_note
-            elif content_type.lower() == "transcript" or content_type.lower() == "video transcript":
-                note = transcript_note
-            elif content_type.lower() == "txt" or content_type.lower() == "text":
-                note = ""
-            else:
-                note = ""
-
-            if len(paragraph) > 20 and "http" not in paragraph:
-                if len(current_batch) + len(paragraph) < MAX_TOKENS_PER_REQUEST:
-                    current_batch += f"{paragraph}\n\n"
-                else:
-                    batched_paragraphs.append(current_batch)
-                    current_batch = f"{paragraph}\n\n"
-        
-        if current_batch:
-            batched_paragraphs.append(current_batch)
-
-        for batch in batched_paragraphs:
-            prompt_content = base_prompt + note
-            system_prompt = {"role": "system", "content": "أنت مساعد مفيد."}
-            user_prompt = {"role": "user", "content": prompt_content + ": " + batch}
-
-            print("This is the user prompt that will be sent: Prompt Content:\n" + prompt_content + "\nBatch:\n" + batch)
-
-            prompt = [system_prompt, user_prompt]
-            try:
-                response = openai.ChatCompletion.create(model="gpt-3.5-turbo", messages=prompt)
-                response_text = response.choices[0].message['content'].strip()
-                potential_qa_pairs = response_text.split('\n\n')
-                for pair in potential_qa_pairs:
-                    question = pair.split('\n')[0]
-                    if self.is_conceptually_relevant_Arabic(question):
-                        qa_pairs.append(pair)
-            except openai.error.RateLimitError:
-                print("Rate limit reached, waiting for 30 seconds...")
-                time.sleep(20)
-                # Retry the request after waiting
-                response = openai.ChatCompletion.create(model="gpt-3.5-turbo", messages=prompt)
-                response_text = response.choices[0].message['content'].strip()
-                potential_qa_pairs = response_text.split('\n\n')
-                for pair in potential_qa_pairs:
-                    question = pair.split('\n')[0]
-                    if self.is_conceptually_relevant_Arabic(question):
-                        qa_pairs.append(pair)
-
-        return qa_pairs
-
 
     def format_flash_cards(self,qa_pairs):
         formatted_cards = []
         for pair in qa_pairs:
             if pair.count('\n') == 1:  # Expecting each pair to be two lines: question and answer
                 question, answer = pair.split('\n')
-                formatted_cards.append({'front': question, 'back': answer})
+                question = re.sub(r"^(Q:|A:|\s*\-\s*|\d+\.\s*|\d+\-\s*)", "", question)
+                answer = re.sub(r"^(Q:|A:|\s*\-\s*|\d+\.\s*|\d+\-\s*)", "", answer)
+                formatted_cards.append({'front': question.strip(), 'back': answer.strip()})
         return formatted_cards
 
     def filenameFromPath(self,filepath):
@@ -344,41 +367,32 @@ class Flash_Cards:
         return filename_parts[0] # Return the filename alone (assuming it was between the last '/' and the last '.')
 
     # Example usage:
-
-    def save_flash_cards_to_file(self,formatted_cards, filepath):
-        with open(filepath, 'w') as file:
-            json.dump(formatted_cards, file, indent=4)
     @staticmethod
     def detect_language(text):
         return detect(text)
-    def runFlashcards(self, file_path, content_type = ''):
+    def save_flash_cards_to_file(self,formatted_cards, filepath):
+        with open(filepath, 'w') as file:
+            json.dump(formatted_cards, file, indent=4)
+
+    def runFlashcards(self,file_path, content_type = ''):
         content = []
 
         self.filename = self.filenameFromPath(file_path)
-        output_path='assets/output_files/flashcards/'+self.filename+'.json' 
-        self.Flashcards=output_path
+        output_path = 'assets/output_files/flashcards/'+self.filename+'.json'
+        self.Flashcards = output_path
 
         if content_type == '':
             if file_path.endswith('.pdf'):
                 content = self.extract_paragraphs_from_pdf(file_path)
                 content_type = 'pdf'
-                lang=Flash_Cards.detect_language(content)
             elif file_path.endswith('.txt'):
                 content = self.extract_and_split_text(file_path)
-                lang=Flash_Cards.detect_language(content) 
+                
             else:
                 raise ValueError("Unsupported file type. Only .pdf or .txt files are currently accepted.")
-        if lang=='en':        
-            qa_pairs = self.generate_qa_pairs(content, content_type)
-        elif lang=='ar':
-            qa_pairs = self.generate_qa_pairs_arabic(content, content_type)
-        else:
-            raise ValueError("The lang has to be arabic or english.")
-
+        
+        qa_pairs = self.generate_qa_pairs(content, content_type)
         formatted_cards = self.format_flash_cards(qa_pairs)
         self.save_flash_cards_to_file(formatted_cards, output_path)
         self.Flashcards=output_path
         print(f"Flash cards saved to {output_path}")
-        
-
-  
