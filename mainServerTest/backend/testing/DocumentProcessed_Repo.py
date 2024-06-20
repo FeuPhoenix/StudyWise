@@ -25,6 +25,7 @@ from langdetect import detect
 
 
 from dotenv import load_dotenv
+
 load_dotenv()
 
 class DocumentProcessed:
