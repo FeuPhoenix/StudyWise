@@ -471,7 +471,7 @@ class DocumentProcessed:
         subprocess.run(command, shell=True)
 
         # Return the path of the generated PDF
-     
+        print("output_pdf_path", output_pdf_path)
         return output_pdf_path
     
     @staticmethod
@@ -503,7 +503,7 @@ class DocumentProcessed:
     
     @staticmethod
     def get_Long_summary(text):
-        openai.api_key = os.getenv('OPENAI_API_KEY')
+        openai.api_key = "os.getenv('OPENAI_API_KEY')"
         summaries = []
 
         for chunk in DocumentProcessed.split_text(text):
@@ -541,6 +541,7 @@ class DocumentProcessed:
         if DocumentProcessed.check_value_exists_in_DocumentMaterial(self.userid, self.file_name):
             if os.path.isfile(self.file):
                 if self.file.endswith('.pdf'):
+                    self._file_path=self.file
                     self.file_type = DocumentProcessed.get_file_extension(self.file)
                     text_file_path = f'mainServerTest/assets/output_files/text_files/{self.file_name}.txt'
                     self.generated_text_file_path = text_file_path
@@ -577,13 +578,3 @@ class DocumentProcessed:
         else:
             print("The Document already exists")
 
-
-# Testing
-def main():
-    D = DocumentProcessed("C:/Users/Abdelrahman/Downloads/محاضرة د.محمود البحيري ٢ (1).pdf", "0GKTloo0geWML96tvd9g27C99543")
-    a, b = D.Document_Processing()
-    print('Material Filename and ID: \n', a, b)
-
-
-if __name__ == "__main__":
-    main()

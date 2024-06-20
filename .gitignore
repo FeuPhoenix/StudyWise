@@ -3,5 +3,7 @@ env/
 __pycache__/
 node_modules/
 .env
-mainServerTest/assets/input_files/text-based/
-mainServerTest/assets/input_files/video-based/
+mainServerTest/assets/input_files
+mainServerTest/assets/output_files
+
+
