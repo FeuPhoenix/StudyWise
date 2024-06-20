@@ -546,7 +546,7 @@ def serve_indexes(filename):
 
 # MODIFIED UPLOAD FUNCTION =========
 @app.route('/upload-file', methods=['POST'])
-def upload_file():
+async def upload_file():
     file = request.files.get('file')
     session['FileType'] = request.form.get('FileType')
     print('Got File Type:', session['FileType'])
@@ -562,10 +562,10 @@ def upload_file():
             file.save(filepath)
 
             # Call DocumentProcessedController to upload the document
-            doc_info = DocumentProcessedController.upload_document(filepath, userID)
+            file_name, material_id = await DocumentProcessedController.upload_document(filepath, userID)
             print('Files generated and uploaded to Firebase.\n',
-                'Firebase File name: ', doc_info.file_name,
-                'Firebase doc ID: ', doc_info.material_id)
+                'Firebase File name: ', file_name,
+                'Firebase doc ID: ', material_id)
 
             return 'Document uploaded successfully.'
         
@@ -577,7 +577,7 @@ def upload_file():
             file.save(filepath)
 
             # Call VideoProcessedController to upload the video
-            doc_info = Video_Processed_Controller.upload_video(filepath, userID)
+            doc_info = await Video_Processed_Controller.upload_video(filepath, userID)
             print('Files generated and uploaded to Firebase.\n',
                 'Firebase File name: ', doc_info.file_name,
                 'Firebase doc ID: ', doc_info.material_id)

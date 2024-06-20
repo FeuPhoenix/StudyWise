@@ -103,7 +103,7 @@ class OCR_Repo:
                 return None
 def main():
   
-    x= OCR_Repo("D:/COLLEGE/StudyWise/mainServerTest/assets/output_files/Images/test/test_page_1_img_1.png")
+    x= OCR_Repo("../../assets/output_files/Images/test/test_page_1_img_1.png")
     x.add_image_to_firestore("0GKTloo0geWML96tvd9g27C99543","mohamed_test","DocumentMaterial","cc20ce5446be455db89d88698929423a")
     print( x.fetch_all_images("0GKTloo0geWML96tvd9g27C99543","DocumentMaterial","cc20ce5446be455db89d88698929423a"))
 if __name__ == "__main__":

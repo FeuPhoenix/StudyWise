@@ -39,6 +39,7 @@ class FlashcardsController:
         except Exception as e:
             print("Error:", e)
             return None
+        
     @staticmethod
     def get_Flashcards_Document_from_firestore(userid,materialid):
                 
@@ -65,6 +66,7 @@ class FlashcardsController:
         except Exception as e:
             print("Error:", e)
             return None
+        
     @staticmethod
     def upload_material_to_storage(user_id, material_name, flashcard_file_path):
         db_instance = FirestoreDB.get_instance()
@@ -87,9 +89,10 @@ class FlashcardsController:
 
         print("Successfully uploaded material to Storage")
         return flashcard_blob.generate_signed_url(expiration=expiration)
+    
     @staticmethod
     def save_json_to_file(json_data,filename ):
-        file_path=f"D:/COLLEGE/StudyWise/mainServerTest/assets/output_files/flashcards/{filename}.json"
+        file_path=f"../../assets/output_files/flashcards/{filename}.json"
         try:
             # Ensure the directory exists
             dir_path = os.path.dirname(file_path)
@@ -112,6 +115,7 @@ class FlashcardsController:
         except Exception as e:
             print(f"An unexpected error occurred: {e}")
         return file_path
+    
     @staticmethod
     def update_flashcards_in_firestore(userid,material_name,Type,materialid, new_data):
         filepath=FlashcardsController.save_json_to_file(new_data,material_name)
@@ -150,6 +154,7 @@ class FlashcardsController:
         except Exception as e:
             print("Error:", e)
             print("Failed to update flashcards in Firestore")
+
     @staticmethod
     def Generate_And_Replace_FlasCards(ProcessedMaterial,userid,materialid,content_type=''):
         # content_type = "TRANSCRIPT"  to save the flashcards in a  videoMaterial Collection
@@ -159,8 +164,6 @@ class FlashcardsController:
             return FlashcardsController.get_Flashcards_Video_from_firestore(userid,materialid)
         else:
             return FlashcardsController.get_Flashcards_Document_from_firestore(userid,materialid)
-
-
        
     @staticmethod 
     def fetch_json_from_url(url):

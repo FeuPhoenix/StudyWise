@@ -91,7 +91,7 @@ a:focus {
 	max-height: 842px;
 	padding: 100px 30px 30px;
 	margin: 30px 10px 10px;
-	overflow-y: scroll;
+	overflow-y: auto;
 	@extend .noflick;
 }
 #board::-webkit-scrollbar
@@ -144,7 +144,7 @@ a:focus {
 		transition: scale .15s;
 	}
 	textarea {
-    	font-size: 16px;
+    	font-size: 18px;
 		background-color: transparent;
 		border: none;
 		resize: none;

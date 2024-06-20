@@ -1,7 +1,7 @@
 const urlParams = new URLSearchParams(window.location.search);
-const fileParam = localStorage.getItem('fileName');
+const fileName = urlParams.get('fileName');
 
-const fileUrl = localStorage.getItem('loadedDocumentLink');
+const fileUrl = sessionStorage.getItem('loadedDocumentLink');
 
 const pdfViewer = document.getElementById('pdf-viewer');
 pdfViewer.innerHTML = `<embed src="${fileUrl}" type="application/pdf" width="100%" height="600px" />`;
@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', function() {
             displayMessage(message, 'user');
             this.value = '';
 
-            fetch(`/chat/${encodeURIComponent(fileParam)}`, {
+            fetch(`/chat/${encodeURIComponent(fileName)}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -104,32 +104,32 @@ document.addEventListener('DOMContentLoaded', function() {
         // Start processing from the first segment
         processSegment(0, 0);
     }
-});
 
-document.getElementById('userInput').addEventListener('keypress', function(e) {
-    if (e.key === 'Enter' && this.value.trim() !== '') {
-        const userMessage = this.value.trim();
-        displayMessage(userMessage, 'user');  // Display the user's message
-        displayMessage('Typing...', 'loading');  // Display the loading message
-        this.value = '';
-
-        fetch(`chat/${encodeURIComponent(fileParam)}`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ message: userMessage }),
-        })
-        .then(response => response.json())
-        .then(data => {
-            removeLoadingMessage();  // Remove the loading message
-            displayMessage(data.response, 'bot');  // Display the bot's response
-        })
-        .catch(error => {
-            removeLoadingMessage();  // Ensure loading message is removed even if there's an error
-            console.error('Error:', error);
-        });
-    }
+    document.getElementById('userInput').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter' && this.value.trim() !== '') {
+            const userMessage = this.value.trim();
+            displayMessage(userMessage, 'user');  // Display the user's message
+            displayMessage('Typing...', 'loading');  // Display the loading message
+            this.value = '';
+    
+            fetch(`chat/${encodeURIComponent(fileName)}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ message: userMessage }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                removeLoadingMessage();  // Remove the loading message
+                displayMessage(data.response, 'bot');  // Display the bot's response
+            })
+            .catch(error => {
+                removeLoadingMessage();  // Ensure loading message is removed even if there's an error
+                console.error('Error:', error);
+            });
+        }
+    });
 });
 
 function removeLoadingMessage() {

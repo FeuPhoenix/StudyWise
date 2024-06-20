@@ -58,7 +58,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 function goToChat() {
     if (fileName) {
-        window.location.href = `/chatwithpdf`;
+        window.location.href = `/chatwithpdf?fileName=${encodeURIComponent(fileName)}`;
     } else {
         console.error("No document name found in sessionStorage");
     }

@@ -1,92 +1,92 @@
 [
     {
-        "question": "1. What is one benefit of using adaptive tutoring techniques?",
+        "question": "1. Which of the following is NOT a benefit of using threads in an operating system?",
         "options": [
-            "A) Increased student engagement",
-            "C) Reduced diversity among learners",
-            "D) Higher costs for students",
-            "B) Decreased learning opportunities"
+            "D) Scalability in utilizing system resources",
+            "A) Efficiency in resource sharing",
+            "C) Higher cost compared to process creation",
+            "B) Reduced overhead compared to process creation"
         ],
-        "correct_answer": "A) Increased student engagement"
+        "correct_answer": "D) Scalability in utilizing system resources"
     },
     {
-        "question": "2. Why is maintaining focus during long lectures challenging for students?",
+        "question": "2. What is a disadvantage of the many-to-one threading model?",
         "options": [
-            "D) Lack of engagement with the content",
-            "B) Difficulty managing time",
-            "C) Structural variations in learning materials",
-            "A) Lack of interest in the subject matter"
+            "A) High overhead in context switching",
+            "C) Limited scalability in utilizing system resources",
+            "B) Difficulty managing multiple kernel threads",
+            "D) Increased complexity in resource sharing"
         ],
-        "correct_answer": "D) Lack of engagement with the content"
+        "correct_answer": "A) High overhead in context switching"
     },
     {
-        "question": "3. How can smart tutoring systems go beyond academic learning?",
+        "question": "3. In the many-to-many threading model, how are user threads and kernel threads mapped?",
         "options": [
-            "D) By cutting costs for students",
-            "B) By providing revenue opportunities",
-            "C) By helping students grow their skills",
-            "A) By offering subscription-based plans"
+            "A) One-to-one",
+            "C) Many-to-many",
+            "B) Many-to-one",
+            "D) None of the above"
         ],
-        "correct_answer": "D) By cutting costs for students"
+        "correct_answer": "A) One-to-one"
     },
     {
-        "question": "4. Why is it important for instructional videos to be sequenced properly?",
+        "question": "5. Which threading model provides the best balance between flexibility and efficiency in resource sharing?",
         "options": [
-            "D) To update content regularly",
-            "B) To maintain engagement with the content",
-            "A) To summarize information for students",
-            "C) To support different learning models"
+            "C) Many-to-many",
+            "D) None of the above",
+            "A) Many-to-one",
+            "B) One-to-one"
         ],
-        "correct_answer": "D) To update content regularly"
+        "correct_answer": "C) Many-to-many"
     },
     {
-        "question": "5. What role do external stakeholders, such as principals or academic advisors, play in using StudyWise?",
+        "question": "6. What is a limitation of the one-to-one threading model?",
         "options": [
-            "C) They may have a negative impact on students",
-            "A) They can engage in the decision-making process",
-            "D) They can limit the use of smart tutoring systems",
-            "B) They can create revenue opportunities"
+            "B) Higher overhead compared to process creation",
+            "A) Increased complexity in managing multiple user threads",
+            "C) Limited scalability in utilizing system resources",
+            "D) Difficulty in synchronous communication between threads"
         ],
-        "correct_answer": "C) They may have a negative impact on students"
+        "correct_answer": "B) Higher overhead compared to process creation"
     },
     {
-        "question": "6. How can chatbots help students engage with learning materials?",
+        "question": "7. Which threading model is generally considered to have the lowest overhead in context switching?",
         "options": [
-            "A) By summarizing information",
-            "D) By reducing diversity among learners",
-            "C) By cutting costs for students",
-            "B) By offering interactivity and support"
+            "D) None of the above",
+            "C) Many-to-many",
+            "A) One-to-one",
+            "B) Many-to-one"
         ],
-        "correct_answer": "A) By summarizing information"
+        "correct_answer": "D) None of the above"
     },
     {
-        "question": "8. Why is it important for resources to be updated regularly?",
+        "question": "8. What is a disadvantage of using thread pools in an operating system?",
         "options": [
-            "B) To ensure up-to-date and relevant information",
-            "C) To reduce diversity among learners",
-            "D) To increase student engagement",
-            "A) To maintain focus during lectures"
+            "B) Difficulty in managing multiple user threads",
+            "C) Limited flexibility in resource sharing",
+            "A) Higher overhead compared to creating individual threads",
+            "D) Increased complexity in synchronous communication between threads"
         ],
-        "correct_answer": "B) To ensure up-to-date and relevant information"
+        "correct_answer": "B) Difficulty in managing multiple user threads"
     },
     {
-        "question": "9. How can adaptive tutoring techniques help students study more effectively?",
+        "question": "9. In the many-to-many threading model, how are kernel threads managed?",
         "options": [
-            "A) By offering subscription-based plans",
-            "C) By providing personalized learning experiences",
-            "B) By cutting costs for students",
-            "D) By limiting involvement in academic learning"
+            "A) Independently of user threads",
+            "D) None of the above",
+            "B) Manually mapped to multiple user threads",
+            "C) Synchronously with user threads"
         ],
-        "correct_answer": "A) By offering subscription-based plans"
+        "correct_answer": "A) Independently of user threads"
     },
     {
-        "question": "10. What potential benefit can StudyWise provide to students through video-based learning materials?",
+        "question": "10. Which threading model provides the most flexibility in managing multiple user threads and kernel threads?",
         "options": [
-            "B) Reduced diversity in learning styles",
-            "A) Increased revenue opportunities",
-            "C) Improved time management",
-            "D) Easy access to clear, easy-to-understand answers"
+            "A) One-to-one",
+            "D) None of the above",
+            "B) Many-to-one",
+            "C) Many-to-many"
         ],
-        "correct_answer": "B) Reduced diversity in learning styles"
+        "correct_answer": "A) One-to-one"
     }
 ]

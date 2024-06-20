@@ -16,6 +16,7 @@
         <link rel="stylesheet" href="{{ url_for('static', filename='css/flashcard-style.css') }}">
         <link rel="stylesheet" href="{{ url_for('static', filename='css/user-notes.scss') }}">
     </head>
+
     <body>
         <div class="loader-overlay" id="loaderOverlay">
             <h1 id="loadingMSG">Loading content...</h1>
@@ -30,13 +31,13 @@
             </div>
         </div> <!-- Main Navbar end -->
         <div class="page-content">
-            <div class="main-frame">
+            <div class="main-frame" id="main-frame">
 
                 <!-- <button class="back-btn" onclick="history.back()" title="Go back"><i class="fa-solid fa-left-long"></i></button> -->
                 <h2 id="content-title"></h2>
                 <div class="video-container">
                     <video id="video" controls playsinline>
-                        <source src="" type="video/mp4" id="video-viewer"/>
+                        <source src="" type="video/mp4" id="video-player"/>
                         <track kind="captions" label="English" srclang="en" src="" default>
                     </video> <!-- Video Tag End -->
                     
@@ -45,6 +46,13 @@
                     <button id="toggleButton" class="collapsed" title="Show Chapters"></button>
 
                 </div>
+                
+                <div class="audio-container" style="display: none;">
+                    <audio id="audio" controls>
+                        <source src="" type="audio/mp3" id="audio-player">
+                    </audio>
+                </div>
+                <p id="transcript" style="display: none;"></p>
 
                 <div id="board">
                     <a href="javascript:;" class="button" id="add_new">Add New Note</a>
@@ -62,9 +70,9 @@
                 </div>
 
             </div> <!-- Main Frame end -->
-            <div class="sidebar-viewer">
+            <div id="sidebarViewer" class="sidebar-viewer">
 
-                <div class="flashcards"> <!-- Flashcards Start -->
+                <div id="flashcard" class="flashcards"> <!-- Flashcards Start -->
                     <h1 class="flashcards-title">Flashcards</h1>
                     <div class="folder">
                         <div id="howMany" class="howMany"></div>
@@ -95,7 +103,7 @@
                     </div> <!-- Folder End -->
                 </div> <!-- Flashcards End -->
 
-                <div class="summary">
+                <div id="summary" class="summary">
                     <h1 class="summary-title">Summary</h1>
                     <p id="summaryText" class="style-7">
                         Loading summary...
@@ -107,27 +115,42 @@
                     Video Toolbar
                 </div> -->
             <div class="sidebar-menu">
+                <button class="audio-switch" onclick="toggleAudio()">
+                    <h3>Switch to Audio</h3>
+                    <span class="fa-solid fa-headphones"></span>
+                    <span class="fa-solid fa-video" style="display: none;"></span>
+                </button>
+                
+                <button class="transcript-btn" onclick="toggleTranscript(this)">
+                    <h3>Transcript</h3>
+                    <span class="fa-regular fa-file-lines fa-2xl"></span>
+                </button>
+
                 <button class="flashcard-btn" onclick="toggleFlashcards(this)">
-                    <h3> Flashcards </h3><img src="{{ url_for('static', filename='assets/images/flashcards.png') }}" alt="Flashcards!">
+                    <h3>Flashcards</h3>
+                    <img src="{{ url_for('static', filename='assets/images/flashcards.png') }}" alt="Flashcards!">
                 </button>
 
                 <button class="summary-btn" onclick="toggleSummary(this)">
-                    <h3> Summary </h3><span class="fa-solid fa-align-center"></span>
+                    <h3>Summary</h3>
+                    <span class="fa-solid fa-align-center"></span>
                 </button>
 
                 <button class="chat-btn" onclick="goToChat()">
-                    <h3> Go to Chat </h3><img src="{{ url_for('static', filename='assets/images/bot.png') }}" alt="" class="choice-icon">
+                    <h3>Go to Chat</h3>
+                    <img src="{{ url_for('static', filename='assets/images/bot.png') }}" alt="" class="choice-icon">
                 </button>
 
                 <button class="mcq-btn" onclick="goToMCQ()">
-                    <h3>Go to MCQ</h3><span class="fa6-solid--file-pen"></span>
+                    <h3>Go to MCQ</h3
+                        ><span class="fa6-solid--file-pen"></span>
                 </button>
 
                 <button class="noteBoard-btn" onclick="toggleBoard()">
-                    <h3>Note Board</h3><span class="fa-solid fa-clipboard"></span>
+                    <h3>Note Board</h3>
+                    <span class="fa-solid fa-clipboard"></span>
                 </button>
 
-                <button></button>
             </div>
         </div>
         <div id="popup-overlay" class="popup-overlay">
@@ -155,6 +178,6 @@
         <script src="{{ url_for('static', filename='js/videoView.js') }}"></script>
         <script src="{{ url_for('static', filename='js/user-notes.js') }}"></script>
         <script src="{{ url_for('static', filename='js/FlashcardsV1_JS.js') }}"></script>
-        <!-- <script src="https://cdn.plyr.io/3.7.8/demo.js" crossorigin="anonymous"></script> -->
+        <script src="https://cdn.plyr.io/3.7.8/demo.js"></script>
     </body>
 </html>
