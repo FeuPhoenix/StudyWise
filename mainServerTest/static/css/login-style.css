@@ -275,6 +275,11 @@ button {
 	color: #219ae0;
 	transform: scale(.6);
 }
+p {
+    color: #166a9b;
+    font-size: 20px;
+    
+  }
 .main-div .signup label:hover{
 	color: #166a9b;
 }
@@ -370,7 +375,7 @@ button {
     opacity: 0.3;
     position: absolute;
     top: 10px;
-    margin: 13px 310px;
+    margin: 13px 310px  ;
     transition: 0.1s ease-in-out;
 }
 .fas:hover {
@@ -456,6 +461,7 @@ button {
     background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
 }
 
+
 .modal-content {
     background-color: #01163A;
     margin: 15% auto; /* 15% from the top and centered */
@@ -474,4 +480,20 @@ button {
     color: black;
     text-decoration: none;
     cursor: pointer;
+}
+.signup p {
+    font-size: 0.8em;
+    color:#000a0f ;
+    margin-top: 10px;
+    text-align: left;
+}
+
+.signup a {
+    color: #219ae0;
+    text-decoration: none;
+}
+
+.signup a:hover {
+    color: #166a9b;
+    text-decoration: underline;
 }

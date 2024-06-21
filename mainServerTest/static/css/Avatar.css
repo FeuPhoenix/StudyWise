@@ -1,0 +1,100 @@
+.list-group {
+    display: none;
+    position: absolute;
+    right: 3%;
+    z-index: 1000;
+    background-color: #01163A;
+    border: 5px solid #ccc;
+    border-radius: 4px;
+    box-shadow: 3px 4px 8px rgba(0, 0, 0, 0.1);
+    
+    
+
+}
+/* .navbar-avatar-frame::before {
+    position: absolute;
+    display: inline-block;
+    right: 69px;
+    z-index: 1;
+    content: var(--before-content, "UserName");
+    line-height: 1em;
+    width: fit-content;
+    max-width: 10em;
+    overflow-wrap: break-word;
+    pointer-events: none;
+} */
+.list-group.show {
+    display: block;
+   
+}
+.list-group .list-group-item {
+    margin-bottom: 10px;
+}
+.list-group .list-group-item:last-child {
+    margin-bottom: 0;
+   
+}
+.navbar-avatar-frame svg {
+    width: 65px;
+    height: 65px;
+    align-self: flex-end;
+}
+.navbar-user-avatar-SVG {
+    position: relative;
+    margin: -3px;
+    height: 61px;
+    width: 61px;
+}
+/* Modal styles */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+.modal-content {
+    background-color: #01163A;
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%; /* Could be more or less, depending on screen size */
+}
+.close {
+    color: #ccc;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+.close:hover,
+.close:focus {
+    color: rgb(255, 255, 255);
+    text-decoration: none;
+    cursor: pointer;
+}
+button {
+    font-family: var(--primaryFontFamily);
+    font-size: var(--primaryFontSize);
+    font-weight: 500;
+    line-height: 26px;
+
+    background:rgba(11, 61, 101, 0.75);
+    color: var(--primaryFontColor);
+}
+.navbar-avatar-frame svg {
+    width: 65px;
+    height: 65px;
+}
+.navbar-avatar-frame svg {
+    width: 65px;
+    height: 65px;
+}
+/* 
+---------------------------
+*/

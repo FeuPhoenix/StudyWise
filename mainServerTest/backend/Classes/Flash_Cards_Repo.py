@@ -10,13 +10,16 @@ import openai
 import time
 import json
 import re
-
+import dotenv
 from backend.Classes.Constants import OPENAI_API_KEY, MAX_TOKENS_PER_REQUEST,kUserId,kUserEmail ,kDatejoined ,kFullName
 from backend.Classes.FirestoreDB import FirestoreDB # Assuming the Materials and Processed_Materials classes are defined in app.Studywise.Model
+# from Constants import OPENAI_API_KEY, MAX_TOKENS_PER_REQUEST,kUserId,kUserEmail ,kDatejoined ,kFullName
+# from FirestoreDB import FirestoreDB # Assuming the Materials and Processed_Materials classes are defined in app.Studywise.Model
+from dotenv import load_dotenv
 
 class Flash_Cards:
     def __init__(self,ProcessedMaterial,userid,materialid,content_type=''):
-        openai.api_key = OPENAI_API_KEY
+        openai.api_key = os.getenv("OPENAI_API_KEY")
         self.content_type=content_type
         self.ProcessedMaterial=ProcessedMaterial 
         self.userid=userid
@@ -384,6 +387,9 @@ class Flash_Cards:
         return detect(text)
     
     def save_flash_cards_to_file(self, formatted_cards, filepath):
+    # Create directories if they don't exist
+        os.makedirs(os.path.dirname(filepath), exist_ok=True)
+        
         with open(filepath, 'w') as file:
             json.dump(formatted_cards, file, indent=4)
 
@@ -394,14 +400,14 @@ class Flash_Cards:
         output_path = 'mainServerTest/assets/output_files/flashcards/'+self.filename+'.json'
         self.Flashcards = output_path
 
-        if content_type == '':
-            if file_path.endswith('.pdf'):
+        
+        if file_path.endswith('.pdf'):
                 content = self.extract_paragraphs_from_pdf(file_path)
                 content_type = 'pdf'
-            elif file_path.endswith('.txt'):
+        elif file_path.endswith('.txt'):
                 content = self.extract_and_split_text(file_path)
                 
-            else:
+        else:
                 raise ValueError("Unsupported file type. Only .pdf or .txt files are currently accepted.")
         
         qa_pairs = self.generate_qa_pairs(content, content_type)

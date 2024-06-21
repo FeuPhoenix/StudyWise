@@ -183,7 +183,7 @@ class DocumentProcessed:
 
     @staticmethod
     def getFileNameFromPathWithOutExtension(input_string):
-        last_slash_index = input_string.rfind('/')
+        last_slash_index = input_string.rfind('')
         result_string = input_string[last_slash_index + 1:]
         result_string=result_string.replace('.mp4','')
         result_string=result_string.replace('.docx','')
@@ -497,7 +497,7 @@ class DocumentProcessed:
         yield current_chunk  # Yield the last chunk
     @staticmethod
     def get_Long_summary(text):
-        openai.api_key = OPENAI_API_KEY
+        openai.api_key = 
         summaries = []
 
         for chunk in DocumentProcessed.split_text(text):

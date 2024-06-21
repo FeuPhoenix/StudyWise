@@ -584,8 +584,7 @@ class VideoProcessed_Repo:
                         print(e)
         # else:
         #     print("the video already exists")
-def main():
- 
+def main(): 
  a=VideoProcessed_Repo("mainServerTest/assets/input_files/video-based/Old_School_Exercisea.mp4","0GKTloo0geWML96tvd9g27C99543",True)
  z,x=a.Video_Processing()
  print(z,x)

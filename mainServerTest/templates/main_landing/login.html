@@ -32,49 +32,50 @@
                 <div class="main-div">  	
                     <input type="checkbox" id="chk" aria-hidden="true" value="">
             
-                        <div class="signin">
-                            <form class="form"> <!-- Sign In Form -->
-                                <label for="chk" aria-hidden="true" >Sign In</label>
+                    <div class="signin">
+                        <form class="form"> <!-- Sign In Form -->
+                            <label for="chk" aria-hidden="true">Sign In</label>
 
-                                <div class="inputBox"> <!-- Sign In Email -->
-                                    <input id="signInEmail" type="text" name="email" autocomplete="email" required> 
-                                    <i class="input-label">Email</i>
-                                </div>
-                                <div class="inputBox"> <!-- Sign In Password -->
-                                    <input id="signInPassword" type="password" name="password" autocomplete="current-password" required> 
-                                    <i class="input-label">Password</i>
-                                    <i id="eye-icon2" class="fas fa-eye-slash" onclick="toggleSigInPW()"></i>
-                                </div>
-                                <button id="signInButton" onclick="signIn(event)">Login</button>
-                                <button onclick="openForgotPasswordModal()">Forgot Password?</button>
-
-                            </form>
-                        </div>
+                            <div class="inputBox"> <!-- Sign In Email -->
+                                <input id="signInEmail" type="text" name="email" autocomplete="email" required> 
+                                <i class="input-label">Email</i>
+                            </div>
+                            <div class="inputBox"> <!-- Sign In Password -->
+                                <input id="signInPassword" type="password" name="password" autocomplete="current-password" required> 
+                                <i class="input-label">Password</i>
+                                <i id="eye-icon2" class="fas fa-eye-slash" onclick="toggleSigInPW()"></i>
+                            </div>
+                            <button id="signInButton" onclick="signIn(event)">Login</button>
+                            <button type="button" onclick="openForgotPasswordModal()">Forgot Password?</button>
+                        </form>
+                    </div>
                                      
-                        <div class="signup">
-                            <form class="form"> <!-- Sign Up Form -->
-                                <label for="chk" aria-hidden="true">Sign up</label>
+                    <div class="signup">
+                        <form class="form"> <!-- Sign Up Form -->
+                            <label for="chk" aria-hidden="true">Sign up</label>
 
-                                <div class="inputBox"> <!-- Sign Up Full Name -->
-                                    <input id="fullName" type="text" name="name" autocomplete="name" required> 
-                                    <i class="input-label">Full Name</i>
-                                </div>
-                                <div class="inputBox"> <!-- Sign Up Email -->
-                                    <input id="signUpEmail" type="text" name="email" autocomplete="email" required> 
-                                    <i class="input-label">Email</i>
-                                </div>
-                                <div class="inputBox"> <!-- Sign Up Password -->
-                                    <input id="signUpPassword" type="password" name="password" autocomplete="new-password" required> 
-                                    <i class="input-label">Password</i> 
-                                    <i id="eye-icon1" class="fas fa-eye-slash" onclick="toggleSignUpPW()"></i>
-                                </div>
-                                <button id="signUpButton" onclick="signUp()">Register</button>
-                            </form>
-                        </div>
+                            <div class="inputBox"> <!-- Sign Up Full Name -->
+                                <input id="fullName" type="text" name="name" autocomplete="name" required> 
+                                <i class="input-label">Full Name</i>
+                            </div>
+                            <div class="inputBox"> <!-- Sign Up Email -->
+                                <input id="signUpEmail" type="text" name="email" autocomplete="email" required> 
+                                <i class="input-label">Email</i>
+                            </div>
+                            <div class="inputBox"> <!-- Sign Up Password -->
+                                <input id="signUpPassword" type="password" name="password" autocomplete="new-password" required> 
+                                <i class="input-label">Password</i> 
+                                <i id="eye-icon1" class="fas fa-eye-slash" onclick="toggleSignUpPW()"></i>
+                            </div>
+                            <button id="signUpButton" onclick="signUp()">Register</button>
+                            <p>By Signing Up, you agree to our <a href="https://drive.google.com/file/d/1bOJJdqh2uj4WiEcZTbcKrgbUEiGVSlyE/view?usp=sharing" target="_blank">Terms and Conditions</a></p>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div> <!-- Main Frame end -->
     </div>
+
     <div id="popup-overlay" class="popup-overlay">
         <div class="popup-prompt">
             <button class="close-btn" onclick="closePopup()">&times;</button>
@@ -82,11 +83,12 @@
                 <h2>What kind of file do you want to upload?</h2>
                 <button onclick="chooseOption('text')">Text-based</button>
                 <button onclick="chooseOption('video')">Video-based</button>
-            <input type="text" placeholder="Insert YouTube video URL" id="YT_link">
-            <button type="submit" onclick="chooseOption('link')">Send Link</button>
-        </div>
+                <input type="text" placeholder="Insert YouTube video URL" id="YT_link">
+                <button type="submit" onclick="chooseOption('link')">Send Link</button>
+            </div>
         </div>
     </div>
+
     <div id="forgotPasswordModal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeForgotPasswordModal()">&times;</span>
