@@ -4,16 +4,16 @@
     <title>StudyWise - Upload Video or audio</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/upload-material-style.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/pop-up-style.css') }}">
+    
     <link rel="stylesheet" href="{{ url_for('static', filename='css/scrollbar.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 </head>
 <body>
     <div class="main-navbar">
         <img src="{{ url_for('static', filename='assets/images/Studywise_Logo.png') }}" alt="Studywise Logo" class="navbar-logo">
         <div class="navbar-btns">
-            <a href=""><button>Home</button></a>
-            <a href="/"><button>Your Content</button></a>
+            <a href="/home"><button>Home</button></a>
+            <a href="/home"><button>Your Content</button></a>
             <a onclick="popupPrompt()"><button>Upload Material</button></a>
         </div>
     </div> <!-- Main Navbar end -->    
@@ -23,13 +23,36 @@
             <button class="back-btn" onclick="history.back()"><i class="fa-solid fa-left-long"></i></button>
 
             <div class="upload-section" id="drop-area">
-                <i class="fas fa-cloud-upload-alt upload-icon"></i>
-                <p class="upload-text">Drag & drop a .mp4 or .mp3 file to upload</p>
-                <input type="file" id="fileElem" multiple accept="video/*, audio/*" onchange="handleFileSelection(this)"><br>
-                <label id="chosen-file" style="visibility: hidden;"></label>
+                <form id="uploadForm" action="/upload" method="post" enctype="multipart/form-data">
+                        <i class="fas fa-cloud-upload-alt upload-icon"></i><br>
+                        <label class="upload-text">
+                            Drag & drop a .mp4 file to upload<br>
+                            (.mp3 is under development)
+                        </label><br>
+                        
+                        <input type="file" id="file" name="file" style="display: none;" multiple accept=".mp4" onchange="handleFileSelection(this)"><br>
+                        <label for="file" class="custom-file-label">Choose File</label><br>
+                        <label id="chosen-file">‎</label>
+                </form>
             </div>
-            <button class="file-upload-btn" onclick="confirmFile()">Confirm File Selection</button>
-        </div> <!-- Main Frame end -->
+            
+            <!-- <button type="submit" form="uploadForm" class="file-upload-btn" >Upload Selected File</button> -->
+                <input form="uploadForm" type="checkbox" name="audiocut" id="audiocut" value="True">
+                <button type="submit" form="uploadForm" class="cta">
+            
+                <span class="span">UPLOAD</span>
+                <span class="second">
+                  <svg width="50px" height="20px" viewBox="0 0 66 43" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                    <g id="arrow" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                      <path class="one" d="M40.1543933,3.89485454 L43.9763149,0.139296592 C44.1708311,-0.0518420739 44.4826329,-0.0518571125 44.6771675,0.139262789 L65.6916134,20.7848311 C66.0855801,21.1718824 66.0911863,21.8050225 65.704135,22.1989893 C65.7000188,22.2031791 65.6958657,22.2073326 65.6916762,22.2114492 L44.677098,42.8607841 C44.4825957,43.0519059 44.1708242,43.0519358 43.9762853,42.8608513 L40.1545186,39.1069479 C39.9575152,38.9134427 39.9546793,38.5968729 40.1481845,38.3998695 C40.1502893,38.3977268 40.1524132,38.395603 40.1545562,38.3934985 L56.9937789,21.8567812 C57.1908028,21.6632968 57.193672,21.3467273 57.0001876,21.1497035 C56.9980647,21.1475418 56.9959223,21.1453995 56.9937605,21.1432767 L40.1545208,4.60825197 C39.9574869,4.41477773 39.9546013,4.09820839 40.1480756,3.90117456 C40.1501626,3.89904911 40.1522686,3.89694235 40.1543933,3.89485454 Z" fill="#FFFFFF"></path>
+                      <path class="two" d="M20.1543933,3.89485454 L23.9763149,0.139296592 C24.1708311,-0.0518420739 24.4826329,-0.0518571125 24.6771675,0.139262789 L45.6916134,20.7848311 C46.0855801,21.1718824 46.0911863,21.8050225 45.704135,22.1989893 C45.7000188,22.2031791 45.6958657,22.2073326 45.6916762,22.2114492 L24.677098,42.8607841 C24.4825957,43.0519059 24.1708242,43.0519358 23.9762853,42.8608513 L20.1545186,39.1069479 C19.9575152,38.9134427 19.9546793,38.5968729 20.1481845,38.3998695 C20.1502893,38.3977268 20.1524132,38.395603 20.1545562,38.3934985 L36.9937789,21.8567812 C37.1908028,21.6632968 37.193672,21.3467273 37.0001876,21.1497035 C36.9980647,21.1475418 36.9959223,21.1453995 36.9937605,21.1432767 L20.1545208,4.60825197 C19.9574869,4.41477773 19.9546013,4.09820839 20.1480756,3.90117456 C20.1501626,3.89904911 20.1522686,3.89694235 20.1543933,3.89485454 Z" fill="#FFFFFF"></path>
+                      <path class="three" d="M0.154393339,3.89485454 L3.97631488,0.139296592 C4.17083111,-0.0518420739 4.48263286,-0.0518571125 4.67716753,0.139262789 L25.6916134,20.7848311 C26.0855801,21.1718824 26.0911863,21.8050225 25.704135,22.1989893 C25.7000188,22.2031791 25.6958657,22.2073326 25.6916762,22.2114492 L4.67709797,42.8607841 C4.48259567,43.0519059 4.17082418,43.0519358 3.97628526,42.8608513 L0.154518591,39.1069479 C-0.0424848215,38.9134427 -0.0453206733,38.5968729 0.148184538,38.3998695 C0.150289256,38.3977268 0.152413239,38.395603 0.154556228,38.3934985 L16.9937789,21.8567812 C17.1908028,21.6632968 17.193672,21.3467273 17.0001876,21.1497035 C16.9980647,21.1475418 16.9959223,21.1453995 16.9937605,21.1432767 L0.15452076,4.60825197 C-0.0425130651,4.41477773 -0.0453986756,4.09820839 0.148075568,3.90117456 C0.150162624,3.89904911 0.152268631,3.89694235 0.154393339,3.89485454 Z" fill="#FFFFFF"></path>
+                    </g>
+                  </svg>
+                </span> 
+            </button>
+                
+        </div>
     </div>
 
     <div id="success-overlay" class="success-overlay">
@@ -45,17 +68,21 @@
 
     <div id="popup-overlay" class="popup-overlay">
         <div class="popup-prompt">
-            <button class="close-btn" onclick="closePopup()">&times;</button>
+            <button class="close-btn" onclick="closePopup()"><svg viewBox="0 0 22 22" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="#ffffff"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>cancel</title> <desc>Created with Sketch.</desc> <g id="icons" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> <g id="ui-gambling-website-lined-icnos-casinoshunter" transform="translate(-869.000000, -159.000000)" fill="#ffffff" fill-rule="nonzero"> <g id="square-filled" transform="translate(50.000000, 120.000000)"> <path d="M820.716328,39.2890737 L830,48.573 L839.283672,39.2890737 C839.644156,38.9285898 840.211387,38.9008602 840.603678,39.2058851 L840.710926,39.3021143 C841.101451,39.6926386 841.101451,40.3258036 840.710926,40.7163279 L831.427,50 L840.710926,59.2836721 C841.07141,59.6441561 841.09914,60.2113872 840.794115,60.6036784 L840.697886,60.7109263 C840.307361,61.1014506 839.674196,61.1014506 839.283672,60.7109263 L830,51.427 L820.716328,60.7109263 C820.355844,61.0714102 819.788613,61.0991398 819.396322,60.7941149 L819.289074,60.6978857 C818.898549,60.3073614 818.898549,59.6741964 819.289074,59.2836721 L828.573,50 L819.289074,40.7163279 C818.92859,40.3558439 818.90086,39.7886128 819.205885,39.3963216 L819.302114,39.2890737 C819.692639,38.8985494 820.325804,38.8985494 820.716328,39.2890737 Z M819.996181,40.0092211 L829.987233,50 L819.996181,59.9907789 L820.009221,60.0038195 L830,50.0127671 L839.990779,60.0038195 L840.003819,59.9907789 L830.012767,50 L840.003819,40.0092211 L839.990779,39.9961805 L830,49.9872329 L820.009221,39.9961805 L819.996181,40.0092211 Z" id="cancel"> </path> </g> </g> </g> </g></svg></button>
+
             <div class="popup-content">
                 <h2>What kind of file do you want to upload?</h2>
                 <button onclick="chooseOption('text')">Text-based</button>
                 <button onclick="chooseOption('video')">Video-based</button>
-            <input type="text" placeholder="Insert YouTube video URL" id="YT_link">
-            <button type="submit" onclick="chooseOption('link')">Send Link</button>
-        </div>
+                <input type="text" placeholder="Insert YouTube video URL" id="YT_link">
+                <button type="submit" onclick="chooseOption('link')">Send Link</button>
+            </div>
         </div>
     </div>
     <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
     <script src="{{ url_for('static', filename='js/uploadVid.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/popUpHandler.js') }}"></script>
 </body>
 </html>

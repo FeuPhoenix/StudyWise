@@ -8,7 +8,6 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='js/uploadDoc.js') }}">
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 </head>
 <body>
     <div class="main-navbar">
@@ -37,14 +36,11 @@
                         <label id="chosen-file">‎</label>
                 </form>
             </div>
-            <!-- <button class="file-upload-btn" onclick="confirmFile()">Confirm File Selection</button> -->
+            
             <button type="submit" form="uploadForm" class="file-upload-btn" >Upload Selected File</button>
                 
-
-            </div>
-
-        </div> <!-- Main Frame end -->
-    </div>
+        </div>
+    </div> 
 
     <div id="success-overlay" class="success-overlay">
         <div class="success-panel">
@@ -60,16 +56,19 @@
     <div id="popup-overlay" class="popup-overlay">
         <div class="popup-prompt">
             <button class="close-btn" onclick="closePopup()">&times;</button>
+
             <div class="popup-content">
                 <h2>What kind of file do you want to upload?</h2>
                 <button onclick="chooseOption('text')">Text-based</button>
                 <button onclick="chooseOption('video')">Video-based</button>
                 <input type="text" placeholder="Insert YouTube video URL" id="YT_link">
                 <button type="submit" onclick="chooseOption('link')">Send Link</button>
-        </div>
+            </div>
         </div>
     </div>
     <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
     <script src="{{ url_for('static', filename='js/uploadDoc.js') }}"></script>
     <script src="{{ url_for('static', filename='js/popUpHandler.js') }}"></script>
 </body>

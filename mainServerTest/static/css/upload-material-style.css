@@ -130,8 +130,10 @@ button {
 .main-frame {
     display: flex;
     flex-direction: column;
-    width: 100%;
+    margin: auto;
+    width: 95%;
     height: 100%;
+    min-height: 470px;
     flex-shrink: 0;
     transition: ease 150ms;
 
@@ -177,14 +179,14 @@ button {
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    text-align: center;
     height: 75%;
-    width: 90%;
+    min-height: 320px;
+    width: 80%;
     border: 5px dotted #506387;
     background: #040F22;
-}
-
-.upload-section {
-    text-align: center;
+    padding: 20px;
+    
 }
 
 .upload-section label{
@@ -203,17 +205,131 @@ button {
 
 .file-upload-btn {
     position: relative;
-    margin: 0 1rem 1rem auto;
+    margin: 12px 5rem 1rem auto;
     width: 15rem;
-    font-size: 1rem;
     padding: 5px 10px;
+    cursor: pointer;
+
+    font-size: 1rem;
     background-color: rgba(11, 61, 101, 0.75);
     color: var(--primaryFontColor);
-    cursor: pointer;
     border: none;
     border-radius: 5px;
     transition: ease 150ms;
 }
+
+#audiocut {
+    position: relative;
+    bottom: -7%;
+    left: 5rem;
+    
+    width: fit-content;
+    scale: 2;
+}
+
+#audiocut::after {
+    content: "Trim silences";
+    color: white;
+    font-size: 12px;
+    line-height: 1em;
+
+    display: inline-block;
+    margin-left: 18px;
+    width: max-content;
+}
+
+.cta {
+    position: relative;
+    margin: 12px 5rem 1rem auto;
+    width: 15rem;
+    cursor: pointer;
+
+    display: flex;
+    padding: 11px 33px;
+    text-decoration: none;
+    font-size: 26px;
+    color: white;
+    background: #288dd0;
+    transition: 1s;
+    box-shadow: 6px 6px 0 black;
+    transform: skewX(-15deg);
+    border: none;
+}
+
+.cta:focus {
+    outline: none;
+}
+
+.cta:hover {
+    transition: 0.5s;
+    box-shadow: 10px 10px 0 #c43367;
+}
+.cta:active {
+    scale: 0.9;
+    transition: 0.5s;
+    box-shadow: 10px 10px 0 #c43367;
+}
+
+.cta .second {
+    transition: 0.5s;
+    margin-right: 0px;
+}
+
+.cta:hover .second {
+    transition: 0.5s;
+    margin-right: 45px;
+}
+
+.span {
+    transform: skewX(15deg)
+}
+
+.second {
+    width: 20px;
+    margin-left: 30px;
+    position: relative;
+    top: 12%;
+}
+
+.one {
+    transition: 0.4s;
+    transform: translateX(-60%);
+}
+
+.two {
+    transition: 0.5s;
+    transform: translateX(-30%);
+}
+
+.cta:hover .three {
+    animation: color_anim 1s infinite 0.2s;
+}
+
+.cta:hover .one {
+    transform: translateX(0%);
+    animation: color_anim 1s infinite 0.6s;
+}
+
+.cta:hover .two {
+    transform: translateX(0%);
+    animation: color_anim 1s infinite 0.4s;
+}
+
+@keyframes color_anim {
+    0% {
+        fill: white;
+    }
+
+    50% {
+        fill: #FBC638;
+    }
+
+    100% {
+        fill: white;
+    }
+}
+
+
 
 .file-upload-btn:hover {
     background: radial-gradient(61.54% 61.54% at 50% 50%, rgba(11, 61, 101, 0.75) 62.9%, #14598F 100%);
@@ -326,23 +442,6 @@ button {
     background: radial-gradient(65.13% 77.87% at 118.98% 0%, #0A2F66 0%, #131F38 100%);
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Shadow effect */
     z-index: 2; /* Ensure the popup is on top of the overlay */
-}
-
-.close-btn {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    font-size: 20px;
-    cursor: pointer;
-    background: transparent;
-    border: none;
-    outline: none;
-    transition: 70ms ease-in-out;
-}
-.close-btn:hover {
-    transition: 70ms ease-in-out;
-    scale: 1.8;
-    color: brown;
 }
 
 .popup-content {

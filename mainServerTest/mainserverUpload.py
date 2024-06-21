@@ -434,54 +434,54 @@ def process_logout():
     session.pop('UserID')
     session.pop('UserName')
 
-@app.route('/generateContent', methods = ['POST'])
-def generate_content():
-    data = request.json
-    filename = data.get('filename')
-    socketID = data.get('socketID')
-    file_path = os.path.join(app.config['UPLOAD_FOLDER'], 'text-based\\'+filename)
+# @app.route('/generateContent', methods = ['POST'])
+# def generate_content():
+#     data = request.json
+#     filename = data.get('filename')
+#     socketID = data.get('socketID')
+#     file_path = os.path.join(app.config['UPLOAD_FOLDER'], 'text-based\\'+filename)
 
-    if os.path.exists(file_path):
-        from backend.Classes.Document_Controller import main as processDoc
-        print("Sending path to process: "+file_path)
+#     if os.path.exists(file_path):
+#         from backend.Classes.Document_Controller import main as processDoc
+#         print("Sending path to process: "+file_path)
 
-        socketio.emit('update', {'message': f'Starting processing for {filename}'}, to=socketID)
-        processDoc(file_path)
+#         socketio.emit('update', {'message': f'Starting processing for {filename}'}, to=socketID)
+#         processDoc(file_path)
         
-        # Simulate processing completion
-        socketio.emit('update', {'message': 'Processing completed'})
+#         # Simulate processing completion
+#         socketio.emit('update', {'message': 'Processing completed'})
         
-        return jsonify({'message': 'Processing initiated'}), 200
-    else:
-        return jsonify({'error': '('+file_path+') File not found'}), 404
+#         return jsonify({'message': 'Processing initiated'}), 200
+#     else:
+#         return jsonify({'error': '('+file_path+') File not found'}), 404
     
-@app.route("/generateTextContent", methods = ['POST'])
-def generate_text_content():
-    print('HELLO HELLO HELLO')
-    data = request.json
-    filename = data.get('filename')
-    print('Recieved: ', filename)
-    socketID = data.get('socketID')
-    print('Recieved: ', socketID)
-    file_path = os.path.join(app.config['UPLOAD_FOLDER'], 'text-based',filename)
-    print('UPLOAD FOLDER: ',file_path)
+# @app.route("/generateTextContent", methods = ['POST'])
+# def generate_text_content():
+#     print('HELLO HELLO HELLO')
+#     data = request.json
+#     filename = data.get('filename')
+#     print('Recieved: ', filename)
+#     socketID = data.get('socketID')
+#     print('Recieved: ', socketID)
+#     file_path = os.path.join(app.config['UPLOAD_FOLDER'], 'text-based',filename)
+#     print('UPLOAD FOLDER: ',file_path)
 
-    if os.path.exists(file_path):
-        from backend.Classes.Document_Controller import main as processDoc
-        print("Sending path to process: "+file_path)
+#     if os.path.exists(file_path):
+#         from backend.Classes.Document_Controller import main as processDoc
+#         print("Sending path to process: "+file_path)
 
-        socketio.emit('update', {'message': f'Starting processing for {filename}'}, to=socketID)
-        processDoc(file_path)
+#         socketio.emit('update', {'message': f'Starting processing for {filename}'}, to=socketID)
+#         processDoc(file_path)
         
-        # Simulate processing completion
-        socketio.emit('update', {'message': 'Processing completed'})
+#         # Simulate processing completion
+#         socketio.emit('update', {'message': 'Processing completed'})
         
-        return jsonify({'message': 'Processing initiated'}), 200
-    else:
-        return jsonify({'error': '('+file_path+') File not found'}), 404
+#         return jsonify({'message': 'Processing initiated'}), 200
+#     else:
+#         return jsonify({'error': '('+file_path+') File not found'}), 404
     
-@app.route('/generateVideoContent', methods = ['POST'])
-def generate_video_content():
+# @app.route('/generateVideoContent', methods = ['POST'])
+# def generate_video_content():
     data = request.json
     filename = data.get('filename')
     socketID = data.get('socketID')
@@ -544,16 +544,16 @@ def serve_indexes(filename):
     return send_from_directory(directory, filename)
 
 
-# MODIFIED UPLOAD FUNCTION =========
+# MODIFIED UPLOAD FUNCTION HANDLES ALL VIDEO AND TEXT-BASED FILE UPLOADING AND PROCESSING =========
 @app.route('/upload-file', methods=['POST'])
 async def upload_file():
     file = request.files.get('file')
-    session['FileType'] = request.form.get('FileType')
-    print('Got File Type:', session['FileType'])
-    fileType = session.get('FileType', '').lower()
+    session['uploadedFileType'] = request.form.get('FileType')
+    print('Got File Type:', session['uploadedFileType'])
+    fileType = session.get('uploadedFileType', '').lower()
     userID = session.get('UserID')
     
-    if file :
+    if file:
         if fileType == 'document':
             from backend.Classes.Document_Controller import DocumentProcessedController
             
@@ -564,10 +564,10 @@ async def upload_file():
             # Call DocumentProcessedController to upload the document
             file_name, material_id = await DocumentProcessedController.upload_document(filepath, userID)
             print('Files generated and uploaded to Firebase.\n',
-                'Firebase File name: ', file_name,
-                'Firebase doc ID: ', material_id)
+                  'Firebase File name: ', file_name,
+                  'Firebase doc ID: ', material_id)
 
-            return 'Document uploaded successfully.'
+            return jsonify({'message': 'Document uploaded successfully.', 'filename': file_name}), 200
         
         elif fileType == 'video':
             from backend.Classes.VideoProcessed_Controller import Video_Processed_Controller
@@ -576,19 +576,33 @@ async def upload_file():
             filepath = os.path.join(app.config['UPLOAD_FOLDER'], 'video-based', file.filename)
             file.save(filepath)
 
-            # Call VideoProcessedController to upload the video
-            doc_info = await Video_Processed_Controller.upload_video(filepath, userID)
-            print('Files generated and uploaded to Firebase.\n',
-                'Firebase File name: ', doc_info.file_name,
-                'Firebase doc ID: ', doc_info.material_id)
+            audiocut = request.form.get('audiocut')
 
-            return 'Video uploaded successfully.'
+            # Call VideoProcessedController to upload the video
+            print(f'Starting processing on video {file.filename}\n',
+                  f'Audiocut = {audiocut}')
+            
+            socketID = request.form.get('socketID')
+            print('Socket ID: ', socketID)
+
+            # Send an initiation update message to the client
+            socketio.emit('update', {'message': f'Processing {file.filename}...'})
+
+            processed_video = Video_Processed_Controller.upload_video(filepath, userID, audiocut)
+
+            # Send a completion update message to the client
+            socketio.emit('update', {'message': 'Processing completed'})
+
+            print('Files generated and uploaded to Firebase.\n',
+                  'Firebase File name: ', processed_video)
+
+            return jsonify({'message': f'Video: {file.filename} processed. ~DIDO', 'filename': processed_video}), 200
         
-        else : 
-            return 'Invalid file type!'
+        else:
+            return jsonify({'message': 'Invalid file type. ~DIDO'}), 400
     
-    else :
-        return 'No file uploaded.'
+    else:
+        return jsonify({'message': 'No file detected ~DIDO'}), 406
 
 @app.route('/filename', methods=['POST'])
 def receive_filename():

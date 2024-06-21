@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
         console.log('Fetching ' +fileName+ '\'s processed files');
 
-        fetch('http://127.0.0.1:5000/load-video-content', {
+        fetch('/load-video-content', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

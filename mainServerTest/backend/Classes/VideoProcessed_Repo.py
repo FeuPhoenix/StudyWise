@@ -28,11 +28,11 @@ openai.api_key = os.getenv('OPENAI_API_KEY')
 
 aai.settings.api_key = os.getenv('AAI_API_key')
 class VideoProcessed_Repo:
-    def __init__(self,material,userid,Video_Cut=True):
-        self.material_id=uuid.uuid4().hex#done
-        self.material=material
-        self.user_ID=userid
-        self.Video_Cut=True
+    def __init__(self, material, userid, Video_Cut = True):
+        self.material_id = uuid.uuid4().hex
+        self.material = material
+        self.user_ID = userid
+        self.Video_Cut = Video_Cut
         
         
         #self.db = FirestoreDB.get_instance()
@@ -389,9 +389,9 @@ class VideoProcessed_Repo:
 
         try:
             if self.is_mp4_file(self.material):
-                self.file_type="mp4"
-                self.file_path=self.material
-                self.meta_data=VideoProcessed_Repo.get_video_metadata(self.material)
+                self.file_type = "mp4"
+                self.file_path = self.material
+                self.meta_data = VideoProcessed_Repo.get_video_metadata(self.material)
                 if VideoProcessed_Repo.check_value_exists_in_VideoMaterial(self.user_ID,self.meta_data):
 
                     if self.Video_Cut:
@@ -399,10 +399,10 @@ class VideoProcessed_Repo:
                         os.rename(self.material, self.file_path)
                         print(self.file_path)
                         self.file_path = runaudiocutter(self.file_path)
-                        print("Video Cut output file: "+self.file_path)
+                        print("Video Cut output file: " + self.file_path)
                         video = mp.VideoFileClip(self.file_path)
                     else:
-                        self.file_path=self.material
+                        self.file_path = self.material
                         video = mp.VideoFileClip(self.file_path)
 
                     self.file_name = VideoProcessed_Repo.getFileNameFromPathWithOutExtension(self.file_path)

@@ -161,12 +161,9 @@ a:focus {
 			transform: scale(1.01) !important;
 			overflow-y: auto;
 			scrollbar-width: auto;
-			resize: vertical;
-			max-height: unset;
 		}
 		&.title {
-      		min-height: 41px;
-      		max-height: 87px;
+      		max-height: 60px;
 			font-size: 24px;
      		font-weight: 700;
 			line-height: 1;
@@ -174,8 +171,7 @@ a:focus {
 			margin-top: 20px;
 		}
 		&.cnt {
-			min-height: 200px;
-      		max-height: 300px;
+			height: 200px;
 		}
 		&::-webkit-scrollbar-track
 		{
@@ -327,7 +323,7 @@ a:focus {
     left: 0;
     top: 0;
     width: 100%; /* Full width */
-    height: 100%; /* Full height */
+    height: 842px; /* Full height */
     background-color: rgba(0,0,0,0.4); /* Black background with opacity */
 }
 

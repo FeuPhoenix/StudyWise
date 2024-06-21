@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", function() {
         document.getElementById("content-title").innerHTML = fileName;
         
         console.log('Fetching ' +fileName+ '\'s processed files');
-        fetch('http://127.0.0.1:5000/load-document-content', {
+        fetch('/load-document-content', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

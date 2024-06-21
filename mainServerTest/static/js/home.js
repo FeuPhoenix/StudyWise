@@ -1,7 +1,7 @@
 let myUserContent;
 window.onload = function() {
     // Fetch user name from server
-    fetch('http://127.0.0.1:5000/get-user-name-JSON', {
+    fetch('/get-user-name-JSON', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -13,7 +13,7 @@ window.onload = function() {
             avatar.style.setProperty('--before-content', `'${data.userName}'`);
         })
         .then(
-            fetch('http://127.0.0.1:5000/load-user-content-JSON', {
+            fetch('/load-user-content-JSON', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

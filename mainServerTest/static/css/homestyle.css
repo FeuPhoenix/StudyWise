@@ -49,22 +49,24 @@ User List and pop up
     display: none;
     position: absolute;
     top: 100%;
-    left: 80;
     z-index: 1000;
     background-color: #01163A;
-    border: 5px solid #ccc;
+    border: 3px solid #ccc;
     border-radius: 4px;
     box-shadow: 3px 4px 8px rgba(0, 0, 0, 0.1);
-    
-    
-
+    width: 210px;
+    height: 160px;
 }
 .list-group.show {
     display: block;
-   
 }
 .list-group .list-group-item {
-    margin-bottom: 10px;
+    height: 25%;
+    padding: 10px;
+}
+.list-group .list-group-item:hover {
+    background: #fafafa2f;
+    transition: 0.15s ease;
 }
 .list-group .list-group-item:last-child {
     margin-bottom: 0;
@@ -149,6 +151,7 @@ User List and pop up
 
 .main-navbar a {
     height: inherit;
+    width: -webkit-fill-available;
     text-decoration: none;
 }
 
@@ -163,18 +166,18 @@ User List and pop up
     font-style: inherit;
 
     cursor: pointer;
-    border: none;
-    min-width: 100px;
+    border: 3px solid transparent;
+    min-width: 120px;
     width: 100%;
     height: inherit;
-    transition: ease 150ms;
+    transition: 0.3s ease;
 }
 
-.main-navbar button:hover {
+.navbar-btns button:hover {
     height: 100%;
-    font-size: 25px;
+    font-size: 24px;
     border: 3px solid #D4DBE8;
-    background: radial-gradient(61.54% 61.54% at 50% 50%, rgba(11, 61, 101, 0.75) 62.9%, #14598F 100%);
+    background: radial-gradient(61.54% 61.54% at 50% 50%, rgba(39, 83, 119, 0.2) 62.9%, #308bd059 100%);
 }
 
 

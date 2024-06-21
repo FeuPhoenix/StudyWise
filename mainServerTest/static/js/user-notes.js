@@ -64,7 +64,7 @@ function toggleBoard() {
 }
 
 var noteTemp = '<div class="note">'
-    + '<a href="javascript:;" class="button remove">X</a>'
+    + '<a href="javascript:;"  class="button remove" onclick="window.location.href=\'#delete-confirmation \'">X</a>'
     + '<div class="note_cnt">'
     + '<textarea class="title" placeholder="Enter note title"></textarea>'
     + '<textarea class="cnt" placeholder="Enter note description here"></textarea>'
@@ -78,11 +78,13 @@ function showDeleteConfirmation(note) {
     noteToDelete = note;
     var modal = document.getElementById("delete-confirmation");
     modal.style.display = "block";
+    document.getElementById('board').style.overflowY = 'hidden'
 }
 
 function hideDeleteConfirmation() {
     var modal = document.getElementById("delete-confirmation");
     modal.style.display = "none";
+    document.getElementById('board').style.overflowY = 'auto'
 }
 
 function deleteNote() {
@@ -168,7 +170,7 @@ async function save_notes() {
     }
 
     try {
-        fetch('http://127.0.0.1:5000/save-content-notes', {
+        fetch('/save-content-notes', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -216,7 +218,7 @@ function load_notes() {
     console.log("fileType from URL:\n", fileType);
 
     console.log('Loading notes...')
-    fetch('http://127.0.0.1:5000/load-content-notes', {
+    fetch('/load-content-notes', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
