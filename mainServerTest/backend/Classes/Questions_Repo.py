@@ -14,6 +14,8 @@ from langdetect import detect
 
 from backend.Classes.Constants import OPENAI_API_KEY, MAX_TOKENS_PER_REQUEST
 from backend.Classes.FirestoreDB import FirestoreDB
+# from Constants import OPENAI_API_KEY, MAX_TOKENS_PER_REQUEST
+# from FirestoreDB import FirestoreDB
 
 openai.api_key = OPENAI_API_KEY
 
@@ -337,7 +339,7 @@ class Questions_Repo:
         return link_E,link_m,link_h
     @staticmethod
     def getFileNameFromPathWithOutExtension(input_string):
-        last_slash_index = input_string.rfind('/')
+        last_slash_index = input_string.rfind('\\')
         result_string = input_string[last_slash_index + 1:]
         result_string=result_string.replace('.mp4','')
         result_string=result_string.replace('.docx','')

@@ -1,102 +1,102 @@
 [
     {
-        "question": "1. What type of exercise is recommended for maximum strength gains?",
+        "question": "What type of activity would benefit most from incorporating high-repetition bodyweight squats?",
         "options": [
-            "A. Barbell squat",
-            "D. Deadlift",
-            "B. Leg press",
-            "C. Lunges"
+            "Powerlifting",
+            "Bodybuilding",
+            "Crossfit",
+            "Long-distance running"
         ],
-        "correct_answer": "A. Barbell squat"
+        "correct_answer": "Powerlifting"
     },
     {
-        "question": "2. Which of the following activities would benefit from incorporating lower body endurance exercises?",
+        "question": "How many sets of high-repetition bodyweight squats does the speaker recommend working up to?",
         "options": [
-            "A. Weightlifting",
-            "D. Powerlifting",
-            "C. Road cycling",
-            "B. CrossFit"
+            "2-3 sets",
+            "5-6 sets",
+            "3-4 sets",
+            "1-2 sets"
         ],
-        "correct_answer": "A. Weightlifting"
+        "correct_answer": "2-3 sets"
     },
     {
-        "question": "3. How many sets of repetitions are typically recommended for lower body endurance exercises?",
+        "question": "How many repetitions does the speaker recommend for each set of bodyweight squats?",
         "options": [
-            "B. 3-4 sets",
-            "D. 7-8 sets",
-            "C. 5-6 sets",
-            "A. 1-2 sets"
+            "5-10",
+            "20-30",
+            "50-100",
+            "10-15"
         ],
-        "correct_answer": "B. 3-4 sets"
+        "correct_answer": "5-10"
     },
     {
-        "question": "4. What is the recommended range of repetitions for lower body endurance exercises?",
+        "question": "Why does the speaker suggest avoiding locking out at the top of the squat during high-repetition sets?",
         "options": [
-            "D. 100-200 repetitions",
-            "A. 10-20 repetitions",
-            "C. 50-100 repetitions",
-            "B. 30-40 repetitions"
+            "It improves overall work capacity",
+            "It increases muscle building potential",
+            "It decreases fatigue resistance",
+            "It reduces the effectiveness of the exercise"
         ],
-        "correct_answer": "D. 100-200 repetitions"
+        "correct_answer": "It improves overall work capacity"
     },
     {
-        "question": "5. How should lower body endurance exercises be performed to maximize benefits?",
+        "question": "Which type of exercise is recommended for maximum strength?",
         "options": [
-            "C. Use heavy weights with lower repetitions",
-            "B. Perform each repetition with slow and controlled movements",
-            "D. None of the above",
-            "A. Lock out at the top of each repetition"
+            "Deadlift",
+            "Barbell squat",
+            "Lunges",
+            "Bodyweight squat"
         ],
-        "correct_answer": "C. Use heavy weights with lower repetitions"
+        "correct_answer": "Deadlift"
     },
     {
-        "question": "6. What is the recommended frequency for performing lower body endurance exercises?",
+        "question": "What is the benefit of incorporating bodyweight squats into activities like hiking and running?",
         "options": [
-            "A. Once a week",
-            "C. 3-4 days per week",
-            "D. Every day",
-            "B. Every other day"
+            "Improves endurance",
+            "Boosts agility",
+            "Increases muscle mass",
+            "Enhances flexibility"
         ],
-        "correct_answer": "A. Once a week"
+        "correct_answer": "Improves endurance"
     },
     {
-        "question": "7. Why does the effectiveness of an exercise for muscle building decrease with higher repetitions?",
+        "question": "How many days per week does the speaker recommend performing high-repetition bodyweight squats?",
         "options": [
-            "C. Fatigue sets in before muscle failure",
-            "B. The exercise targets endurance muscle fibers instead of strength muscle fibers",
-            "D. The muscle building stimulus decreases with higher repetitions",
-            "A. The muscle fibers get tired more quickly"
+            "Few days per week",
+            "Everyday",
+            "3-4 days",
+            "Once a week"
         ],
-        "correct_answer": "C. Fatigue sets in before muscle failure"
+        "correct_answer": "Few days per week"
     },
     {
-        "question": "8. How can lower body endurance exercises benefit overall work capacity?",
+        "question": "What is the recommended timing commitment for each set of high-repetition bodyweight squats?",
         "options": [
-            "C. By enhancing muscle endurance and fatigue resistance",
-            "D. By increasing power and explosiveness",
-            "B. By improving cardiovascular endurance",
-            "A. By increasing muscle mass"
+            "1 hour",
+            "Few minutes",
+            "30 minutes",
+            "15 minutes"
         ],
-        "correct_answer": "C. By enhancing muscle endurance and fatigue resistance"
+        "correct_answer": "1 hour"
     },
     {
-        "question": "9. What is the time commitment for performing a set of lower body endurance exercises?",
+        "question": "At what point do high-repetition bodyweight squats become less effective for muscle building?",
         "options": [
-            "D. 1 hour",
-            "A. 30 minutes",
-            "B. 15 minutes",
-            "C. 5 minutes"
+            "1-5 repetitions per set",
+            "10-20 repetitions per set",
+            "30-40 repetitions per set",
+            "50-100 repetitions per set"
         ],
-        "correct_answer": "D. 1 hour"
+        "correct_answer": "1-5 repetitions per set"
     },
     {
-        "question": "10. Which of the following activities is NOT listed as benefiting from lower body endurance exercises?",
+        "question": "Which activity would benefit most from incorporating bodyweight squats?",
         "options": [
-            "B. Running",
-            "A. Skiing",
-            "C. Weightlifting",
-            "D. Backpacking"
+            "Weightlifting",
+            "Yoga",
+            "Swimming",
+            "Powerlifting"
         ],
-        "correct_answer": "B. Running"
+        "correct_answer": "Weightlifting"
     }
 ]

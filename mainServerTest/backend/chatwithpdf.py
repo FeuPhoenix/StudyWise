@@ -4,14 +4,15 @@ import openai
 import fitz  # PyMuPDF
 from io import BytesIO
 from werkzeug.utils import secure_filename
-
+from dotenv import load_dotenv
+import os
 # Initialize Flask app
 app = Flask(__name__)
 app.secret_key = os.getenv('FLASK_APP_SECRET_KEY', 'a_default_secret_key')
 UPLOAD_FOLDER = 'C:\\Users\\AMR\\Desktop\\pro\\StudyWise\\chat_with_pdf'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
-openai.api_key = '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'
+openai.api_key = os.getenv('OPENAI_API_KEY')
 
 # Route to render the frontend HTML
 @app.route('/')

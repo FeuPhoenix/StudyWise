@@ -22,6 +22,9 @@ import requests
 
 from backend.Classes.FirestoreDB import FirestoreDB
 from backend.Classes.VideoProcessed_Repo import VideoProcessed_Repo
+
+# from FirestoreDB import FirestoreDB
+# from VideoProcessed_Repo import VideoProcessed_Repo
 aai.settings.api_key = "8d8390aa4ac24f7aa92d724e44370d73"
 
 class Video_Processed_Controller:
@@ -211,3 +214,8 @@ class Video_Processed_Controller:
         except Exception as e:
             print(f"Error retrieving document: {e}")
             return None
+def main():
+ Video_Processed_Controller.upload_video("https://www.youtube.com/watch?v=PxjV_1oPirk","jo45D5quBvRHU9q0iDLdYbcfdNI2")
+ 
+if __name__ == '__main__':
+     main()

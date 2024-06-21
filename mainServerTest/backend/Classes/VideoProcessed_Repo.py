@@ -17,6 +17,10 @@ from backend.Classes.Flash_Cards_Repo import Flash_Cards
 from backend.Classes.Questions_Repo import Questions_Repo
 from backend.Classes.FirestoreDB import FirestoreDB
 from backend.Classes.audiocutter import runaudiocutter
+# from Flash_Cards_Repo import Flash_Cards
+# from Questions_Repo import Questions_Repo
+# from FirestoreDB import FirestoreDB
+# from audiocutter import runaudiocutter
 
 from dotenv import load_dotenv
 
@@ -27,8 +31,9 @@ load_dotenv()
 openai.api_key = os.getenv('OPENAI_API_KEY')
 
 aai.settings.api_key = os.getenv('AAI_API_key')
+
 class VideoProcessed_Repo:
-    def __init__(self,material,userid,Video_Cut=True):
+    def __init__(self,material,userid,Video_Cut=False):
         self.material_id=uuid.uuid4().hex#done
         self.material=material
         self.user_ID=userid
@@ -51,7 +56,7 @@ class VideoProcessed_Repo:
         }
         return metadata
     @staticmethod
-    def download_audio_with_title(url, output_directory="MainServerTest/assets/output_files/audio"):
+    def download_audio_with_title(url, output_directory="mainServerTest/assets/output_files/audio"):
         ydl_opts = {
         'format': 'bestaudio/best',
         'postprocessors': [{
@@ -67,7 +72,7 @@ class VideoProcessed_Repo:
             output_path = f'{output_directory}/{title}.mp3'
             ydl.download([url])
         
-            return output_path, title
+            return  title
 
 
 
@@ -324,12 +329,16 @@ class VideoProcessed_Repo:
     @staticmethod
     def getFileNameFromPathWithOutExtension(input_string):
     # Find the last occurrence of '/'
-        last_slash_index = input_string.rfind('/')
-        
-        # Slice the string from the character after the last '/'
-        # If '/' is not found, rfind returns -1, and slicing starts from index 0
+        last_slash_index = input_string.rfind('\\')
         result_string = input_string[last_slash_index + 1:]
         result_string=result_string.replace('.mp4','')
+        result_string=result_string.replace('.docx','')
+        result_string=result_string.replace('.doc','')
+        result_string=result_string.replace('.pptx','')
+        result_string=result_string.replace('.ppt','')
+        result_string=result_string.replace('.pdf','')
+        result_string=result_string.replace('.json','')
+        result_string=result_string.replace('.txt','')
         return result_string
     @staticmethod
     def milliseconds_to_hms(ms):
@@ -341,6 +350,7 @@ class VideoProcessed_Repo:
         while True:
             try:
                         openai.api_key =os.getenv('OPENAI_API_KEY')
+                        # openai.api_key ="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"
 
                          
                         response = openai.ChatCompletion.create(
@@ -478,12 +488,14 @@ class VideoProcessed_Repo:
                 self.file_path = self.material   
                 self.meta_data = {'webpage_url': self.file_path}
                 if VideoProcessed_Repo.check_value_exists_in_VideoMaterial(self.user_ID, self.meta_data):
-                    self.generated_audio_file_path, self.file_name = VideoProcessed_Repo.download_audio_with_title(self.material)
+                    self.file_name = VideoProcessed_Repo.download_audio_with_title(self.material)
+                    self.generated_audio_file_path=f"mainServerTest/assets/output_files/audio/{self.file_name}.mp3"
                     print(f"Audio file downloaded at: {self.generated_audio_file_path}")
-
+                    
                     # Transcribe audio
                     config = aai.TranscriptionConfig(auto_chapters=True)
                     transcript = aai.Transcriber().transcribe(self.generated_audio_file_path, config)
+                    
                     if transcript.status == aai.TranscriptStatus.error:
                         print(transcript.error)
                     else:

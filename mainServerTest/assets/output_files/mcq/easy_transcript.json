@@ -1,92 +1,102 @@
 [
     {
-        "question": "1. What is the bodyweight deep knee bend exercise primarily known for targeting?",
+        "question": "What is the deep knee bend exercise primarily known for targeting?",
         "options": [
-            "D. Calves",
-            "C. Quads",
-            "A. Hamstrings",
-            "B. Glutes"
+            "Glutes",
+            "Hamstrings",
+            "Quads",
+            "Calves"
         ],
-        "correct_answer": "D. Calves"
+        "correct_answer": "Glutes"
     },
     {
-        "question": "2. How does elevating the heels during deep knee bends affect the knees?",
+        "question": "How does elevating the heels during deep knee bends affect the movement?",
         "options": [
-            "D. It strengthens the knees",
-            "B. It increases stress on the knees",
-            "C. It has no impact on the knees",
-            "A. It reduces stress on the knees"
+            "Concentrates stress in the quads",
+            "Increases stress on the back",
+            "Decreases stress on the knees",
+            "Concentrates stress in the core"
         ],
-        "correct_answer": "D. It strengthens the knees"
+        "correct_answer": "Concentrates stress in the quads"
     },
     {
-        "question": "3. Which group of athletes were known for incorporating deep knee bends into their daily workouts?",
+        "question": "What is the main benefit of slowly building up to deep knee bends?",
         "options": [
-            "A. Gymnasts",
-            "C. Indian wrestlers",
-            "B. Soccer players",
-            "D. Swimmers"
+            "Targeting different muscle groups",
+            "Increasing flexibility",
+            "Building endurance",
+            "Avoiding injury"
         ],
-        "correct_answer": "A. Gymnasts"
+        "correct_answer": "Targeting different muscle groups"
     },
     {
-        "question": "4. How do connective tissues adapt to training stress?",
+        "question": "What is connective tissue's response to training stress?",
         "options": [
-            "B. They become more flexible",
-            "C. They strengthen over time",
-            "A. They weaken over time",
-            "D. They become less resilient"
+            "Breakdown",
+            "Shrinking",
+            "Stiffening",
+            "Strengthening"
         ],
-        "correct_answer": "B. They become more flexible"
+        "correct_answer": "Breakdown"
     },
     {
-        "question": "5. What is the primary purpose of deep knee bends?",
+        "question": "Which group of athletes have historically used deep knee bends as part of their training regimen?",
         "options": [
-            "A. Building muscle mass",
-            "C. Conditioning",
-            "D. Core strengthening",
-            "B. Flexibility training"
+            "Gymnasts",
+            "Indian wrestlers",
+            "Swimmers",
+            "Soccer players"
         ],
-        "correct_answer": "A. Building muscle mass"
+        "correct_answer": "Gymnasts"
     },
     {
-        "question": "7. What do deep knee bends have a solid track record for building?",
+        "question": "How does the deep knee bend compare to regular bodyweight squats in terms of muscle growth?",
         "options": [
-            "B. Shoulders",
-            "D. Triceps",
-            "A. Biceps",
-            "C. Quads"
+            "More efficient",
+            "Less efficient",
+            "Not mentioned in the video",
+            "No difference"
         ],
-        "correct_answer": "B. Shoulders"
+        "correct_answer": "More efficient"
     },
     {
-        "question": "8. How does the volume of sets impact the muscle-building potential of deep knee bends?",
+        "question": "What is the main focus of deep knee bends as an exercise?",
         "options": [
-            "B. Lower volume is more effective for muscle growth",
-            "D. Volume only impacts endurance",
-            "A. Higher volume leads to more muscle growth",
-            "C. Volume has no impact on muscle growth"
+            "Muscle growth",
+            "Endurance",
+            "Flexibility",
+            "Conditioning"
         ],
-        "correct_answer": "B. Lower volume is more effective for muscle growth"
+        "correct_answer": "Muscle growth"
     },
     {
-        "question": "9. Which body part can deep knee bends potentially help to \"bulletproof\"?",
+        "question": "Which joint does the deep knee bend primarily target?",
         "options": [
-            "A. Shoulders",
-            "B. Knees",
-            "D. Elbows",
-            "C. Ankles"
+            "Shoulder",
+            "Knee",
+            "Hip",
+            "Elbow"
         ],
-        "correct_answer": "A. Shoulders"
+        "correct_answer": "Shoulder"
     },
     {
-        "question": "10. What is recommended if individuals have questions about incorporating deep knee bends into their workout routine?",
+        "question": "What is the potential benefit of deep knee bends for building resilient legs?",
         "options": [
-            "B. Consult a physical coach",
-            "C. Visit the website for specific programs",
-            "D. All of the above",
-            "A. Join the free community"
+            "Decreased stability",
+            "None of the above",
+            "Stronger knees",
+            "Increased risk of injury"
         ],
-        "correct_answer": "B. Consult a physical coach"
+        "correct_answer": "Decreased stability"
+    },
+    {
+        "question": "What component of training is emphasized to avoid injury while performing deep knee bends?",
+        "options": [
+            "Precision",
+            "Volume",
+            "Proper form",
+            "Intensity"
+        ],
+        "correct_answer": "Precision"
     }
 ]
