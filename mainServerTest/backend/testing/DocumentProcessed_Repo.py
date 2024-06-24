@@ -497,7 +497,7 @@ class DocumentProcessed:
         yield current_chunk  # Yield the last chunk
     @staticmethod
     def get_Long_summary(text):
-        openai.api_key = 
+        openai.api_key = os.getenv('OPENAI_API_KEY')
         summaries = []
 
         for chunk in DocumentProcessed.split_text(text):
@@ -519,7 +519,7 @@ class DocumentProcessed:
         full_summary = ' '.join(summaries)
         return full_summary
     def get_Long_summary_Arabic(text):
-        openai.api_key = OPENAI_API_KEY
+        openai.api_key = os.getenv('OPENAI_API_KEY')
         summaries = []
 
         for chunk in DocumentProcessed.split_text(text):

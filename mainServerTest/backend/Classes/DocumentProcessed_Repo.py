@@ -14,7 +14,6 @@ from docx import Document
 import subprocess
 import uuid
 import fitz  # PyMuPDF
-import comtypes.client
 from dotenv import load_dotenv
 from langdetect import detect
 

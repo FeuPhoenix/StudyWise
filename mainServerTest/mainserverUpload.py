@@ -1,6 +1,5 @@
 import smtplib
 from flask import Flask, jsonify, render_template, request, send_from_directory, url_for, redirect, session
-import socket
 from config import socketio
 import os
 from werkzeug.utils import secure_filename
