@@ -1,61 +1,41 @@
-# import requests
-# from FirestoreDB import FirestoreDB
+from moviepy.editor import VideoFileClip
+import os
 
+class VideoProcessor:
+    def __init__(self, file_path):
+        self.file_path = file_path
+        self.file_name = self.getFileNameFromPathWithoutExtension(self.file_path)
+        self.generated_audio_file_path = None
 
-# def fetch_json_from_url(url):
-#     try:
-#         # Make a GET request to download the JSON file
-#         response = requests.get(url)
-#         response.raise_for_status()  # Raise an exception for any HTTP error status codes
-        
-#         # Load the JSON data
-#         data = response.json()
-#         return data
-#     except requests.exceptions.RequestException as e:
-#         print("Error:", e)
-#         return None
+    @staticmethod
+    def getFileNameFromPathWithoutExtension(input_string):
+        """Extract file name without extension from a file path."""
+        last_slash_index = input_string.rfind('/')
+        result_string = input_string[last_slash_index + 1:].replace('.mp4', '')
+        return result_string
 
-# # URL of the JSON file
-# url = "https://storage.googleapis.com/studywise-dba07.appspot.com/user/62a9c20699654da5b14cca9d21cd8ef6/Uploaded%20Materials/Inflation%20Explained%20in%20One%20Minute/chapters.json?Expires=4868440853&GoogleAccessId=firebase-adminsdk-56dni%40studywise-dba07.iam.gserviceaccount.com&Signature=P9hjrJXBYTH6M3%2B632apIPbQ3r4dhprAgvf6cbdnlDDNkv4EDa7j7r6NU05OWxHfuhaArefXvIMfiEW33FqMYNCCwN%2BRVpI6erxZqoKdIxMJ%2Fyg4RCZA12GrPh4jypKq6nGenIR0TPPP9x7S9NsP3mzOqzFKF72DeijEsPMU8n0E7uxxrXSvk%2BfXt0X1vjVvL51gLeTXx%2FEh8qcJRyCR06SX8dzS2dTqTRaac%2BxPt%2BP9uSQFal4cW4xftdW0hjSvqVCcNqNSPJcxOQfv3Pqt5feuuPSViTuRe2Pl9S7Kpm0bhgoiBupIccvwXgiCRCkoVY2ZX0k9yRf3TgJ%2BzRuVmg%3D%3D"
+    def extract_audio(self):
+        video = VideoFileClip(self.file_path)
+        print("Video name: " + self.file_name)
+        print('Video is initialized')
 
-# # Fetch JSON data from the URL
-# json_data = fetch_json_from_url(url)
+        # Extract audio from video
+        audio = video.audio
+        print('Video audio is extracted')
 
-# if json_data:
-#     print("JSON data:")
-#     print(json_data)
-# else:
-#     print("Failed to fetch JSON data from the URL.")import pytesseract
-import fitz
+        # Ensure the output directory exists
+        output_dir = "mainServerTest/assets/output_files/audio"
+        os.makedirs(output_dir, exist_ok=True)
 
-from FirestoreDB import FirestoreDB  # PyMuPDF
+        # Use a shorter and simpler file name
+        output_file = f"{output_dir}/{self.file_name}.mp3".replace('\\', '/')
+        print(f"Saving audio to: {output_file}")
 
-# # Path to your PDF file
-# pdf_path = "C:/Users/Abdelrahman/Downloads/محاضرة د.محمود البحيري ٢ (1).pdf"
-# # Open the PDF file
-# doc = fitz.open(pdf_path)
+        audio.write_audiofile(output_file, codec='mp3')
+        self.generated_audio_file_path = output_file
+        print(f"Audio file downloaded at: {self.generated_audio_file_path}")
 
-# # Iterate through pages and extract text
-# for page_num in range(len(doc)):
-#     page = doc.load_page(page_num)
-#     text = page.get_text()
-#     if text:
-#         print(text)
-# import easyocr
-# reader = easyocr.Reader(['ch_sim','en']) # this needs to run only once to load the model into memory
-# result = reader.readtext("D:/COLLEGE/StudyWise/mainServerTest/assets/output_files/Images/test/test_page_10_img_2.png",detail = 0)
-# print(result)
-def deleteFromFirestore(user_id):
-        db_instance = FirestoreDB.get_instance()
-        firestore_instance = db_instance.get_firestore_instance()
-        users_ref = firestore_instance.collection('Users')
-        
-        doc_ref = users_ref.document(user_id)
-        doc = doc_ref.get()
-
-        if doc.exists:
-            doc_ref.delete()
-            print(f"Deleted user with ID {user_id} from Firestore.")
-        else:
-            print(f"No document found for user with ID {user_id} in Firestore.")
-deleteFromFirestore("CqgJfFbJBkb3TVa4jRngiSfax033")
+# Example usage
+file_path = "D:/COLLEGE/StudyWise/mainServerTest/assets/input_files/video-based/What is Artificial Intelligence _ Artificial Intelligence Tutorial For Beginners _ Edureka.mp4"
+processor = VideoProcessor(file_path)
+processor.extract_audio()
