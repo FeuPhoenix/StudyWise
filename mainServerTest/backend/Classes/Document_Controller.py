@@ -6,7 +6,7 @@ from docx import Document
 import requests
 from backend.Classes.DocumentProcessed_Repo import DocumentProcessed
 from backend.Classes.FirestoreDB import FirestoreDB
-
+import json
 class DocumentProcessedController:
     @staticmethod
     def fetch_all_filenames_and_filetypes_in_Video_and_Document_material(userid):
