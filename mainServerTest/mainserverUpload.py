@@ -181,6 +181,7 @@ def get_user_name_JSON():
 def load_user_content_JSON():
     from backend.Classes.Document_Controller import DocumentProcessedController
     userID = session['UserID']
+    print(userID)
     print('Fetching user content')
     contentJSON = DocumentProcessedController.fetch_all_filenames_and_filetypes_in_Video_and_Document_material(userID)
     print('Returned user content: ', contentJSON)
