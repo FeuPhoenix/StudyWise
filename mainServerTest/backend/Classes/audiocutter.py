@@ -61,12 +61,16 @@ INPUT_FILE = "mainServerTest/assets/input_files/video/Speech_to_Text_using_Pytho
 start_time = time.time()
 def getFileNameFromPathWithOutExtension(input_string):
     # Find the last occurrence of '/'
-        last_slash_index = input_string.rfind('/')
-        
-        # Slice the string from the character after the last '/'
-        # If '/' is not found, rfind returns -1, and slicing starts from index 0
+        last_slash_index = input_string.rfind('\\')
         result_string = input_string[last_slash_index + 1:]
         result_string=result_string.replace('.mp4','')
+        result_string=result_string.replace('.docx','')
+        result_string=result_string.replace('.doc','')
+        result_string=result_string.replace('.pptx','')
+        result_string=result_string.replace('.ppt','')
+        result_string=result_string.replace('.pdf','')
+        result_string=result_string.replace('.json','')
+        result_string=result_string.replace('.txt','')
         return result_string
 def runaudiocutter(INPUT_FILE):
     #Parameters
