@@ -1,82 +1,102 @@
 [
     {
-        "question": "1. What are the components of a thread in CPU utilization?",
+        "question": "What is data integration?",
         "options": [
-            "a) Thread ID, data section, register set",
-            "d) Program counter, data section, thread ID",
-            "b) Thread ID, program counter, register set",
-            "c) Program counter, data section, register set"
+            "Deleting data from a database",
+            "Backing up data to a cloud server",
+            "Combining data from different sources into a single, unified view",
+            "Encrypting data to keep it secure"
         ],
-        "correct_answer": "a) Thread ID, data section, register set"
+        "correct_answer": "Deleting data from a database"
     },
     {
-        "question": "2. What does a thread share with other threads belonging to the same process?",
+        "question": "What is the purpose of data analysis?",
         "options": [
-            "b) Data section, code section",
-            "a) Code section, thread ID",
-            "c) Register set, data section",
-            "d) Register set, code section"
+            "To delete unnecessary data from a database",
+            "To encrypt data for security purposes",
+            "To make sense of data and draw conclusions",
+            "To store data in a data warehouse"
         ],
-        "correct_answer": "b) Data section, code section"
+        "correct_answer": "To delete unnecessary data from a database"
     },
     {
-        "question": "3. In what scenario might a web browser use multiple threads?",
+        "question": "Which of the following is an example of a data source?",
         "options": [
-            "c) Both a and b",
-            "d) None of the above",
-            "a) Displaying images or text",
-            "b) Retrieving data from the network"
+            "All of the above",
+            "Social media post",
+            "Email inbox",
+            "Excel spreadsheet"
         ],
-        "correct_answer": "c) Both a and b"
+        "correct_answer": "All of the above"
     },
     {
-        "question": "4. What is the purpose of threads in programming?",
+        "question": "What does data integration help achieve?",
         "options": [
-            "a) Sequential execution of a program",
-            "d) None of the above",
-            "c) Resource allocation within a program",
-            "b) Parallel execution of multiple sections of a program"
+            "Improved data quality",
+            "Better decision-making",
+            "Increased efficiency",
+            "All of the above"
         ],
-        "correct_answer": "a) Sequential execution of a program"
+        "correct_answer": "Improved data quality"
     },
     {
-        "question": "5. What specific task does each thread perform in a program?",
+        "question": "What is the first step in data integration?",
         "options": [
-            "b) Managing resources",
-            "d) None of the above",
-            "c) Input/output operations",
-            "a) Memory allocation"
+            "Data extraction",
+            "Data visualization",
+            "Data analysis",
+            "Data cleaning"
         ],
-        "correct_answer": "b) Managing resources"
+        "correct_answer": "Data extraction"
     },
     {
-        "question": "6. How do threads share resources in a process?",
+        "question": "What is data integration NOT used for?",
         "options": [
-            "c) Through register set",
-            "b) Through code section",
-            "a) Through data section",
-            "d) Through program counter"
+            "Identifying trends and patterns in data",
+            "Improving data quality",
+            "Deleting data from a database",
+            "Combining data from multiple sources"
         ],
-        "correct_answer": "c) Through register set"
+        "correct_answer": "Identifying trends and patterns in data"
     },
     {
-        "question": "9. What model maps each user thread to a kernel thread?",
+        "question": "How can data be integrated from different sources?",
         "options": [
-            "d) Kernel-level model",
-            "a) One-to-one model",
-            "b) Many-to-many model",
-            "c) User-level model"
+            "Through encryption",
+            "Through automation",
+            "Through manual entry",
+            "Through data visualization"
         ],
-        "correct_answer": "d) Kernel-level model"
+        "correct_answer": "Through encryption"
     },
     {
-        "question": "10. What is a drawback of the one-to-one model of thread mapping?",
+        "question": "What is data analysis used for?",
         "options": [
-            "b) Lack of resource sharing",
-            "c) Inefficient execution",
-            "d) All of the above",
-            "a) Overhead of creating kernel threads"
+            "To encrypt data for security",
+            "To delete unnecessary data",
+            "To identify trends and patterns in data",
+            "To store data securely"
         ],
-        "correct_answer": "b) Lack of resource sharing"
+        "correct_answer": "To encrypt data for security"
+    },
+    {
+        "question": "What is the purpose of data integration in a business setting?",
+        "options": [
+            "To streamline business processes",
+            "To make data easy to access",
+            "All of the above",
+            "To improve decision-making"
+        ],
+        "correct_answer": "To streamline business processes"
+    },
+    {
+        "question": "What is the end goal of data integration and analysis?",
+        "options": [
+            "To delete unnecessary data",
+            "To store data in a data warehouse.",
+            "To encrypt data for security",
+            "To turn data into actionable insights"
+        ],
+        "correct_answer": "To delete unnecessary data"
     }
 ]

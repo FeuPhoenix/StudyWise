@@ -2,7 +2,6 @@
 
 html {
     font-family: 'Cairo', sans-serif;
-    font-size: 21;
     line-height: 2rem;
 }
 
@@ -32,6 +31,10 @@ button {
     background:rgba(11, 61, 101, 0.75);
     color: var(--primaryFontColor);
 }
+
+button i {
+    cursor: pointer;
+}
 /* .forgetPasswordbutton {
     font-family: var(--primaryFontFamily);
     font-size: var(--primaryFontSize);
@@ -42,75 +45,11 @@ button {
     color: var(--primaryFontColor);
 } */
 
-/* 
-User List and pop up
-*/
-.list-group {
-    display: none;
-    position: absolute;
-    top: 100%;
-    z-index: 1000;
-    background-color: #01163A;
-    border: 3px solid #ccc;
-    border-radius: 4px;
-    box-shadow: 3px 4px 8px rgba(0, 0, 0, 0.1);
-    width: 210px;
-    height: 160px;
-}
-.list-group.show {
-    display: block;
-}
-.list-group .list-group-item {
-    height: 25%;
-    padding: 10px;
-}
-.list-group .list-group-item:hover {
-    background: #fafafa2f;
-    transition: 0.15s ease;
-}
-.list-group .list-group-item:last-child {
-    margin-bottom: 0;
-}
 .navbar-avatar-frame svg {
     width: 65px;
     height: 65px;
 }
-/* Modal styles */
-.modal {
-    display: none; /* Hidden by default */
-    position: fixed; /* Stay in place */
-    z-index: 1; /* Sit on top */
-    left: 0;
-    top: 0;
-    width: 100%; /* Full width */
-    height: 100%; /* Full height */
-    overflow: auto; /* Enable scroll if needed */
-    background-color: rgb(0,0,0); /* Fallback color */
-    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-}
 
-.modal-content {
-    background-color: #01163A;
-    margin: 15% auto; /* 15% from the top and centered */
-    padding: 20px;
-    border: 1px solid #888;
-    width: 80%; /* Could be more or less, depending on screen size */
-}
-.close {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-}
-.close:hover,
-.close:focus {
-    color: black;
-    text-decoration: none;
-    cursor: pointer;
-}
-/* 
----------------------------
-*/
 .main-navbar{
     display: flex;
     flex-direction: row;
@@ -176,40 +115,9 @@ User List and pop up
 .navbar-btns button:hover {
     height: 100%;
     font-size: 24px;
-    border: 3px solid #D4DBE8;
-    background: radial-gradient(61.54% 61.54% at 50% 50%, rgba(39, 83, 119, 0.2) 62.9%, #308bd059 100%);
-}
-
-
-.navbar-avatar-frame {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 58px;
-    width: 58px;
-    border: solid 3px #506387;
-    border-radius: 30px;
-    z-index: 1;
-    cursor: pointer;
-}
-.navbar-avatar-frame::before {
-    position: absolute;
-    display: inline-block;
-    right: 69px;
-    z-index: 1;
-    content: var(--before-content, "User Name");
-    line-height: 1em;
-    width: fit-content;
-    max-width: 10em;
-    overflow-wrap: break-word;
-    pointer-events: none;
-}
-
-.navbar-user-avatar-SVG {
-    position: relative;
-    margin: -3px;
-    height: 61px;
-    width: 61px;
+    border: 3px solid #5f78a3;
+    background: radial-gradient(61.54% 61.54% at 50% 50%, rgba(39, 83, 119, 0.1) 62.9%, #308bd02b 100%);
+    transition: 0.2s ease;
 }
 
 .page-content {
@@ -222,25 +130,6 @@ User List and pop up
     width: 85%;
     height: 80%;
     flex-shrink: 0;
-}
-
-.back-btn {
-    display: inline;
-    height: 2.2rem;
-    width: 2.2rem;
-    border: 2px solid #506387;
-    border-radius: 50px;
-    cursor: pointer;
-    margin: 10px 0 0 10px;
-    transition: ease 100ms;
-
-    font-size: 30px;
-}
-
-.back-btn:hover {
-    scale: 110%;
-    font-size: 31px;
-    background:rgba(11, 61, 101, 1);
 }
 
 .main-frame {

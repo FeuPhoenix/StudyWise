@@ -1,6 +1,6 @@
-@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;900;1000&display=swap');html {
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;900;1000&display=swap');
+html {
     font-family: 'Cairo', sans-serif;
-    font-size: 21;
     line-height: 2rem;
 }
 
@@ -19,6 +19,7 @@ body {
     font-size: var(--primaryFontSize);
     color: var(--primaryFontColor);
     font-weight: 400;
+    cursor: url('http://upload.wikimedia.org/wikipedia/commons/d/de/POL_apple.jpg'), auto;
 }
 
 button {
@@ -31,71 +32,6 @@ button {
     color: var(--primaryFontColor);
 }
 
-.main-navbar{
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    margin: auto;
-    margin-top: 2%;
-    width: 85%;
-    height: 60px;
-    
-    background: linear-gradient(#023D98, #040F22, #022964);
-    border: solid 2px #506387;
-    border-radius: 30px;
-}
-
-.navbar-logo {
-    height: 100px;
-    position: relative;
-    display: inline-block;
-}
-
-.navbar-btns {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    justify-content: space-between;
-    
-    position: relative;
-    left: 5%;
-
-    width: fit-content;
-    max-width: 70%;
-    height: inherit;
-}
-
-.main-navbar a {
-    height: inherit;
-    text-decoration: none;
-}
-
-.main-navbar button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 24px;
-    font-weight: 600;
-    color: var(--primaryFontColor);
-    background-color: var(--transparent);
-    font-style: inherit;
-
-    cursor: pointer;
-    border: none;
-    min-width: 200px;
-    width: 100%;
-    height: inherit;
-    transition: ease 150ms;
-}
-
-.main-navbar button:hover {
-    height: 100%;
-    font-size: 25px;
-    border: 3px solid #D4DBE8;
-    background: radial-gradient(61.54% 61.54% at 50% 50%, rgba(11, 61, 101, 0.75) 62.9%, #14598F 100%);
-}
-
 .page-content {
     display: flex;
     flex-direction: row;
@@ -104,27 +40,33 @@ button {
     margin: auto;
     margin-top: 2%;
     width: 85%;
-    height: 80%;
+    height: 75vh;
     flex-shrink: 0;
 }
 
 .back-btn {
     display: inline;
-    height: 2.2rem;
-    width: 2.2rem;
+    height: 58px;
+    width: 50px;
     border: 2px solid #506387;
     border-radius: 50px;
     cursor: pointer;
+    background-color: transparent;
     margin: 10px 0 0 10px;
-    transition: ease 100ms;
+    transition: ease 0.3s;
 
     font-size: 30px;
 }
 
 .back-btn:hover {
-    scale: 110%;
-    font-size: 31px;
-    background:rgba(11, 61, 101, 1);
+    transition: 0.2s ease;
+    border: 2px solid #97a6c2;
+    background-color: rgba(10, 55, 92, 1);
+}
+
+.back-btn:active {
+    opacity: 0.9;
+    scale: 0.95;
 }
 
 .main-frame {
@@ -133,7 +75,7 @@ button {
     margin: auto;
     width: 95%;
     height: 100%;
-    min-height: 470px;
+    min-height: 500px;
     flex-shrink: 0;
     transition: ease 150ms;
 
@@ -145,7 +87,7 @@ button {
 
 .custom-file-label {
     display: inline-block;
-    padding: 0 10px 0 10px;
+    padding: 5px 10px;
     margin-bottom: 5%;
     scale: 1.47;
     cursor: pointer;
@@ -153,14 +95,14 @@ button {
     border: 1px solid #8f8f8f;
     border-radius: 4px;
     background-color: #f1f1f110;
-    transition: 0.3s;
+    transition: 0.4s;
 }
 
 .custom-file-label:hover {
-    scale: 1.5;
+    scale: 1.48;
     background-color: #f1f1f129;
     border: 1px solid #ccc;
-    transition: 0.4s ease;
+    transition: 0.1s ease;
 }
 
 @media screen and (max-width = 900px) {
@@ -203,6 +145,10 @@ button {
     margin: 10px 0;
 }
 
+form#uploadForm {
+    margin-top: 30px;
+}
+
 .file-upload-btn {
     position: relative;
     margin: 12px 5rem 1rem auto;
@@ -220,11 +166,13 @@ button {
 
 #audiocut {
     position: relative;
-    bottom: -7%;
-    left: 5rem;
-    
+    margin-top: -16px;
+    bottom: -8%;
+    left: 7rem;
+
     width: fit-content;
     scale: 2;
+    transition: 0.4s;
 }
 
 #audiocut::after {
@@ -238,9 +186,14 @@ button {
     width: max-content;
 }
 
+#audiocut:active {
+    opacity: 0.9;
+    scale: 1.95;
+    transition: 0.1s;
+}
 .cta {
     position: relative;
-    margin: 12px 5rem 1rem auto;
+    margin: 12px 7rem 1rem auto;
     width: 15rem;
     cursor: pointer;
 
@@ -265,8 +218,9 @@ button {
     box-shadow: 10px 10px 0 #c43367;
 }
 .cta:active {
-    scale: 0.9;
-    transition: 0.5s;
+    opacity: 0.9;
+    scale: 0.98;
+    transition: 0.1s;
     box-shadow: 10px 10px 0 #c43367;
 }
 

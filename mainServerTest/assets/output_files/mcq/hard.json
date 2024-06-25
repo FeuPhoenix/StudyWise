@@ -1,102 +1,12 @@
 [
     {
-        "question": "1. Which term refers to the ability of multiple threads to operate concurrently within the kernel of an operating system?",
+        "question": "Which of the following preprocessing techniques is used to handle missing data: a) mean imputation b) mode imputation c) dropping rows with missing values d) none of the above",
         "options": [
-            "D) Device management",
-            "A) Parallelism",
-            "C) Interruption handling",
-            "B) Multithreading"
+            "Which of the following is a drawback of label encoding: a) it introduces artificial ordinality b) it is computationally expensive c) it only works for binary variables d) none of the above",
+            "What is the purpose of target encoding in categorical encoding: a) reduce dimensionality b) handle high cardinality features c) improve model performance d) introduce random noise",
+            "When should outlier removal be performed during the preprocessing stage: a) before feature scaling b) after feature scaling c) it doesn't matter d) only for numerical features",
+            "In feature engineering, what is the purpose of one-hot encoding: a) handle missing data b) preserve ordinal relationships c) convert categorical variables into numerical ones d) reduce dimensionality"
         ],
-        "correct_answer": "D) Device management"
-    },
-    {
-        "question": "2. What is the main advantage of multithreaded server architecture?",
-        "options": [
-            "B) Improved scalability",
-            "A) Increased power consumption",
-            "D) Decreased efficiency",
-            "C) Reduced responsiveness"
-        ],
-        "correct_answer": "B) Improved scalability"
-    },
-    {
-        "question": "3. How does multithreaded programming facilitate more efficient use of multicore or multiprocessor systems?",
-        "options": [
-            "A) By limiting the number of cores in use",
-            "C) By preventing parallelism on a multi-core system",
-            "B) By enabling concurrent execution on a single-core system",
-            "D) By managing threads directly through the operating system"
-        ],
-        "correct_answer": "A) By limiting the number of cores in use"
-    },
-    {
-        "question": "4. In a multithreaded server architecture, how does the operating system manage memory and interrupt handling?",
-        "options": [
-            "A) Through sequential processing",
-            "B) Through concurrent execution",
-            "D) Through single-threaded programming",
-            "C) Through parallelism"
-        ],
-        "correct_answer": "A) Through sequential processing"
-    },
-    {
-        "question": "5. What is the relationship between user threads and kernel threads in a multithreaded system?",
-        "options": [
-            "D) They share memory resources",
-            "C) They can run in parallel on a multiprocessor",
-            "A) They operate independently",
-            "B) They are managed directly by the operating system"
-        ],
-        "correct_answer": "D) They share memory resources"
-    },
-    {
-        "question": "6. Which feature of multithreaded programming allows for continued execution if part of a thread is blocked?",
-        "options": [
-            "C) Device management",
-            "B) Responsiveness",
-            "D) Memory management",
-            "A) Interrupt handling"
-        ],
-        "correct_answer": "C) Device management"
-    },
-    {
-        "question": "7. How do most operating system kernels handle multiple threads in a multithreaded system?",
-        "options": [
-            "C) By limiting the number of threads",
-            "A) Through a single-threaded approach",
-            "B) By managing threads directly",
-            "D) Through parallel execution"
-        ],
-        "correct_answer": "C) By limiting the number of threads"
-    },
-    {
-        "question": "8. Which component of a multithreaded system is responsible for scheduling threads for execution?",
-        "options": [
-            "D) User application",
-            "A) Kernel",
-            "B) Device manager",
-            "C) Memory manager"
-        ],
-        "correct_answer": "D) User application"
-    },
-    {
-        "question": "9. In what way does multithreaded programming improve the performance of a system with multiple cores or processors?",
-        "options": [
-            "B) By limiting parallelism",
-            "D) By reducing responsiveness",
-            "C) By enabling concurrent execution",
-            "A) By decreasing efficiency"
-        ],
-        "correct_answer": "B) By limiting parallelism"
-    },
-    {
-        "question": "10. How do Windows operating systems implement multithreading in order to support parallel execution on multiprocessor systems?",
-        "options": [
-            "A) By limiting the number of threads",
-            "B) By managing threads directly",
-            "C) Through single-threaded programming",
-            "D) By allowing kernel threads to run in parallel on a multiprocessor"
-        ],
-        "correct_answer": "A) By limiting the number of threads"
+        "correct_answer": "Which of the following is a drawback of label encoding: a) it introduces artificial ordinality b) it is computationally expensive c) it only works for binary variables d) none of the above"
     }
 ]

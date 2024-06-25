@@ -2,22 +2,21 @@
 <html lang="en">
 
 <head>
-    <title>StudyWise</title>
-    <link rel="stylesheet" href="https://unpkg.com/plyr@3/dist/plyr.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
     <link rel="shortcut icon" href="{{ url_for('static', filename='assets/images/Studywise_Logo.png') }}" type="image/x-icon">
+    <title>StudyWise</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
     <link rel="stylesheet" href="{{ url_for('static', filename='css/homestyle.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/scrollbar.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/pop-up-style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/Avatar.css') }}">
 </head>
-
 <body>
     <div class="main-navbar">
         <img src="{{ url_for('static', filename='assets/images/Studywise_Logo.png') }}" alt="Studywise Logo" class="navbar-logo">
         <div class="navbar-btns">
-            <a href="/"><button>Home</button></a>
+            <a href="/home"><button>Home</button></a>
             <a href="/home"><button>Your Content</button></a>
             <a onclick="popupPrompt()"><button>Upload Material</button></a>
         </div>
@@ -75,10 +74,10 @@
     <div class="modal-content">
         <span class="close" onclick="closeModal()">&times;</span>
         <h2>Change Name</h2>
-         <label for="username">UserName</label>
+         <label for="username">Current name:</label>
     <span id="usernamelabel">{{ session['UserName'] }}</span>
         <form id="changeNameForm" method="post">
-            <label for="newName12">New Name:</label>
+            <label for="newName12">New name:</label>
             <input type="text" id="newName" name="newName"><br><br>
             <input type="submit" class="btn" value="Submit">
         </form>

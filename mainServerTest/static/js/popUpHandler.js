@@ -41,3 +41,58 @@ document.onkeydown = function(evt) {
 };
 
 // End of Popup Handling
+
+
+// Sidebar Viewer Handling
+function toggleFlashcards(btn) {
+    if (flashcardElement.style.display === 'none') {
+        sidebarViewerElement.style.display = 'flex';
+        flashcardElement.style.display = 'flex';
+        btn.classList.add('active');
+    } else {
+        flashcardElement.style.display = 'none';
+        btn.classList.remove('active');
+    }
+    if (flashcardElement.style.display == 'none' && summaryElement.style.display == 'none') {
+        console.log('Hiding Sidebar Viewer');
+        sidebarViewerElement.style.display = 'none';
+        document.getElementById('main-frame').style.maxWidth = '99%';
+    }
+    else {
+        sidebarViewerElement.style.display = 'flex';
+        console.log('Showing Sidebar Viewer');
+        document.getElementById('main-frame').style.maxWidth = '60%';
+    }
+}
+
+function toggleSummary(btn) {
+    if (summaryElement.style.display === 'none') {
+        sidebarViewerElement.style.display = 'flex';
+        summaryElement.style.display = 'block';
+        btn.classList.add('active');
+    } else {
+        summaryElement.style.display = 'none';
+        btn.classList.remove('active');
+    }
+    if (flashcardElement.style.display == 'none' && summaryElement.style.display == 'none') {
+        console.log('Hiding Sidebar Viewer');
+        sidebarViewerElement.style.display = 'none';
+        document.getElementById('main-frame').style.maxWidth = '99%';
+    }
+    else {
+        sidebarViewerElement.style.display = 'flex';
+        console.log('Showing Sidebar Viewer');
+        document.getElementById('main-frame').style.maxWidth = '60%';
+    }
+}
+
+document.getElementById('toggleButton').addEventListener('click', function() {
+    var videoIndexesDiv = document.getElementById('videoIndexes');
+    videoIndexesDiv.classList.toggle('expanded');
+    this.classList.toggle('collapsed');
+
+    if (document.getElementById('toggleButton').title == "Show Chapters")
+        document.getElementById('toggleButton').title = "Hide Chapters";
+    else 
+        document.getElementById('toggleButton').title = "Show Chapters";
+});

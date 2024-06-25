@@ -21,7 +21,13 @@ function openPasswordModal() {
 function closePasswordModal() {
     document.getElementById('PasswordModal').style.display = 'none';
 }
+
 $(document).ready(function() {
+
+    avatar = document.querySelector('.navbar-avatar-frame');
+    localStorage.getItem('UserName');
+    avatar.style.setProperty('--before-content', `'${localStorage.getItem('UserName')}'`);
+
     avatar.style.setProperty('--before-content', `'${session["UserName"]}'`);
     $('#changeNameForm').submit(function(event) {
         event.preventDefault(); // Prevent default form submission
@@ -114,6 +120,7 @@ document.getElementById('showNewPassword').addEventListener('change', function()
 document.getElementById('showConfirmPassword').addEventListener('change', function() {
     togglePasswordVisibility('confirmPassword');
 });
+
 $(document).ready(function() {
     $('#changePasswordForm').submit(function(event) {
         event.preventDefault(); // Prevent default form submission
@@ -142,6 +149,7 @@ $(document).ready(function() {
         });
     });
 });
+
 $(document).ready(function() {
     $('#deleteAccountBtn').click(function() {
         // Show confirmation dialog

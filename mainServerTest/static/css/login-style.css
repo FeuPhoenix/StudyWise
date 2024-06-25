@@ -84,7 +84,7 @@ button {
 }
 
 .navbar-logo {
-    height: 85px;
+    height: 90px;
     width: 100px;
     margin: 10px 0 0 10px;
     position: relative;
@@ -176,7 +176,7 @@ button {
     display: flex;
     flex-direction: column;
     width: 100%;
-    height: 100%;
+    height: max-content;
     flex-shrink: 0;
     transition: ease 150ms;
 
@@ -207,9 +207,10 @@ button {
     margin-top: 2%;
 }
 
-.main-div {
+.main-frame .login-div {
 	width: 400px;
 	height: 500px;
+    margin-bottom: 30px;
 	background: rgba(0, 0, 0, 0.3);
 	overflow: hidden;
 	border-radius: 10px;
@@ -219,7 +220,7 @@ button {
 #chk{
 	display: none;
 }
-.main-div label{
+.login-div label{
 	color: #fff;
 	font-size: 2em;
 	justify-content: center;
@@ -230,7 +231,7 @@ button {
 	transition: .5s ease-in-out;
     user-select: none;
 }
-.main-div input{
+.login-div input{
 	width: 60%;
 	height: 40px;
 	background: #e0dede;
@@ -242,7 +243,7 @@ button {
 	outline: none;
 	border-radius: 5px;
 }
-.main-div button{
+.login-div button{
 	width: 60%;
 	height: 50px;
 	margin: 10px auto;
@@ -259,31 +260,27 @@ button {
 	transition: .3s ease-in;
 	cursor: pointer;
 }
-.main-div button:hover{
+.login-div button:hover{
 	background: #1984c1;
 }
 
-.main-div .signin{
+.login-div .signin{
     position: relative;
 	width: 100%;
 	height: 100%;
     top: 20px;
     transition: .3s ease-in-out;
 }
-.main-div .signup label{
+.login-div .signup label{
     user-select: none;
 	color: #219ae0;
 	transform: scale(.6);
 }
-p {
-    color: #166a9b;
-    font-size: 20px;
-    
-  }
-.main-div .signup label:hover{
+
+.login-div .signup label:hover{
 	color: #166a9b;
 }
-.main-div .signup{
+.login-div .signup{
 	height: 460px;
 	background: #eee;
     box-shadow: rgb(156 40 75) 0px 0px 30px;
@@ -291,26 +288,26 @@ p {
 	transform: translateY(-100px);
 	transition: .3s ease-in-out;
 }
-.main-div #chk:checked ~ .signup{
+.login-div #chk:checked ~ .signup{
 	transform: translateY(-420px);
     box-shadow: rgb(156 40 75) 0px 0px 24px;
 }
-.main-div #chk:checked ~ .signup label{
+.login-div #chk:checked ~ .signup label{
     transform: scale(1);
 }
-.main-div #chk:checked ~ .signin label{
+.login-div #chk:checked ~ .signin label{
 	transform: scale(.6);
 }
-.main-div #chk:checked ~ .signin{
+.login-div #chk:checked ~ .signin{
 	transform: translateY(-20px);
 }
-.main-div #chk:checked ~ .signup .inputBox {
+.login-div #chk:checked ~ .signup .inputBox {
 	transform: translateY(-20px);
 }
-.main-div #chk:checked ~ .signup #signUpButton{
+.login-div #chk:checked ~ .signup #signUpButton{
 	transform: translateY(-20px);
 }
-.main-div #chk:checked ~ .signin #signInButton{
+.login-div #chk:checked ~ .signin #signInButton{
 	transform: translateY(-10px);
 }
 

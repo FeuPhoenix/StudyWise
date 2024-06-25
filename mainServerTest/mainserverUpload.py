@@ -54,11 +54,34 @@ def handle_disconnect():
     else : 
         print('\nSocketIO connection terminated\n')
 
-
-
 @app.route('/')
 def landing_page():
     return render_template('main_landing/index.html')
+
+@app.route('/FAQs')
+def faqs():
+    return render_template('main_landing/FAQs.html')
+
+@app.route('/plans')
+def plans():
+    return render_template('main_landing/plans.html')
+
+@app.route('/login')
+def login():
+    handle_connect()
+    return render_template('main_landing/login.html')
+
+@app.route('/log-out')
+def log_out():
+    handle_disconnect()
+    session.clear()
+    print('\n==============================================================\n',
+          '\n',
+          '\t\tCLEARED SESSION VARIABLES\n',
+          '\n',
+          '\n==============================================================\n')
+    
+    return redirect(url_for('login'))
 
 @app.route('/text-upload')
 def text_home():
@@ -90,23 +113,7 @@ def video_display():
 @cross_origin()
 def audio_display():
     return render_template('main_loggedin/view-audio.html')
-    
-@app.route('/login')
-def login():
-    handle_connect()
-    return render_template('main_landing/login.html')
 
-@app.route('/log-out')
-def log_out():
-    handle_disconnect()
-    session.clear()
-    print('\n==============================================================\n',
-          '\n',
-          '\t\tCLEARED SESSION VARIABLES\n',
-          '\n',
-          '\n==============================================================\n')
-    
-    return redirect(url_for('login'))
 @app.route('/change_name', methods=['POST'])
 def change_name():
    
@@ -127,6 +134,7 @@ def change_name():
             return jsonify({'success': False, 'error': str(e)}), 500
     else:
         return jsonify({'success': False, 'error': 'New name not provided'}), 400
+    
 @app.route('/change_password', methods=['POST'])
 def change_password():
     

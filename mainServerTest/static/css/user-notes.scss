@@ -86,13 +86,14 @@ a:focus {
 	border: 6px solid #4d4d4d;
 	border-radius: 10px;
 	background-color: rgba(255,255,255,1);
-	background: linear-gradient(135deg, rgba(255,255,255,1) 0%, rgba(235,235,235,1) 47%, rgba(222,222,222,1) 100%);
+	background: rgba(222,222,222,1);
 
 	max-height: 842px;
 	padding: 100px 30px 30px;
 	margin: 30px 10px 10px;
 	overflow-y: auto;
 	@extend .noflick;
+	transition: background ease-in-out 0.3s;
 }
 #board::-webkit-scrollbar
 {
@@ -130,6 +131,7 @@ a:focus {
 	position: relative;
 	padding: 1em;
 	width: 300px;
+	height: 320px;
 	margin: 0 15px 30px 15px;
 	background: linear-gradient(to bottom, rgba(0,0,0,.05), rgba(0,0,0,.1));
 	background-color: #FFFD75;
@@ -137,6 +139,7 @@ a:focus {
 	transition: scale .3s;
 	z-index: 1;
 	@extend .noflick;
+	transition: opacity ease-in-out 0.3s;
 
 	&:hover {
 		box-shadow: 5px 5px 15px 0 rgba(0,0,0,.3);
@@ -152,6 +155,7 @@ a:focus {
     	font-weight: 600;
 		width: 100%;
     	max-height: 200px;
+		text-align: unset;
 		padding: 5px;
     	scrollbar-width: none;
 		&:focus {
@@ -288,7 +292,7 @@ a:focus {
 .save-loader {
 	position: absolute;
     top: 20px;
-    right: 320px;
+    right: 370px;
 	user-select: none;
 
 	width: 36px;
@@ -308,26 +312,26 @@ a:focus {
 
 .saved {
 	position: absolute;
-    top: 36px;
-    right: 325px;
+    top: 39px;
+    right: 375px;
 	user-select: none;
 
 	color: limegreen;
 	font-weight: 900;
 }
 
-.modal {
+.rm-note-modal {
     display: none; /* Hidden by default */
     position: absolute; /* Stay in place */
     z-index: 1000; /* Sit on top */
     left: 0;
     top: 0;
     width: 100%; /* Full width */
-    height: 842px; /* Full height */
+    height: 999%; /* Full height */
     background-color: rgba(0,0,0,0.4); /* Black background with opacity */
 }
 
-.modal-content {
+.rm-note-modal-content {
     background-color: #2C3E50;
     margin: 15% auto; /* 15% from the top and centered */
     padding: 20px;
@@ -339,11 +343,11 @@ a:focus {
     position: relative;
 }
 
-.modal-content p {
+.rm-note-modal-content p {
     margin: 15px 0;
 }
 
-.modal-content button {
+.rm-note-modal-content button {
 	font-weight: bold;
     background-color: #506387;
     color: white;
@@ -361,6 +365,52 @@ a:focus {
 	}
 }
 
-.modal-content button:hover {
+.rm-note-modal-content button:hover {
     background-color: #3E4E5E;
+}
+
+/* Dark theme btn for Noteboard */
+#NB-theme {
+	display: flex;
+    position: absolute;
+    top: 17.5px;
+    right: 325px;
+    user-select: none;
+
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 40px;
+    margin-left: -100%;
+    float: inline-end;
+    border-radius: 50%;
+    opacity: 0.5;
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out;
+    z-index: 99;
+    border: none;
+    font-size: 32px;
+}
+#NB-theme:hover {
+	opacity: 0.9;
+}
+#NB-theme i {
+    transition: transform 0.2s ease-in-out;
+}
+#NB-theme:hover i {
+    transform: rotateY(180deg);
+    transition: transform 0.2s ease-in-out;
+}
+
+/* Dark theme for Noteboard */
+.NB-dark {
+    background: #0d121b !important;
+    color: #f4eeed !important;
+	transition: background ease-in-out 0.3s;
+}
+
+/* Dark theme for Notes */
+.note.dark {
+	opacity: 0.7 !important;
+	transition: opacity ease-in-out 0.3s;
 }
