@@ -16,7 +16,7 @@ from moviepy.editor import VideoFileClip
 from backend.Classes.Flash_Cards_Repo import Flash_Cards
 from backend.Classes.Questions_Repo import Questions_Repo
 from backend.Classes.FirestoreDB import FirestoreDB
-from backend.Classes.audiocutter import audiocutter
+from backend.Classes.audiocutter import runaudiocutter
 # from Flash_Cards_Repo import Flash_Cards
 # from Questions_Repo import Questions_Repo
 # from FirestoreDB import FirestoreDB
@@ -407,7 +407,7 @@ class VideoProcessed_Repo:
                         self.file_path = self.material.replace(" ", "_")
                         os.rename(self.material, self.file_path)
                         print(self.file_path)
-                        self.file_path = audiocutter(self.file_path)
+                        self.file_path = runaudiocutter(self.file_path)
                         print("Video Cut output file: " + self.file_path)
                         video = mp.VideoFileClip(self.file_path)
                     else:
