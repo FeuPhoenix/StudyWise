@@ -59,7 +59,7 @@ def landing_page():
 
 @app.route('/FAQs')
 def faqs():
-    return render_template('main_landing/FAQs.html')
+    return render_template('main_landing/FAQ.html')
 
 @app.route('/plans')
 def plans():
@@ -98,9 +98,6 @@ def process_video_link(link):
     print('Link to process:', link)
 
     return render_template('main_loggedin/upload-video-based.html')
-@app.route('/FAQ')
-def FAQ():
-    return render_template('main_loggedin/FAQ.html')
 
 @app.route('/pdf-display')
 def pdf_display():
