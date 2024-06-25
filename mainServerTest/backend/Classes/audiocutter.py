@@ -61,7 +61,7 @@ INPUT_FILE = "mainServerTest/assets/input_files/video/Speech_to_Text_using_Pytho
 start_time = time.time()
 def getFileNameFromPathWithOutExtension(input_string):
     # Find the last occurrence of '/'
-        last_slash_index = input_string.rfind('/')
+        last_slash_index = input_string.rfind('\\')
         
         # Slice the string from the character after the last '/'
         # If '/' is not found, rfind returns -1, and slicing starts from index 0

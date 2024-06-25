@@ -554,12 +554,12 @@ class VideoProcessed_Repo:
         except Exception as e:
             print(e)
 
-def main():
-    a = VideoProcessed_Repo("C:/Users/Abdelrahman/Downloads/Coding_Basics_-_Variables_-_Programming_for_Beginners.mp4","0GKTloo0geWML96tvd9g27C99543",True)
-    a.Video_Processing()
-    print(a.file_name)
+# def main():
+#     a = VideoProcessed_Repo("C:/Users/Abdelrahman/Downloads/Coding_Basics_-_Variables_-_Programming_for_Beginners.mp4","0GKTloo0geWML96tvd9g27C99543",True)
+#     a.Video_Processing()
+#     print(a.file_name)
 
-if __name__ == '__main__':
-    main()
+# if __name__ == '__main__':
+#     main()
 
      

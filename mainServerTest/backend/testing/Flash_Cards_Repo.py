@@ -319,7 +319,7 @@ class Flash_Cards:
             user_prompt = {"role": "user", "content": prompt_content + ": " + batch}
 
             print("This is the user prompt that will be sent: Prompt Content:y\n" + prompt_content + "\nBatch:\n" + batch)
-
+            print("sending prompt: " + prompt_content + "\n user_prompt:\n" + user_prompt)
             prompt = [system_prompt, user_prompt]
             try:
                 response = openai.ChatCompletion.create(model="gpt-3.5-turbo", messages=prompt)
