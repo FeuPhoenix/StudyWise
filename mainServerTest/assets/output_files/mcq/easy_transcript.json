@@ -1,102 +1,202 @@
 [
     {
-        "question": "What is the deep knee bend exercise primarily known for targeting?",
+        "question": "1. What are variables in computer science?",
         "options": [
-            "Glutes",
-            "Hamstrings",
-            "Quads",
-            "Calves"
+            "D) None of the above",
+            "B) Boxes used for packing items",
+            "A) Storage locations with assigned names",
+            "C) Data types in programming"
         ],
-        "correct_answer": "Glutes"
+        "correct_answer": "D) None of the above"
     },
     {
-        "question": "How does elevating the heels during deep knee bends affect the movement?",
+        "question": "2. What determines the type of data a variable can hold?",
         "options": [
-            "Concentrates stress in the quads",
-            "Increases stress on the back",
-            "Decreases stress on the knees",
-            "Concentrates stress in the core"
+            "C) Values",
+            "A) Data type",
+            "B) Names",
+            "D) Categories"
         ],
-        "correct_answer": "Concentrates stress in the quads"
+        "correct_answer": "C) Values"
     },
     {
-        "question": "What is the main benefit of slowly building up to deep knee bends?",
+        "question": "3. Which of the following is a data type in Java?",
         "options": [
-            "Targeting different muscle groups",
-            "Increasing flexibility",
-            "Building endurance",
-            "Avoiding injury"
+            "D) Jellyfish",
+            "C) Purple",
+            "B) Pizza",
+            "A) Integer"
         ],
-        "correct_answer": "Targeting different muscle groups"
+        "correct_answer": "D) Jellyfish"
     },
     {
-        "question": "What is connective tissue's response to training stress?",
+        "question": "4. What is the first step in creating a variable?",
         "options": [
-            "Breakdown",
-            "Shrinking",
-            "Stiffening",
-            "Strengthening"
+            "C) Giving it a name",
+            "D) None of the above",
+            "B) Declaring its data type",
+            "A) Assigning a value"
         ],
-        "correct_answer": "Breakdown"
+        "correct_answer": "C) Giving it a name"
     },
     {
-        "question": "Which group of athletes have historically used deep knee bends as part of their training regimen?",
+        "question": "5. Why is it important to use meaningful names for variables?",
         "options": [
-            "Gymnasts",
-            "Indian wrestlers",
-            "Swimmers",
-            "Soccer players"
+            "D) None of the above",
+            "C) To make grandma's cake",
+            "B) To easily identify the use of the variable",
+            "A) To confuse others"
         ],
-        "correct_answer": "Gymnasts"
+        "correct_answer": "D) None of the above"
     },
     {
-        "question": "How does the deep knee bend compare to regular bodyweight squats in terms of muscle growth?",
+        "question": "6. Can a variable be declared without a value?",
         "options": [
-            "More efficient",
-            "Less efficient",
-            "Not mentioned in the video",
-            "No difference"
+            "A) Yes",
+            "D) Not sure",
+            "B) No",
+            "C) Maybe"
         ],
-        "correct_answer": "More efficient"
+        "correct_answer": "A) Yes"
     },
     {
-        "question": "What is the main focus of deep knee bends as an exercise?",
+        "question": "7. How do you change the value of a variable?",
         "options": [
-            "Muscle growth",
-            "Endurance",
-            "Flexibility",
-            "Conditioning"
+            "B) Keep the original value",
+            "D) None of the above",
+            "C) Delete the variable",
+            "A) Reassign it with a new value"
         ],
-        "correct_answer": "Muscle growth"
+        "correct_answer": "B) Keep the original value"
     },
     {
-        "question": "Which joint does the deep knee bend primarily target?",
+        "question": "8. What is the purpose of declaring a variable?",
         "options": [
-            "Shoulder",
-            "Knee",
-            "Hip",
-            "Elbow"
+            "B) To store data",
+            "A) To confuse programmers",
+            "D) None of the above",
+            "C) To buy groceries"
         ],
-        "correct_answer": "Shoulder"
+        "correct_answer": "B) To store data"
     },
     {
-        "question": "What is the potential benefit of deep knee bends for building resilient legs?",
+        "question": "9. What are some examples of data types?",
         "options": [
-            "Decreased stability",
-            "None of the above",
-            "Stronger knees",
-            "Increased risk of injury"
+            "A) Integer, character, byte, string",
+            "B) Pizza, soda, ice cream",
+            "C) Blue, green, red",
+            "D) Dog, cat, fish"
         ],
-        "correct_answer": "Decreased stability"
+        "correct_answer": "A) Integer, character, byte, string"
     },
     {
-        "question": "What component of training is emphasized to avoid injury while performing deep knee bends?",
+        "question": "10. How do you use variables in programming?",
         "options": [
-            "Precision",
-            "Volume",
-            "Proper form",
-            "Intensity"
+            "C) Recycle them",
+            "D) All of the above",
+            "B) Delete them",
+            "A) Replace override values"
         ],
-        "correct_answer": "Precision"
+        "correct_answer": "C) Recycle them"
+    },
+    {
+        "question": "1. What is the capital of the United States?",
+        "options": [
+            "D) Chicago",
+            "B) Los Angeles",
+            "C) Washington D.C.",
+            "A) New York City"
+        ],
+        "correct_answer": "D) Chicago"
+    },
+    {
+        "question": "2. What is the largest planet in our solar system?",
+        "options": [
+            "D) Venus",
+            "C) Jupiter",
+            "A) Earth",
+            "B) Mars"
+        ],
+        "correct_answer": "D) Venus"
+    },
+    {
+        "question": "3. What is the main function of the heart in the human body?",
+        "options": [
+            "A) Pumping blood",
+            "C) Controlling breathing",
+            "B) Digesting food",
+            "D) Thinking"
+        ],
+        "correct_answer": "A) Pumping blood"
+    },
+    {
+        "question": "4. How many continents are there on Earth?",
+        "options": [
+            "C) 7",
+            "B) 6",
+            "D) 8",
+            "A) 5"
+        ],
+        "correct_answer": "C) 7"
+    },
+    {
+        "question": "5. Which of the following is not a primary color?",
+        "options": [
+            "D) Yellow",
+            "B) Blue",
+            "A) Red",
+            "C) Green"
+        ],
+        "correct_answer": "D) Yellow"
+    },
+    {
+        "question": "6. What is the capital of France?",
+        "options": [
+            "C) Paris",
+            "D) London",
+            "B) Madrid",
+            "A) Berlin"
+        ],
+        "correct_answer": "C) Paris"
+    },
+    {
+        "question": "7. What is the largest ocean on Earth?",
+        "options": [
+            "B) Indian Ocean",
+            "A) Atlantic Ocean",
+            "D) Pacific Ocean",
+            "C) Arctic Ocean"
+        ],
+        "correct_answer": "B) Indian Ocean"
+    },
+    {
+        "question": "8. What is the freezing point of water in degrees Celsius?",
+        "options": [
+            "D) 50\u00b0C",
+            "C) -10\u00b0C",
+            "B) 100\u00b0C",
+            "A) 0\u00b0C"
+        ],
+        "correct_answer": "D) 50\u00b0C"
+    },
+    {
+        "question": "9. What is the main gas that makes up the Earth's atmosphere?",
+        "options": [
+            "C) Nitrogen",
+            "D) Hydrogen",
+            "B) Carbon Dioxide",
+            "A) Oxygen"
+        ],
+        "correct_answer": "C) Nitrogen"
+    },
+    {
+        "question": "10. What is the primary function of the lungs in the human body?",
+        "options": [
+            "A) Pumping blood",
+            "D) Filtering waste",
+            "C) Digesting food",
+            "B) Breathing"
+        ],
+        "correct_answer": "A) Pumping blood"
     }
 ]

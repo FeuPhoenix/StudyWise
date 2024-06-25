@@ -400,9 +400,16 @@ class VideoProcessed_Repo:
                 self.meta_data = VideoProcessed_Repo.get_video_metadata(self.material)
                 if VideoProcessed_Repo.check_value_exists_in_VideoMaterial(self.user_ID,self.meta_data):
 
-                    
-                    self.file_path = self.material
-                    video = mp.VideoFileClip(self.file_path)
+                    if self.Video_Cut:
+                        self.file_path = self.material.replace(" ", "_")
+                        os.rename(self.material, self.file_path)
+                        print(self.file_path)
+                        self.file_path = runaudiocutter(self.file_path)
+                        print("Video Cut output file: " + self.file_path)
+                        video = mp.VideoFileClip(self.file_path)
+                    else:
+                        self.file_path = self.material
+                        video = mp.VideoFileClip(self.file_path)
 
                     self.file_name = VideoProcessed_Repo.getFileNameFromPathWithOutExtension(self.file_path)
                     print("Video name: "+self.file_name)
@@ -555,7 +562,7 @@ class VideoProcessed_Repo:
             print(e)
 
 def main():
-    a = VideoProcessed_Repo("C:/Users/Abdelrahman/Downloads/Coding_Basics_-_Variables_-_Programming_for_Beginners.mp4","0GKTloo0geWML96tvd9g27C99543",True)
+    a = VideoProcessed_Repo("C:/Users/Abdelrahman/Downloads/The_Four_Industrial_Revolutions_Explained_In_Under_4_Minutes!_#industry4_#smartmanufacturing.mp4","0GKTloo0geWML96tvd9g27C99543",True)
     a.Video_Processing()
     print(a.file_name)
 

@@ -49,7 +49,7 @@ def deletePath(s): # Dangerous! Watch out!
 
 def getFileNameFromPath(input_string):
     # Find the last occurrence of '/'
-    last_slash_index = input_string.rfind('/')
+    last_slash_index = input_string.rfind('\\')
     
     # Slice the string from the character after the last '/'
     # If '/' is not found, rfind returns -1, and slicing starts from index 0
