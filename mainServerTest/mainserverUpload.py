@@ -174,7 +174,6 @@ def home():
 
 @app.route('/get-user-name-JSON', methods=['POST'])
 def get_user_name_JSON():
-    # return jsonify({'userName':f'{session['UserName']}'})
     return jsonify({'userName': f"{session['UserName']}"})
 
 @app.route('/load-user-content-JSON', methods=['POST'])
@@ -196,9 +195,7 @@ def load_user_content_JSON():
         
         else : 
             print('\n==============================USER CONTENT================================\n',
-                #  f'\t\tName: {session['userName']}\n',
-                f'\t\tName: {session["UserName"]}\n',
-
+                 f'\t\tName: {session["UserName"]}\n',
                  f'\t\tNO USER CONTENT FOUND',
                   '\n================================USER CONTENT==============================\n')
             
