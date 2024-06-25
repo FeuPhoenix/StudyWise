@@ -1,22 +1,9 @@
 import subprocess
 import uuid
 from datetime import datetime
-from firebase_admin import firestore, credentials, initialize_app, storage
-import json
-import time
-import openai
-import re
-import pdfplumber
-import os
 from pptx import Presentation
-from io import BytesIO
-from PIL import Image
 from docx import Document
 import requests
-# from summarizer import Summarizer
-import fitz  # PyMuPDF
-import comtypes.client
-
 from backend.Classes.DocumentProcessed_Repo import DocumentProcessed
 from backend.Classes.FirestoreDB import FirestoreDB
 

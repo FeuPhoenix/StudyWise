@@ -1,6 +1,5 @@
 import smtplib
 from flask import Flask, jsonify, render_template, request, send_from_directory, url_for, redirect, session
-import socket
 from config import socketio
 import os
 from werkzeug.utils import secure_filename
@@ -99,6 +98,9 @@ def process_video_link(link):
     print('Link to process:', link)
 
     return render_template('main_loggedin/upload-video-based.html')
+@app.route('/FAQ')
+def FAQ():
+    return render_template('main_loggedin/FAQ.html')
 
 @app.route('/pdf-display')
 def pdf_display():

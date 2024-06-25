@@ -350,7 +350,6 @@ class VideoProcessed_Repo:
         while True:
             try:
                         openai.api_key =os.getenv('OPENAI_API_KEY')
-                        # openai.api_key ="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"
 
                          
                         response = openai.ChatCompletion.create(
