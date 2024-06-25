@@ -1,35 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
+        <link rel="shortcut icon" href="{{ url_for('static', filename='assets/images/Studywise_Logo.png') }}" type="image/x-icon">
         <title>StudyWise - Smart Tutoring Platform</title>
         
-        <link rel="shortcut icon" href="{{ url_for('static', filename='assets/images/Studywise_Logo.png') }}" type="image/x-icon">
         <link rel="stylesheet" href="https://unpkg.com/plyr@3/dist/plyr.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
         <link rel="stylesheet" href="{{ url_for('static', filename='css/homestyle.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/pop-up-style.css') }}">
         <link rel="stylesheet" href="{{ url_for('static', filename='css/landingpage.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/pop-up-style.css') }}">
         <link rel="stylesheet" href="{{ url_for('static', filename='css/pop-up-style.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/pop-up-style.css') }}">
-
-        <!-- <link rel="shortcut icon" href="C:\Users\AMR\Desktop\Graduation Project\StudyWise\mainServerTest\frontend\main_loggedin\assets\images\Studywise_Logo.png" type="image/x-icon">
-        <link rel="stylesheet" href="https://unpkg.com/plyr@3/dist/plyr.css">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-        <link rel="stylesheet" href="C:\Users\AMR\Desktop\Graduation Project\StudyWise\mainServerTest\static\css\homestyle.css">
-        <link rel="stylesheet" href="C:\Users\AMR\Desktop\Graduation Project\StudyWise\mainServerTest\static\css\landingpage.css">                      -->
     </head>
+
     <body>
         <div class="main-navbar">
             <img src="{{ url_for('static', filename='assets/images/Studywise_Logo.png') }}" alt="Studywise Logo" class="navbar-logo">
             <div class="navbar-btns">
                 <a href="/"><button>Home</button></a>
-                <!-- onclick="popupPrompt()" -->
-                <a href="/login" ><button>Upload Material</button></a>
-                <a href="" ><button >Reviews</button></a>    
+                <a href="/plans"><button>Plans</button></a>
+                <a href="/FAQs" ><button>FAQs</button></a>    
             </div>
-            <a href="/login"><button style="border-top-right-radius: 30px; border-bottom-right-radius: 30px;">SignUp/Login</button></a>
+            <a href="/login" style="width: 180px;"><button>Sign up/Login</button></a>
         </div> 
     <main>
         <div class="content-container">
@@ -37,13 +28,12 @@
             <div class="section image-column">
                 <img src="{{ url_for('static', filename='assets/images/Brain.png') }}" alt="Brain">
                 <h2>WHY USE STUDYWISE?</h2>
-                <p>Study Wise offers a multifaceted solution to enhance your studying experience. By harnessing cutting-edge technology, it simplifies the learning process, providing automatic question generation, concise summaries, and interactive flashcards. With Study Wise, studying becomes more efficient and engaging, catering to diverse learning styles and empowering users to achieve academic success.</p>
-    
+                <p>StudyWise offers a multifaceted solution to enhance your studying experience. By harnessing cutting-edge technology, it simplifies the learning process, providing automatic question generation, concise summaries, and interactive flashcards. With Study Wise, studying becomes more efficient and engaging, catering to diverse learning styles and empowering users to achieve academic success.</p>
             </div>
     
             <div class="section text-column">
                 <h1>STUDYWISE</h1>
-                <p>Study Wise is a dynamic platform designed to revolutionize the way you study. Offering a versatile array of features, it enables users to upload various study materials, including videos, documents, and presentations. Through the power of AI, Study Wise generates interactive study aids such as questions at different difficulty levels, flashcards, summaries, and more, tailored to your learning needs.</p>
+                <p>StudyWise is a dynamic platform designed to revolutionize the way you study. Offering a versatile array of features, it enables users to upload various study materials, including videos, documents, and presentations. Through the power of AI, Study Wise generates interactive study aids such as questions at different difficulty levels, flashcards, summaries, and more, tailored to your learning needs.</p>
                 <img src="{{ url_for('static', filename='assets/images/3') }}.png" alt="Lots of Books">
             </div>
     

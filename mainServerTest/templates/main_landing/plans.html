@@ -1,0 +1,104 @@
+<html>
+    <head>
+        <link rel="shortcut icon" href="{{ url_for('static', filename='assets/images/Studywise_Logo.png') }}" type="image/x-icon">
+        <title>StudyWise - Plans</title>
+
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/login-style.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/plans-style.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/scrollbar.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/pop-up-style.css') }}">
+    </head>
+    
+    <body>
+        <div class="page-content">
+            <div class="main-frame">
+
+                <img src="{{ url_for('static', filename='assets/images/Studywise_Logo.png') }}" alt="Studywise Logo" class="navbar-logo">
+
+                <div class="landing-navbar">
+                    <div class="navbar-btns">
+                        <a href="/"><button>HOME</button></a>
+                        <a href="/plans"><button>PLANS</button></a>
+                        <a href="/FAQs"><button>FAQs</button></a>
+                        <a href="login"><button>Sign up/Login</button></a>
+                    </div> 
+                </div>
+
+                <div class="inner-frame">
+                    <div class="plans">
+                        <h2 class="text-center">Choose your plan</h2>
+                    
+                        <div class="pricing-box-container">
+                            <div class="pricing-box text-center">
+                                <h5>Free</h5>
+                                <p class="price"><sup>$</sup>0<sub>/mo</sub></p>
+                                <ul class="features-list">
+                                    <li><strong>5</strong> Documents</li>
+                                    <li><strong>3</strong> Videos</li>
+                                    <li><strong>7 Days</strong> Storage<h6 style="margin:0px">For unused content</h6></li>
+                                    <li><strong>5</strong> Content Regenerations</li>
+                                </ul>
+                                <button class="btn-primary">Get Started</button>
+                            </div>
+                    
+                            <div class="pricing-box pricing-box-bg text-center">
+                                <h5>Premium</h5>
+                                <p class="price"><sup>$</sup>4.99<sub>/mo</sub></p>
+                                <ul class="features-list">
+                                    <li><strong>Unlimited</strong> Documents</li>
+                                    <li><strong>15</strong> Videos</li>
+                                    <li><strong>1 Month</strong> Storage<h6 style="margin:0px">For unused content</h6></li>
+                                    <li><strong>50</strong> Content Regenerations</li>
+                                </ul>
+                                <button class="btn-primary">Get Started</button>
+                            </div>
+                    
+                            <div class="pricing-box-bg-image pricing-box text-center">
+                                <h5>Platinum</h5>
+                                <p class="price"><sup>$</sup>14.99<sub>/mo</sub></p>
+                                <ul class="features-list">
+                                    <li><strong>Unlimited</strong> Documents</li>
+                                    <li><strong>Unlimited</strong> Videos</li>
+                                    <li><strong>1 Year</strong> Storage<h6 style="margin:0px">For unused content</h6></li>
+                                    <li><strong>Unlimited</strong> Content Regenerations</li>
+                                </ul>
+                                <button class="btn-primary">Get Started</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> <!-- Main Frame end -->
+        </div>
+
+        <div id="popup-overlay" class="popup-overlay">
+            <div class="popup-prompt">
+                <button class="close-btn" onclick="closePopup()">&times;</button>
+                <div class="popup-content">
+                    <h2>What kind of file do you want to upload?</h2>
+                    <button onclick="chooseOption('text')">Text-based</button>
+                    <button onclick="chooseOption('video')">Video-based</button>
+                    <input type="text" placeholder="Insert YouTube video URL" id="YT_link">
+                    <button type="submit" onclick="chooseOption('link')">Send Link</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="forgotPasswordModal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeForgotPasswordModal()">&times;</span>
+                <h2>Forgot Password</h2>
+                <form id="forgotPasswordForm">
+                    <label for="email">Enter your email:</label>
+                    <input type="email" id="email" name="email" required><br><br>
+                    <button type="submit">Submit</button>
+                </form>
+                <p id="passwordDisplay"></p>
+            </div>
+        </div>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+        <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+
+        <script src="{{ url_for('static', filename='js/loginWithPy.js') }}"></script>
+    </body>
+</html>

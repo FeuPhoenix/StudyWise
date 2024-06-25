@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", function() {
         document.getElementById("content-title").innerHTML = fileName;
         
         console.log('Fetching ' +fileName+ '\'s processed files');
-        fetch('http://127.0.0.1:5000/load-document-content', {
+        fetch('/load-document-content', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -44,7 +44,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 // NOTE: FLASHCARD FETCH CODE IS IN THE FLASHCARDSV1_JS FILE
         
                 document.getElementById('loaderOverlay').style.display = 'none';
-                document.getElementsByTagName("html")[0].style.overflowY = 'auto';
+                document.getElementsByTagName("html")[0].classList.remove('locked');
 
             } else {
                 console.log("No input file provided.");

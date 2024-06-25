@@ -1,9 +1,8 @@
 let urlParams = new URLSearchParams(window.location.search);
 const Youtube = /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.?be)\/.+$/;
+const fileName = urlParams.get('fileName');
 
 document.addEventListener("DOMContentLoaded", function() {
-    const fileName = urlParams.get('fileName');
-
     const player = new Plyr('#video', {captions: {active: true}});
 
     const audioplayer = new Plyr('#audio', {});
@@ -13,7 +12,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
         console.log('Fetching ' +fileName+ '\'s processed files');
 
-        fetch('http://127.0.0.1:5000/load-video-content', {
+        fetch('/load-video-content', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -41,6 +40,7 @@ document.addEventListener("DOMContentLoaded", function() {
             // console.log('Video Summary:', sessionStorage.getItem('loadedVideoSummary'));
             // console.log('Video Chapters:', sessionStorage.getItem('loadedVideoChapters'));
             // console.log('Video Flashcards:', sessionStorage.getItem('loadedFlashcards'));
+            console.log('Loaded MCQ E: ', sessionStorage.getItem('loadedMCQ_E'));
 
             const videoURL = sessionStorage.getItem('loadedVideoLink')
             if (videoURL) { // Load the video content that is received
@@ -67,7 +67,7 @@ document.addEventListener("DOMContentLoaded", function() {
                             },
                         ],
                     };
-                    document.getElementById('transcript').innerHTML = (sessionStorage.getItem('Transcript'));
+                    document.getElementById('TC-text').innerHTML = (sessionStorage.getItem('Transcript'));
                 }
                 else {
                     // Use videoURL for the Video source
@@ -105,20 +105,20 @@ document.addEventListener("DOMContentLoaded", function() {
                 // NOTE: FLASHCARD FETCH CODE IS IN THE FLASHCARDSV1_JS FILE
             
                 // Fetch video chapters and map them into html element
-                try { 
-                        const chaptersData = JSON.parse(sessionStorage.getItem('loadedVideoChapters'));
-                        console.log('Mapping Chapters into element');
-                        const indexesArray = chaptersData.map(obj => {
-                            const startValue = String(obj.start);
-                            const endValue = String(obj.end);
-                            let conciseTitleValue = String(obj.concise_title);
-                        
-                            if (conciseTitleValue.startsWith("Title: ")) {
-                                conciseTitleValue = conciseTitleValue.slice(7); // Remove "Title: "
-                            }
-                        
-                            return startValue + ' - ' + endValue + '\n' + conciseTitleValue;
-                        });
+                try {
+                    const chaptersData = JSON.parse(sessionStorage.getItem('loadedVideoChapters'));
+                    console.log('Mapping Chapters into element');
+                    const indexesArray = chaptersData.map(obj => {
+                        const startValue = String(obj.start);
+                        const endValue = String(obj.end);
+                        let conciseTitleValue = String(obj.concise_title);
+                    
+                        if (conciseTitleValue.startsWith("Title: ")) {
+                            conciseTitleValue = conciseTitleValue.slice(7); // Remove "Title: "
+                        }
+                    
+                        return startValue + ' - ' + endValue + '\n' + conciseTitleValue;
+                    });
                 
                     console.log("indexesArray:", indexesArray);
                 
@@ -130,7 +130,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 }
 
                 document.getElementById('loaderOverlay').style.display = 'none';
-                document.getElementsByTagName("html")[0].style.overflowY = 'auto';
+                document.getElementsByTagName("html")[0].classList.remove('locked');
                 
             } else {
                 console.log("No input file provided.");
@@ -141,6 +141,10 @@ document.addEventListener("DOMContentLoaded", function() {
             console.error('Error fetching JSON:', error);
         });
     }
+
+    document.getElementById('TC-theme').addEventListener('click', function() {
+        document.getElementById('transcript').classList.toggle('TC-dark');
+    });
 });
 
 function toggleAudio() {
@@ -171,16 +175,23 @@ function toggleAudio() {
     }
 }
 
+transcriptElement = document.getElementById('transcript');
+themeBTN = document.getElementById('TC-theme');
+
 function toggleTranscript(btn) {
-    transcriptElement = document.getElementById('transcript');
     if (transcriptElement.style.display === 'none') {
         transcriptElement.style.display = 'block';
+        themeBTN.style.display = 'flex';
         btn.classList.add('active');
     } else {
         transcriptElement.style.display = 'none';
+        themeBTN.style.display = 'none';
         btn.classList.remove('active');
     }
 }
+
+var flashcardElement = document.querySelector('.FC-container');
+var sidebarViewerElement = document.getElementById('sidebarViewer');
 
 function toggleFlashcards(btn) {
     if (flashcardElement.style.display === 'none') {
@@ -195,13 +206,17 @@ function toggleFlashcards(btn) {
         console.log('Hiding Sidebar Viewer');
         sidebarViewerElement.style.display = 'none';
         document.getElementById('main-frame').style.maxWidth = '99%';
+        transcriptElement.classList.add('large');
     }
     else {
         sidebarViewerElement.style.display = 'flex';
         console.log('Showing Sidebar Viewer');
         document.getElementById('main-frame').style.maxWidth = '60%';
+        transcriptElement.classList.remove('large');
     }
 }
+
+var summaryElement = document.getElementById('summary');
 
 function toggleSummary(btn) {
     if (summaryElement.style.display === 'none') {
@@ -213,14 +228,34 @@ function toggleSummary(btn) {
         btn.classList.remove('active');
     }
     if (flashcardElement.style.display == 'none' && summaryElement.style.display == 'none') {
-        console.log('Hiding Sidebar Viewer');
+        // Hiding Sidebar Viewer
         sidebarViewerElement.style.display = 'none';
         document.getElementById('main-frame').style.maxWidth = '99%';
+        transcriptElement.classList.add('large');
     }
     else {
+        // Showing Sidebar Viewer
         sidebarViewerElement.style.display = 'flex';
-        console.log('Showing Sidebar Viewer');
         document.getElementById('main-frame').style.maxWidth = '60%';
+        transcriptElement.classList.remove('large');
+    }
+}
+
+
+function toggleSideViewer(btn) {
+    if (sidebarViewerElement.style.display == 'flex') {
+        // Hiding Sidebar Viewer
+        sidebarViewerElement.style.display = 'none';
+        document.getElementById('main-frame').style.maxWidth = '99%';
+        transcriptElement.classList.add('large');
+        btn.classList.add('collapsed');
+    }
+    else {
+        // Showing Sidebar Viewer
+        sidebarViewerElement.style.display = 'flex';
+        document.getElementById('main-frame').style.maxWidth = '60%';
+        transcriptElement.classList.remove('large');
+        btn.classList.remove('collapsed');
     }
 }
 
@@ -246,7 +281,7 @@ function goToChat() {
 }
 
 function goToMCQ() {
-    if (videoName) {
+    if (fileName) {
         window.location.href = `/mcq`;
     } else {
         console.error("No video name found in sessionStorage");

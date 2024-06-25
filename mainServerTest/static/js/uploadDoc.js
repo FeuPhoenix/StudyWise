@@ -13,7 +13,7 @@ function handleFileSelection() {
     
     // Check if a file is selected
     if (input.files.length > 0) {
-        console.log('Ready to upload file!');
+        console.log('Ready to upload document!');
         // Get the first selected file
 
         chosenFileLabel.textContent = 'Selected File: ' + chosenFile.name;
@@ -32,7 +32,7 @@ document.getElementById('uploadForm').addEventListener('submit', function(e) {
     var form = document.getElementById('uploadForm');
     var formData = new FormData(form);
 
-    // Append additional data
+    // Append File type
     formData.append('FileType', 'document');
 
     fetch('/upload-file', {
@@ -49,7 +49,7 @@ document.getElementById('uploadForm').addEventListener('submit', function(e) {
 
             fetch('/filename', {
                 method: 'POST',
-                body: JSON.stringify({ filename: fileName, fileType: 'document' }),
+                body: JSON.stringify({ filename: fileName }),
                 headers: {
                     'Content-Type': 'application/json'
                 }

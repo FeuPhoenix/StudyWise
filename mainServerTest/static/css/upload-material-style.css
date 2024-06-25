@@ -1,6 +1,6 @@
-@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;900;1000&display=swap');html {
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;900;1000&display=swap');
+html {
     font-family: 'Cairo', sans-serif;
-    font-size: 21;
     line-height: 2rem;
 }
 
@@ -19,6 +19,7 @@ body {
     font-size: var(--primaryFontSize);
     color: var(--primaryFontColor);
     font-weight: 400;
+    cursor: url('http://upload.wikimedia.org/wikipedia/commons/d/de/POL_apple.jpg'), auto;
 }
 
 button {
@@ -31,71 +32,6 @@ button {
     color: var(--primaryFontColor);
 }
 
-.main-navbar{
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    margin: auto;
-    margin-top: 2%;
-    width: 85%;
-    height: 60px;
-    
-    background: linear-gradient(#023D98, #040F22, #022964);
-    border: solid 2px #506387;
-    border-radius: 30px;
-}
-
-.navbar-logo {
-    height: 100px;
-    position: relative;
-    display: inline-block;
-}
-
-.navbar-btns {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    justify-content: space-between;
-    
-    position: relative;
-    left: 5%;
-
-    width: fit-content;
-    max-width: 70%;
-    height: inherit;
-}
-
-.main-navbar a {
-    height: inherit;
-    text-decoration: none;
-}
-
-.main-navbar button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 24px;
-    font-weight: 600;
-    color: var(--primaryFontColor);
-    background-color: var(--transparent);
-    font-style: inherit;
-
-    cursor: pointer;
-    border: none;
-    min-width: 200px;
-    width: 100%;
-    height: inherit;
-    transition: ease 150ms;
-}
-
-.main-navbar button:hover {
-    height: 100%;
-    font-size: 25px;
-    border: 3px solid #D4DBE8;
-    background: radial-gradient(61.54% 61.54% at 50% 50%, rgba(11, 61, 101, 0.75) 62.9%, #14598F 100%);
-}
-
 .page-content {
     display: flex;
     flex-direction: row;
@@ -104,34 +40,42 @@ button {
     margin: auto;
     margin-top: 2%;
     width: 85%;
-    height: 80%;
+    height: 75vh;
     flex-shrink: 0;
 }
 
 .back-btn {
     display: inline;
-    height: 2.2rem;
-    width: 2.2rem;
+    height: 58px;
+    width: 50px;
     border: 2px solid #506387;
     border-radius: 50px;
     cursor: pointer;
+    background-color: transparent;
     margin: 10px 0 0 10px;
-    transition: ease 100ms;
+    transition: ease 0.3s;
 
     font-size: 30px;
 }
 
 .back-btn:hover {
-    scale: 110%;
-    font-size: 31px;
-    background:rgba(11, 61, 101, 1);
+    transition: 0.2s ease;
+    border: 2px solid #97a6c2;
+    background-color: rgba(10, 55, 92, 1);
+}
+
+.back-btn:active {
+    opacity: 0.9;
+    scale: 0.95;
 }
 
 .main-frame {
     display: flex;
     flex-direction: column;
-    width: 100%;
+    margin: auto;
+    width: 95%;
     height: 100%;
+    min-height: 500px;
     flex-shrink: 0;
     transition: ease 150ms;
 
@@ -143,7 +87,7 @@ button {
 
 .custom-file-label {
     display: inline-block;
-    padding: 0 10px 0 10px;
+    padding: 5px 10px;
     margin-bottom: 5%;
     scale: 1.47;
     cursor: pointer;
@@ -151,14 +95,14 @@ button {
     border: 1px solid #8f8f8f;
     border-radius: 4px;
     background-color: #f1f1f110;
-    transition: 0.3s;
+    transition: 0.4s;
 }
 
 .custom-file-label:hover {
-    scale: 1.5;
+    scale: 1.48;
     background-color: #f1f1f129;
     border: 1px solid #ccc;
-    transition: 0.4s ease;
+    transition: 0.1s ease;
 }
 
 @media screen and (max-width = 900px) {
@@ -177,14 +121,14 @@ button {
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    text-align: center;
     height: 75%;
-    width: 90%;
+    min-height: 320px;
+    width: 80%;
     border: 5px dotted #506387;
     background: #040F22;
-}
-
-.upload-section {
-    text-align: center;
+    padding: 20px;
+    
 }
 
 .upload-section label{
@@ -201,19 +145,145 @@ button {
     margin: 10px 0;
 }
 
+form#uploadForm {
+    margin-top: 30px;
+}
+
 .file-upload-btn {
     position: relative;
-    margin: 0 1rem 1rem auto;
+    margin: 12px 5rem 1rem auto;
     width: 15rem;
-    font-size: 1rem;
     padding: 5px 10px;
+    cursor: pointer;
+
+    font-size: 1rem;
     background-color: rgba(11, 61, 101, 0.75);
     color: var(--primaryFontColor);
-    cursor: pointer;
     border: none;
     border-radius: 5px;
     transition: ease 150ms;
 }
+
+#audiocut {
+    position: relative;
+    margin-top: -16px;
+    bottom: -8%;
+    left: 7rem;
+
+    width: fit-content;
+    scale: 2;
+    transition: 0.4s;
+}
+
+#audiocut::after {
+    content: "Trim silences";
+    color: white;
+    font-size: 12px;
+    line-height: 1em;
+
+    display: inline-block;
+    margin-left: 18px;
+    width: max-content;
+}
+
+#audiocut:active {
+    opacity: 0.9;
+    scale: 1.95;
+    transition: 0.1s;
+}
+.cta {
+    position: relative;
+    margin: 12px 7rem 1rem auto;
+    width: 15rem;
+    cursor: pointer;
+
+    display: flex;
+    padding: 11px 33px;
+    text-decoration: none;
+    font-size: 26px;
+    color: white;
+    background: #288dd0;
+    transition: 1s;
+    box-shadow: 6px 6px 0 black;
+    transform: skewX(-15deg);
+    border: none;
+}
+
+.cta:focus {
+    outline: none;
+}
+
+.cta:hover {
+    transition: 0.5s;
+    box-shadow: 10px 10px 0 #c43367;
+}
+.cta:active {
+    opacity: 0.9;
+    scale: 0.98;
+    transition: 0.1s;
+    box-shadow: 10px 10px 0 #c43367;
+}
+
+.cta .second {
+    transition: 0.5s;
+    margin-right: 0px;
+}
+
+.cta:hover .second {
+    transition: 0.5s;
+    margin-right: 45px;
+}
+
+.span {
+    transform: skewX(15deg)
+}
+
+.second {
+    width: 20px;
+    margin-left: 30px;
+    position: relative;
+    top: 12%;
+}
+
+.one {
+    transition: 0.4s;
+    transform: translateX(-60%);
+}
+
+.two {
+    transition: 0.5s;
+    transform: translateX(-30%);
+}
+
+.cta:hover .three {
+    animation: color_anim 1s infinite 0.2s;
+}
+
+.cta:hover .one {
+    transform: translateX(0%);
+    animation: color_anim 1s infinite 0.6s;
+}
+
+.cta:hover .two {
+    transform: translateX(0%);
+    animation: color_anim 1s infinite 0.4s;
+}
+
+@keyframes color_anim {
+    0% {
+        fill: white;
+    }
+
+    50% {
+        fill: #FBC638;
+    }
+
+    100% {
+        fill: white;
+    }
+}
+
+
 
 .file-upload-btn:hover {
     background: radial-gradient(61.54% 61.54% at 50% 50%, rgba(11, 61, 101, 0.75) 62.9%, #14598F 100%);
@@ -326,23 +396,6 @@ button {
     background: radial-gradient(65.13% 77.87% at 118.98% 0%, #0A2F66 0%, #131F38 100%);
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Shadow effect */
     z-index: 2; /* Ensure the popup is on top of the overlay */
-}
-
-.close-btn {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    font-size: 20px;
-    cursor: pointer;
-    background: transparent;
-    border: none;
-    outline: none;
-    transition: 70ms ease-in-out;
-}
-.close-btn:hover {
-    transition: 70ms ease-in-out;
-    scale: 1.8;
-    color: brown;
 }
 
 .popup-content {

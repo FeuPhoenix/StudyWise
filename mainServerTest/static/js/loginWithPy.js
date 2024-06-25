@@ -59,7 +59,7 @@ async function signUp() {
             socketID: socketID
         };
 
-        fetch('http://127.0.0.1:5000/process-signup', {
+        fetch('/process-signup', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -223,7 +223,7 @@ async function signIn(event) { // Testing Function
             socketID: socketID
         };
 
-        fetch('http://127.0.0.1:5000/process-login', {
+        fetch('/process-login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

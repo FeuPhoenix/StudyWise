@@ -187,12 +187,12 @@ class DocumentProcessed:
     def getFileNameFromPathWithOutExtension(input_string):
         last_slash_index = input_string.rfind('\\')
         result_string = input_string[last_slash_index + 1:]
-        result_string=result_string.replace('.mp4','')
-        result_string=result_string.replace('.docx','')
-        result_string=result_string.replace('.doc','')
-        result_string=result_string.replace('.pptx','')
-        result_string=result_string.replace('.ppt','')
-        result_string=result_string.replace('.pdf','')
+        result_string = result_string.replace('.mp4','')
+        result_string = result_string.replace('.docx','')
+        result_string = result_string.replace('.doc','')
+        result_string = result_string.replace('.pptx','')
+        result_string = result_string.replace('.ppt','')
+        result_string = result_string.replace('.pdf','')
         return result_string
 
     @staticmethod
