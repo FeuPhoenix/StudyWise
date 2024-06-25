@@ -237,7 +237,7 @@ class VideoProcessed_Repo:
         
 
         with open(file_path, 'rb') as f:
-            blob.upload_from_file(f, rewind=True, content_type='audio/wav',timeout=600)
+            blob.upload_from_file(f, rewind=True, content_type='audio/mp3',timeout=600)
 
     def upload_material_youtube_to_storage(user_id, material_name,  text_file_path, summary_file_path, chapters_file_path, audio_file_path):
         db_instance = FirestoreDB.get_instance()
@@ -421,8 +421,8 @@ class VideoProcessed_Repo:
                     # Extract audio from video
                     audio = video.audio
                     print('Video audio is extracted')
-                    audio.write_audiofile(f"mainServerTest/assets/output_files/audio/{self.file_name}.wav")
-                    self.generated_audio_file_path = f"mainServerTest/assets/output_files/audio/{self.file_name}.wav"
+                    audio.write_audiofile(f"mainServerTest/assets/output_files/audio/{self.file_name}.mp3")
+                    self.generated_audio_file_path = f"mainServerTest/assets/output_files/audio/{self.file_name}.mp3"
                     print(f"Audio file downloaded at: {self.generated_audio_file_path}")
 
                     # Transcribe audio

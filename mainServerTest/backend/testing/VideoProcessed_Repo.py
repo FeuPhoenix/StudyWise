@@ -18,7 +18,7 @@ from moviepy.editor import VideoFileClip
 from Flash_Cards_Repo import Flash_Cards
 from Questions_Repo import Questions_Repo
 from FirestoreDB import FirestoreDB
-from audiocutter import runaudiocutter
+from audiocutter import audiocutter
 
 from dotenv import load_dotenv
 
@@ -33,7 +33,7 @@ class VideoProcessed_Repo:
         self.material_id=uuid.uuid4().hex#done
         self.material=material
         self.user_ID=userid
-        self.Video_Cut=True
+        self.Video_Cut=Video_Cut
         
         
         #self.db = FirestoreDB.get_instance()
@@ -228,7 +228,7 @@ class VideoProcessed_Repo:
         
 
         with open(file_path, 'rb') as f:
-            blob.upload_from_file(f, rewind=True, content_type='audio/wav',timeout=600)
+            blob.upload_from_file(f, rewind=True, content_type='audio/mp3',timeout=600)
 
     def upload_material_youtube_to_storage(user_id, material_name,  text_file_path, summary_file_path, chapters_file_path, audio_file_path):
         db_instance = FirestoreDB.get_instance()
@@ -401,7 +401,8 @@ class VideoProcessed_Repo:
                             
                             os.rename(self.material, self.file_path)
                             print(self.file_path)
-                            self.file_path = runaudiocutter(self.file_path)
+                            
+                            self.file_path = audiocutter(self.file_path)
                             print("Videot Cut output file: "+self.file_path)
                             video = mp.VideoFileClip(self.material)
 
@@ -415,8 +416,8 @@ class VideoProcessed_Repo:
                         print('video is initialized')
                         audio = video.audio
                         print('video.audio is extracted')
-                        audio.write_audiofile(f"mainServerTest/assets/output_files/audio/{self.file_name}.wav")
-                        self.generated_audio_file_path = f"mainServerTest/assets/output_files/audio/{self.file_name}.wav"
+                        audio.write_audiofile(f"mainServerTest/assets/output_files/audio/{self.file_name}.mp3")
+                        self.generated_audio_file_path = f"mainServerTest/assets/output_files/audio/{self.file_name}.mp3"
                         print(f"Audio file downloaded at: {self.generated_audio_file_path}") 
                         config = aai.TranscriptionConfig(auto_chapters=True)
 
