@@ -1,0 +1,92 @@
+[
+    {
+        "question": "What is the main advantage of using mock software components in testing?",
+        "options": [
+            "Faster and more focused testing",
+            "Ensuring the system under test interacts correctly with its dependencies",
+            "Improved test coverage",
+            "Isolating issues in the testing process"
+        ],
+        "correct_answer": "Faster and more focused testing"
+    },
+    {
+        "question": "What is a drawback of mock testing?",
+        "options": [
+            "Provides predetermined responses",
+            "Allows for controlled testing",
+            "Enhances test efficiency",
+            "May result in synchronization issues"
+        ],
+        "correct_answer": "Provides predetermined responses"
+    },
+    {
+        "question": "In what type of testing are mock objects typically used?",
+        "options": [
+            "State-driven testing",
+            "Regression testing",
+            "Integration testing",
+            "Manual testing"
+        ],
+        "correct_answer": "State-driven testing"
+    },
+    {
+        "question": "What is the purpose of a stub in testing?",
+        "options": [
+            "To verify the interaction between units",
+            "To provide predetermined responses",
+            "To isolate the unit under test",
+            "To enhance test coverage"
+        ],
+        "correct_answer": "To verify the interaction between units"
+    },
+    {
+        "question": "What is a potential issue with mock testing related to unexpected interactions?",
+        "options": [
+            "False sense of confidence",
+            "Incorrect interaction",
+            "Interface mismatch",
+            "Synchronization issues"
+        ],
+        "correct_answer": "False sense of confidence"
+    },
+    {
+        "question": "What is a key step in setting up mock objects for testing?",
+        "options": [
+            "Importing necessary modules",
+            "Recording and verifying interactions",
+            "Setting up the development environment",
+            "Defining the expected behavior of the mock object"
+        ],
+        "correct_answer": "Importing necessary modules"
+    },
+    {
+        "question": "What can be a potential consequence of over-reliance on mock testing?",
+        "options": [
+            "Faster test speed and efficiency",
+            "Improved test coverage",
+            "Enhanced test efficiency",
+            "False sense of confidence"
+        ],
+        "correct_answer": "Faster test speed and efficiency"
+    },
+    {
+        "question": "Which type of testing focuses on the behavior and expectations of the unit being tested?",
+        "options": [
+            "State-driven testing",
+            "Unit testing",
+            "Integration testing",
+            "Regression testing"
+        ],
+        "correct_answer": "State-driven testing"
+    },
+    {
+        "question": "What is the main benefit of using mock software components in testing different scenarios and edge cases?",
+        "options": [
+            "Facilitating faster and more focused testing.",
+            "Ensuring isolation of the unit under test",
+            "Simulating responses from external dependencies",
+            "Providing fixed return values"
+        ],
+        "correct_answer": "Facilitating faster and more focused testing."
+    }
+]

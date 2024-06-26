@@ -1,0 +1,92 @@
+[
+    {
+        "question": "1. What is a mock used for in software testing?",
+        "options": [
+            "A) To mimic the behavior of certain parts of a system",
+            "C) To simulate random bugs",
+            "B) To fully test the entire software system",
+            "D) To skip the testing process entirely"
+        ],
+        "correct_answer": "A) To mimic the behavior of certain parts of a system"
+    },
+    {
+        "question": "2. What is the main difference between a mock and a stub?",
+        "options": [
+            "A) A mock is used in unit testing, while a stub is used in integration testing",
+            "C) A mock is used for frontend testing, while a stub is used for backend testing",
+            "B) A mock replicates the behavior of an object, while a stub provides canned responses",
+            "D) A mock is only used in manual testing, while a stub is used in automated testing"
+        ],
+        "correct_answer": "A) A mock is used in unit testing, while a stub is used in integration testing"
+    },
+    {
+        "question": "3. In which test levels can a mock be applied?",
+        "options": [
+            "C) Integration and regression testing",
+            "A) Unit and component testing",
+            "D) Performance and load testing",
+            "B) System and acceptance testing"
+        ],
+        "correct_answer": "C) Integration and regression testing"
+    },
+    {
+        "question": "4. What are some typical bugs you might find in a mock?",
+        "options": [
+            "C) Incorrect behavior replication",
+            "B) Runtime errors",
+            "A) Syntax errors",
+            "D) System crashes"
+        ],
+        "correct_answer": "C) Incorrect behavior replication"
+    },
+    {
+        "question": "5. What is the purpose of implementing a mock in software testing?",
+        "options": [
+            "A) To speed up the testing process",
+            "D) To confuse developers",
+            "C) To replace the need for actual testing",
+            "B) To predict and prevent potential issues"
+        ],
+        "correct_answer": "A) To speed up the testing process"
+    },
+    {
+        "question": "6. Which programming language includes the unittest.mock module for implementing mocks?",
+        "options": [
+            "B) C++",
+            "D) JavaScript",
+            "A) Java",
+            "C) Python"
+        ],
+        "correct_answer": "B) C++"
+    },
+    {
+        "question": "7. What step is necessary before creating a mock object in Python using the unittest.mock module?",
+        "options": [
+            "B) Defining the class to mock",
+            "A) Importing the unittest module",
+            "D) Mocking the behavior of the object",
+            "C) Writing the test case"
+        ],
+        "correct_answer": "B) Defining the class to mock"
+    },
+    {
+        "question": "9. What is the benefit of using mocks in software testing?",
+        "options": [
+            "B) Higher maintenance overhead",
+            "D) Lower confidence in test results",
+            "C) Slower testing process",
+            "A) Increased test control"
+        ],
+        "correct_answer": "B) Higher maintenance overhead"
+    },
+    {
+        "question": "10. What is the best practice for testing a unit that depends on a mock object?",
+        "options": [
+            "B) Test if the unit under test receives the correct data from the mock object",
+            "A) Validate the return value of the mock object",
+            "D) Log all the method calls made by the mock object",
+            "C) Skip testing the unit entirely"
+        ],
+        "correct_answer": "B) Test if the unit under test receives the correct data from the mock object"
+    }
+]

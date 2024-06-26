@@ -59,6 +59,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
+  // Haldling going into and out of fullscreen
   leaveFSButton.addEventListener("click", () => {
     // Lock/Unlock interaction with other elements
     document.body.classList.toggle("locked");
@@ -71,6 +72,7 @@ document.addEventListener("DOMContentLoaded", () => {
     leaveFSButton.classList.toggle("fullscreen");
   });
 
+  // Animate fullscreen button on hover
   FSButton.addEventListener("mouseover", () => {
     document.querySelector("#midrow > button.go-fullscreen > i").classList.add("fa-beat-fade");
   });
@@ -78,6 +80,7 @@ document.addEventListener("DOMContentLoaded", () => {
     document.querySelector("#midrow > button.go-fullscreen > i").classList.remove("fa-beat-fade");
   });
 
+  // Animate leave-fullscreen button on hover
   leaveFSButton.addEventListener("mouseover", () => {
     document.querySelector("#midrow > button.leave-fullscreen > i").classList.add("fa-beat-fade");
   });

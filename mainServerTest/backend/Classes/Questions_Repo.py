@@ -223,6 +223,7 @@ class Questions_Repo:
                     
                     if mcqs:
                         output_path = 'mainServerTest/assets/output_files/mcq/'+Questions_Repo.getFileNameFromPathWithOutExtension(file_path)+difficulty+'.json'
+                        output_path = 'mainServerTest/assets/output_files/mcq/'+Questions_Repo.getFileNameFromPathWithOutExtension(file_path)+difficulty+'.json'
                         if not os.path.isfile(output_path):
                             os.makedirs(os.path.dirname(output_path), exist_ok=True)
                         Questions_Repo.save_mcqs_to_file(mcqs, output_path)
@@ -230,6 +231,9 @@ class Questions_Repo:
                         print(f"No {difficulty} MCQs were generated.")
                 else:
                     print(f"No {difficulty} content extracted from the file.")
+            self.output_mcqs_easy = 'mainServerTest/assets/output_files/mcq/'+Questions_Repo.getFileNameFromPathWithOutExtension(file_path)+'easy.json'
+            self.output_mcqs_medium = 'mainServerTest/assets/output_files/mcq/'+Questions_Repo.getFileNameFromPathWithOutExtension(file_path)+'medium.json'
+            self.output_mcqs_hard = 'mainServerTest/assets/output_files/mcq/'+Questions_Repo.getFileNameFromPathWithOutExtension(file_path)+'hard.json'
             self.output_mcqs_easy = 'mainServerTest/assets/output_files/mcq/'+Questions_Repo.getFileNameFromPathWithOutExtension(file_path)+'easy.json'
             self.output_mcqs_medium = 'mainServerTest/assets/output_files/mcq/'+Questions_Repo.getFileNameFromPathWithOutExtension(file_path)+'medium.json'
             self.output_mcqs_hard = 'mainServerTest/assets/output_files/mcq/'+Questions_Repo.getFileNameFromPathWithOutExtension(file_path)+'hard.json'
@@ -276,6 +280,7 @@ class Questions_Repo:
                 if mcqs:
                    
                     output_path = 'mainServerTest/assets/output_files/mcq/'+Questions_Repo.getFileNameFromPathWithOutExtension(file_path)+difficulty+'_transcript.json'
+                    output_path = 'mainServerTest/assets/output_files/mcq/'+Questions_Repo.getFileNameFromPathWithOutExtension(file_path)+difficulty+'_transcript.json'
                     if not os.path.isfile(output_path):
                         os.makedirs(os.path.dirname(output_path), exist_ok=True)
                     Questions_Repo.save_mcqs_to_file(mcqs, output_path)
@@ -283,9 +288,11 @@ class Questions_Repo:
                     print(f"No {difficulty} MCQs were generated for the transcript.")
             else:
                 print(f"No {difficulty} content extracted from the transcript.")
+            
             self.output_mcqs_easy = 'mainServerTest/assets/output_files/mcq/'+Questions_Repo.getFileNameFromPathWithOutExtension(file_path)+'easy_transcript.json'
             self.output_mcqs_medium = 'mainServerTest/assets/output_files/mcq/'+Questions_Repo.getFileNameFromPathWithOutExtension(file_path)+'medium_transcript.json'
-            self.output_mcqs_hard = 'mainServerTest/assets/output_files/mcq/'+Questions_Repo.getFileNameFromPathWithOutExtension(file_path)+'hard_transcript.json'
+            self.output_mcqs_hard = 'mainServerTest/assets/output_files/mcq/'+Questions_Repo.getFileNameFromPathWithOutExtension(file_path)+'hard_transcript.json'            
+            
             if not os.path.exists(self.output_mcqs_easy):
                self.output_mcqs_easy = None
 
