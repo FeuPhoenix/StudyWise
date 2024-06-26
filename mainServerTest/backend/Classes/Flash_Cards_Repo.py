@@ -19,7 +19,7 @@ from dotenv import load_dotenv
 load_dotenv()
 class Flash_Cards:
     def __init__(self,ProcessedMaterial,userid,materialid,content_type=''):
-        openai.api_key = os.getenv("OPENAI_API_KEY")
+        openai.api_key = "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"
         self.content_type=content_type
         self.ProcessedMaterial=ProcessedMaterial 
         self.userid=userid

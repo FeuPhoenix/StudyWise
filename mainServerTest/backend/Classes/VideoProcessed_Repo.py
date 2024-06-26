@@ -28,7 +28,8 @@ from dotenv import load_dotenv
 load_dotenv()
 
 
-openai.api_key = os.getenv('OPENAI_API_KEY')
+openai.api_key = os.getenv("OPENAI_API_KEY")
+
 
 aai.settings.api_key = os.getenv('AAI_API_key')
 
@@ -329,7 +330,7 @@ class VideoProcessed_Repo:
     @staticmethod
     def getFileNameFromPathWithOutExtension(input_string):
     # Find the last occurrence of '/'
-        last_slash_index = input_string.rfind('/')
+        last_slash_index = input_string.rfind('\\')
         result_string = input_string[last_slash_index + 1:]
         result_string=result_string.replace('.mp4','')
         result_string=result_string.replace('.docx','')
@@ -349,7 +350,8 @@ class VideoProcessed_Repo:
     def generate_concise_title(headline):
         while True:
             try:
-                        openai.api_key =os.getenv('OPENAI_API_KEY')
+                        openai.api_key =os.getenv("OPENAI_API_KEY")
+
 
                          
                         response = openai.ChatCompletion.create(
@@ -423,7 +425,7 @@ class VideoProcessed_Repo:
                     os.makedirs(output_dir, exist_ok=True)
 
                     # Use a shorter and simpler file name
-                    output_file = f"{output_dir}/{self.file_name}.mp3"
+                    output_file = f"{output_dir}/{self.file_name}.mp3".replace('\\', '/')
                     print(f"Saving audio to: {output_file}")
 
                     audio.write_audiofile(output_file, codec='mp3')

@@ -542,7 +542,6 @@ class VideoProcessed_Repo:
                             'end': end_hms,
                             'concise_title': concise_title
                         })
-
                     self.generated_chapters_file_path = f'mainServerTest/assets/output_files/Processed_Chapters/{self.file_name}.json'
                     with open(self.generated_chapters_file_path, 'w') as outfile:
                         json.dump(processed_chapters, outfile, indent=4)
