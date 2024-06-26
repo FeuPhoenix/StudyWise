@@ -1,102 +1,92 @@
 [
     {
-        "question": "What is data integration?",
+        "question": "1. What is a mock used for in software testing?",
         "options": [
-            "Deleting data from a database",
-            "Backing up data to a cloud server",
-            "Combining data from different sources into a single, unified view",
-            "Encrypting data to keep it secure"
+            "A) To mimic the behavior of certain parts of a system",
+            "C) To simulate random bugs",
+            "B) To fully test the entire software system",
+            "D) To skip the testing process entirely"
         ],
-        "correct_answer": "Deleting data from a database"
+        "correct_answer": "A) To mimic the behavior of certain parts of a system"
     },
     {
-        "question": "What is the purpose of data analysis?",
+        "question": "2. What is the main difference between a mock and a stub?",
         "options": [
-            "To delete unnecessary data from a database",
-            "To encrypt data for security purposes",
-            "To make sense of data and draw conclusions",
-            "To store data in a data warehouse"
+            "A) A mock is used in unit testing, while a stub is used in integration testing",
+            "C) A mock is used for frontend testing, while a stub is used for backend testing",
+            "B) A mock replicates the behavior of an object, while a stub provides canned responses",
+            "D) A mock is only used in manual testing, while a stub is used in automated testing"
         ],
-        "correct_answer": "To delete unnecessary data from a database"
+        "correct_answer": "A) A mock is used in unit testing, while a stub is used in integration testing"
     },
     {
-        "question": "Which of the following is an example of a data source?",
+        "question": "3. In which test levels can a mock be applied?",
         "options": [
-            "All of the above",
-            "Social media post",
-            "Email inbox",
-            "Excel spreadsheet"
+            "C) Integration and regression testing",
+            "A) Unit and component testing",
+            "D) Performance and load testing",
+            "B) System and acceptance testing"
         ],
-        "correct_answer": "All of the above"
+        "correct_answer": "C) Integration and regression testing"
     },
     {
-        "question": "What does data integration help achieve?",
+        "question": "4. What are some typical bugs you might find in a mock?",
         "options": [
-            "Improved data quality",
-            "Better decision-making",
-            "Increased efficiency",
-            "All of the above"
+            "C) Incorrect behavior replication",
+            "B) Runtime errors",
+            "A) Syntax errors",
+            "D) System crashes"
         ],
-        "correct_answer": "Improved data quality"
+        "correct_answer": "C) Incorrect behavior replication"
     },
     {
-        "question": "What is the first step in data integration?",
+        "question": "5. What is the purpose of implementing a mock in software testing?",
         "options": [
-            "Data extraction",
-            "Data visualization",
-            "Data analysis",
-            "Data cleaning"
+            "A) To speed up the testing process",
+            "D) To confuse developers",
+            "C) To replace the need for actual testing",
+            "B) To predict and prevent potential issues"
         ],
-        "correct_answer": "Data extraction"
+        "correct_answer": "A) To speed up the testing process"
     },
     {
-        "question": "What is data integration NOT used for?",
+        "question": "6. Which programming language includes the unittest.mock module for implementing mocks?",
         "options": [
-            "Identifying trends and patterns in data",
-            "Improving data quality",
-            "Deleting data from a database",
-            "Combining data from multiple sources"
+            "B) C++",
+            "D) JavaScript",
+            "A) Java",
+            "C) Python"
         ],
-        "correct_answer": "Identifying trends and patterns in data"
+        "correct_answer": "B) C++"
     },
     {
-        "question": "How can data be integrated from different sources?",
+        "question": "7. What step is necessary before creating a mock object in Python using the unittest.mock module?",
         "options": [
-            "Through encryption",
-            "Through automation",
-            "Through manual entry",
-            "Through data visualization"
+            "B) Defining the class to mock",
+            "A) Importing the unittest module",
+            "D) Mocking the behavior of the object",
+            "C) Writing the test case"
         ],
-        "correct_answer": "Through encryption"
+        "correct_answer": "B) Defining the class to mock"
     },
     {
-        "question": "What is data analysis used for?",
+        "question": "9. What is the benefit of using mocks in software testing?",
         "options": [
-            "To encrypt data for security",
-            "To delete unnecessary data",
-            "To identify trends and patterns in data",
-            "To store data securely"
+            "B) Higher maintenance overhead",
+            "D) Lower confidence in test results",
+            "C) Slower testing process",
+            "A) Increased test control"
         ],
-        "correct_answer": "To encrypt data for security"
+        "correct_answer": "B) Higher maintenance overhead"
     },
     {
-        "question": "What is the purpose of data integration in a business setting?",
+        "question": "10. What is the best practice for testing a unit that depends on a mock object?",
         "options": [
-            "To streamline business processes",
-            "To make data easy to access",
-            "All of the above",
-            "To improve decision-making"
+            "B) Test if the unit under test receives the correct data from the mock object",
+            "A) Validate the return value of the mock object",
+            "D) Log all the method calls made by the mock object",
+            "C) Skip testing the unit entirely"
         ],
-        "correct_answer": "To streamline business processes"
-    },
-    {
-        "question": "What is the end goal of data integration and analysis?",
-        "options": [
-            "To delete unnecessary data",
-            "To store data in a data warehouse.",
-            "To encrypt data for security",
-            "To turn data into actionable insights"
-        ],
-        "correct_answer": "To delete unnecessary data"
+        "correct_answer": "B) Test if the unit under test receives the correct data from the mock object"
     }
 ]

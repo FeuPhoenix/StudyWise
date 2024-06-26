@@ -270,7 +270,7 @@ a.content-card {
     background-color: #14223c;
     display: flex;
     flex-direction: column;
-    height: 100%;
+    height: 227px;
 }
 .content-card:hover {
     transition: scale 0.3s;

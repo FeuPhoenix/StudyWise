@@ -1,12 +1,102 @@
 [
     {
-        "question": "Which of the following preprocessing techniques is used to handle missing data: a) mean imputation b) mode imputation c) dropping rows with missing values d) none of the above",
+        "question": "1. In mock testing, what is the purpose of replacing real dependencies with simulated objects?",
         "options": [
-            "Which of the following is a drawback of label encoding: a) it introduces artificial ordinality b) it is computationally expensive c) it only works for binary variables d) none of the above",
-            "What is the purpose of target encoding in categorical encoding: a) reduce dimensionality b) handle high cardinality features c) improve model performance d) introduce random noise",
-            "When should outlier removal be performed during the preprocessing stage: a) before feature scaling b) after feature scaling c) it doesn't matter d) only for numerical features",
-            "In feature engineering, what is the purpose of one-hot encoding: a) handle missing data b) preserve ordinal relationships c) convert categorical variables into numerical ones d) reduce dimensionality"
+            "C. To increase response times",
+            "D. To facilitate integration testing",
+            "B. To isolate dependencies and test specific behaviors",
+            "A. To eliminate external factors"
         ],
-        "correct_answer": "Which of the following is a drawback of label encoding: a) it introduces artificial ordinality b) it is computationally expensive c) it only works for binary variables d) none of the above"
+        "correct_answer": "C. To increase response times"
+    },
+    {
+        "question": "2. How does mock testing help in identifying potential behavior mismatches?",
+        "options": [
+            "A. By using real dependencies",
+            "B. By setting up expected behaviors",
+            "C. By eliminating external factors",
+            "D. By configuring responses for dependencies"
+        ],
+        "correct_answer": "A. By using real dependencies"
+    },
+    {
+        "question": "3. What is a disadvantage of using mocks for dependency isolation?",
+        "options": [
+            "C. It can facilitate integration testing",
+            "A. It can increase test coverage",
+            "D. It can verify interactions between components",
+            "B. It may not reproduce behaviors accurately"
+        ],
+        "correct_answer": "C. It can facilitate integration testing"
+    },
+    {
+        "question": "4. How can mock objects be used to simulate responses in integration testing?",
+        "options": [
+            "C. By verifying interactions",
+            "A. By setting up expected behaviors",
+            "D. By eliminating external factors",
+            "B. By using real dependencies"
+        ],
+        "correct_answer": "C. By verifying interactions"
+    },
+    {
+        "question": "5. Which method can be used to verify interactions between mock objects?",
+        "options": [
+            "C. verify_behavior_mismatch()",
+            "B. eliminate_external_factors()",
+            "A. assert_called_once_with()",
+            "D. simulate_expected_results()"
+        ],
+        "correct_answer": "C. verify_behavior_mismatch()"
+    },
+    {
+        "question": "6. What is the purpose of using mock objects in facilitating test coverage?",
+        "options": [
+            "C. To verify interactions between components",
+            "D. To isolate specific behaviors and dependencies",
+            "B. To facilitate integration testing",
+            "A. To increase response times"
+        ],
+        "correct_answer": "C. To verify interactions between components"
+    },
+    {
+        "question": "7. How can developers update mock objects to reflect new behaviors?",
+        "options": [
+            "A. By using real dependencies",
+            "D. By verifying interactions between components",
+            "C. By setting up expected behaviors",
+            "B. By eliminating external factors"
+        ],
+        "correct_answer": "A. By using real dependencies"
+    },
+    {
+        "question": "8. What attribute can be used to simulate expected results in a mock object?",
+        "options": [
+            "C. set_up_behavior",
+            "B. verify_interaction",
+            "D. update_response",
+            "A. send_email.return_value"
+        ],
+        "correct_answer": "C. set_up_behavior"
+    },
+    {
+        "question": "9. What is the purpose of verifying interactions in mock testing?",
+        "options": [
+            "C. To isolate specific behaviors",
+            "A. To eliminate external factors",
+            "D. To ensure expected behaviors and responses",
+            "B. To increase test coverage"
+        ],
+        "correct_answer": "C. To isolate specific behaviors"
+    },
+    {
+        "question": "10. How does mock testing help in isolating dependencies?",
+        "options": [
+            "C. By using real dependencies",
+            "D. By eliminating external factors",
+            "A. By setting up expected behaviors",
+            "B. By verifying interactions between components"
+        ],
+        "correct_answer": "C. By using real dependencies"
     }
 ]

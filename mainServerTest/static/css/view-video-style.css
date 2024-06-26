@@ -153,7 +153,11 @@ content: "";
 
 #content-title {
     word-break: break-word;
-    margin: 1rem 8% 10px;
+    font-size: 28px;
+    font-weight: 600;
+    margin: 30px auto 12px;
+    width: 85%;
+    line-height: 1.2em;
 }
 
 .video-container{
@@ -596,6 +600,7 @@ content: "";
 
 #summaryText {
     border-radius: 8px;
+    padding: 0 8px;
     background: #00000069;
     white-space: pre-line;
     font-size: 1rem;

@@ -1,92 +1,92 @@
 [
     {
-        "question": "1. Which of the following is NOT a benefit of using threads in an operating system?",
+        "question": "What is the main advantage of using mock software components in testing?",
         "options": [
-            "D) Scalability in utilizing system resources",
-            "A) Efficiency in resource sharing",
-            "C) Higher cost compared to process creation",
-            "B) Reduced overhead compared to process creation"
+            "Faster and more focused testing",
+            "Ensuring the system under test interacts correctly with its dependencies",
+            "Improved test coverage",
+            "Isolating issues in the testing process"
         ],
-        "correct_answer": "D) Scalability in utilizing system resources"
+        "correct_answer": "Faster and more focused testing"
     },
     {
-        "question": "2. What is a disadvantage of the many-to-one threading model?",
+        "question": "What is a drawback of mock testing?",
         "options": [
-            "A) High overhead in context switching",
-            "C) Limited scalability in utilizing system resources",
-            "B) Difficulty managing multiple kernel threads",
-            "D) Increased complexity in resource sharing"
+            "Provides predetermined responses",
+            "Allows for controlled testing",
+            "Enhances test efficiency",
+            "May result in synchronization issues"
         ],
-        "correct_answer": "A) High overhead in context switching"
+        "correct_answer": "Provides predetermined responses"
     },
     {
-        "question": "3. In the many-to-many threading model, how are user threads and kernel threads mapped?",
+        "question": "In what type of testing are mock objects typically used?",
         "options": [
-            "A) One-to-one",
-            "C) Many-to-many",
-            "B) Many-to-one",
-            "D) None of the above"
+            "State-driven testing",
+            "Regression testing",
+            "Integration testing",
+            "Manual testing"
         ],
-        "correct_answer": "A) One-to-one"
+        "correct_answer": "State-driven testing"
     },
     {
-        "question": "5. Which threading model provides the best balance between flexibility and efficiency in resource sharing?",
+        "question": "What is the purpose of a stub in testing?",
         "options": [
-            "C) Many-to-many",
-            "D) None of the above",
-            "A) Many-to-one",
-            "B) One-to-one"
+            "To verify the interaction between units",
+            "To provide predetermined responses",
+            "To isolate the unit under test",
+            "To enhance test coverage"
         ],
-        "correct_answer": "C) Many-to-many"
+        "correct_answer": "To verify the interaction between units"
     },
     {
-        "question": "6. What is a limitation of the one-to-one threading model?",
+        "question": "What is a potential issue with mock testing related to unexpected interactions?",
         "options": [
-            "B) Higher overhead compared to process creation",
-            "A) Increased complexity in managing multiple user threads",
-            "C) Limited scalability in utilizing system resources",
-            "D) Difficulty in synchronous communication between threads"
+            "False sense of confidence",
+            "Incorrect interaction",
+            "Interface mismatch",
+            "Synchronization issues"
         ],
-        "correct_answer": "B) Higher overhead compared to process creation"
+        "correct_answer": "False sense of confidence"
     },
     {
-        "question": "7. Which threading model is generally considered to have the lowest overhead in context switching?",
+        "question": "What is a key step in setting up mock objects for testing?",
         "options": [
-            "D) None of the above",
-            "C) Many-to-many",
-            "A) One-to-one",
-            "B) Many-to-one"
+            "Importing necessary modules",
+            "Recording and verifying interactions",
+            "Setting up the development environment",
+            "Defining the expected behavior of the mock object"
         ],
-        "correct_answer": "D) None of the above"
+        "correct_answer": "Importing necessary modules"
     },
     {
-        "question": "8. What is a disadvantage of using thread pools in an operating system?",
+        "question": "What can be a potential consequence of over-reliance on mock testing?",
         "options": [
-            "B) Difficulty in managing multiple user threads",
-            "C) Limited flexibility in resource sharing",
-            "A) Higher overhead compared to creating individual threads",
-            "D) Increased complexity in synchronous communication between threads"
+            "Faster test speed and efficiency",
+            "Improved test coverage",
+            "Enhanced test efficiency",
+            "False sense of confidence"
         ],
-        "correct_answer": "B) Difficulty in managing multiple user threads"
+        "correct_answer": "Faster test speed and efficiency"
     },
     {
-        "question": "9. In the many-to-many threading model, how are kernel threads managed?",
+        "question": "Which type of testing focuses on the behavior and expectations of the unit being tested?",
         "options": [
-            "A) Independently of user threads",
-            "D) None of the above",
-            "B) Manually mapped to multiple user threads",
-            "C) Synchronously with user threads"
+            "State-driven testing",
+            "Unit testing",
+            "Integration testing",
+            "Regression testing"
         ],
-        "correct_answer": "A) Independently of user threads"
+        "correct_answer": "State-driven testing"
     },
     {
-        "question": "10. Which threading model provides the most flexibility in managing multiple user threads and kernel threads?",
+        "question": "What is the main benefit of using mock software components in testing different scenarios and edge cases?",
         "options": [
-            "A) One-to-one",
-            "D) None of the above",
-            "B) Many-to-one",
-            "C) Many-to-many"
+            "Facilitating faster and more focused testing.",
+            "Ensuring isolation of the unit under test",
+            "Simulating responses from external dependencies",
+            "Providing fixed return values"
         ],
-        "correct_answer": "A) One-to-one"
+        "correct_answer": "Facilitating faster and more focused testing."
     }
 ]
