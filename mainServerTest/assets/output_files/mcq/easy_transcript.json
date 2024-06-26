@@ -1,202 +1,182 @@
 [
     {
-        "question": "1. What are variables in computer science?",
+        "question": "What are variables in computer science?",
         "options": [
-            "D) None of the above",
-            "B) Boxes used for packing items",
-            "A) Storage locations with assigned names",
-            "C) Data types in programming"
+            "Storage locations with assigned names",
+            "Random boxes with no purpose",
+            "Empty containers with no data",
+            "Data types used for coding"
         ],
-        "correct_answer": "D) None of the above"
+        "correct_answer": "Storage locations with assigned names"
     },
     {
-        "question": "2. What determines the type of data a variable can hold?",
+        "question": "What does a variables data type determine?",
         "options": [
-            "C) Values",
-            "A) Data type",
-            "B) Names",
-            "D) Categories"
+            "The position of the variable",
+            "The type of data the variable can hold",
+            "The size of the variable",
+            "The color of the variable"
         ],
-        "correct_answer": "C) Values"
+        "correct_answer": "The position of the variable"
     },
     {
-        "question": "3. Which of the following is a data type in Java?",
+        "question": "How do you create a variable in coding?",
         "options": [
-            "D) Jellyfish",
-            "C) Purple",
-            "B) Pizza",
-            "A) Integer"
+            "By assigning it a value",
+            "All of the above",
+            "By declaring its name",
+            "By specifying its data type"
         ],
-        "correct_answer": "D) Jellyfish"
+        "correct_answer": "By assigning it a value"
     },
     {
-        "question": "4. What is the first step in creating a variable?",
+        "question": "Why is it important to give variables meaningful names?",
         "options": [
-            "C) Giving it a name",
-            "D) None of the above",
-            "B) Declaring its data type",
-            "A) Assigning a value"
+            "To confuse programmers",
+            "To easily identify the variable's use",
+            "To make coding more difficult",
+            "Because it's fun"
         ],
-        "correct_answer": "C) Giving it a name"
+        "correct_answer": "To confuse programmers"
     },
     {
-        "question": "5. Why is it important to use meaningful names for variables?",
+        "question": "What happens if you assign a value to a variable without specifying its data type?",
         "options": [
-            "D) None of the above",
-            "C) To make grandma's cake",
-            "B) To easily identify the use of the variable",
-            "A) To confuse others"
+            "Grandma's ashes appear",
+            "Nothing happens",
+            "An error occurs",
+            "The code crashes"
         ],
-        "correct_answer": "D) None of the above"
+        "correct_answer": "Grandma's ashes appear"
     },
     {
-        "question": "6. Can a variable be declared without a value?",
+        "question": "What is the purpose of assigning a value to a variable?",
         "options": [
-            "A) Yes",
-            "D) Not sure",
-            "B) No",
-            "C) Maybe"
+            "To make the variable empty",
+            "To confuse the programmer",
+            "To delete the variable",
+            "To store data for future use"
         ],
-        "correct_answer": "A) Yes"
+        "correct_answer": "To make the variable empty"
     },
     {
-        "question": "7. How do you change the value of a variable?",
+        "question": "What is the first step in creating a variable?",
         "options": [
-            "B) Keep the original value",
-            "D) None of the above",
-            "C) Delete the variable",
-            "A) Reassign it with a new value"
+            "Giving it a name",
+            "Deleting it",
+            "Declaring its data type",
+            "Assigning a value"
         ],
-        "correct_answer": "B) Keep the original value"
+        "correct_answer": "Giving it a name"
     },
     {
-        "question": "8. What is the purpose of declaring a variable?",
+        "question": "Which of the following is NOT a common data type in Java?",
         "options": [
-            "B) To store data",
-            "A) To confuse programmers",
-            "D) None of the above",
-            "C) To buy groceries"
+            "Boolean",
+            "Integer",
+            "String",
+            "Decimal"
         ],
-        "correct_answer": "B) To store data"
+        "correct_answer": "Boolean"
     },
     {
-        "question": "9. What are some examples of data types?",
+        "question": "What is the purpose of changing or updating a variable's value?",
         "options": [
-            "A) Integer, character, byte, string",
-            "B) Pizza, soda, ice cream",
-            "C) Blue, green, red",
-            "D) Dog, cat, fish"
+            "To track changing data in a program",
+            "To make the code longer",
+            "To confuse other programmers",
+            "To delete the variable's value"
         ],
-        "correct_answer": "A) Integer, character, byte, string"
+        "correct_answer": "To track changing data in a program"
     },
     {
-        "question": "10. How do you use variables in programming?",
+        "question": "What is the capital of the United States?",
         "options": [
-            "C) Recycle them",
-            "D) All of the above",
-            "B) Delete them",
-            "A) Replace override values"
+            "Chicago",
+            "Los Angeles",
+            "New York City",
+            "Washington D.C."
         ],
-        "correct_answer": "C) Recycle them"
+        "correct_answer": "Chicago"
     },
     {
-        "question": "1. What is the capital of the United States?",
+        "question": "What is the largest planet in our solar system?",
         "options": [
-            "D) Chicago",
-            "B) Los Angeles",
-            "C) Washington D.C.",
-            "A) New York City"
+            "Mars",
+            "Jupiter",
+            "Saturn",
+            "Earth"
         ],
-        "correct_answer": "D) Chicago"
+        "correct_answer": "Mars"
     },
     {
-        "question": "2. What is the largest planet in our solar system?",
+        "question": "How many continents are there in the world?",
         "options": [
-            "D) Venus",
-            "C) Jupiter",
-            "A) Earth",
-            "B) Mars"
+            "5",
+            "6",
+            "8",
+            "7"
         ],
-        "correct_answer": "D) Venus"
+        "correct_answer": "5"
     },
     {
-        "question": "3. What is the main function of the heart in the human body?",
+        "question": "What is the primary language spoken in Brazil?",
         "options": [
-            "A) Pumping blood",
-            "C) Controlling breathing",
-            "B) Digesting food",
-            "D) Thinking"
+            "French",
+            "Spanish",
+            "Portuguese",
+            "Italian"
         ],
-        "correct_answer": "A) Pumping blood"
+        "correct_answer": "French"
     },
     {
-        "question": "4. How many continents are there on Earth?",
+        "question": "Which is the largest ocean on Earth?",
         "options": [
-            "C) 7",
-            "B) 6",
-            "D) 8",
-            "A) 5"
+            "Pacific Ocean",
+            "Arctic Ocean",
+            "Indian Ocean",
+            "Atlantic Ocean"
         ],
-        "correct_answer": "C) 7"
+        "correct_answer": "Pacific Ocean"
     },
     {
-        "question": "5. Which of the following is not a primary color?",
+        "question": "What is the currency used in Japan?",
         "options": [
-            "D) Yellow",
-            "B) Blue",
-            "A) Red",
-            "C) Green"
+            "Yen",
+            "Euro",
+            "Dollar",
+            "Pound"
         ],
-        "correct_answer": "D) Yellow"
+        "correct_answer": "Yen"
     },
     {
-        "question": "6. What is the capital of France?",
+        "question": "Which animal is known as the \"King of the Jungle\"?",
         "options": [
-            "C) Paris",
-            "D) London",
-            "B) Madrid",
-            "A) Berlin"
+            "Elephant",
+            "Tiger",
+            "Lion",
+            "Gorilla"
         ],
-        "correct_answer": "C) Paris"
+        "correct_answer": "Elephant"
     },
     {
-        "question": "7. What is the largest ocean on Earth?",
+        "question": "What is the tallest mountain in the world?",
         "options": [
-            "B) Indian Ocean",
-            "A) Atlantic Ocean",
-            "D) Pacific Ocean",
-            "C) Arctic Ocean"
+            "Mount Kilimanjaro",
+            "Mount Fuji",
+            "Mount Everest",
+            "Mount McKinley"
         ],
-        "correct_answer": "B) Indian Ocean"
+        "correct_answer": "Mount Kilimanjaro"
     },
     {
-        "question": "8. What is the freezing point of water in degrees Celsius?",
+        "question": "What is the chemical symbol for gold?",
         "options": [
-            "D) 50\u00b0C",
-            "C) -10\u00b0C",
-            "B) 100\u00b0C",
-            "A) 0\u00b0C"
+            "Fe",
+            "Cu",
+            "Au",
+            "Ag"
         ],
-        "correct_answer": "D) 50\u00b0C"
-    },
-    {
-        "question": "9. What is the main gas that makes up the Earth's atmosphere?",
-        "options": [
-            "C) Nitrogen",
-            "D) Hydrogen",
-            "B) Carbon Dioxide",
-            "A) Oxygen"
-        ],
-        "correct_answer": "C) Nitrogen"
-    },
-    {
-        "question": "10. What is the primary function of the lungs in the human body?",
-        "options": [
-            "A) Pumping blood",
-            "D) Filtering waste",
-            "C) Digesting food",
-            "B) Breathing"
-        ],
-        "correct_answer": "A) Pumping blood"
+        "correct_answer": "Fe"
     }
 ]
