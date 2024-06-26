@@ -3,8 +3,10 @@ import openai
 import time
 import json
 import re
-
-openai.api_key = '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'
+import os
+from dotenv import load_dotenv
+load_dotenv()
+openai.api_key = os.getenv('OPENAI_API_KEY')
 MAX_TOKENS_PER_REQUEST = 4096  # Safe limit for tokens per request
 
 def is_conceptually_relevant(question):

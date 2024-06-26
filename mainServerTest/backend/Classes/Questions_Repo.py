@@ -11,13 +11,13 @@ import json
 import textstat
 from typing import List
 from langdetect import detect
-
-from backend.Classes.Constants import OPENAI_API_KEY, MAX_TOKENS_PER_REQUEST
+from dotenv import load_dotenv
+load_dotenv()
 from backend.Classes.FirestoreDB import FirestoreDB
 # from Constants import OPENAI_API_KEY, MAX_TOKENS_PER_REQUEST
 # from FirestoreDB import FirestoreDB
 
-openai.api_key = "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"
+openai.api_key = os.getenv('OPENAI_API_KEY')
 
 
 user_points = 0  # Initialize user points
@@ -243,7 +243,12 @@ class Questions_Repo:
             if not os.path.exists(self.output_mcqs_hard):
                 self.output_mcqs_hard = None
             self.addDocumentQuestionsToFirestore()
-            
+            # Questions_Repo.close_file_if_open("mainServerTest/assets/input_files/text-based/"+Questions_Repo.getFileNameFromPathWithOutExtension(file_path)+".pdf")
+            # Questions_Repo.close_file_if_open("mainServerTest/assets/input_files/text-based/"+Questions_Repo.getFileNameFromPathWithOutExtension(file_path)+".pdf")
+            # Questions_Repo.close_file_if_open("mainServerTest/assets/output_files/text_files/"+Questions_Repo.getFileNameFromPathWithOutExtension(file_path)+".txt")
+            # Questions_Repo.close_file_if_open("mainServerTest/assets/output_files/text_files/"+Questions_Repo.getFileNameFromPathWithOutExtension(file_path)+".txt")    
+   
+  
       else:
         transcript_text = self.read_text_file(file_path)
         cleaned_transcript = Questions_Repo.clean_text(transcript_text)
@@ -281,6 +286,7 @@ class Questions_Repo:
             if not os.path.exists(self.output_mcqs_hard):
                 self.output_mcqs_hard = None
             self.addVideoQuestionsToFirestore()
+
              
     
  
@@ -394,7 +400,20 @@ class Questions_Repo:
             print("Successfully added processed material to firestore")
         except Exception as e:
             print(e)
-    
-    
+    @staticmethod
+    def close_file_if_open(file_path):
+        try:
+                # Open the file to close it if it's open
+                with open(file_path, 'r') as file:
+                    file.close()
+                    print(f"Closed the file {file_path} before deleting.")
+
+                # Now delete the file
+                os.remove(file_path)
+                print(f"Deleted the file {file_path} successfully.")
+        except FileNotFoundError:
+                print(f"File {file_path} not found.")
+        except Exception as e:
+                print(f"An error occurred: {e}")
 # if __name__ == "__main__":
 #     Questions_Repo("mainServerTest/assets/input_files/text-based/test.pdf",None)

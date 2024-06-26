@@ -1,3 +1,0 @@
-{
-    "long_summary": "- Views and viewpoints used in software architecture to structure complex descriptions\n- Views break down system into aspects; viewpoints provide view templates\n- Viewpoints guide view content, representation, issues, solutions\n- Academic roots back to Parnas in 1970s, recent work by Perry and Wolf\n- Sets of viewpoints developed by Kruchten, RM-ODP, Hofmeister et al.\n- Books by Garland & Anthony, Woods et al\n- Viewpoints defined for information systems using UML\n- Conceptual model relates viewpoints and views to environment\n- Basis of ISO Standard, developed from previous IEEE Standard"
-}

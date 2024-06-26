@@ -18,7 +18,6 @@ from Flash_Cards_Repo import Flash_Cards
 from Questions_Repo import Questions_Repo
 from FirestoreDB import FirestoreDB
 from audiocutter import runaudiocutter
-from Constants import OPENAI_API_KEY
 from dotenv import load_dotenv
 
 

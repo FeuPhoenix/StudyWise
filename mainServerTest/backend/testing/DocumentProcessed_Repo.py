@@ -16,8 +16,6 @@ import subprocess
 import uuid
 import fitz  # PyMuPDF
 import comtypes.client
-
-from Constants import OPENAI_API_KEY 
 from FirestoreDB import FirestoreDB
 from Flash_Cards_Repo import Flash_Cards
 from Questions_Repo import Questions_Repo

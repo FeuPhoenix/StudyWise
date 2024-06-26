@@ -11,13 +11,13 @@ import json
 import textstat
 from typing import List
 from langdetect import detect
+from dotenv import load_dotenv
+load_dotenv()
+# from backend.Classes.Constants import OPENAI_API_KEY, MAX_TOKENS_PER_REQUEST
+# from backend.Classes.FirestoreDB import FirestoreDB
+from FirestoreDB import FirestoreDB
 
-from backend.Classes.Constants import OPENAI_API_KEY, MAX_TOKENS_PER_REQUEST
-from backend.Classes.FirestoreDB import FirestoreDB
-# from Constants import OPENAI_API_KEY, MAX_TOKENS_PER_REQUEST
-# from FirestoreDB import FirestoreDB
-
-openai.api_key = os.getenv("OPENAI_API_KEY")
+openai.api_key = os.getenv('OPENAI_API_KEY')
 
 
 user_points = 0  # Initialize user points
@@ -269,9 +269,9 @@ class Questions_Repo:
                     print(f"No {difficulty} MCQs were generated for the transcript.")
             else:
                 print(f"No {difficulty} content extracted from the transcript.")
-            self.output_mcqs_easy = 'mainServerTest/assets/output_files/mcq/'+Questions_Repo.getFileNameFromPathWithOutExtension(file_path)+'_transcript.json'
-            self.output_mcqs_medium = 'mainServerTest/assets/output_files/mcq/'+Questions_Repo.getFileNameFromPathWithOutExtension(file_path)+'medium.json'
-            self.output_mcqs_hard = 'mainServerTest/assets/output_files/mcq/'+Questions_Repo.getFileNameFromPathWithOutExtension(file_path)+'hard.json'
+            self.output_mcqs_easy = 'mainServerTest/assets/output_files/mcq/'+Questions_Repo.getFileNameFromPathWithOutExtension(file_path)+'easy_transcript.json'
+            self.output_mcqs_medium = 'mainServerTest/assets/output_files/mcq/'+Questions_Repo.getFileNameFromPathWithOutExtension(file_path)+'medium_transcript.json'
+            self.output_mcqs_hard = 'mainServerTest/assets/output_files/mcq/'+Questions_Repo.getFileNameFromPathWithOutExtension(file_path)+'hard_transcript.json'
             if not os.path.exists(self.output_mcqs_easy):
                self.output_mcqs_easy = None
 

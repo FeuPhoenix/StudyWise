@@ -325,7 +325,7 @@ class VideoProcessed_Repo_Cut:
             print("True")
             return True
         else:
-            print("Flase")
+            print("False")
             return False
     @staticmethod
     def getFileNameFromPathWithOutExtension(input_string):
@@ -469,7 +469,10 @@ class VideoProcessed_Repo_Cut:
                     # Generate long summary
                     prompt = "Provide a long summary of the transcript."
                     result = transcript.lemur.task(prompt)
-                    summary_data = {'long_summary': result.response}
+                    txt=result.response
+                    pattern = re.compile(re.escape("Here is a long summary of the transcript:") + r'\s*')
+                    txt=pattern.sub('', txt, 1)
+                    summary_data = {'long_summary': txt}
                     self.generated_summary_file_path = f'mainServerTest/assets/output_files/summaries/{self.file_name}.json'
                     with open(self.generated_summary_file_path, 'w') as json_file:
                         json.dump(summary_data, json_file, indent=4)
@@ -512,7 +515,7 @@ class VideoProcessed_Repo_Cut:
                         print(transcript.error)
                     else:
                         print(transcript.text)
-
+                  
                     # Save transcript to text file
                     self.generated_text_file_path = f"mainServerTest/assets/output_files/text_files/{self.file_name}.txt"
                     with open(self.generated_text_file_path, 'w', encoding='utf-8',errors='ignore') as transcript_file:
@@ -536,7 +539,10 @@ class VideoProcessed_Repo_Cut:
                     # Generate long summary
                     prompt = "Provide a long summary of the transcript."
                     result = transcript.lemur.task(prompt)
-                    summary_data = {'long_summary': result.response}
+                    txt=result.response
+                    pattern = re.compile(re.escape("Here is a long summary of the transcript:") + r'\s*')
+                    txt=pattern.sub('', txt, 1)
+                    summary_data = {'long_summary': txt}
                     self.generated_summary_file_path = f'mainServerTest/assets/output_files/summaries/{self.file_name}.json'
                     with open(self.generated_summary_file_path, 'w') as json_file:
                         json.dump(summary_data, json_file, indent=4)

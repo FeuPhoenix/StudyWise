@@ -10,13 +10,15 @@ import openai
 import time
 import json
 import re
+from dotenv import load_dotenv
 
-from backend.Classes.Constants import OPENAI_API_KEY, MAX_TOKENS_PER_REQUEST,kUserId,kUserEmail ,kDatejoined ,kFullName
+
+load_dotenv()
 from backend.Classes.FirestoreDB import FirestoreDB # Assuming the Materials and Processed_Materials classes are defined in app.Studywise.Model
 
 class Flash_Cards:
     def __init__(self, ProcessedMaterial, userid, materialid, content_type=''):
-        openai.api_key = OPENAI_API_KEY
+        openai.api_key = os.getenv('OPENAI_API_KEY')
         self.content_type=content_type
         self.ProcessedMaterial=ProcessedMaterial 
         self.userid=userid

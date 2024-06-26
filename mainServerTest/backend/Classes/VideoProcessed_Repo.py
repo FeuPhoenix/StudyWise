@@ -325,7 +325,7 @@ class VideoProcessed_Repo:
             print("True")
             return True
         else:
-            print("Flase")
+            print("False")
             return False
     @staticmethod
     def getFileNameFromPathWithOutExtension(input_string):
@@ -350,7 +350,7 @@ class VideoProcessed_Repo:
     def generate_concise_title(headline):
         while True:
             try:
-                        openai.api_key =os.getenv("OPENAI_API_KEY")
+                        openai.api_key ="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"
 
 
                          
@@ -438,7 +438,8 @@ class VideoProcessed_Repo:
                         print(transcript.error)
                     else:
                         print(transcript.text)
-
+                    
+                    
                     # Save transcript to text file
                     self.generated_text_file_path = f"mainServerTest/assets/output_files/text_files/{self.file_name}.txt"
                     with open(self.generated_text_file_path, 'w', encoding='utf-8',errors='ignore') as transcript_file:
@@ -462,7 +463,10 @@ class VideoProcessed_Repo:
                     # Generate long summary
                     prompt = "Provide a long summary of the transcript."
                     result = transcript.lemur.task(prompt)
-                    summary_data = {'long_summary': result.response}
+                    txt=result.response
+                    pattern = re.compile(re.escape("Here is a long summary of the transcript:") + r'\s*')
+                    txt=pattern.sub('', txt, 1)
+                    summary_data = {'long_summary': txt}
                     self.generated_summary_file_path = f'mainServerTest/assets/output_files/summaries/{self.file_name}.json'
                     with open(self.generated_summary_file_path, 'w') as json_file:
                         json.dump(summary_data, json_file, indent=4)
@@ -505,11 +509,13 @@ class VideoProcessed_Repo:
                         print(transcript.error)
                     else:
                         print(transcript.text)
+                    txt=transcript.text
+
 
                     # Save transcript to text file
                     self.generated_text_file_path = f"mainServerTest/assets/output_files/text_files/{self.file_name}.txt"
                     with open(self.generated_text_file_path, 'w', encoding='utf-8',errors='ignore') as transcript_file:
-                        transcript_file.write(transcript.text)
+                        transcript_file.write(txt)
                         print(f"Full transcript has been successfully saved to {self.generated_text_file_path}.")
 
                     # Save chapters to JSON file
@@ -529,7 +535,10 @@ class VideoProcessed_Repo:
                     # Generate long summary
                     prompt = "Provide a long summary of the transcript."
                     result = transcript.lemur.task(prompt)
-                    summary_data = {'long_summary': result.response}
+                    txt=result.response
+                    pattern = re.compile(re.escape("Here is a long summary of the transcript:") + r'\s*')
+                    txt=pattern.sub('', txt, 1)
+                    summary_data = {'long_summary': txt}
                     self.generated_summary_file_path = f'mainServerTest/assets/output_files/summaries/{self.file_name}.json'
                     with open(self.generated_summary_file_path, 'w') as json_file:
                         json.dump(summary_data, json_file, indent=4)
