@@ -11,10 +11,13 @@ import json
 import textstat
 from typing import List
 from langdetect import detect
-from Constants import OPENAI_API_KEY, MAX_TOKENS_PER_REQUEST
+from dotenv import load_dotenv
+load_dotenv()
+# from backend.Classes.Constants import OPENAI_API_KEY, MAX_TOKENS_PER_REQUEST
+# from backend.Classes.FirestoreDB import FirestoreDB
 from FirestoreDB import FirestoreDB
 
-openai.api_key = OPENAI_API_KEY
+openai.api_key = os.getenv('OPENAI_API_KEY')
 
 
 user_points = 0  # Initialize user points
@@ -27,6 +30,25 @@ class Questions_Repo:
         self.userid=userid
         self.materialid=materialid
         self.runMCQGenerator(self.ProcessedMaterial,Type)
+    @staticmethod
+    def clean_mcq(text):
+            """Cleans the input text by removing specific leading patterns."""
+            return re.sub(r"^(Q:|A:|\s*\-\s*|\s*\d+\.\s*|\s*\d+\-\s*|[A-Za-z]\.\s*|[A-Za-z]\)\s*|\s*\d+\)\s*)", "", text)
+    @staticmethod
+    def post_process_questions(mcq):
+        """Post-processes a list of questions to clean up the text."""
+        for question_data in mcq:
+            # Clean the question text
+            question_data['question'] = Questions_Repo.clean_mcq(question_data['question'])
+            
+            # Clean each option in the options list
+            question_data['options'] = [Questions_Repo.clean_mcq(option) for option in question_data['options']]
+            
+            # Clean the correct answer
+            question_data['correct_answer'] = Questions_Repo.clean_mcq(question_data['correct_answer'])
+            
+        return mcq
+
     @staticmethod
     def read_text_file(file_path):
         with open(file_path, 'r') as file:
@@ -72,8 +94,9 @@ class Questions_Repo:
         if current_chunk:
             chunks.append(current_chunk.strip())
         return chunks
-    
-    
+    @staticmethod
+    def detect_language(text):
+        return detect(text)
     @staticmethod
     def determine_difficulty(text: str) -> str:
         # Calculate readability scores and text metrics
@@ -191,12 +214,15 @@ class Questions_Repo:
                 return
 
             paragraphs =Questions_Repo.extract_paragraphs_from_pdf(file_path)
-
             for difficulty in ['easy', 'medium', 'hard']:
                 if paragraphs[difficulty]:
                     mcqs = Questions_Repo.generate_mcqs(paragraphs, difficulty)
+                    mcqs=Questions_Repo.post_process_questions(mcqs)
+
+
+                    
                     if mcqs:
-                        output_path = f'mainServerTest/assets/output_files/mcq/{difficulty}.json'
+                        output_path = 'mainServerTest/assets/output_files/mcq/'+Questions_Repo.getFileNameFromPathWithOutExtension(file_path)+difficulty+'.json'
                         if not os.path.isfile(output_path):
                             os.makedirs(os.path.dirname(output_path), exist_ok=True)
                         Questions_Repo.save_mcqs_to_file(mcqs, output_path)
@@ -204,9 +230,9 @@ class Questions_Repo:
                         print(f"No {difficulty} MCQs were generated.")
                 else:
                     print(f"No {difficulty} content extracted from the file.")
-            self.output_mcqs_easy = 'mainServerTest/assets/output_files/mcq/easy.json'
-            self.output_mcqs_medium = 'mainServerTest/assets/output_files/mcq/medium.json'
-            self.output_mcqs_hard = 'mainServerTest/assets/output_files/mcq/hard.json'
+            self.output_mcqs_easy = 'mainServerTest/assets/output_files/mcq/'+Questions_Repo.getFileNameFromPathWithOutExtension(file_path)+'easy.json'
+            self.output_mcqs_medium = 'mainServerTest/assets/output_files/mcq/'+Questions_Repo.getFileNameFromPathWithOutExtension(file_path)+'medium.json'
+            self.output_mcqs_hard = 'mainServerTest/assets/output_files/mcq/'+Questions_Repo.getFileNameFromPathWithOutExtension(file_path)+'hard.json'
 
             if not os.path.exists(self.output_mcqs_easy):
                 self.output_mcqs_easy = None
@@ -231,8 +257,11 @@ class Questions_Repo:
         for difficulty in ['easy', 'medium', 'hard']:
             if transcript_paragraphs[difficulty]:
                 mcqs = Questions_Repo.generate_mcqs(transcript_paragraphs, difficulty)
+                print("MCQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQ",mcqs)
+                mcqs=Questions_Repo.post_process_questions(mcqs)
                 if mcqs:
-                    output_path = f'mainServerTest/assets/output_files/mcq/{difficulty}_transcript.json'
+                   
+                    output_path = 'mainServerTest/assets/output_files/mcq/'+Questions_Repo.getFileNameFromPathWithOutExtension(file_path)+difficulty+'_transcript.json'
                     if not os.path.isfile(output_path):
                         os.makedirs(os.path.dirname(output_path), exist_ok=True)
                     Questions_Repo.save_mcqs_to_file(mcqs, output_path)
@@ -240,9 +269,9 @@ class Questions_Repo:
                     print(f"No {difficulty} MCQs were generated for the transcript.")
             else:
                 print(f"No {difficulty} content extracted from the transcript.")
-            self.output_mcqs_easy = 'mainServerTest/assets/output_files/mcq/easy.json'
-            self.output_mcqs_medium = 'mainServerTest/assets/output_files/mcq/medium.json'
-            self.output_mcqs_hard = 'mainServerTest/assets/output_files/mcq/hard.json'
+            self.output_mcqs_easy = 'mainServerTest/assets/output_files/mcq/'+Questions_Repo.getFileNameFromPathWithOutExtension(file_path)+'easy_transcript.json'
+            self.output_mcqs_medium = 'mainServerTest/assets/output_files/mcq/'+Questions_Repo.getFileNameFromPathWithOutExtension(file_path)+'medium_transcript.json'
+            self.output_mcqs_hard = 'mainServerTest/assets/output_files/mcq/'+Questions_Repo.getFileNameFromPathWithOutExtension(file_path)+'hard_transcript.json'
             if not os.path.exists(self.output_mcqs_easy):
                self.output_mcqs_easy = None
 

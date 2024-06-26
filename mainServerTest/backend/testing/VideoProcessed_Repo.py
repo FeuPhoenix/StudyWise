@@ -18,14 +18,15 @@ from Flash_Cards_Repo import Flash_Cards
 from Questions_Repo import Questions_Repo
 from FirestoreDB import FirestoreDB
 from audiocutter import runaudiocutter
-from Constants import OPENAI_API_KEY
+
 from dotenv import load_dotenv
 
 
 load_dotenv()
 
 
-openai.api_key = OPENAI_API_KEY
+openai.api_key = "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"
+
 
 aai.settings.api_key = os.getenv('AAI_API_key')
 
@@ -321,7 +322,7 @@ class VideoProcessed_Repo:
             print("True")
             return True
         else:
-            print("Flase")
+            print("false")
             return False
     @staticmethod
     def getFileNameFromPathWithOutExtension(input_string):
@@ -346,7 +347,8 @@ class VideoProcessed_Repo:
     def generate_concise_title(headline):
         while True:
             try:
-                        openai.api_key =OPENAI_API_KEY
+                        openai.api_key ="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"
+
 
                          
                         response = openai.ChatCompletion.create(
@@ -420,7 +422,7 @@ class VideoProcessed_Repo:
                     os.makedirs(output_dir, exist_ok=True)
 
                     # Use a shorter and simpler file name
-                    output_file = f"{output_dir}/{self.file_name}.mp3"
+                    output_file = f"{output_dir}/{self.file_name}.mp3".replace('\\', '/')
                     print(f"Saving audio to: {output_file}")
 
                     audio.write_audiofile(output_file, codec='mp3')
@@ -433,7 +435,8 @@ class VideoProcessed_Repo:
                         print(transcript.error)
                     else:
                         print(transcript.text)
-
+                    
+                    
                     # Save transcript to text file
                     self.generated_text_file_path = f"mainServerTest/assets/output_files/text_files/{self.file_name}.txt"
                     with open(self.generated_text_file_path, 'w', encoding='utf-8',errors='ignore') as transcript_file:
@@ -457,7 +460,10 @@ class VideoProcessed_Repo:
                     # Generate long summary
                     prompt = "Provide a long summary of the transcript."
                     result = transcript.lemur.task(prompt)
-                    summary_data = {'long_summary': result.response}
+                    txt=result.response
+                    pattern = re.compile(re.escape("Here is a long summary of the transcript:") + r'\s*')
+                    txt=pattern.sub('', txt, 1)
+                    summary_data = {'long_summary': txt}
                     self.generated_summary_file_path = f'mainServerTest/assets/output_files/summaries/{self.file_name}.json'
                     with open(self.generated_summary_file_path, 'w') as json_file:
                         json.dump(summary_data, json_file, indent=4)
@@ -500,11 +506,13 @@ class VideoProcessed_Repo:
                         print(transcript.error)
                     else:
                         print(transcript.text)
+                    txt=transcript.text
+
 
                     # Save transcript to text file
                     self.generated_text_file_path = f"mainServerTest/assets/output_files/text_files/{self.file_name}.txt"
                     with open(self.generated_text_file_path, 'w', encoding='utf-8',errors='ignore') as transcript_file:
-                        transcript_file.write(transcript.text)
+                        transcript_file.write(txt)
                         print(f"Full transcript has been successfully saved to {self.generated_text_file_path}.")
 
                     # Save chapters to JSON file
@@ -524,7 +532,10 @@ class VideoProcessed_Repo:
                     # Generate long summary
                     prompt = "Provide a long summary of the transcript."
                     result = transcript.lemur.task(prompt)
-                    summary_data = {'long_summary': result.response}
+                    txt=result.response
+                    pattern = re.compile(re.escape("Here is a long summary of the transcript:") + r'\s*')
+                    txt=pattern.sub('', txt, 1)
+                    summary_data = {'long_summary': txt}
                     self.generated_summary_file_path = f'mainServerTest/assets/output_files/summaries/{self.file_name}.json'
                     with open(self.generated_summary_file_path, 'w') as json_file:
                         json.dump(summary_data, json_file, indent=4)
@@ -554,12 +565,12 @@ class VideoProcessed_Repo:
         except Exception as e:
             print(e)
 
-# def main():
-#     a = VideoProcessed_Repo("C:/Users/Abdelrahman/Downloads/Coding_Basics_-_Variables_-_Programming_for_Beginners.mp4","0GKTloo0geWML96tvd9g27C99543",True)
-#     a.Video_Processing()
-#     print(a.file_name)
+def main():
+    a = VideoProcessed_Repo("https://www.youtube.com/watch?v=mheHbVev1CU&ab_channel=exurb1a","jo45D5quBvRHU9q0iDLdYbcfdNI2",True)
+    a.Video_Processing()
+    print(a.file_name)
 
-# if __name__ == '__main__':
-#     main()
+if __name__ == '__main__':
+    main()
 
      

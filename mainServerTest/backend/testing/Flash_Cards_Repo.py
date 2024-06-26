@@ -10,13 +10,15 @@ import openai
 import time
 import json
 import re
-
-from Constants import OPENAI_API_KEY, MAX_TOKENS_PER_REQUEST,kUserId,kUserEmail ,kDatejoined ,kFullName
+import dotenv
+# from backend.Classes.Constants import OPENAI_API_KEY, MAX_TOKENS_PER_REQUEST,kUserId,kUserEmail ,kDatejoined ,kFullName
+# from backend.Classes.FirestoreDB import FirestoreDB # Assuming the Materials and Processed_Materials classes are defined in app.Studywise.Model
 from FirestoreDB import FirestoreDB # Assuming the Materials and Processed_Materials classes are defined in app.Studywise.Model
-
+from dotenv import load_dotenv
+load_dotenv()
 class Flash_Cards:
     def __init__(self,ProcessedMaterial,userid,materialid,content_type=''):
-        openai.api_key = OPENAI_API_KEY
+        openai.api_key = "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"
         self.content_type=content_type
         self.ProcessedMaterial=ProcessedMaterial 
         self.userid=userid
@@ -31,18 +33,18 @@ class Flash_Cards:
         else:
             self.addDocumentFlashCardsToFirestore()
         
-    @staticmethod    
+    @staticmethod
     def getFileNameFromPathWithOutExtension(input_string):
         last_slash_index = input_string.rfind('/')
         result_string = input_string[last_slash_index + 1:]
-        result_string=result_string.replace('.mp4','')
-        result_string=result_string.replace('.docx','')
-        result_string=result_string.replace('.doc','')
-        result_string=result_string.replace('.pptx','')
-        result_string=result_string.replace('.ppt','')
-        result_string=result_string.replace('.pdf','')
-        result_string=result_string.replace('.json','')
-        result_string=result_string.replace('.txt','')
+        result_string = result_string.replace('.mp4','')
+        result_string = result_string.replace('.docx','')
+        result_string = result_string.replace('.doc','')
+        result_string = result_string.replace('.pptx','')
+        result_string = result_string.replace('.ppt','')
+        result_string = result_string.replace('.pdf','')
+        result_string = result_string.replace('.json','')
+        result_string = result_string.replace('.txt','')
         return result_string
    
     @staticmethod
@@ -280,7 +282,7 @@ class Flash_Cards:
                         qa_pairs.append(pair)
 
         return qa_pairs
-    def generate_qa_pairs(self,paragraphs, content_type):
+    def generate_qa_pairs(self, paragraphs, content_type):
         qa_pairs = []
         batched_paragraphs = []
         current_batch = ""
@@ -288,6 +290,17 @@ class Flash_Cards:
         for paragraph in paragraphs:
 
             base_prompt = "Generate questions and answers focusing on the technical and conceptual content of this text. "
+
+            # base_prompt = f"""
+            #     Generate a list of flashcard-style questions and answers focusing on the technical and conceptual content of the provided text. Avoid questions about authors, publication dates, or historical development. Do not refer to the material you have been provided with as 'this text' or 'the text'; instead, refer to it with the name of the topic at hand. Do not treat the questions and answers as if they are exclusive to this text. For example, do not ask about what this text in particular is talking about. You can ask about definitions of concepts that were explained in the text. Format each question and answer pair as follows, without any headers like 'Q:' or 'Question:':
+
+            #     {{
+            #         "front": "Question text here?",
+            #         "back": "Answer text here."
+            #     }}
+
+            #     Text to analyze:
+            #     """
 
             transcript_note = "Noting that the text that will be given might contain grammatical or logical mistakes due to speech-to-text inaccuracies, please focus on generating conceptually relevant and clear questions and answers, avoiding ambiguous content. Only generate quesitons and answers relevant to the following text: " 
             pdf_note = "Avoiding questions about authors, publication dates, or historical development. Do not refer to the material you have been provided with as 'this text' or 'the text', instead, refer to it with the name of the topic at hand, and do not treat the questions & answers as they are exclusive to this text, for example, do not ask about what this text in particular is talking about. You can ask about definitions of things that were explained in the text: "
@@ -318,8 +331,8 @@ class Flash_Cards:
             system_prompt = {"role": "system", "content": "You are a helpful assistant."}
             user_prompt = {"role": "user", "content": prompt_content + ": " + batch}
 
-            print("This is the user prompt that will be sent: Prompt Content:y\n" + prompt_content + "\nBatch:\n" + batch)
-            print("sending prompt: " + prompt_content + "\n user_prompt:\n" + user_prompt)
+            print("This is the user prompt that will be sent: Prompt Content:\n" + prompt_content + "\nBatch:\n" + batch)
+
             prompt = [system_prompt, user_prompt]
             try:
                 response = openai.ChatCompletion.create(model="gpt-3.5-turbo", messages=prompt)
@@ -353,46 +366,52 @@ class Flash_Cards:
                 formatted_cards.append({'front': question.strip(), 'back': answer.strip()})
         return formatted_cards
 
-    def filenameFromPath(self,filepath):
-        parts = filepath.rsplit('/', 1)
+    # def filenameFromPath(self, filepath):
+    #     parts = filepath.rsplit('/', 1)
 
-        if len(parts) == 1: # If no '/' was found, return empty string
-            return ""
+    #     if len(parts) == 1: # If no '/' was found, return empty string
+    #         return ""
 
-        filename_parts = parts[-1].rsplit('.', 1)
+    #     filename_parts = parts[-1].rsplit('.', 1)
 
-        if len(filename_parts) == 1:
-            return parts[-1]
+    #     if len(filename_parts) == 1:
+    #         return parts[-1]
+        
 
-        return filename_parts[0] # Return the filename alone (assuming it was between the last '/' and the last '.')
+    #     return filename_parts[0] # Return the filename alone (assuming it was between the last '/' and the last '.')
 
     # Example usage:
     @staticmethod
     def detect_language(text):
         return detect(text)
-    def save_flash_cards_to_file(self,formatted_cards, filepath):
+    
+    def save_flash_cards_to_file(self, formatted_cards, filepath):
+    # Create directories if they don't exist
+        os.makedirs(os.path.dirname(filepath), exist_ok=True)
+        
         with open(filepath, 'w') as file:
             json.dump(formatted_cards, file, indent=4)
 
     def runFlashcards(self,file_path, content_type = ''):
         content = []
 
-        self.filename = self.filenameFromPath(file_path)
-        output_path = 'assets/output_files/flashcards/'+self.filename+'.json'
+        self.filename = self.getFileNameFromPathWithOutExtension(file_path)
+        output_path = 'mainServerTest/assets/output_files/flashcards/'+self.filename+'.json'
         self.Flashcards = output_path
 
-        if content_type == '':
-            if file_path.endswith('.pdf'):
-                content = self.extract_paragraphs_from_pdf(file_path)
-                content_type = 'pdf'
-            elif file_path.endswith('.txt'):
-                content = self.extract_and_split_text(file_path)
+        
+        if file_path.endswith('.pdf'):
+            content = self.extract_paragraphs_from_pdf(file_path)
+            content_type = 'pdf'
+
+        elif file_path.endswith('.txt'):
+            content = self.extract_and_split_text(file_path)
                 
-            else:
-                raise ValueError("Unsupported file type. Only .pdf or .txt files are currently accepted.")
+        else:
+            raise ValueError("Unsupported file type. Only .pdf or .txt files are currently accepted.")
         
         qa_pairs = self.generate_qa_pairs(content, content_type)
         formatted_cards = self.format_flash_cards(qa_pairs)
         self.save_flash_cards_to_file(formatted_cards, output_path)
-        self.Flashcards=output_path
+        self.Flashcards = output_path
         print(f"Flash cards saved to {output_path}")

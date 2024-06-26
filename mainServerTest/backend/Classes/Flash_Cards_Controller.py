@@ -7,7 +7,6 @@ import json
 import re
 
 import requests
-from Constants import OPENAI_API_KEY, MAX_TOKENS_PER_REQUEST,kUserId,kUserEmail ,kDatejoined ,kFullName
 #import FirestoreDB as FirestoreDB
 from FirestoreDB import FirestoreDB
 from Flash_Cards_Repo import Flash_Cards

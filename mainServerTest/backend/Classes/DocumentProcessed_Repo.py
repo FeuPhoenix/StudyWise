@@ -502,7 +502,8 @@ class DocumentProcessed:
     
     @staticmethod
     def get_Long_summary(text):
-        openai.api_key = os.getenv('OPENAI_API_KEY')
+        openai.api_key = os.getenv("OPENAI_API_KEY")
+
 
         summaries = []
 
@@ -513,7 +514,7 @@ class DocumentProcessed:
                         model="gpt-3.5-turbo",
                         messages=[
                             {"role": "system", "content": "You are a helpful assistant."},
-                            {"role": "user", "content": f"Summarize the following text into concise bullet points, focusing only on essential information: \n{chunk}"}
+                            {"role": "user", "content": f"Summarize the following text into concise bullet points, focusing only on essential information. Make any text between ** symbols bold and remove the ** symbols: \n{chunk}"}
                         ]
                     )
                     summaries.append(response['choices'][0]['message']['content'].strip())
@@ -558,6 +559,7 @@ class DocumentProcessed:
                 elif self.file.endswith(('.doc', '.docx')):
                     self.file_type = DocumentProcessed.get_file_extension(self.file)
                     self._file_path = DocumentProcessed.convert_word_to_pdf(self.file)
+                    self._file_path="mainServerTest/assets/input_files/text-based/"+self.file_name+".pdf"
                     self._file_path="mainServerTest/assets/input_files/text-based/"+self.file_name+".pdf"
 
                     self.generated_text_file_path = f'mainServerTest/assets/output_files/text_files/{self.file_name}.txt'

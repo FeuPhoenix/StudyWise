@@ -12,7 +12,8 @@ app.secret_key = os.getenv('FLASK_APP_SECRET_KEY', 'a_default_secret_key')
 UPLOAD_FOLDER = 'C:\\Users\\AMR\\Desktop\\pro\\StudyWise\\chat_with_pdf'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
-openai.api_key = os.getenv('OPENAI_API_KEY')
+openai.api_key = os.getenv("OPENAI_API_KEY")
+
 
 # Route to render the frontend HTML
 @app.route('/')

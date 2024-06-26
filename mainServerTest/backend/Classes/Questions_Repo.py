@@ -11,13 +11,13 @@ import json
 import textstat
 from typing import List
 from langdetect import detect
-
-from backend.Classes.Constants import OPENAI_API_KEY, MAX_TOKENS_PER_REQUEST
+from dotenv import load_dotenv
+load_dotenv()
 from backend.Classes.FirestoreDB import FirestoreDB
 # from Constants import OPENAI_API_KEY, MAX_TOKENS_PER_REQUEST
 # from FirestoreDB import FirestoreDB
 
-openai.api_key = os.getenv("OPENAI_API_KEY")
+openai.api_key = os.getenv('OPENAI_API_KEY')
 
 
 user_points = 0  # Initialize user points
@@ -223,6 +223,7 @@ class Questions_Repo:
                     
                     if mcqs:
                         output_path = 'mainServerTest/assets/output_files/mcq/'+Questions_Repo.getFileNameFromPathWithOutExtension(file_path)+difficulty+'.json'
+                        output_path = 'mainServerTest/assets/output_files/mcq/'+Questions_Repo.getFileNameFromPathWithOutExtension(file_path)+difficulty+'.json'
                         if not os.path.isfile(output_path):
                             os.makedirs(os.path.dirname(output_path), exist_ok=True)
                         Questions_Repo.save_mcqs_to_file(mcqs, output_path)
@@ -230,6 +231,9 @@ class Questions_Repo:
                         print(f"No {difficulty} MCQs were generated.")
                 else:
                     print(f"No {difficulty} content extracted from the file.")
+            self.output_mcqs_easy = 'mainServerTest/assets/output_files/mcq/'+Questions_Repo.getFileNameFromPathWithOutExtension(file_path)+'easy.json'
+            self.output_mcqs_medium = 'mainServerTest/assets/output_files/mcq/'+Questions_Repo.getFileNameFromPathWithOutExtension(file_path)+'medium.json'
+            self.output_mcqs_hard = 'mainServerTest/assets/output_files/mcq/'+Questions_Repo.getFileNameFromPathWithOutExtension(file_path)+'hard.json'
             self.output_mcqs_easy = 'mainServerTest/assets/output_files/mcq/'+Questions_Repo.getFileNameFromPathWithOutExtension(file_path)+'easy.json'
             self.output_mcqs_medium = 'mainServerTest/assets/output_files/mcq/'+Questions_Repo.getFileNameFromPathWithOutExtension(file_path)+'medium.json'
             self.output_mcqs_hard = 'mainServerTest/assets/output_files/mcq/'+Questions_Repo.getFileNameFromPathWithOutExtension(file_path)+'hard.json'
@@ -243,7 +247,12 @@ class Questions_Repo:
             if not os.path.exists(self.output_mcqs_hard):
                 self.output_mcqs_hard = None
             self.addDocumentQuestionsToFirestore()
-            
+            # Questions_Repo.close_file_if_open("mainServerTest/assets/input_files/text-based/"+Questions_Repo.getFileNameFromPathWithOutExtension(file_path)+".pdf")
+            # Questions_Repo.close_file_if_open("mainServerTest/assets/input_files/text-based/"+Questions_Repo.getFileNameFromPathWithOutExtension(file_path)+".pdf")
+            # Questions_Repo.close_file_if_open("mainServerTest/assets/output_files/text_files/"+Questions_Repo.getFileNameFromPathWithOutExtension(file_path)+".txt")
+            # Questions_Repo.close_file_if_open("mainServerTest/assets/output_files/text_files/"+Questions_Repo.getFileNameFromPathWithOutExtension(file_path)+".txt")    
+   
+  
       else:
         transcript_text = self.read_text_file(file_path)
         cleaned_transcript = Questions_Repo.clean_text(transcript_text)
@@ -261,6 +270,7 @@ class Questions_Repo:
                 mcqs=Questions_Repo.post_process_questions(mcqs)
                 if mcqs:
                    
+                    output_path = 'mainServerTest/assets/output_files/mcq/'+Questions_Repo.getFileNameFromPathWithOutExtension(file_path)+difficulty+'_transcript.json'
                     output_path = 'mainServerTest/assets/output_files/mcq/'+Questions_Repo.getFileNameFromPathWithOutExtension(file_path)+difficulty+'_transcript.json'
                     if not os.path.isfile(output_path):
                         os.makedirs(os.path.dirname(output_path), exist_ok=True)
@@ -283,6 +293,7 @@ class Questions_Repo:
             if not os.path.exists(self.output_mcqs_hard):
                 self.output_mcqs_hard = None
             self.addVideoQuestionsToFirestore()
+
              
     
  
@@ -396,7 +407,20 @@ class Questions_Repo:
             print("Successfully added processed material to firestore")
         except Exception as e:
             print(e)
-    
-    
+    @staticmethod
+    def close_file_if_open(file_path):
+        try:
+                # Open the file to close it if it's open
+                with open(file_path, 'r') as file:
+                    file.close()
+                    print(f"Closed the file {file_path} before deleting.")
+
+                # Now delete the file
+                os.remove(file_path)
+                print(f"Deleted the file {file_path} successfully.")
+        except FileNotFoundError:
+                print(f"File {file_path} not found.")
+        except Exception as e:
+                print(f"An error occurred: {e}")
 # if __name__ == "__main__":
 #     Questions_Repo("mainServerTest/assets/input_files/text-based/test.pdf",None)
