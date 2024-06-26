@@ -32,7 +32,7 @@ openai.api_key = os.getenv('OPENAI_API_KEY')
 
 aai.settings.api_key = os.getenv('AAI_API_key')
 
-class VideoProcessed_Repo:
+class VideoProcessed_Repo_Cut:
     def __init__(self, material, userid, Video_Cut = True):
         self.material_id = uuid.uuid4().hex
         self.material = material
@@ -106,7 +106,7 @@ class VideoProcessed_Repo:
        
         file_path_location,generated_text_file_path_Location\
             ,generated_summary_file_path_Location\
-            ,generated_chapters_file_path_Location,generated_audio_file_path_Location=VideoProcessed_Repo.upload_material_to_storage(self.user_ID,self.file_name , self.file_path,self.generated_text_file_path,self.generated_summary_file_path,self.generated_chapters_file_path,self.generated_audio_file_path)
+            ,generated_chapters_file_path_Location,generated_audio_file_path_Location=VideoProcessed_Repo_Cut.upload_material_to_storage(self.user_ID,self.file_name , self.file_path,self.generated_text_file_path,self.generated_summary_file_path,self.generated_chapters_file_path,self.generated_audio_file_path)
 
         #document('13ffe4704e2d423ea7751cb88d599db7') the number will be replaced with the user id
         #document(rmk3SGTciwNRdo9pT4CO) this will be replaced with the material id
@@ -153,7 +153,7 @@ class VideoProcessed_Repo:
         # Upload the material file inside the folder
         material_blob_path = folder_path + f"{material_name}.mp4"
         material_blob = storage_instance.blob(material_blob_path)
-        VideoProcessed_Repo.upload_Video_file_to_storage(material_blob, material_file_path)
+        VideoProcessed_Repo_Cut.upload_Video_file_to_storage(material_blob, material_file_path)
 
         # Upload the text file inside the folder
         text_blob_path = folder_path + "text.txt"
@@ -175,7 +175,7 @@ class VideoProcessed_Repo:
         time.sleep(10)
         audio_blob_path = folder_path + "audio.mp3"
         audio_blob = storage_instance.blob(audio_blob_path)
-        VideoProcessed_Repo.upload_audio_file_to_storage(audio_blob, audio_file_path)
+        VideoProcessed_Repo_Cut.upload_audio_file_to_storage(audio_blob, audio_file_path)
         
         expiration = datetime.now() + timedelta(days=36500)
         print("Successfully uploaded material to Storage")
@@ -193,7 +193,7 @@ class VideoProcessed_Repo:
        
         generated_text_file_path_Location\
             ,generated_summary_file_path_Location\
-            ,generated_chapters_file_path_Location,generated_audio_file_path_Location=VideoProcessed_Repo.upload_material_youtube_to_storage(self.user_ID,self.file_name  ,self.generated_text_file_path,self.generated_summary_file_path,self.generated_chapters_file_path,self.generated_audio_file_path)
+            ,generated_chapters_file_path_Location,generated_audio_file_path_Location=VideoProcessed_Repo_Cut.upload_material_youtube_to_storage(self.user_ID,self.file_name  ,self.generated_text_file_path,self.generated_summary_file_path,self.generated_chapters_file_path,self.generated_audio_file_path)
 
         #document('13ffe4704e2d423ea7751cb88d599db7') the number will be replaced with the user id
         #document(rmk3SGTciwNRdo9pT4CO) this will be replaced with the material id
@@ -279,7 +279,7 @@ class VideoProcessed_Repo:
         time.sleep(10)
         audio_blob_path = folder_path + "audio.mp3"
         audio_blob = storage_instance.blob(audio_blob_path)
-        VideoProcessed_Repo.upload_audio_YT_file_to_storage(audio_blob, audio_file_path)
+        VideoProcessed_Repo_Cut.upload_audio_YT_file_to_storage(audio_blob, audio_file_path)
         
         expiration = datetime.now() + timedelta(days=36500)
         print("Successfully uploaded material to Storage")
@@ -394,14 +394,14 @@ class VideoProcessed_Repo:
             return ""
 
     def Video_Processing(self):
-        self.file_name = VideoProcessed_Repo.getFileNameFromPathWithOutExtension(self.material)
+        self.file_name = VideoProcessed_Repo_Cut.getFileNameFromPathWithOutExtension(self.material)
 
         try:
             if self.is_mp4_file(self.material):
                 self.file_type = "mp4"
                 self.file_path = self.material
-                self.meta_data = VideoProcessed_Repo.get_video_metadata(self.material)
-                if VideoProcessed_Repo.check_value_exists_in_VideoMaterial(self.user_ID,self.meta_data):
+                self.meta_data = VideoProcessed_Repo_Cut.get_video_metadata(self.material)
+                if VideoProcessed_Repo_Cut.check_value_exists_in_VideoMaterial(self.user_ID,self.meta_data):
 
                     if self.Video_Cut:
                         self.file_path = self.material.replace(" ", "_")
@@ -414,7 +414,7 @@ class VideoProcessed_Repo:
                         self.file_path = self.material
                         video = mp.VideoFileClip(self.file_path)
 
-                    self.file_name = VideoProcessed_Repo.getFileNameFromPathWithOutExtension(self.file_path)
+                    self.file_name = VideoProcessed_Repo_Cut.getFileNameFromPathWithOutExtension(self.file_path)
                     print("Video name: "+self.file_name)
                     print('Video is initialized')
                             # Extract audio from video
@@ -476,9 +476,9 @@ class VideoProcessed_Repo:
                     # Process chapters
                     processed_chapters = []
                     for chapter in chapters_data:
-                        start_hms = VideoProcessed_Repo.milliseconds_to_hms(chapter['start'])
-                        end_hms = VideoProcessed_Repo.milliseconds_to_hms(chapter['end'])
-                        concise_title = VideoProcessed_Repo.generate_concise_title(chapter['headline'])
+                        start_hms = VideoProcessed_Repo_Cut.milliseconds_to_hms(chapter['start'])
+                        end_hms = VideoProcessed_Repo_Cut.milliseconds_to_hms(chapter['end'])
+                        concise_title = VideoProcessed_Repo_Cut.generate_concise_title(chapter['headline'])
                         print("The processed chapter success")
                         processed_chapters.append({
                             'start': start_hms,
@@ -497,8 +497,8 @@ class VideoProcessed_Repo:
             elif re.match(r'(https?://)?(www\.)?(youtube\.com|youtu\.?be)/.+$', self.material):
                 self.file_path = self.material   
                 self.meta_data = {'webpage_url': self.file_path}
-                if VideoProcessed_Repo.check_value_exists_in_VideoMaterial(self.user_ID, self.meta_data):
-                    self.file_name = VideoProcessed_Repo.download_audio_with_title(self.material)
+                if VideoProcessed_Repo_Cut.check_value_exists_in_VideoMaterial(self.user_ID, self.meta_data):
+                    self.file_name = VideoProcessed_Repo_Cut.download_audio_with_title(self.material)
                     self.generated_audio_file_path=f"mainServerTest/assets/output_files/audio/{self.file_name}.mp3"
                     print(f"Audio file downloaded at: {self.generated_audio_file_path}")
                     
@@ -543,9 +543,9 @@ class VideoProcessed_Repo:
                     # Process chapters
                     processed_chapters = []
                     for chapter in chapters_data:
-                        start_hms = VideoProcessed_Repo.milliseconds_to_hms(chapter['start'])
-                        end_hms = VideoProcessed_Repo.milliseconds_to_hms(chapter['end'])
-                        concise_title = VideoProcessed_Repo.generate_concise_title(chapter['headline'])
+                        start_hms = VideoProcessed_Repo_Cut.milliseconds_to_hms(chapter['start'])
+                        end_hms = VideoProcessed_Repo_Cut.milliseconds_to_hms(chapter['end'])
+                        concise_title = VideoProcessed_Repo_Cut.generate_concise_title(chapter['headline'])
                         print("The processed chapter success")
                         processed_chapters.append({
                             'start': start_hms,
@@ -564,12 +564,10 @@ class VideoProcessed_Repo:
         except Exception as e:
             print(e)
 
-def main():
-    a = VideoProcessed_Repo("C:/Users/Abdelrahman/Downloads/The_Four_Industrial_Revolutions_Explained_In_Under_4_Minutes!_#industry4_#smartmanufacturing.mp4","0GKTloo0geWML96tvd9g27C99543",True)
-    a.Video_Processing()
-    print(a.file_name)
+# def main():
+#     a = VideoProcessed_Repo_Cut("C:/Users/Abdelrahman/Downloads/The_Four_Industrial_Revolutions_Explained_In_Under_4_Minutes!_#industry4_#smartmanufacturing.mp4","0GKTloo0geWML96tvd9g27C99543",True)
+#     a.Video_Processing()
+#     print(a.file_name)
 
-if __name__ == '__main__':
-    main()
-
-     
+# if __name__ == '__main__':
+#     main()

@@ -579,30 +579,36 @@ async def upload_file():
 
             # Save the file to the specified directory (videos)
             filepath = os.path.join(app.config['UPLOAD_FOLDER'], 'video-based', file.filename)
-            file.save(filepath)
-
-            audiocut = request.form.get('audiocut')
-
-            # Call VideoProcessedController to upload the video
-            print(f'Starting processing on video {file.filename}\n',
-                  f'Audiocut = {audiocut}')
+            file.save(filepath)       
             
             socketID = request.form.get('socketID')
-            print('Socket ID: ', socketID)
+            print('Client\'s Socket ID: ', socketID)
+            
+            if request.form.get('audiocut') == 'True' :
+                print(f'Starting processing on video (Audiocut) {file.filename}\n')
+            
+                # Send an initiation update message to the client
+                socketio.emit('update', {'message': f'Processing {file.filename}...'}, to=socketID)
 
-            # Send an initiation update message to the client
-            socketio.emit('update', {'message': f'Processing {file.filename}...'})
+                # Call VideoProcessedController to upload the video
+                processed_video = Video_Processed_Controller.upload_video_cut(filepath, userID)
+            
+            elif request.form.get('audiocut') == 'False' :
+                print(f'Starting processing on video (NON Audiocut) {file.filename}\n')
+            
+                # Send an initiation update message to the client
+                socketio.emit('update', {'message': f'Processing {file.filename}...'}, to=socketID)
 
-            processed_video = Video_Processed_Controller.upload_video(filepath, userID, audiocut)
+                # Call VideoProcessedController to upload the video
+                processed_video = Video_Processed_Controller.upload_video(filepath, userID)
 
             # Send a completion update message to the client
-            socketio.emit('update', {'message': 'Processing completed'})
+            socketio.emit('update', {'message': 'Processing completed'}, to=socketID)
 
             print('Files generated and uploaded to Firebase.\n',
                   'Firebase File name: ', processed_video)
 
             return jsonify({'message': f'Video: {file.filename} processed. ~DIDO', 'filename': processed_video}), 200
-        
         else:
             return jsonify({'message': 'Invalid file type. ~DIDO'}), 400
     

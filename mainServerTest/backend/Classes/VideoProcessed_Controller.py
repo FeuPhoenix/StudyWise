@@ -22,6 +22,7 @@ import requests
 
 from backend.Classes.FirestoreDB import FirestoreDB
 from backend.Classes.VideoProcessed_Repo import VideoProcessed_Repo
+from backend.Classes.VideoProceesedRepowithcut import VideoProcessed_Repo_Cut
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -29,8 +30,14 @@ aai.settings.api_key = os.getenv('AAI_API_key')
 
 class Video_Processed_Controller:
     @staticmethod
-    def upload_video(file, userid, audiocut):
-        Video = VideoProcessed_Repo(file, userid, audiocut)
+    def upload_video(file, userid):
+        Video = VideoProcessed_Repo(file, userid)
+        Video.Video_Processing()
+        return Video.file_name
+    
+    @staticmethod
+    def upload_video_cut(file, userid):
+        Video = VideoProcessed_Repo_Cut(file, userid)
         Video.Video_Processing()
         return Video.file_name
 

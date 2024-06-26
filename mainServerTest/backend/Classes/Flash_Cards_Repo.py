@@ -34,18 +34,18 @@ class Flash_Cards:
         else:
             self.addDocumentFlashCardsToFirestore()
         
-    @staticmethod    
+    @staticmethod
     def getFileNameFromPathWithOutExtension(input_string):
-        last_slash_index = input_string.rfind('\\')
+        last_slash_index = input_string.rfind('/')
         result_string = input_string[last_slash_index + 1:]
-        result_string=result_string.replace('.mp4','')
-        result_string=result_string.replace('.docx','')
-        result_string=result_string.replace('.doc','')
-        result_string=result_string.replace('.pptx','')
-        result_string=result_string.replace('.ppt','')
-        result_string=result_string.replace('.pdf','')
-        result_string=result_string.replace('.json','')
-        result_string=result_string.replace('.txt','')
+        result_string = result_string.replace('.mp4','')
+        result_string = result_string.replace('.docx','')
+        result_string = result_string.replace('.doc','')
+        result_string = result_string.replace('.pptx','')
+        result_string = result_string.replace('.ppt','')
+        result_string = result_string.replace('.pdf','')
+        result_string = result_string.replace('.json','')
+        result_string = result_string.replace('.txt','')
         return result_string
    
     @staticmethod
@@ -332,7 +332,7 @@ class Flash_Cards:
             system_prompt = {"role": "system", "content": "You are a helpful assistant."}
             user_prompt = {"role": "user", "content": prompt_content + ": " + batch}
 
-            print("This is the user prompt that will be sent: Prompt Content:y\n" + prompt_content + "\nBatch:\n" + batch)
+            print("This is the user prompt that will be sent: Prompt Content:\n" + prompt_content + "\nBatch:\n" + batch)
 
             prompt = [system_prompt, user_prompt]
             try:
@@ -402,16 +402,17 @@ class Flash_Cards:
 
         
         if file_path.endswith('.pdf'):
-                content = self.extract_paragraphs_from_pdf(file_path)
-                content_type = 'pdf'
+            content = self.extract_paragraphs_from_pdf(file_path)
+            content_type = 'pdf'
+
         elif file_path.endswith('.txt'):
-                content = self.extract_and_split_text(file_path)
+            content = self.extract_and_split_text(file_path)
                 
         else:
-                raise ValueError("Unsupported file type. Only .pdf or .txt files are currently accepted.")
+            raise ValueError("Unsupported file type. Only .pdf or .txt files are currently accepted.")
         
         qa_pairs = self.generate_qa_pairs(content, content_type)
         formatted_cards = self.format_flash_cards(qa_pairs)
         self.save_flash_cards_to_file(formatted_cards, output_path)
-        self.Flashcards=output_path
+        self.Flashcards = output_path
         print(f"Flash cards saved to {output_path}")
