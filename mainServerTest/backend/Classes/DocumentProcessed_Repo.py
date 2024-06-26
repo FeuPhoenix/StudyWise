@@ -541,7 +541,8 @@ class DocumentProcessed:
         if DocumentProcessed.check_value_exists_in_DocumentMaterial(self.userid, self.file_name):
             if os.path.isfile(self.file):
                 if self.file.endswith('.pdf'):
-                    self._file_path=self.file
+                    # self._file_path=self.file
+                    self._file_path="mainServerTest/assets/input_files/text-based/"+self.file_name+".pdf"
                     self.file_type = DocumentProcessed.get_file_extension(self.file)
                     text_file_path = f'mainServerTest/assets/output_files/text_files/{self.file_name}.txt'
                     self.generated_text_file_path = text_file_path
@@ -549,16 +550,21 @@ class DocumentProcessed:
                 elif self.file.endswith(('.ppt', '.pptx', '.ppsx')):
                     self.file_type = DocumentProcessed.get_file_extension(self.file)
                     self._file_path = DocumentProcessed.convert_ppt_to_pdf(self.file)
+                    self._file_path="mainServerTest/assets/input_files/text-based/"+self.file_name+"."+self.file_type
                     self.generated_text_file_path = f'mainServerTest/assets/output_files/text_files/{self.file_name}.txt'
                     DocumentProcessed.extract_text_from_pdf_plumber(self._file_path, self.generated_text_file_path)
                 elif self.file.endswith(('.doc', '.docx')):
                     self.file_type = DocumentProcessed.get_file_extension(self.file)
                     self._file_path = DocumentProcessed.convert_word_to_pdf(self.file)
+                    self._file_path="mainServerTest/assets/input_files/text-based/"+self.file_name+"."+self.file_type
+
                     self.generated_text_file_path = f'mainServerTest/assets/output_files/text_files/{self.file_name}.txt'
                     DocumentProcessed.extract_text_from_pdf_plumber(self._file_path, self.generated_text_file_path)
                 elif self.file.endswith('.txt'):
                     self.file_type = DocumentProcessed.get_file_extension(self.file)
                     self._file_path = DocumentProcessed.convert_txt_to_pdf(self.file)
+                    self._file_path="mainServerTest/assets/input_files/text-based/"+self.file_name+"."+self.file_type
+
                     self.generated_text_file_path = f'mainServerTest/assets/output_files/text_files/{self.file_name}.txt'
                     text = DocumentProcessed.extract_text_from_word(self.file)
                     with open(self.generated_text_file_path, 'w') as file:

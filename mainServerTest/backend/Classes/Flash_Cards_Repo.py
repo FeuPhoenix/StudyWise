@@ -36,7 +36,7 @@ class Flash_Cards:
         
     @staticmethod    
     def getFileNameFromPathWithOutExtension(input_string):
-        last_slash_index = input_string.rfind('\\')
+        last_slash_index = input_string.rfind('/')
         result_string = input_string[last_slash_index + 1:]
         result_string=result_string.replace('.mp4','')
         result_string=result_string.replace('.docx','')
