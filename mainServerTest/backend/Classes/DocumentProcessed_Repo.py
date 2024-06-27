@@ -581,6 +581,7 @@ class DocumentProcessed:
                     print("Please provide a valid file path")
                 text = DocumentProcessed.read_text_file(self.generated_text_file_path)
                 text = DocumentProcessed.clean_text(text)
+                text=text.replace("*","")
                 result = DocumentProcessed.get_Long_summary(text)
                 result = result.replace("*", "")
                 self.get_long_summary_and_write_to_json(result, self.file_name)
