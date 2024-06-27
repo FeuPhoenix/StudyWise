@@ -114,19 +114,16 @@ def video_display():
 def audio_display():
     return render_template('main_loggedin/view-audio.html')
 
-@app.route('/change_name', methods=['POST'])
+@app.route('/change_name', methods=['POST', 'GET'])
 def change_name():
-   
     data = request.json
     new_name = data.get('newName')
     print(new_name)
-    # Your logic to update the username in Firebase or perform any other action
-    # Replace this example logic with your actual implementation
-    if new_name!=None:
+    if new_name:
         try:
-            id=session['UserID']
-            print("id",id)
-            UserController.changeName(session['UserID'], new_name)
+            id = session['UserID']
+            print("id", id)
+            UserController.changeName(id, new_name)
             session['UserName'] = new_name
             return jsonify({'success': True}), 200
         except Exception as e:
@@ -137,6 +134,21 @@ def change_name():
     
 @app.route('/change_password', methods=['POST'])
 def change_password():
+    data = request.json
+    newPassword = data.get('newPassword')
+    print(newPassword)
+    if newPassword is not None:
+        try:
+            id = session['UserID']
+            print("id", id)
+            UserController.ChangePassword(session['UserID'], newPassword)
+            session['UserName'] = session['UserName']
+            return jsonify({'success': True}), 200
+        except Exception as e:
+            print(e)
+            return jsonify({'success': False, 'error': str(e)}), 500
+    else:
+        return jsonify({'success': False, 'error': 'New Password not provided'}), 400
     
     data = request.json
     newPassword = data.get('newPassword')

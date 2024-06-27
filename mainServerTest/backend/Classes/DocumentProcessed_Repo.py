@@ -16,7 +16,10 @@ import uuid
 import fitz  # PyMuPDF
 from dotenv import load_dotenv
 from langdetect import detect
-
+# from spire.presentation import *
+# from spire.presentation.common import*
+# from spire.doc import *
+# from spire.doc.common import *
 
 # from backend.Classes.Constants import OPENAI_API_KEY 
 from backend.Classes.FirestoreDB import FirestoreDB
@@ -193,6 +196,7 @@ class DocumentProcessed:
         result_string = result_string.replace('.pptx','')
         result_string = result_string.replace('.ppt','')
         result_string = result_string.replace('.pdf','')
+        result_string = result_string.replace('.txt','')
         return result_string
 
     @staticmethod
@@ -502,7 +506,7 @@ class DocumentProcessed:
     
     @staticmethod
     def get_Long_summary(text):
-        openai.api_key = os.getenv("OPENAI_API_KEY")
+        openai.api_key = "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"
 
 
         summaries = []
@@ -571,14 +575,14 @@ class DocumentProcessed:
                     self._file_path="mainServerTest/assets/input_files/text-based/"+self.file_name+".pdf"
                     
                     self.generated_text_file_path = f'mainServerTest/assets/output_files/text_files/{self.file_name}.txt'
-                    text = DocumentProcessed.extract_text_from_word(self.file)
-                    with open(self.generated_text_file_path, 'w') as file:
-                        file.write(text)
+                    DocumentProcessed.extract_text_from_pdf_plumber(self._file_path, self.generated_text_file_path)
+
                 else:
                     print("Please provide a valid file path")
                 text = DocumentProcessed.read_text_file(self.generated_text_file_path)
                 text = DocumentProcessed.clean_text(text)
                 result = DocumentProcessed.get_Long_summary(text)
+                result = result.replace("*", "")
                 self.get_long_summary_and_write_to_json(result, self.file_name)
                 self.addProcessedMaterialToFirestore()
                 flashcard = Flash_Cards(self._file_path, self.userid, self.material_id)

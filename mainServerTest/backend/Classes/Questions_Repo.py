@@ -209,6 +209,19 @@ class Questions_Repo:
             json.dump(mcqs, file, indent=4)
         print(f"MCQs saved to {filepath}")
 
+    @staticmethod
+    def shuffle_options2(mcqs):
+        shuffled_mcqs = []
+        for mcq in mcqs:
+            options = mcq["options"]
+            random.shuffle(options)
+            shuffled_mcq = {
+                "question": mcq["question"],
+                "options": options,
+                "correct_answer": mcq["correct_answer"]
+            }
+            shuffled_mcqs.append(shuffled_mcq)
+        return shuffled_mcqs
     def runMCQGenerator(self,file_path,Type):
       if Type!="TRANSCRIPT":
             if not os.path.isfile(file_path):
@@ -220,6 +233,7 @@ class Questions_Repo:
                 if paragraphs[difficulty]:
                     mcqs = Questions_Repo.generate_mcqs(paragraphs, difficulty)
                     mcqs=Questions_Repo.post_process_questions(mcqs)
+                    mcqs=Questions_Repo.shuffle_options2(mcqs)
 
 
                     
@@ -249,10 +263,19 @@ class Questions_Repo:
             if not os.path.exists(self.output_mcqs_hard):
                 self.output_mcqs_hard = None
             self.addDocumentQuestionsToFirestore()
-            # Questions_Repo.close_file_if_open("mainServerTest/assets/input_files/text-based/"+Questions_Repo.getFileNameFromPathWithOutExtension(file_path)+".pdf")
-            # Questions_Repo.close_file_if_open("mainServerTest/assets/input_files/text-based/"+Questions_Repo.getFileNameFromPathWithOutExtension(file_path)+".pdf")
-            # Questions_Repo.close_file_if_open("mainServerTest/assets/output_files/text_files/"+Questions_Repo.getFileNameFromPathWithOutExtension(file_path)+".txt")
-            # Questions_Repo.close_file_if_open("mainServerTest/assets/output_files/text_files/"+Questions_Repo.getFileNameFromPathWithOutExtension(file_path)+".txt")    
+            Questions_Repo.close_file_if_open("mainServerTest/assets/input_files/text-based/"+Questions_Repo.getFileNameFromPathWithOutExtension(file_path)+".pdf")
+            Questions_Repo.close_file_if_open("mainServerTest/assets/input_files/text-based/"+Questions_Repo.getFileNameFromPathWithOutExtension(file_path)+".ppt")
+            Questions_Repo.close_file_if_open("mainServerTest/assets/input_files/text-based/"+Questions_Repo.getFileNameFromPathWithOutExtension(file_path)+".pptx")
+            Questions_Repo.close_file_if_open("mainServerTest/assets/input_files/text-based/"+Questions_Repo.getFileNameFromPathWithOutExtension(file_path)+".doc")
+            Questions_Repo.close_file_if_open("mainServerTest/assets/input_files/text-based/"+Questions_Repo.getFileNameFromPathWithOutExtension(file_path)+".docx")
+            Questions_Repo.close_file_if_open("mainServerTest/assets/output_files/flashcards/"+Questions_Repo.getFileNameFromPathWithOutExtension(file_path)+".json")
+            Questions_Repo.close_file_if_open("mainServerTest/assets/output_files/mcq/"+Questions_Repo.getFileNameFromPathWithOutExtension(file_path)+"easy.json")
+            Questions_Repo.close_file_if_open("mainServerTest/assets/output_files/mcq/"+Questions_Repo.getFileNameFromPathWithOutExtension(file_path)+"medium.json")
+            Questions_Repo.close_file_if_open("mainServerTest/assets/output_files/mcq/"+Questions_Repo.getFileNameFromPathWithOutExtension(file_path)+"hard.json")
+            
+            Questions_Repo.close_file_if_open("mainServerTest/assets/output_files/summaries/"+Questions_Repo.getFileNameFromPathWithOutExtension(file_path)+".json") 
+            Questions_Repo.close_file_if_open("mainServerTest/assets/output_files/text_files/"+Questions_Repo.getFileNameFromPathWithOutExtension(file_path)+".txt")    
+   
    
   
       else:
@@ -270,6 +293,8 @@ class Questions_Repo:
                 mcqs = Questions_Repo.generate_mcqs(transcript_paragraphs, difficulty)
                 print("MCQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQ",mcqs)
                 mcqs=Questions_Repo.post_process_questions(mcqs)
+                mcqs=Questions_Repo.shuffle_options2(mcqs)
+                
                 if mcqs:
                    
                     output_path = 'mainServerTest/assets/output_files/mcq/'+Questions_Repo.getFileNameFromPathWithOutExtension(file_path)+difficulty+'_transcript.json'
@@ -295,7 +320,21 @@ class Questions_Repo:
             if not os.path.exists(self.output_mcqs_hard):
                 self.output_mcqs_hard = None
             self.addVideoQuestionsToFirestore()
+            Questions_Repo.close_file_if_open("mainServerTest/assets/input_files/video/"+Questions_Repo.getFileNameFromPathWithOutExtension(file_path)+".mp4")
+            Questions_Repo.close_file_if_open("mainServerTest/assets/input_files/video-based/"+Questions_Repo.getFileNameFromPathWithOutExtension(file_path)+".mp4")
 
+            Questions_Repo.close_file_if_open("mainServerTest/assets/output_files/audio/"+Questions_Repo.getFileNameFromPathWithOutExtension(file_path)+".mp3")
+            Questions_Repo.close_file_if_open("mainServerTest/assets/output_files/Chapters/"+Questions_Repo.getFileNameFromPathWithOutExtension(file_path)+".json")
+            Questions_Repo.close_file_if_open("mainServerTest/assets/output_files/Processed_Chapters/"+Questions_Repo.getFileNameFromPathWithOutExtension(file_path)+".json")
+            Questions_Repo.close_file_if_open("mainServerTest/assets/output_files/flashcards/"+Questions_Repo.getFileNameFromPathWithOutExtension(file_path)+".json")
+            Questions_Repo.close_file_if_open("mainServerTest/assets/output_files/mcq/"+Questions_Repo.getFileNameFromPathWithOutExtension(file_path)+"easy_transcript.json")
+            Questions_Repo.close_file_if_open("mainServerTest/assets/output_files/mcq/"+Questions_Repo.getFileNameFromPathWithOutExtension(file_path)+"medium_transcript.json")
+            Questions_Repo.close_file_if_open("mainServerTest/assets/output_files/mcq/"+Questions_Repo.getFileNameFromPathWithOutExtension(file_path)+"hard_transcript.json")
+            
+            Questions_Repo.close_file_if_open("mainServerTest/assets/output_files/summaries/"+Questions_Repo.getFileNameFromPathWithOutExtension(file_path)+".json") 
+            Questions_Repo.close_file_if_open("mainServerTest/assets/output_files/text_files/"+Questions_Repo.getFileNameFromPathWithOutExtension(file_path)+".txt")    
+   
+   
              
     
  
