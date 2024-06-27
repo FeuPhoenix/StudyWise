@@ -26,37 +26,61 @@ function handleFileSelection() {
     }
 }
 
-document.getElementById('uploadForm').addEventListener('submit', function(e) {
-    e.preventDefault();
+// Establish WebSocket connection
+var socket = io.connect(`http://127.0.0.1:5000/`);
 
-    var form = document.getElementById('uploadForm');
-    var formData = new FormData(form);
+socket.on("connect", function() {
+    let socketID = socket.id;
+    formData.append('socketID', socketID);
+    console.log('Socket ID: ', socketID)
+});
 
-    // Append File type to formData
-    formData.append('FileType', 'video');
+document.addEventListener('DOMContentLoaded', function() {
 
-    var audioCutCheckbox = document.getElementById('audiocut');
+    var processedVideo;
 
-    // Fetch the file name
-    var fileInput = document.getElementById('file');
-    const fileName = fileInput.files[0].name;
+    // Server Update Listener
+    socket.on('update', function(data) {
+        console.log('Update from server:', data.message);
+        var statusElement = document.getElementById('processingStatus');
+        statusElement.innerHTML = data.message;
 
-    // Check if the checkbox is checked and append the value accordingly
-    if (audioCutCheckbox.checked) {
-        console.log(`Uploading video: ${fileName}\n`, `audiocut: True`)
-    } else {
-        console.log(`Uploading video: ${fileName}\n`, `audiocut: False`)
-        formData.append('audiocut', 'False'); // Append audiocut = 'false' to formData
-    }
+        if (data.message) {
+            var progressWindow = document.getElementById('success-overlay');
+            progressWindow.style.display = 'block';
+        }
 
-    // Establish WebSocket connection
-    var socket = io.connect('http://127.0.0.1:5000/');
+        if (data.message === 'Processing completed') {
+            statusElement.innerHTML = 'Processing completed, getting info..';
+            setTimeout(function() {
+                window.location.href = `/video-display?fileName=${encodeURIComponent(processedVideo)}`;
+            }, 2000); // Redirect to display page after 2 seconds
+        }
+    });
 
-    socket.on("connect", function() {
-        let socketID = socket.id;
-        formData.append('socketID', socketID);
-        console.log('Socket ID: ', socketID)
-
+    document.getElementById('uploadForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+    
+        var form = document.getElementById('uploadForm');
+        var formData = new FormData(form);
+    
+        // Append File type to formData
+        formData.append('FileType', 'video');
+    
+        var audioCutCheckbox = document.getElementById('audiocut');
+    
+        // Fetch the file name
+        var fileInput = document.getElementById('file');
+        const fileName = fileInput.files[0].name;
+    
+        // Check if the checkbox is checked and append the value accordingly
+        if (audioCutCheckbox.checked) {
+            console.log(`Uploading video: ${fileName}\n`, `audiocut: True`)
+        } else {
+            console.log(`Uploading video: ${fileName}\n`, `audiocut: False`)
+            formData.append('audiocut', 'False'); // Append audiocut = 'false' to formData
+        }
+    
         fetch('/upload-file', {
             method: 'POST',
             body: formData
@@ -70,8 +94,8 @@ document.getElementById('uploadForm').addEventListener('submit', function(e) {
         })
         .then(data => {
             console.log('File uploaded successfully.', data);
-            const processedVideo = data.filename;
-
+            processedVideo = data.filename;
+    
             fetch('/filename', {
                 method: 'POST',
                 body: JSON.stringify({ filename: fileName }),
@@ -81,7 +105,7 @@ document.getElementById('uploadForm').addEventListener('submit', function(e) {
             })
             .then(response => {
                 if (response.ok) {
-                    console.log('File name sent to server. \nFile name:', fileName);
+                    console.log('The file name below was sent to server. \nFile name:', fileName);
                 } else {
                     console.error('Failed to send file name to server. \nFile name:', fileName);
                 }
@@ -89,81 +113,9 @@ document.getElementById('uploadForm').addEventListener('submit', function(e) {
             .catch(error => {
                 console.error('Error during sending file name:', error);
             });
-
-            socket.on('update', function(data) {
-                console.log('Update from server:', data.message);
-                var statusElement = document.getElementById('processingStatus');
-                statusElement.innerHTML = data.message;
-
-                if (data.message) {
-                    var progressWindow = document.getElementById('success-overlay');
-                    progressWindow.style.display = 'block';
-                }
-
-                if (data.message === 'Processing completed') {
-                    statusElement.innerHTML = 'Processing completed, getting info..';
-                    setTimeout(function() {
-                        window.location.href = `/video-display?file=${encodeURIComponent(processedVideo)}`;
-                    }, 2000); // Redirect to display page after 2 seconds
-                }
-            });
         })
         .catch(error => {
             console.error('Error during file upload:', error);
         });
     });
-});
-
-
-// function confirmFile() {
-//     if (chosenFile) {
-//         console.log("Selected File Name: ", chosenFile);
-
-//         // Establish WebSocket connection
-//         var socket = io.connect('http://127.0.0.1:5000/');
-
-//         socket.on("connect", function() {
-//             socketID = socket.id;
-//         })
-
-//         var statusElement = document.getElementById('processingStatus');
-
-//         // Listen for 'update' events from the server to get real-time processing updates
-//         socket.on('update', function(data) {
-//             console.log('Update from server:', data.message);
-//             statusElement.innerHTML = data.message; // Update UI
-
-//             if (data.message) {
-//                 progressWindow = document.getElementById('success-overlay')
-//                 progressWindow.style.display = 'block';
-//             }
-        
-//             // Check if the received message is 'Processing completed'
-//             if (data.message === 'Processing completed') {
-//                 statusElement.innerHTML = 'Processing completed, getting info';
-//                 setTimeout(function() {
-//                     window.location.href = `/video-display?file=${encodeURIComponent(chosenFile)}`;
-//                 }, 3000); // Redirect to display page after 3 seconds
-//             }
-//         });
-
-//         // Set up XMLHttpRequest to send the filename to the server
-//         var request = new XMLHttpRequest();
-//         request.open('POST', 'http://127.0.0.1:5000/generateVideoContent', true);
-//         request.setRequestHeader('Content-Type', 'application/json');
-//         request.onload = function() {
-//             // Handle response from server
-//             if (!(request.status >= 200 && request.status < 400)) {
-//                 console.log('Server returned an error:', request.status);
-//             }
-//         };
-//         request.onerror = function() {
-//             console.log('Request failed to reach the server');
-//         };
-        
-//         // Send the filename as JSON
-//         request.send(JSON.stringify({ filename: chosenFile, socketID: socketID }));
-//     } else {
-//         alert("No file selected");
-//     }
-// }
+})

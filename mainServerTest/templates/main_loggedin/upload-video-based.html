@@ -52,7 +52,7 @@
                 <form id="uploadForm" action="/upload" method="post" enctype="multipart/form-data">
                         <i class="fas fa-cloud-upload-alt upload-icon"></i><br>
                         <label class="upload-text">
-                            Drag & drop a .mp4 file to upload<br>
+                            Choose a .mp4 file to upload<br>
                             (.mp3 is under development)
                         </label><br>
                         
@@ -63,8 +63,8 @@
             </div>
             
             <!-- <button type="submit" form="uploadForm" class="file-upload-btn" >Upload Selected File</button> -->
-                <input form="uploadForm" type="checkbox" name="audiocut" id="audiocut" value="True">
-                <button type="submit" form="uploadForm" class="cta">
+            <input form="uploadForm" type="checkbox" name="audiocut" id="audiocut" value="True">
+            <button type="submit" form="uploadForm" class="cta">
             
                     <span class="span">UPLOAD</span>
                     <span class="second">
@@ -76,7 +76,7 @@
                         </g>
                         </svg>
                     </span> 
-                </button>
+            </button>
                 
         </div>
     </div>
@@ -87,7 +87,6 @@
                 <h1>Please wait while your video is being processed</h1>
                 <h2 id="processingStatus">‎</h2>
                 <div class="loader"></div>
-                <button onclick="chooseOption('video')">cancel</button>
             </div>
         </div>
     </div>

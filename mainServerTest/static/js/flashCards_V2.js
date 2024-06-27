@@ -45,11 +45,11 @@ document.addEventListener("DOMContentLoaded", () => {
           break;
         case 27: // Escape (Exit fullscreen)
         
-          // Lock/Unlock interaction with other elements
+          // Toggle (Unlock) interaction with other elements
           document.body.classList.remove("locked");
           document.getElementsByTagName("html")[0].classList.remove("locked");
 
-          // Toggle flashcard fullscreen mode
+          // Toggle (Exit) flashcard fullscreen mode
           container.classList.remove("fullscreen");
           midrow.classList.remove("fullscreen");
           FSButton.classList.remove("fullscreen");

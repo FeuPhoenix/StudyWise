@@ -1,4 +1,4 @@
-let chosenFile;
+var chosenFile;
 let socketID = undefined;
 
 let inputFile; // Define formData globally
@@ -26,115 +26,88 @@ function handleFileSelection() {
     }
 }
 
-document.getElementById('uploadForm').addEventListener('submit', function(e) {
-    e.preventDefault();
+// Establish WebSocket connection
+var socket = io.connect(`http://127.0.0.1:5000/`);
 
-    var form = document.getElementById('uploadForm');
-    var formData = new FormData(form);
+socket.on("connect", function() {
+    let socketID = socket.id;
+    formData.append('socketID', socketID);
+    console.log('Socket ID: ', socketID)
+});
 
-    // Append File type
-    formData.append('FileType', 'document');
+document.addEventListener('DOMContentLoaded', function() {
 
-    fetch('/upload-file', {
-        method: 'POST',
-        body: formData
-    }).then(response => {
-        if (response.ok) {
-            console.log('File uploaded successfully.');
-            response.text().then(text => console.log(text));
+    var processedDoc;
 
-            // Send the file name to the server
-            var fileInput = document.getElementById('file');
-            var fileName = fileInput.files[0].name;
+    // Server Update Listener
+    socket.on('update', function(data) {
+        console.log('Update from server:', data.message);
+        var statusElement = document.getElementById('processingStatus');
+        statusElement.innerHTML = data.message;
 
+        if (data.message) {
+            var progressWindow = document.getElementById('success-overlay');
+            progressWindow.style.display = 'block';
+        }
+
+        if (data.message === 'Processing completed') {
+            statusElement.innerHTML = 'Processing completed, getting info..';
+            setTimeout(function() {
+                window.location.href = `/pdf-display?fileName=${encodeURIComponent(processedDoc)}`;
+            }, 2000); // Redirect to display page after 2 seconds
+        }
+    });
+
+    document.getElementById('uploadForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        var form = document.getElementById('uploadForm');
+        var formData = new FormData(form);
+
+        // Append File type to formData
+        formData.append('FileType', 'document');
+
+        // Fetch the file name
+        var fileInput = document.getElementById('file');
+        const fileName = fileInput.files[0].name;
+
+        console.log(`Uploading document: ${fileName}\n`)
+
+        fetch('/upload-file', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => {
+            if (response.ok) {
+                return response.json();
+            } else {
+                throw new Error('Failed to upload file.');
+            }
+        })
+        .then(data => {
+            console.log('File uploaded successfully.', data);
+            processedDoc = data.filename;
+    
             fetch('/filename', {
                 method: 'POST',
                 body: JSON.stringify({ filename: fileName }),
                 headers: {
                     'Content-Type': 'application/json'
                 }
-            }).then(response => {
+            })
+            .then(response => {
                 if (response.ok) {
-                    console.log('File name sent to server.');
+                    console.log('The file name below was sent to server. \nFile name:', fileName);
                 } else {
-                    console.error('Failed to send file name to server.');
+                    console.error('Failed to send file name to server. \nFile name:', fileName);
                 }
+            })
+            .catch(error => {
+                console.error('Error during sending file name:', error);
             });
-        } else {
-            console.error('Failed to upload file.');
-        }
+        })
+        .catch(error => {
+            console.error('Error during file upload:', error);
+        });
     });
-});
-
-
-// function confirmFile() {
-//     if (chosenFile) {
-        
-//         // Fetch the URL from the Flask server
-//         fetch('/upload-file', {
-//             method: 'POST',
-//             body: {file: inputFile, FileType: 'document'},
-//         })
-//         .then(response => {
-//             if (response.ok) {
-//                 console.log('FILE UPLOADING')
-//                 return response.json();
-//             } else {
-//                 throw new Error('Failed to upload file');
-//             }
-//         })
-//         .then(data => {
-//             // Handle the response from the server
-//             console.log('FILE UPLOADED SUCCESSFULLY:', data);
-//         })
-//         .catch(error => {
-//             // Handle any errors that occur during the fetch request
-//             console.error('ERROR UPLOADING FILE:', error);
-//         });
-
-//     } else {
-//         alert("No file selected");
-//     }
-// }
-
-
-// function confirmFile() {
-//     // Giive a static test filename and the socket ID
-//     const filename = 'test.txt';
-//     let socketID;
-
-//     const socket = io.connect('http://127.0.0.1:5000/');
-
-//     socket.on('connect', () => {
-//         socketID = socket.id;
-//         console.log(`Connected with socket ID: ${socketID}`);
-//     });
-    
-//     // Request body
-//     const data = {
-//     filename: filename,
-//     socketID: socketID
-//     };
-
-//     // Make a POST request to the Flask route
-//     fetch('http://127.0.0.1:5000/generateTextContent', {
-//     method: 'POST',
-//     headers: {
-//         'Content-Type': 'application/json'
-//     },
-//     body: JSON.stringify(data)
-//     })
-//     .then(response => {
-//     if (!response.ok) {
-//         throw new Error('Network response was not ok');
-//     }
-//     return response.json();
-//     })
-//     .then(data => {
-//     console.log(data);
-//     })
-//     .catch(error => {
-//     console.error('There was a problem with your fetch operation:', error);
-//     });
-
-// }
+})

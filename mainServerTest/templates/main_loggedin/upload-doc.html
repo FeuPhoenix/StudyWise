@@ -55,11 +55,10 @@
                 <form id="uploadForm" action="/upload" method="post" enctype="multipart/form-data">
                         <i class="fas fa-cloud-upload-alt upload-icon"></i><br>
                         <label class="upload-text">
-                            Drag & drop a .ppt, .pptx, .pdf, .doc, or .docx file to upload<br>
-                            (.txt is under development)
+                            Choose a .ppt, .pptx, .pdf, .doc, .docx, or .txt file to upload<br>
                         </label><br>
                         
-                        <input type="file" id="file" name="file" style="display: none;" multiple accept=".pdf, .ppt, .pptx, .doc, .docx" onchange="handleFileSelection(this)"><br>
+                        <input type="file" id="file" name="file" style="display: none;" multiple accept=".pdf, .ppt, .pptx, .doc, .docx, .txt" onchange="handleFileSelection(this)"><br>
                         <label for="file" class="custom-file-label">Choose File</label><br>
                         <label id="chosen-file">‎</label>
                 </form>
@@ -88,7 +87,6 @@
                 <h1>Please wait while your file is being processed</h1>
                 <h2 id="processingStatus">‎</h2>
                 <div class="loader"></div>
-                <button onclick="chooseOption('video')">cancel</button>
             </div>
         </div>
     </div>

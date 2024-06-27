@@ -19,7 +19,6 @@ body {
     font-size: var(--primaryFontSize);
     color: var(--primaryFontColor);
     font-weight: 400;
-    cursor: url('http://upload.wikimedia.org/wikipedia/commons/d/de/POL_apple.jpg'), auto;
 }
 
 button {

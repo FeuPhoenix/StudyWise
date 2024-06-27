@@ -60,10 +60,6 @@ window.onload = function() {
 };
 
 
-
-
-
-
 function setUpUserContent() {
 
     const mainContainer = document.querySelector('.main-container');

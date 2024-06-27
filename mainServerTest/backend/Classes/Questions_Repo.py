@@ -17,6 +17,8 @@ from backend.Classes.FirestoreDB import FirestoreDB
 # from Constants import OPENAI_API_KEY, MAX_TOKENS_PER_REQUEST
 # from FirestoreDB import FirestoreDB
 
+MAX_TOKENS_PER_REQUEST = int(os.getenv('MAX_TOKENS_PER_REQUEST'))
+
 openai.api_key = os.getenv('OPENAI_API_KEY')
 
 

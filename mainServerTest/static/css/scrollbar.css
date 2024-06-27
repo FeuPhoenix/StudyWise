@@ -19,7 +19,7 @@
 *::-webkit-scrollbar-thumb:hover
 {
 	border-radius: 10px;
-    background-color: rgba(94, 110, 171, 0.7);
+    background-color: rgba(94, 110, 171, 0.9);
 }
 *::-webkit-scrollbar-thumb:active
 {

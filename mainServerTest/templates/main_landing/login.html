@@ -2,6 +2,8 @@
     <head>
         <link rel="shortcut icon" href="{{ url_for('static', filename='assets/images/Studywise_Logo.png') }}" type="image/x-icon">
         <title>StudyWise - Login</title>
+
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
         
         <link rel="stylesheet" href="{{ url_for('static', filename='css/login-style.css') }}">
         <link rel="stylesheet" href="{{ url_for('static', filename='css/scrollbar.css') }}">
@@ -45,7 +47,7 @@
                                     <i id="eye-icon2" class="fas fa-eye-slash" onclick="toggleSigInPW()"></i>
                                 </div>
                                 <button id="signInButton" onclick="signIn(event)">Login</button>
-                                <button type="button" onclick="openForgotPasswordModal()">Forgot Password?</button>
+                                <a id="forgot-pw" onclick="openForgotPasswordModal()">Forgot Password?</a>
                             </form>
                         </div>
                                         
@@ -67,7 +69,7 @@
                                     <i id="eye-icon1" class="fas fa-eye-slash" onclick="toggleSignUpPW()"></i>
                                 </div>
                                 <button id="signUpButton" onclick="signUp()">Register</button>
-                                <p>By Signing Up, you agree to our <a href="https://drive.google.com/file/d/1bOJJdqh2uj4WiEcZTbcKrgbUEiGVSlyE/view?usp=sharing" target="_blank">Terms and Conditions</a></p>
+                                <p>By Signing Up, you agree to our <br><a href="https://drive.google.com/file/d/1bOJJdqh2uj4WiEcZTbcKrgbUEiGVSlyE/view?usp=sharing" target="_blank">Terms and Conditions</a></p>
                             </form>
                         </div>
                     </div>

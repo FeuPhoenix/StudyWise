@@ -124,16 +124,6 @@ button {
 
 /* Add these styles to the existing CSS file or create a new one */
 
-.page-content {
-    display: flex;
-    justify-content: space-between;
-    margin: auto;
-    margin-top: 2%;
-    width: 85%;
-    height: 80%;
-    flex-shrink: 0;
-}
-
 .loader-overlay {
     display: block;
     position: fixed;
@@ -223,9 +213,18 @@ content: "";
     align-items: center;
 }
 
+#content-title {
+    word-break: break-word;
+    font-size: 28px;
+    font-weight: 600;
+    margin: 30px auto 12px;
+    width: 95%;
+    line-height: 1.2em;
+}
+
 .main-section embed {
     justify-self: center;
-    width: 97%;
+    width: 95%;
     margin: 10px;
     height: 720px;
 }
