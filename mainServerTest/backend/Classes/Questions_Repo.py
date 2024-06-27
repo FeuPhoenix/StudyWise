@@ -207,6 +207,19 @@ class Questions_Repo:
             json.dump(mcqs, file, indent=4)
         print(f"MCQs saved to {filepath}")
 
+    @staticmethod
+    def shuffle_options2(mcqs):
+        shuffled_mcqs = []
+        for mcq in mcqs:
+            options = mcq["options"]
+            random.shuffle(options)
+            shuffled_mcq = {
+                "question": mcq["question"],
+                "options": options,
+                "correct_answer": mcq["correct_answer"]
+            }
+            shuffled_mcqs.append(shuffled_mcq)
+        return shuffled_mcqs
     def runMCQGenerator(self,file_path,Type):
       if Type!="TRANSCRIPT":
             if not os.path.isfile(file_path):
@@ -218,6 +231,7 @@ class Questions_Repo:
                 if paragraphs[difficulty]:
                     mcqs = Questions_Repo.generate_mcqs(paragraphs, difficulty)
                     mcqs=Questions_Repo.post_process_questions(mcqs)
+                    mcqs=Questions_Repo.shuffle_options2(mcqs)
 
 
                     
@@ -277,6 +291,8 @@ class Questions_Repo:
                 mcqs = Questions_Repo.generate_mcqs(transcript_paragraphs, difficulty)
                 print("MCQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQ",mcqs)
                 mcqs=Questions_Repo.post_process_questions(mcqs)
+                mcqs=Questions_Repo.shuffle_options2(mcqs)
+                
                 if mcqs:
                    
                     output_path = 'mainServerTest/assets/output_files/mcq/'+Questions_Repo.getFileNameFromPathWithOutExtension(file_path)+difficulty+'_transcript.json'
