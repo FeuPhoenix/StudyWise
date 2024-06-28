@@ -639,7 +639,7 @@ def receive_filename():
     return jsonify({'message': 'No filename received'}), 400
 
 
-# PDF CHAT ========================================================================
+#  =========================================== PDF CHAT ================================================
 
 # Route to handle chat interaction
 @app.route('/chat/<file>', methods=['POST'])
@@ -647,10 +647,10 @@ def chat(file):
     text_file = file + ".txt"
     user_input = request.json['message']
     text_file_path = safe_join(app.root_path, f'assets/output_files/text_files/{text_file}')
-    pdf_text = extract_text_from_pdf(text_file_path)
+    extracted_text = extract_text_from_txt(text_file_path)
     # Combine PDF text with user input for the conversation with GPT-3.5 Turbo
     conversation_history = [
-        {"role": "system", "content": pdf_text},
+        {"role": "system", "content": extracted_text},
         {"role": "user", "content": user_input}
     ]
     response = openai.ChatCompletion.create(
@@ -660,17 +660,6 @@ def chat(file):
     # Extract the response text
     response_text = response.choices[0].message['content']
     return jsonify({'response': response_text})
-
-def extract_text_from_pdf(filepath):
-    filepath = re.sub(r'\\', '/', filepath)
-    try:
-        text = ''
-        with fitz.open(filepath) as doc:
-            for page in doc:
-                text += page.get_text()
-        return text
-    except Exception as e:
-        raise Exception(f'Error extracting text: {e}')
 
 def extract_text_from_txt(filepath):
     try:
@@ -704,6 +693,10 @@ def delete_account():
 @app.route('/chatwithpdf')
 def chat_with_pdf():
     return render_template('main_loggedin/chatwithpdf.html')
+
+@app.route('/chatwithvideo')
+def chat_with_video():
+    return render_template('main_loggedin/chatwithvideo.html')
 
 @app.route('/mcq')
 def mcq():
