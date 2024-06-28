@@ -42,6 +42,12 @@ document.addEventListener("DOMContentLoaded", function() {
             // console.log('Video Flashcards:', sessionStorage.getItem('loadedFlashcards'));
             console.log('Loaded MCQ E: ', sessionStorage.getItem('loadedMCQ_E'));
 
+            console.log('[Video Page] Loaded Flashcards:', sessionStorage.getItem('loadedFlashcards'));
+            
+            // Dispatch custom load event
+            const event = new Event('flashcardsLoaded');
+            window.dispatchEvent(event);
+
             const videoURL = sessionStorage.getItem('loadedVideoLink')
             if (videoURL) { // Load the video content that is received
 
