@@ -1,3 +1,4 @@
+import re
 import subprocess
 import uuid
 from datetime import datetime
@@ -147,7 +148,7 @@ class DocumentProcessedController:
             doc_ref = firestore_instance.collection('Users').document(user_id).collection('DocumentMaterial').document(material_id)
             doc = doc_ref.get()
             if doc.exists:
-                video_material_data = doc.to_dict()
+                Document_material_data = doc.to_dict()
 
                 # Fetch data from FlashCards collection if it exists
                 flashcards_ref = doc_ref.collection('FlashCards')
@@ -162,16 +163,17 @@ class DocumentProcessedController:
                     questions_data.append(question_doc.to_dict())
 
                 # Add FlashCards and Questions data to the video_material_data
-                video_material_data['FlashCards'] = flashcards_data
-                video_material_data['Questions'] = questions_data
-                flash_card_data = video_material_data['FlashCards']
+                Document_material_data['FlashCards'] = flashcards_data
+                Document_material_data['Questions'] = questions_data
+                flash_card_data = Document_material_data['FlashCards']
                 for question in questions_data:
                     medium_location = question['Questions_medium_location']
                     hard_location = question['Questions_hard_location']
                     easy_location = question['Questions_easy_location']
                 
+                text=DocumentProcessedController.fetch_text_and_convert_to_json(Document_material_data['generated_text_file_path'])
 
-                Summary= DocumentProcessedController.fetch_json_from_url(video_material_data['generated_summary_file_path'])
+                Summary= DocumentProcessedController.fetch_json_from_url(Document_material_data['generated_summary_file_path'])
                 
                 flashcards= DocumentProcessedController.fetch_json_from_url( flash_card_data[0]['flash_card_location'])
                 
@@ -181,7 +183,7 @@ class DocumentProcessedController:
                 
                 MCQ_H= DocumentProcessedController.fetch_json_from_url(hard_location)
                 
-                return video_material_data['_file_path'],Summary,flashcards,MCQ_E,MCQ_M,MCQ_H
+                return Document_material_data['_file_path'],Summary,flashcards,MCQ_E,MCQ_M,MCQ_H,text
             
             else:
                 print(f"No such document with user_id: {user_id} and material_id: {material_id}")
@@ -189,7 +191,30 @@ class DocumentProcessedController:
         except Exception as e:
             print(f"Error retrieving document: {e}")
             return None
+    @staticmethod
+    def clean_text(text):
+        allowed_pattern = r"[^a-zA-Z\s,.;:'\"!?()-]"
+        cleaned_text = re.sub(allowed_pattern, '', text)    
+        return cleaned_text
     
+    @staticmethod
+    def fetch_text_and_convert_to_json(url):
+            try:
+                # Make a GET request to download the text file
+                response = requests.get(url)
+                response.raise_for_status()  # Raise an exception for any HTTP error status codes
+
+                # Read the text data
+                text_data = response.text
+
+                text_data = DocumentProcessedController.clean_text(text_data)
+                
+                # Create a JSON object with the attribute "Transcript"
+                data = {"text": text_data}
+                return data
+            except requests.exceptions.RequestException as e:
+                print("Error:", e)
+                return None
     @staticmethod
     
     def fetch_json_from_url(url):
