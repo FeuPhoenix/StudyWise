@@ -294,20 +294,21 @@ class Flash_Cards:
 
             base_prompt = "Generate questions and answers focusing on the technical and conceptual content of this text. "
 
-            # base_prompt = f"""
-            #     Generate a list of flashcard-style questions and answers focusing on the technical and conceptual content of the provided text. Avoid questions about authors, publication dates, or historical development. Do not refer to the material you have been provided with as 'this text' or 'the text'; instead, refer to it with the name of the topic at hand. Do not treat the questions and answers as if they are exclusive to this text. For example, do not ask about what this text in particular is talking about. You can ask about definitions of concepts that were explained in the text. Format each question and answer pair as follows, without any headers like 'Q:' or 'Question:':
+            transcript_note = (
+                "The text provided might contain grammatical or logical mistakes due to speech-to-text inaccuracies. "
+                "Please focus on generating conceptually relevant and clear questions and answers, avoiding ambiguous content. "
+                "Do not refer to the transcription as 'this text' or 'the text' and avoid questions about what this text in particular is discussing. "
+                "Instead, generate questions about the definitions and concepts explained within the text. "
+                "Only generate questions and answers relevant to the following text: "
+            )
 
-            #     {{
-            #         "front": "Question text here?",
-            #         "back": "Answer text here."
-            #     }}
-
-            #     Text to analyze:
-            #     """
-
-            transcript_note = "Noting that the text that will be given might contain grammatical or logical mistakes due to speech-to-text inaccuracies, please focus on generating conceptually relevant and clear questions and answers, avoiding ambiguous content. Only generate quesitons and answers relevant to the following text: " 
-            pdf_note = "Avoiding questions about authors, publication dates, or historical development. Do not refer to the material you have been provided with as 'this text' or 'the text', instead, refer to it with the name of the topic at hand, and do not treat the questions & answers as they are exclusive to this text, for example, do not ask about what this text in particular is talking about. You can ask about definitions of things that were explained in the text: "
-
+            pdf_note = (
+                "Avoid questions about authors, publication dates, or historical development. "
+                "Do not refer to the material provided as 'this text' or 'the text'. "
+                "Instead, refer to it by the name of the topic at hand, and do not treat the questions and answers as exclusive to this text. "
+                "For example, do not ask about what this text in particular is discussing. "
+                "Generate questions about definitions and concepts explained within the text: "
+            )
 
             if content_type.lower() == "pdf":
                 note = pdf_note
@@ -324,12 +325,11 @@ class Flash_Cards:
                 else:
                     batched_paragraphs.append(current_batch)
                     current_batch = f"{paragraph}\n\n"
-        
+
         if current_batch:
             batched_paragraphs.append(current_batch)
 
         for batch in batched_paragraphs:
-
             prompt_content = base_prompt + note
             system_prompt = {"role": "system", "content": "You are a helpful assistant."}
             user_prompt = {"role": "user", "content": prompt_content + ": " + batch}
