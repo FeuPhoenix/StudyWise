@@ -1,11 +1,21 @@
-const mcqsE = JSON.parse(sessionStorage.getItem('loadedMCQ_E') || '[]');
-const mcqsM = JSON.parse(sessionStorage.getItem('loadedMCQ_M') || '[]');
-const mcqsH = JSON.parse(sessionStorage.getItem('loadedMCQ_H') || '[]');
+const mcqsE = parseMCQs(sessionStorage.getItem('loadedMCQ_E'));
+const mcqsM = parseMCQs(sessionStorage.getItem('loadedMCQ_M'));
+const mcqsH = parseMCQs(sessionStorage.getItem('loadedMCQ_H'));
 const allMcqs = [...mcqsE, ...mcqsM, ...mcqsH];
 
 let userPoints = 0; // Initialize user points
 let fetchTimeout;
 let answeredCount = 0; // Variable to track the number of answered questions
+
+function parseMCQs(data) {
+    try {
+        const parsedData = JSON.parse(data || '[]');
+        return Array.isArray(parsedData) ? parsedData : [];
+    } catch (e) {
+        console.error("Failed to parse MCQs:", e);
+        return [];
+    }
+}
 
 function fetchMCQs() {
     try {
@@ -76,6 +86,7 @@ function determineDifficulty(points) {
 }
 
 function getRandomQuestions(mcqs, count) {
+    if (mcqs.length === 0) return [];
     const shuffled = mcqs.sort(() => 0.5 - Math.random());
     return shuffled.slice(0, count);
 }

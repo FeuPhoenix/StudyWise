@@ -16,11 +16,6 @@ from moviepy.editor import VideoFileClip
 from backend.Classes.Flash_Cards_Repo import Flash_Cards
 from backend.Classes.Questions_Repo import Questions_Repo
 from backend.Classes.FirestoreDB import FirestoreDB
-from backend.Classes.audiocutter import runaudiocutter
-# from Flash_Cards_Repo import Flash_Cards
-# from Questions_Repo import Questions_Repo
-# from FirestoreDB import FirestoreDB
-# from audiocutter import runaudiocutter
 
 from dotenv import load_dotenv
 
