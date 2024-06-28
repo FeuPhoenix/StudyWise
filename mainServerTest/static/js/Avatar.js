@@ -1,8 +1,8 @@
 function toggleMenu() {
-
     const listGroup = document.querySelector('.list-group');
     listGroup.classList.toggle('show');
 }
+
 function openModal() {
     event.stopPropagation();
     document.getElementById("nameModal").style.display = "block";
@@ -17,18 +17,11 @@ function openPasswordModal() {
     document.getElementById("PasswordModal").style.display = "block";
 }
 
-
 function closePasswordModal() {
     document.getElementById('PasswordModal').style.display = 'none';
 }
 
 $(document).ready(function() {
-
-    avatar = document.querySelector('.navbar-avatar-frame');
-    localStorage.getItem('UserName');
-    avatar.style.setProperty('--before-content', `'${localStorage.getItem('UserName')}'`);
-
-    avatar.style.setProperty('--before-content', `'${session["UserName"]}'`);
     $('#changeNameForm').submit(function(event) {
         event.preventDefault(); // Prevent default form submission
 
@@ -45,7 +38,12 @@ $(document).ready(function() {
         .then(data => {
             if (data.success) {
                 alert('Name changed successfully!');
-                window.location.href = '/home'; // Redirect to index.html after success
+                
+                // Update the displayed name
+                document.getElementById("usernamelabel").textContent = newName;
+                
+                localStorage.setItem('UserName', data.userName);
+                closeModal(); // Close the modal after success
             } else {
                 alert('Failed to change name. ' + data.error);
             }
@@ -56,6 +54,9 @@ $(document).ready(function() {
         });
     });
 });
+
+
+
 // Optional: Close the menu if clicked outside
 document.addEventListener('click', function(event) {
     const listGroup = document.querySelector('.list-group');
@@ -71,13 +72,7 @@ window.onclick = function(event) {
         modal.style.display = 'none';
     }
 }
-// Optional: Close the menu if clicked outside
-document.addEventListener('click', function(event) {
-    const isClickInside = document.querySelector('.navbar-avatar-frame').contains(event.target);
-    if (!isClickInside) {
-        document.querySelector('.list-group').classList.remove('show');
-    }
-});
+
 function logOut() {
     fetch('/log-out', {
         method: 'GET'
@@ -103,6 +98,7 @@ document.getElementById('changePasswordForm').addEventListener('submit', functio
         event.preventDefault(); // Prevent form submission
     }
 });
+
 function togglePasswordVisibility(inputId) {
     var input = document.getElementById(inputId);
     if (input.type === "password") {
@@ -137,7 +133,7 @@ $(document).ready(function() {
         .then(response => response.json())
         .then(data => {
             if (data.success) {
-                alert('Passowrd changed successfully!');
+                alert('Password changed successfully!');
                 window.location.href = '/home'; // Redirect to index.html after success
             } else {
                 alert('Failed to change password. ' + data.error);
@@ -149,14 +145,13 @@ $(document).ready(function() {
         });
     });
 });
-
 $(document).ready(function() {
     $('#deleteAccountBtn').click(function() {
         // Show confirmation dialog
         if (confirm('Are you sure you want to delete your account? This action cannot be undone.')) {
             // AJAX request to delete the account
             $.ajax({
-                url: '/delete_account', // Flask route for deleting account
+                url: '/delete_account',
                 type: 'POST',
                 success: function(response) {
                     if (response.success) {
@@ -168,6 +163,7 @@ $(document).ready(function() {
                 },
                 error: function(error) {
                     alert('Failed to delete account. Please try again.');
+                    console.error('Error:', error);
                 }
             });
         }

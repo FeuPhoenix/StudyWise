@@ -117,22 +117,20 @@ def audio_display():
 
 @app.route('/change_name', methods=['POST', 'GET'])
 def change_name():
-    data = request.json
-    new_name = data.get('newName')
-    print(new_name)
-    if new_name:
-        try:
+    new_name = request.json.get('newName')
+
+    if not new_name:
+        return jsonify({'success': False, 'error': 'New name is required.'})
+
+    try:
             id = session['UserID']
             print("id", id)
             UserController.changeName(id, new_name)
             session['UserName'] = new_name
             return jsonify({'success': True}), 200
-        except Exception as e:
+    except Exception as e:
             print(e)
             return jsonify({'success': False, 'error': str(e)}), 500
-    else:
-        return jsonify({'success': False, 'error': 'New name not provided'}), 400
-    
 @app.route('/change_password', methods=['POST'])
 def change_password():
     data = request.json
@@ -422,6 +420,7 @@ def process_login():
 def process_logout():
     session.pop('UserID')
     session.pop('UserName')
+    return render_template('main_landing/login.html')
 
 @app.route('/get_password', methods=['POST'])
 def get_password():
@@ -684,15 +683,15 @@ def extract_text_from_txt(filepath):
 @app.route('/delete_account', methods=['POST'])
 def delete_account():
     user_id = session.get('UserID')
-    email=session.get("Email")
-    print(email)
+    email = session.get("Email")
     print(f"Deleting account for user ID {user_id}")
+    
     if not user_id:
         return jsonify({'success': False, 'error': 'User not authenticated'}), 401
 
     try:
         # Call the UserController to delete the user by ID
-        UserController.deleteUser(user_id,email)
+        UserController.deleteUser(user_id, email)
 
         # Clear the session after deleting the account
         session.clear()
