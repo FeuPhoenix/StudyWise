@@ -9,7 +9,7 @@
 <body>
     <div class="tab">
         <button class="tablinks" onclick="openTab(event, 'General')">General Questions</button>
-        <button class="tablinks" onclick="openTab(event, 'Filtered')">Filtered Questions</button>
+        <button class="tablinks" onclick="openTab(event, 'Filtered')"> Questions Based on Points</button>
     </div>
 
     <div id="General" class="tabcontent">
@@ -19,10 +19,10 @@
     </div>
 
     <div id="Filtered" class="tabcontent">
-        <div id="quiz-section">
+        <div id="quiz-section-filtered">
             <div id="user-points">Points: 0</div>
-            <div id="mcq-container"></div> <!-- Filtered MCQs will be injected here -->
-            <button id="to-leaderboard">Go to Leaderboard</button>
+            <div id="mcq-container-filtered"></div> <!-- Filtered MCQs will be injected here -->
+            
         </div>
     </div>
 

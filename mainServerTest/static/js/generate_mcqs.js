@@ -1,12 +1,3 @@
-const mcqsE = parseMCQs(sessionStorage.getItem('loadedMCQ_E'));
-const mcqsM = parseMCQs(sessionStorage.getItem('loadedMCQ_M'));
-const mcqsH = parseMCQs(sessionStorage.getItem('loadedMCQ_H'));
-const allMcqs = [...mcqsE, ...mcqsM, ...mcqsH];
-
-let userPoints = 0; // Initialize user points
-let fetchTimeout;
-let answeredCount = 0; // Variable to track the number of answered questions
-
 function parseMCQs(data) {
     try {
         const parsedData = JSON.parse(data || '[]');
@@ -17,7 +8,17 @@ function parseMCQs(data) {
     }
 }
 
-function fetchMCQs() {
+// General MCQs
+const mcqsE = parseMCQs(sessionStorage.getItem('loadedMCQ_E'));
+const mcqsM = parseMCQs(sessionStorage.getItem('loadedMCQ_M'));
+const mcqsH = parseMCQs(sessionStorage.getItem('loadedMCQ_H'));
+const allMcqs = [...mcqsE, ...mcqsM, ...mcqsH];
+
+let userPoints = 0; // Initialize user points
+let fetchTimeout;
+let answeredCount = 0; // Variable to track the number of answered questions
+
+async function fetchMCQs() {
     try {
         const difficulty = determineDifficulty(userPoints);
         let selectedMCQs;
@@ -121,13 +122,110 @@ function handleOptionClick(selectedOption, correctAnswer, optionDiv, optionsDiv)
     }
 }
 
-document.getElementById('to-leaderboard').addEventListener('click', function() {
-    window.location.href = '/leaderboard';
-});
+
 
 document.addEventListener('DOMContentLoaded', function() {
     fetchMCQs();
     fetchAllMCQs();
+});
+
+// Filtered MCQs
+async function fetchFilteredMCQs() {
+    try {
+        // Retrieve the stored data from local storage
+        const mcqsE = JSON.parse(sessionStorage.getItem('loadedMCQ_E') || '[]');
+        const mcqsM = JSON.parse(sessionStorage.getItem('loadedMCQ_M') || '[]');
+        const mcqsH = JSON.parse(sessionStorage.getItem('loadedMCQ_H') || '[]');
+
+        const difficulty = determineFilteredDifficulty(userPoints);
+        let selectedMCQs;
+        if (difficulty === 'easy') {
+            selectedMCQs = mcqsE;
+        } else if (difficulty === 'medium') {
+            selectedMCQs = mcqsM;
+        } else {
+            selectedMCQs = mcqsH;
+        }
+
+        // Randomly select 6 questions from the selected difficulty level
+        const selectedQuestions = getRandomFilteredQuestions(selectedMCQs, 6);
+        displayFilteredMCQs(selectedQuestions);
+    } catch (error) {
+        console.error("Failed to fetch filtered MCQs:", error);
+    }
+}
+
+function updateFilteredUserPoints(correct) {
+    if (correct) {
+        userPoints += 10;
+    } else {
+        userPoints -= 5; // Optional: Decrease points for an incorrect answer
+    }
+    userPoints = Math.max(userPoints, 0); // Ensure points don't go negative
+    displayFilteredUserPoints();
+}
+
+function displayFilteredUserPoints() {
+    const pointsDisplay = document.getElementById('user-points-filtered');
+    pointsDisplay.textContent = `Points: ${userPoints}`;
+}
+
+function determineFilteredDifficulty(points) {
+    if (points < 50) return 'easy';
+    else if (points < 100) return 'medium';
+    else return 'hard';
+}
+
+function displayFilteredMCQs(mcqs) {
+    const container = document.getElementById('mcq-container-filtered');
+    container.innerHTML = ''; // Clear previous content
+
+    mcqs.forEach((mcq, index) => {
+        const questionDiv = document.createElement('div');
+        questionDiv.classList.add('question');
+        questionDiv.textContent = `${index + 1}. ${mcq.question}`;
+
+        const optionsDiv = document.createElement('div');
+        mcq.options.forEach((option, optionIndex) => {
+            const optionDiv = document.createElement('div');
+            optionDiv.classList.add('option');
+            optionDiv.textContent = `${String.fromCharCode(65 + optionIndex)}. ${option}`;
+            optionDiv.onclick = () => handleFilteredOptionClick(option, mcq.correct_answer, optionDiv, optionsDiv);
+            optionsDiv.appendChild(optionDiv);
+        });
+
+        container.appendChild(questionDiv);
+        container.appendChild(optionsDiv);
+    });
+}
+
+function getRandomFilteredQuestions(mcqs, count) {
+    const shuffled = mcqs.sort(() => 0.5 - Math.random());
+    return shuffled.slice(0, count);
+}
+
+function handleFilteredOptionClick(selectedOption, correctAnswer, optionDiv, optionsDiv) {
+    const allOptions = optionsDiv.getElementsByClassName('option');
+    Array.from(allOptions).forEach(option => {
+        // Remove existing event listeners to prevent further clicks
+        option.onclick = null;
+        option.classList.remove('correct', 'incorrect');
+    });
+
+    if (selectedOption === correctAnswer) {
+        optionDiv.classList.add('correct');
+        updateFilteredUserPoints(true); // Increase points for correct answer
+    } else {
+        optionDiv.classList.add('incorrect');
+        updateFilteredUserPoints(false); // Decrease points for incorrect answer
+    }
+
+    clearTimeout(fetchTimeout);
+    fetchTimeout = setTimeout(fetchFilteredMCQs, 5000);
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    fetchFilteredMCQs();
 });
 
 function openTab(evt, tabName) {
