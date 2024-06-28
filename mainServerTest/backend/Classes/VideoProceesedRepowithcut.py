@@ -31,6 +31,7 @@ load_dotenv()
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
 
+
 aai.settings.api_key = os.getenv('AAI_API_key')
 
 class VideoProcessed_Repo_Cut:
@@ -329,17 +330,15 @@ class VideoProcessed_Repo_Cut:
             return False
     @staticmethod
     def getFileNameFromPathWithOutExtension(input_string):
-    # Find the last occurrence of '/'
-        last_slash_index = input_string.rfind('\\')
+        # Find the last occurrence of '/' or '\'
+        last_slash_index = max(input_string.rfind('/'), input_string.rfind('\\'))
         result_string = input_string[last_slash_index + 1:]
-        result_string=result_string.replace('.mp4','')
-        result_string=result_string.replace('.docx','')
-        result_string=result_string.replace('.doc','')
-        result_string=result_string.replace('.pptx','')
-        result_string=result_string.replace('.ppt','')
-        result_string=result_string.replace('.pdf','')
-        result_string=result_string.replace('.json','')
-        result_string=result_string.replace('.txt','')
+        
+        # Remove file extensions
+        extensions = ['.mp4', '.docx', '.doc', '.pptx', '.ppt', '.pdf', '.json', '.txt', '.mp3']
+        for ext in extensions:
+            result_string = result_string.replace(ext, '')
+            
         return result_string
     @staticmethod
     def milliseconds_to_hms(ms):
@@ -350,7 +349,7 @@ class VideoProcessed_Repo_Cut:
     def generate_concise_title(headline):
         while True:
             try:
-                        openai.api_key =os.getenv("OPENAI_API_KEY")
+                        openai.api_key ="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"
 
 
                          

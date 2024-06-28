@@ -296,10 +296,10 @@ class Flash_Cards:
 
             transcript_note = (
                 "The text provided might contain grammatical or logical mistakes due to speech-to-text inaccuracies. "
-                "Please focus on generating conceptually relevant and clear questions and answers, avoiding ambiguous content. "
-                "Do not refer to the transcription as 'this text' or 'the text' and avoid questions about what this text in particular is discussing. "
-                "Instead, generate questions about the definitions and concepts explained within the text. "
-                "Only generate questions and answers relevant to the following text: "
+                "Please focus on generating conceptually relevant and clear questions and answers based on the definitions and concepts explained within the text. "
+                "Avoid creating questions about the text itself or its content. "
+                "Do not refer to the transcription as 'this text' or 'the text' and avoid questions about what the text in particular is discussing. "
+                "Only generate questions and answers relevant to the definitions and concepts explained within the following text: "
             )
 
             pdf_note = (

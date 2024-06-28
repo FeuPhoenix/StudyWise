@@ -23,7 +23,7 @@ CHAT_UPLOAD_FOLDER = 'C:\\Users\\AMR\\Desktop\\pro\\StudyWise\\chat_with_pdf'
 app.config['UPLOAD_FOLDER'] = CHAT_UPLOAD_FOLDER  # You might need to adjust this if using both functionalities
 
 load_dotenv()
-openai.api_key = os.getenv("OPENAI_API_KEY")
+openai.api_key =os.getenv("OPENAI_API_KEY")
 
 
 
