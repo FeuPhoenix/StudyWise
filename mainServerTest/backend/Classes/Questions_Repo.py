@@ -250,9 +250,6 @@ class Questions_Repo:
             self.output_mcqs_easy = 'mainServerTest/assets/output_files/mcq/'+Questions_Repo.getFileNameFromPathWithOutExtension(file_path)+'easy.json'
             self.output_mcqs_medium = 'mainServerTest/assets/output_files/mcq/'+Questions_Repo.getFileNameFromPathWithOutExtension(file_path)+'medium.json'
             self.output_mcqs_hard = 'mainServerTest/assets/output_files/mcq/'+Questions_Repo.getFileNameFromPathWithOutExtension(file_path)+'hard.json'
-            self.output_mcqs_easy = 'mainServerTest/assets/output_files/mcq/'+Questions_Repo.getFileNameFromPathWithOutExtension(file_path)+'easy.json'
-            self.output_mcqs_medium = 'mainServerTest/assets/output_files/mcq/'+Questions_Repo.getFileNameFromPathWithOutExtension(file_path)+'medium.json'
-            self.output_mcqs_hard = 'mainServerTest/assets/output_files/mcq/'+Questions_Repo.getFileNameFromPathWithOutExtension(file_path)+'hard.json'
 
             if not os.path.exists(self.output_mcqs_easy):
                 self.output_mcqs_easy = None
@@ -263,6 +260,7 @@ class Questions_Repo:
             if not os.path.exists(self.output_mcqs_hard):
                 self.output_mcqs_hard = None
             self.addDocumentQuestionsToFirestore()
+            time.sleep(1)
             Questions_Repo.close_file_if_open("mainServerTest/assets/input_files/text-based/"+Questions_Repo.getFileNameFromPathWithOutExtension(file_path)+".pdf")
             Questions_Repo.close_file_if_open("mainServerTest/assets/input_files/text-based/"+Questions_Repo.getFileNameFromPathWithOutExtension(file_path)+".ppt")
             Questions_Repo.close_file_if_open("mainServerTest/assets/input_files/text-based/"+Questions_Repo.getFileNameFromPathWithOutExtension(file_path)+".pptx")
@@ -319,18 +317,19 @@ class Questions_Repo:
             if not os.path.exists(self.output_mcqs_hard):
                 self.output_mcqs_hard = None
             self.addVideoQuestionsToFirestore()
-            Questions_Repo.close_file_if_open("mainServerTest/assets/input_files/video/"+Questions_Repo.getFileNameFromPathWithOutExtension(file_path)+".mp4")
-            Questions_Repo.close_file_if_open("mainServerTest/assets/input_files/video-based/"+Questions_Repo.getFileNameFromPathWithOutExtension(file_path)+".mp4")
-
-            Questions_Repo.close_file_if_open("mainServerTest/assets/output_files/audio/"+Questions_Repo.getFileNameFromPathWithOutExtension(file_path)+".mp3")
-            Questions_Repo.close_file_if_open("mainServerTest/assets/output_files/Chapters/"+Questions_Repo.getFileNameFromPathWithOutExtension(file_path)+".json")
-            Questions_Repo.close_file_if_open("mainServerTest/assets/output_files/Processed_Chapters/"+Questions_Repo.getFileNameFromPathWithOutExtension(file_path)+".json")
-            Questions_Repo.close_file_if_open("mainServerTest/assets/output_files/flashcards/"+Questions_Repo.getFileNameFromPathWithOutExtension(file_path)+".json")
-            Questions_Repo.close_file_if_open("mainServerTest/assets/output_files/mcq/"+Questions_Repo.getFileNameFromPathWithOutExtension(file_path)+"easy_transcript.json")
-            Questions_Repo.close_file_if_open("mainServerTest/assets/output_files/mcq/"+Questions_Repo.getFileNameFromPathWithOutExtension(file_path)+"medium_transcript.json")
-            Questions_Repo.close_file_if_open("mainServerTest/assets/output_files/mcq/"+Questions_Repo.getFileNameFromPathWithOutExtension(file_path)+"hard_transcript.json")
             
-            Questions_Repo.close_file_if_open("mainServerTest/assets/output_files/summaries/"+Questions_Repo.getFileNameFromPathWithOutExtension(file_path)+".json") 
+            # Questions_Repo.close_file_if_open("mainServerTest/assets/input_files/video/"+Questions_Repo.getFileNameFromPathWithOutExtension(file_path)+".mp4")
+            # Questions_Repo.close_file_if_open("mainServerTest/assets/input_files/video-based/"+Questions_Repo.getFileNameFromPathWithOutExtension(file_path)+".mp4")
+
+            # Questions_Repo.close_file_if_open("mainServerTest/assets/output_files/audio/"+Questions_Repo.getFileNameFromPathWithOutExtension(file_path)+".mp3")
+            # Questions_Repo.close_file_if_open("mainServerTest/assets/output_files/Chapters/"+Questions_Repo.getFileNameFromPathWithOutExtension(file_path)+".json")
+            # Questions_Repo.close_file_if_open("mainServerTest/assets/output_files/Processed_Chapters/"+Questions_Repo.getFileNameFromPathWithOutExtension(file_path)+".json")
+            # Questions_Repo.close_file_if_open("mainServerTest/assets/output_files/flashcards/"+Questions_Repo.getFileNameFromPathWithOutExtension(file_path)+".json")
+            # Questions_Repo.close_file_if_open("mainServerTest/assets/output_files/mcq/"+Questions_Repo.getFileNameFromPathWithOutExtension(file_path)+"easy_transcript.json")
+            # Questions_Repo.close_file_if_open("mainServerTest/assets/output_files/mcq/"+Questions_Repo.getFileNameFromPathWithOutExtension(file_path)+"medium_transcript.json")
+            # Questions_Repo.close_file_if_open("mainServerTest/assets/output_files/mcq/"+Questions_Repo.getFileNameFromPathWithOutExtension(file_path)+"hard_transcript.json")
+            
+            # Questions_Repo.close_file_if_open("mainServerTest/assets/output_files/summaries/"+Questions_Repo.getFileNameFromPathWithOutExtension(file_path)+".json") 
    
    
              

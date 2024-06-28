@@ -178,6 +178,7 @@ class DocumentProcessedController:
                 flashcards= DocumentProcessedController.fetch_json_from_url( flash_card_data[0]['flash_card_location'])
                 
                 MCQ_E= DocumentProcessedController.fetch_json_from_url(easy_location)
+                print("MCQ_E fectched back end",MCQ_E)
                 
                 MCQ_M= DocumentProcessedController.fetch_json_from_url(medium_location)
                 
