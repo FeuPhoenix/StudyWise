@@ -34,6 +34,8 @@ document.addEventListener("DOMContentLoaded", function() {
             sessionStorage.setItem('loadedMCQ_H', JSON.stringify(MCQ_H));
             sessionStorage.setItem('Transcript', JSON.stringify(Transcript.Transcript));
 
+            localStorage.setItem(`${fileName}_VideoLink`, videoLink);
+
             // console.log('Transcript: ', sessionStorage.getItem('Transcript'));
             // console.log('Video Link:', sessionStorage.getItem('loadedVideoLink'));
             // console.log('Video Audio:', sessionStorage.getItem('loadedVideoAudio'));
@@ -278,9 +280,8 @@ document.getElementById('toggleButton').addEventListener('click', function() {
 
 // CHAT FOR VIDEO COMING SOON
 function goToChat() {
-    if (videoName) {
-        alert('Chat with videos coming soon.')
-        // window.location.href = `/chatwithpdf?file=${encodeURIComponent(videoName)}`;
+    if (fileName) {
+        window.location.href = `/chatwithvideo?file=${encodeURIComponent(fileName)}`;
     } else {
         console.error("No video name found in sessionStorage");
     }

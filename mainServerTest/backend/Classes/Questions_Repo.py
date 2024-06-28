@@ -337,7 +337,7 @@ class Questions_Repo:
         
         for difficulty in ['easy', 'medium', 'hard']:
             if transcript_paragraphs[difficulty]:
-                mcqs = Questions_Repo.generate_mcqs_Trasncript(transcript_paragraphs, difficulty)
+                mcqs = Questions_Repo.generate_mcqs_Transcript(transcript_paragraphs, difficulty)
                 print("MCQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQ",mcqs)
                 mcqs=Questions_Repo.post_process_questions(mcqs)
                 mcqs=Questions_Repo.shuffle_options2(mcqs)
