@@ -274,7 +274,6 @@ class Questions_Repo:
             Questions_Repo.close_file_if_open("mainServerTest/assets/output_files/mcq/"+Questions_Repo.getFileNameFromPathWithOutExtension(file_path)+"hard.json")
             
             Questions_Repo.close_file_if_open("mainServerTest/assets/output_files/summaries/"+Questions_Repo.getFileNameFromPathWithOutExtension(file_path)+".json") 
-            Questions_Repo.close_file_if_open("mainServerTest/assets/output_files/text_files/"+Questions_Repo.getFileNameFromPathWithOutExtension(file_path)+".txt")    
    
    
   
@@ -294,7 +293,7 @@ class Questions_Repo:
                 print("MCQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQ",mcqs)
                 mcqs=Questions_Repo.post_process_questions(mcqs)
                 mcqs=Questions_Repo.shuffle_options2(mcqs)
-                
+
                 if mcqs:
                    
                     output_path = 'mainServerTest/assets/output_files/mcq/'+Questions_Repo.getFileNameFromPathWithOutExtension(file_path)+difficulty+'_transcript.json'
@@ -332,7 +331,6 @@ class Questions_Repo:
             Questions_Repo.close_file_if_open("mainServerTest/assets/output_files/mcq/"+Questions_Repo.getFileNameFromPathWithOutExtension(file_path)+"hard_transcript.json")
             
             Questions_Repo.close_file_if_open("mainServerTest/assets/output_files/summaries/"+Questions_Repo.getFileNameFromPathWithOutExtension(file_path)+".json") 
-            Questions_Repo.close_file_if_open("mainServerTest/assets/output_files/text_files/"+Questions_Repo.getFileNameFromPathWithOutExtension(file_path)+".txt")    
    
    
              
