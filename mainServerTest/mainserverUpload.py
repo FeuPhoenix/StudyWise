@@ -583,35 +583,6 @@ def receive_filename():
 
 
 # PDF CHAT ========================================================================
-@app.route('/upload', methods=['POST'])
-def upload():
-    file = request.files.get('file')
-    if not file:
-        return jsonify({'error': 'No file uploaded'}), 400
-
-    if allowed_file(file.filename):
-        filename = secure_filename(file.filename)
-        filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-        file.save(filepath)
-
-        # Extract text from the uploaded file
-        try:
-            if filename.lower().endswith('.pdf'):
-                pdf_text = extract_text_from_pdf(filepath)
-            elif filename.lower().endswith('.txt'):
-                pdf_text = extract_text_from_txt(filepath)
-            session['pdf_text'] = pdf_text  # Store extracted text in session
-        except Exception as e:
-            return jsonify({'error': f'Failed to extract text from file: {e}'}), 500
-
-        file_url = url_for('uploaded_file', filename=filename, _external=True)
-        return jsonify({'status': 'success', 'fileUrl': file_url})
-    else:
-        return jsonify({'error': 'Invalid file type'}), 400
-
-@app.route('/uploads/<filename>')
-def uploaded_file(filename):
-    return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
 
 # Route to handle chat interaction
 @app.route('/chat/<file>', methods=['POST'])
@@ -634,6 +605,7 @@ def chat(file):
     return jsonify({'response': response_text})
 
 def extract_text_from_pdf(filepath):
+    filepath = re.sub(r'\\', '/', filepath)
     try:
         text = ''
         with fitz.open(filepath) as doc:
