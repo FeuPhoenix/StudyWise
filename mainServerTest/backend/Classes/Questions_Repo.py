@@ -198,6 +198,70 @@ class Questions_Repo:
         print(f"Generated {len(mcqs)} {difficulty} MCQs.")
         return mcqs
     @staticmethod
+    def generate_mcqs_Transcript(paragraphs, difficulty):
+        mcqs = []
+        batched_paragraphs = []
+        current_batch = ""
+
+        # Adjust the base prompt based on the difficulty level and video context
+        if difficulty == 'easy':
+            base_prompt = (
+                "The following text is a transcription from a video and may contain grammatical or logical errors due to the nature of speech-to-text conversion. "
+                "Please generate 10 multiple-choice questions that are straightforward and simple, focusing on basic concepts explained in the text. "
+                "Ensure the questions and answers are clear and conceptually relevant. "
+                "Do not create questions about the transcription process or the text itself, but focus solely on the definitions and concepts provided."
+            )
+        elif difficulty == 'medium':
+            base_prompt = (
+                "The following text is a transcription from a video and may contain grammatical or logical errors due to the nature of speech-to-text conversion. "
+                "Please generate 10 multiple-choice questions that require a moderate level of understanding and involve more detailed concepts explained in the text. "
+                "Ensure the questions and answers are clear and conceptually relevant. "
+                "Do not create questions about the transcription process or the text itself, but focus solely on the definitions and concepts provided."
+            )
+        else:  # hard
+            base_prompt = (
+                "The following text is a transcription from a video and may contain grammatical or logical errors due to the nature of speech-to-text conversion. "
+                "Please generate 10 multiple-choice questions that are complex, requiring in-depth understanding and critical thinking to answer based on the concepts explained in the text. "
+                "Ensure the questions and answers are clear and conceptually relevant. "
+                "Do not create questions about the transcription process or the text itself, but focus solely on the definitions and concepts provided."
+            )
+
+        for paragraph in paragraphs[difficulty]:
+            if len(current_batch) + len(paragraph) < MAX_TOKENS_PER_REQUEST:
+                current_batch += f"{paragraph}\n\n"
+            else:
+                batched_paragraphs.append(current_batch)
+                current_batch = f"{paragraph}\n\n"
+        
+        if current_batch:
+            batched_paragraphs.append(current_batch)
+
+        for batch in batched_paragraphs:
+            user_prompt = {"role": "user", "content": base_prompt + ": " + batch}
+            try:
+                response = openai.ChatCompletion.create(model="gpt-3.5-turbo", messages=[user_prompt])
+                response_text = response['choices'][0]['message']['content'].strip()
+                potential_mcqs = response_text.split('\n\n')
+                for mcq in potential_mcqs:
+                    question_parts = mcq.split('\n')
+                    if len(question_parts) >= 5 and Questions_Repo.is_conceptually_relevant(question_parts[0]):
+                        options, correct_index = Questions_Repo.shuffle_options(question_parts[1:5])
+                        mcqs.append({
+                            'question': question_parts[0],
+                            'options': options,
+                            'correct_answer': options[correct_index]
+                        })
+            except openai.error.RateLimitError:
+                print("Rate limit exceeded, waiting before retrying...")
+                time.sleep(20)
+            except openai.OpenAIError as e:
+                print(f"OpenAI API error: {e}")
+            except Exception as e:
+                print(f"An unexpected error occurred: {e}")
+
+        print(f"Generated {len(mcqs)} {difficulty} MCQs.")
+        return mcqs
+    @staticmethod
     def shuffle_options(options):
         correct_index = 0  # Assuming the first option is correct
         random.shuffle(options)  # Shuffle options
@@ -287,7 +351,7 @@ class Questions_Repo:
         
         for difficulty in ['easy', 'medium', 'hard']:
             if transcript_paragraphs[difficulty]:
-                mcqs = Questions_Repo.generate_mcqs(transcript_paragraphs, difficulty)
+                mcqs = Questions_Repo.generate_mcqs_Trasncript(transcript_paragraphs, difficulty)
                 print("MCQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQ",mcqs)
                 mcqs=Questions_Repo.post_process_questions(mcqs)
                 mcqs=Questions_Repo.shuffle_options2(mcqs)
