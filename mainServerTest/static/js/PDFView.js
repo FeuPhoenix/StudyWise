@@ -27,7 +27,12 @@ document.addEventListener("DOMContentLoaded", function() {
 
             // console.log('Document Link:', sessionStorage.getItem('loadedDocumentLink'));
             // console.log('Document Summary:', sessionStorage.getItem('loadedDocumentSummary'));
-            // console.log('Document Flashcards:', sessionStorage.getItem('loadedFlashcards'));
+            
+            console.log('[PDF Page] Loaded Flashcards:', sessionStorage.getItem('loadedFlashcards'));
+            
+            // Dispatch custom load event
+            const event = new Event('flashcardsLoaded');
+            window.dispatchEvent(event);
 
             var documentURL = sessionStorage.getItem('loadedDocumentLink')
             if (documentURL) {

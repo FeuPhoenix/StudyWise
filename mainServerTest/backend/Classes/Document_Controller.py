@@ -171,7 +171,7 @@ class DocumentProcessedController:
                     hard_location = question['Questions_hard_location']
                     easy_location = question['Questions_easy_location']
                 
-                text=DocumentProcessedController.fetch_text_and_convert_to_json(Document_material_data['generated_text_file_path'])
+                # text=DocumentProcessedController.fetch_text_and_convert_to_json(Document_material_data['generated_text_file_path'])
 
                 Summary= DocumentProcessedController.fetch_json_from_url(Document_material_data['generated_summary_file_path'])
                 
@@ -183,7 +183,7 @@ class DocumentProcessedController:
                 
                 MCQ_H= DocumentProcessedController.fetch_json_from_url(hard_location)
                 
-                return Document_material_data['_file_path'],Summary,flashcards,MCQ_E,MCQ_M,MCQ_H,text
+                return Document_material_data['_file_path'],Summary,flashcards,MCQ_E,MCQ_M,MCQ_H
             
             else:
                 print(f"No such document with user_id: {user_id} and material_id: {material_id}")

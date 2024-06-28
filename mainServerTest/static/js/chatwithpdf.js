@@ -99,6 +99,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     processSegment(segIndex + 1, 0); // Move to the next segment
                 }
             }
+            scrollToBottom();
         }
     
         // Start processing from the first segment

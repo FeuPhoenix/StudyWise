@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener('DOMContentLoaded', () => {
   const FSButton = document.querySelector(".go-fullscreen");
   const container = document.querySelector(".FC-container");
   const leaveFSButton = document.querySelector(".leave-fullscreen");
@@ -92,6 +92,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const loadCards = () => {
     const data = JSON.parse(sessionStorage.getItem('loadedFlashcards'));
     if (data) {
+      console.log('[Flashcard JS] Loaded Flashcards:', sessionStorage.getItem('loadedFlashcards'));
       console.log('Mapping Flashcards onto elements');
       cards = data.map(card => ({ ...card, status: "unread" }));
       numDictionaryItems = cards.length;
@@ -165,7 +166,9 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   // Initial load
-  loadCards();
+  window.addEventListener('flashcardsLoaded', () => {
+    loadCards();
+  });
 });
 
 // Placeholder JSON DATA

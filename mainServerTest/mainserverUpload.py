@@ -615,28 +615,23 @@ def uploaded_file(filename):
 
 # Route to handle chat interaction
 @app.route('/chat/<file>', methods=['POST'])
-def chat():
-    user_input = request.json.get('message')
-    if not user_input:
-        return jsonify({'error': 'No message provided'}), 400
-
-    pdf_text = session.get('pdf_text', '')
-    if not pdf_text:
-        return jsonify({'error': 'No PDF text available. Please upload a PDF first.'}), 400
-
-    try:
-        conversation_history = [
-            {"role": "system", "content": pdf_text},
-            {"role": "user", "content": user_input}
-        ]
-        response = openai.ChatCompletion.create(
-            model="gpt-3.5-turbo",
-            messages=conversation_history
-        )
-        response_text = response.choices[0].message['content']
-        return jsonify({'response': response_text})
-    except Exception as e:
-        return jsonify({'error': f'Failed to get response from chatbot: {e}'}), 500
+def chat(file):
+    text_file = file + ".txt"
+    user_input = request.json['message']
+    text_file_path = safe_join(app.root_path, f'assets/output_files/text_files/{text_file}')
+    pdf_text = extract_text_from_pdf(text_file_path)
+    # Combine PDF text with user input for the conversation with GPT-3.5 Turbo
+    conversation_history = [
+        {"role": "system", "content": pdf_text},
+        {"role": "user", "content": user_input}
+    ]
+    response = openai.ChatCompletion.create(
+        model="gpt-3.5-turbo",
+        messages=conversation_history
+    )
+    # Extract the response text
+    response_text = response.choices[0].message['content']
+    return jsonify({'response': response_text})
 
 def extract_text_from_pdf(filepath):
     try:
