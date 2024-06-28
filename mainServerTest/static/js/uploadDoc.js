@@ -26,16 +26,15 @@ function handleFileSelection() {
     }
 }
 
-// Establish WebSocket connection
-var socket = io.connect(`http://127.0.0.1:5000/`);
-
-socket.on("connect", function() {
-    let socketID = socket.id;
-    formData.append('socketID', socketID);
-    console.log('Socket ID: ', socketID)
-});
-
 document.addEventListener('DOMContentLoaded', function() {
+
+    // Establish WebSocket connection
+    var socket = io.connect(`http://127.0.0.1:5000/`);
+
+    socket.on("connect", function() {
+        socketID = socket.id;
+        console.log('Established Socket ID: ', socketID)
+    });
 
     var processedDoc;
 
@@ -64,6 +63,10 @@ document.addEventListener('DOMContentLoaded', function() {
         var form = document.getElementById('uploadForm');
         var formData = new FormData(form);
 
+        // Append Socket ID to formData
+        formData.append('socketID', socketID);
+        console.log('Fetching with Socket ID: ', socketID)
+
         // Append File type to formData
         formData.append('FileType', 'document');
 
@@ -87,24 +90,6 @@ document.addEventListener('DOMContentLoaded', function() {
         .then(data => {
             console.log('File uploaded successfully.', data);
             processedDoc = data.filename;
-    
-            fetch('/filename', {
-                method: 'POST',
-                body: JSON.stringify({ filename: fileName }),
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            })
-            .then(response => {
-                if (response.ok) {
-                    console.log('The file name below was sent to server. \nFile name:', fileName);
-                } else {
-                    console.error('Failed to send file name to server. \nFile name:', fileName);
-                }
-            })
-            .catch(error => {
-                console.error('Error during sending file name:', error);
-            });
         })
         .catch(error => {
             console.error('Error during file upload:', error);

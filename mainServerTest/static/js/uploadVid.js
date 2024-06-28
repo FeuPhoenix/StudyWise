@@ -26,16 +26,17 @@ function handleFileSelection() {
     }
 }
 
-// Establish WebSocket connection
-var socket = io.connect(`http://127.0.0.1:5000/`);
 
-socket.on("connect", function() {
-    let socketID = socket.id;
-    formData.append('socketID', socketID);
-    console.log('Socket ID: ', socketID)
-});
 
 document.addEventListener('DOMContentLoaded', function() {
+
+    // Establish WebSocket connection
+    var socket = io.connect(`http://127.0.0.1:5000/`);
+
+    socket.on("connect", function () {
+        let socketID = socket.id;
+        console.log('Socket ID Established: ', socketID)
+    });
 
     var processedVideo;
 
@@ -63,6 +64,10 @@ document.addEventListener('DOMContentLoaded', function() {
     
         var form = document.getElementById('uploadForm');
         var formData = new FormData(form);
+
+        // Append Socket ID to formData
+        formData.append('socketID', socketID);
+        console.log('Fetching with Socket ID: ', socketID)
     
         // Append File type to formData
         formData.append('FileType', 'video');

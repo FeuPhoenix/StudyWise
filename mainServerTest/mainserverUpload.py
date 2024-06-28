@@ -1,3 +1,4 @@
+import re
 import smtplib
 from flask import Flask, jsonify, render_template, request, send_from_directory, url_for, redirect, session
 from config import socketio
@@ -149,24 +150,6 @@ def change_password():
             return jsonify({'success': False, 'error': str(e)}), 500
     else:
         return jsonify({'success': False, 'error': 'New Password not provided'}), 400
-    
-    data = request.json
-    newPassword = data.get('newPassword')
-    print(newPassword)
-    # Your logic to update the username in Firebase or perform any other action
-    # Replace this example logic with your actual implementation
-    if newPassword!=None:
-        try:
-            id=session['UserID']
-            print("id",id)
-            UserController.ChangePassword(session['UserID'], newPassword)
-            session['UserName'] = session['UserName']
-            return jsonify({'success': True}), 200
-        except Exception as e:
-            print(e)
-            return jsonify({'success': False, 'error': str(e)}), 500
-    else:
-        return jsonify({'success': False, 'error': 'New Password not provided'}), 400
 
 @app.route('/home')
 def home():    
@@ -174,7 +157,7 @@ def home():
         
         userID = session['UserID']
         userName = session['UserName']
-        print("Username",userName)
+        print("Username", userName)
         
         print('\n==============================USER IN HOME================================\n',
              f'\t\tID: {userID}\n',
@@ -497,11 +480,15 @@ def serve_indexes(filename):
 async def upload_file():
     file = request.files.get('file')
     session['uploadedFileType'] = request.form.get('FileType')
+    videoLink = request.form.get('YT_link')
     print('Got File Type:', session['uploadedFileType'])
-    fileType = session.get('uploadedFileType', '').lower()
     userID = session.get('UserID')
+
+    if session['uploadedFileType'] : 
+        fileType = session.get('uploadedFileType', '').lower()
     
-    if file:
+    
+    if file :
         socketID = request.form.get('socketID')
         print('\nClient\'s Socket ID: ', socketID)
 
@@ -562,7 +549,27 @@ async def upload_file():
         else:
             return jsonify({'message': 'Invalid file type. ~DIDO'}), 400
     
-    else:
+    # Check if Link is detected
+    elif videoLink and re.match(r'(https?://)?(www.)?(youtube.com|youtu.?be)/.+$', videoLink) : 
+        # Get Socket ID from client
+        socketID = request.form.get('socketID')
+        print('\nClient\'s Socket ID: ', socketID)
+
+        from backend.Classes.VideoProcessed_Controller import Video_Processed_Controller
+
+        # Send an initiation update message to the client
+        socketio.emit('update', {'message': f'Processing your link...'}, to=socketID)
+
+        # Call VideoProcessedController to upload the video
+        processed_link = Video_Processed_Controller.upload_video(videoLink, userID)
+
+        # Send a completion update message to the client
+        socketio.emit('update', {'message': 'Processing completed'}, to=socketID)
+        return jsonify({'message': f'Link: {processed_link} processed. ~DIDO', 'filename': processed_link}), 200
+
+
+
+    else :
         return jsonify({'message': 'No file detected ~DIDO'}), 406
 
 @app.route('/filename', methods=['POST'])
@@ -582,58 +589,73 @@ def upload():
     if not file:
         return jsonify({'error': 'No file uploaded'}), 400
 
-    filename = secure_filename(file.filename)
-
-    if allowed_file(filename, type='chat_pdf'):
-        # Save the file to the specified directory (common operation)
+    if allowed_file(file.filename):
+        filename = secure_filename(file.filename)
         filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
         file.save(filepath)
-        # Generate a URL to access the file (specific to chat_pdf)
+
+        # Extract text from the uploaded file
+        try:
+            if filename.lower().endswith('.pdf'):
+                pdf_text = extract_text_from_pdf(filepath)
+            elif filename.lower().endswith('.txt'):
+                pdf_text = extract_text_from_txt(filepath)
+            session['pdf_text'] = pdf_text  # Store extracted text in session
+        except Exception as e:
+            return jsonify({'error': f'Failed to extract text from file: {e}'}), 500
+
         file_url = url_for('uploaded_file', filename=filename, _external=True)
         return jsonify({'status': 'success', 'fileUrl': file_url})
-
-    elif allowed_file(filename, type='existing_functionality'):
-        # The file has already been saved above
-        socketio.emit('update', {'message': f'File {filename} successfully uploaded'})
-        return jsonify({'message': 'File successfully uploaded'}), 200
-
     else:
-        return jsonify({'error': 'File type not allowed'}), 400
+        return jsonify({'error': 'Invalid file type'}), 400
 
 @app.route('/uploads/<filename>')
 def uploaded_file(filename):
     return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
 
-def extract_text_from_pdf(filepath):
-    text = ''
-    with fitz.open(filepath) as doc:
-        for page in doc:
-            text += page.get_text()
-    return text
-
 # Route to handle chat interaction
 @app.route('/chat/<file>', methods=['POST'])
-def chat(file):
-    text_file = file + ".txt"
+def chat():
+    user_input = request.json.get('message')
+    if not user_input:
+        return jsonify({'error': 'No message provided'}), 400
 
-    user_input = request.json['message']
-    text_file_path = safe_join(app.root_path, f'assets/output_files/text_files/{text_file}')
-    pdf_text = extract_text_from_pdf(text_file_path)
+    pdf_text = session.get('pdf_text', '')
+    if not pdf_text:
+        return jsonify({'error': 'No PDF text available. Please upload a PDF first.'}), 400
 
-    # Combine PDF text with user input for the conversation with GPT-3.5 Turbo
-    conversation_history = [
-        {"role": "system", "content": pdf_text},
-        {"role": "user", "content": user_input}
-    ]
+    try:
+        conversation_history = [
+            {"role": "system", "content": pdf_text},
+            {"role": "user", "content": user_input}
+        ]
+        response = openai.ChatCompletion.create(
+            model="gpt-3.5-turbo",
+            messages=conversation_history
+        )
+        response_text = response.choices[0].message['content']
+        return jsonify({'response': response_text})
+    except Exception as e:
+        return jsonify({'error': f'Failed to get response from chatbot: {e}'}), 500
 
-    response = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo",
-        messages=conversation_history
-    )
+def extract_text_from_pdf(filepath):
+    try:
+        text = ''
+        with fitz.open(filepath) as doc:
+            for page in doc:
+                text += page.get_text()
+        return text
+    except Exception as e:
+        raise Exception(f'Error extracting text: {e}')
 
-    # Extract the response text
-    response_text = response.choices[0].message['content']
-    return jsonify({'response': response_text})
+def extract_text_from_txt(filepath):
+    try:
+        with open(filepath, 'r', encoding='utf-8') as file:
+            return file.read()
+    except Exception as e:
+        raise Exception(f'Error reading text file: {e}')
+
+
 @app.route('/delete_account', methods=['POST'])
 def delete_account():
     user_id = session.get('UserID')
@@ -654,6 +676,7 @@ def delete_account():
     except Exception as e:
         print(f"Error deleting account for user ID {user_id}: {e}")
         return jsonify({'success': False, 'error': str(e)}), 500
+    
 @app.route('/chatwithpdf')
 def chat_with_pdf():
     return render_template('main_loggedin/chatwithpdf.html')

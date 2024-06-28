@@ -434,7 +434,9 @@ class VideoProcessed_Repo:
 
                     # Transcribe audio
                     config = aai.TranscriptionConfig(auto_chapters=True)
-                    transcript = aai.Transcriber().transcribe(self.generated_audio_file_path, config)
+                    # transcript = aai.Transcriber().transcribe(self.generated_audio_file_path, config)
+                    transcriber = aai.Transcriber()
+                    transcript = transcriber.transcribe(self.generated_audio_file_path, config)
                     if transcript.status == aai.TranscriptStatus.error:
                         print(transcript.error)
                     else:
@@ -504,7 +506,10 @@ class VideoProcessed_Repo:
                     
                     # Transcribe audio
                     config = aai.TranscriptionConfig(auto_chapters=True)
-                    transcript = aai.Transcriber().transcribe(self.generated_audio_file_path, config)
+                    # transcript = aai.Transcriber.transcribe(self.generated_audio_file_path, config)
+
+                    transcriber = aai.Transcriber()
+                    transcript = transcriber.transcribe(self.generated_audio_file_path, config)
                     
                     if transcript.status == aai.TranscriptStatus.error:
                         print(transcript.error)

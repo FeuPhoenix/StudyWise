@@ -1,149 +1,149 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-    <link rel="shortcut icon" href="{{ url_for('static', filename='assets/images/Studywise_Logo.png') }}" type="image/x-icon">
-    <title>StudyWise - Upload Document</title>
+    <head>
+        <link rel="shortcut icon" href="{{ url_for('static', filename='assets/images/Studywise_Logo.png') }}" type="image/x-icon">
+        <title>StudyWise - Upload Document</title>
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/pop-up-style.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/scrollbar.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/homestyle.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/Avatar.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/upload-material-style.css') }}">
-</head>
-<body>
-    <div class="main-navbar">
-        <img src="{{ url_for('static', filename='assets/images/Studywise_Logo.png') }}" alt="Studywise Logo" class="navbar-logo">
-        <div class="navbar-btns">
-            <a href="/home"><button>Home</button></a>
-            <a href="/home"><button>Your Content</button></a>
-            <a onclick="popupPrompt()"><button>Upload Material</button></a>
-        </div>
-        <div class="navbar-avatar-frame" onclick="toggleMenu()">
-            <svg xmlns="http://www.w3.org/2000/svg" class="navbar-user-avatar-SVG" viewBox="0 0 65 65" fill="none">
-                <g>
-                    <ellipse id="Avatar background" cx="32.8781" cy="32.4216" rx="32.1222" ry="31.9431" fill="#D9D9D9"/>
-                    <path id="Avatar head" d="M33.4221 37.2943C38.2331 37.2943 42.1332 33.416 42.1332 28.6318C42.1332 23.8476 38.2331 19.9692 33.4221 19.9692C28.611 19.9692 24.7109 23.8476 24.7109 28.6318C24.7109 33.416 28.611 37.2943 33.4221 37.2943Z" fill="#010002"/>
-                    <path id="Avatar torso" d="M37.8465 38.377H27.9091C21.3326 38.377 16 42.5912 16 47.7916V55.707C16 55.707 22.5333 61.1232 32.8778 61.1161C43.2223 61.109 49.7556 55.707 49.7556 55.707L49.7556 47.7916C49.7556 42.5912 44.423 38.377 37.8465 38.377Z" fill="#010002"/>
-                </g>
-            </svg>
-            <div class="list-group list-group-light">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/pop-up-style.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/scrollbar.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/homestyle.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/Avatar.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/upload-material-style.css') }}">
+    </head>
+    <body>
+        <div class="main-navbar">
+            <img src="{{ url_for('static', filename='assets/images/Studywise_Logo.png') }}" alt="Studywise Logo" class="navbar-logo">
+            <div class="navbar-btns">
+                <a href="/home"><button>Home</button></a>
+                <a href="/home"><button>Your Content</button></a>
+                <a onclick="popupPrompt()"><button>Upload Material</button></a>
+            </div>
+            <div class="navbar-avatar-frame" onclick="toggleMenu()">
+                <svg xmlns="http://www.w3.org/2000/svg" class="navbar-user-avatar-SVG" viewBox="0 0 65 65" fill="none">
+                    <g>
+                        <ellipse id="Avatar background" cx="32.8781" cy="32.4216" rx="32.1222" ry="31.9431" fill="#D9D9D9"/>
+                        <path id="Avatar head" d="M33.4221 37.2943C38.2331 37.2943 42.1332 33.416 42.1332 28.6318C42.1332 23.8476 38.2331 19.9692 33.4221 19.9692C28.611 19.9692 24.7109 23.8476 24.7109 28.6318C24.7109 33.416 28.611 37.2943 33.4221 37.2943Z" fill="#010002"/>
+                        <path id="Avatar torso" d="M37.8465 38.377H27.9091C21.3326 38.377 16 42.5912 16 47.7916V55.707C16 55.707 22.5333 61.1232 32.8778 61.1161C43.2223 61.109 49.7556 55.707 49.7556 55.707L49.7556 47.7916C49.7556 42.5912 44.423 38.377 37.8465 38.377Z" fill="#010002"/>
+                    </g>
+                </svg>
+                <div class="list-group list-group-light">
+                    
+                    <button type="button" class="list-group-item list-group-item-action px-3 border-0 active" aria-current="true" onclick="openModal()">
+                        Change Name
+                    </button>
+                    <button type="button" class="list-group-item list-group-item-action px-3 border-0"onclick="openPasswordModal()">
+                        Change Password
+                    </button>
+                    <button id= "deleteAccountBtn" type="button" class="list-group-item list-group-item-action px-3 border-0" onclick="deleteAccount()">
+                        Delete Account
                 
-                <button type="button" class="list-group-item list-group-item-action px-3 border-0 active" aria-current="true" onclick="openModal()">
-                    Change Name
+                    <button type="button" class="list-group-item list-group-item-action px-3 border-0" onclick="logOut()">
+                        Signout
+                
+                </div>
+            </div>
+        </div> <!-- Main Navbar end -->    
+        <div class="page-content">
+            <div class="main-frame">
+
+                <button class="back-btn" onclick="history.back()"><i class="fa-solid fa-left-long"></i></button>
+
+                <div class="upload-section" id="drop-area">
+                    <form id="uploadForm" action="/upload" method="post" enctype="multipart/form-data">
+                            <i class="fas fa-cloud-upload-alt upload-icon"></i><br>
+                            <label class="upload-text">
+                                Choose a .ppt, .pptx, .pdf, .doc, .docx, or .txt file to upload<br>
+                            </label><br>
+                            
+                            <input type="file" id="file" name="file" style="display: none;" multiple accept=".pdf, .ppt, .pptx, .doc, .docx, .txt" onchange="handleFileSelection(this)"><br>
+                            <label for="file" class="custom-file-label">Choose File</label><br>
+                            <label id="chosen-file">‎</label>
+                    </form>
+                </div>
+                
+                <button type="submit" form="uploadForm" class="cta">
+                
+                    <span class="span">UPLOAD</span>
+                    <span class="second">
+                        <svg width="50px" height="20px" viewBox="0 0 66 43" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                        <g id="arrow" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                            <path class="one" d="M40.1543933,3.89485454 L43.9763149,0.139296592 C44.1708311,-0.0518420739 44.4826329,-0.0518571125 44.6771675,0.139262789 L65.6916134,20.7848311 C66.0855801,21.1718824 66.0911863,21.8050225 65.704135,22.1989893 C65.7000188,22.2031791 65.6958657,22.2073326 65.6916762,22.2114492 L44.677098,42.8607841 C44.4825957,43.0519059 44.1708242,43.0519358 43.9762853,42.8608513 L40.1545186,39.1069479 C39.9575152,38.9134427 39.9546793,38.5968729 40.1481845,38.3998695 C40.1502893,38.3977268 40.1524132,38.395603 40.1545562,38.3934985 L56.9937789,21.8567812 C57.1908028,21.6632968 57.193672,21.3467273 57.0001876,21.1497035 C56.9980647,21.1475418 56.9959223,21.1453995 56.9937605,21.1432767 L40.1545208,4.60825197 C39.9574869,4.41477773 39.9546013,4.09820839 40.1480756,3.90117456 C40.1501626,3.89904911 40.1522686,3.89694235 40.1543933,3.89485454 Z" fill="#FFFFFF"></path>
+                            <path class="two" d="M20.1543933,3.89485454 L23.9763149,0.139296592 C24.1708311,-0.0518420739 24.4826329,-0.0518571125 24.6771675,0.139262789 L45.6916134,20.7848311 C46.0855801,21.1718824 46.0911863,21.8050225 45.704135,22.1989893 C45.7000188,22.2031791 45.6958657,22.2073326 45.6916762,22.2114492 L24.677098,42.8607841 C24.4825957,43.0519059 24.1708242,43.0519358 23.9762853,42.8608513 L20.1545186,39.1069479 C19.9575152,38.9134427 19.9546793,38.5968729 20.1481845,38.3998695 C20.1502893,38.3977268 20.1524132,38.395603 20.1545562,38.3934985 L36.9937789,21.8567812 C37.1908028,21.6632968 37.193672,21.3467273 37.0001876,21.1497035 C36.9980647,21.1475418 36.9959223,21.1453995 36.9937605,21.1432767 L20.1545208,4.60825197 C19.9574869,4.41477773 19.9546013,4.09820839 20.1480756,3.90117456 C20.1501626,3.89904911 20.1522686,3.89694235 20.1543933,3.89485454 Z" fill="#FFFFFF"></path>
+                            <path class="three" d="M0.154393339,3.89485454 L3.97631488,0.139296592 C4.17083111,-0.0518420739 4.48263286,-0.0518571125 4.67716753,0.139262789 L25.6916134,20.7848311 C26.0855801,21.1718824 26.0911863,21.8050225 25.704135,22.1989893 C25.7000188,22.2031791 25.6958657,22.2073326 25.6916762,22.2114492 L4.67709797,42.8607841 C4.48259567,43.0519059 4.17082418,43.0519358 3.97628526,42.8608513 L0.154518591,39.1069479 C-0.0424848215,38.9134427 -0.0453206733,38.5968729 0.148184538,38.3998695 C0.150289256,38.3977268 0.152413239,38.395603 0.154556228,38.3934985 L16.9937789,21.8567812 C17.1908028,21.6632968 17.193672,21.3467273 17.0001876,21.1497035 C16.9980647,21.1475418 16.9959223,21.1453995 16.9937605,21.1432767 L0.15452076,4.60825197 C-0.0425130651,4.41477773 -0.0453986756,4.09820839 0.148075568,3.90117456 C0.150162624,3.89904911 0.152268631,3.89694235 0.154393339,3.89485454 Z" fill="#FFFFFF"></path>
+                        </g>
+                        </svg>
+                    </span> 
                 </button>
-                <button type="button" class="list-group-item list-group-item-action px-3 border-0"onclick="openPasswordModal()">
-                    Change Password
-                </button>
-                <button id= "deleteAccountBtn" type="button" class="list-group-item list-group-item-action px-3 border-0" onclick="deleteAccount()">
-                    Delete Account
-               
-                <button type="button" class="list-group-item list-group-item-action px-3 border-0" onclick="logOut()">
-                    Signout
-               
+                    
+            </div>
+        </div> 
+
+        <div id="success-overlay" class="success-overlay">
+            <div class="success-panel">
+                <div class="panel-content">
+                    <h1>Please wait while your file is being processed</h1>
+                    <h2 id="processingStatus">‎</h2>
+                    <div class="loader"></div>
+                </div>
             </div>
         </div>
-    </div> <!-- Main Navbar end -->    
-    <div class="page-content">
-        <div class="main-frame">
 
-            <button class="back-btn" onclick="history.back()"><i class="fa-solid fa-left-long"></i></button>
+        <div id="popup-overlay" class="popup-overlay">
+            <div class="popup-prompt">
+                <button class="close-btn" onclick="closePopup()">&times;</button>
 
-            <div class="upload-section" id="drop-area">
-                <form id="uploadForm" action="/upload" method="post" enctype="multipart/form-data">
-                        <i class="fas fa-cloud-upload-alt upload-icon"></i><br>
-                        <label class="upload-text">
-                            Choose a .ppt, .pptx, .pdf, .doc, .docx, or .txt file to upload<br>
-                        </label><br>
-                        
-                        <input type="file" id="file" name="file" style="display: none;" multiple accept=".pdf, .ppt, .pptx, .doc, .docx, .txt" onchange="handleFileSelection(this)"><br>
-                        <label for="file" class="custom-file-label">Choose File</label><br>
-                        <label id="chosen-file">‎</label>
+                <div class="popup-content">
+                    <h2>What kind of file do you want to upload?</h2>
+                    <button onclick="chooseOption('text')">Text-based</button>
+                    <button onclick="chooseOption('video')">Video-based</button>
+                    <input type="text" placeholder="Insert YouTube video URL" id="YT_link">
+                    <button type="submit" onclick="chooseOption('link')">Send Link</button>
+                </div>
+            </div>
+        </div>
+        <div id="PasswordModal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closePasswordModal()">&times;</span>
+                <h2>Change Password</h2>
+        
+                <form id="changePasswordForm" method="post" action="/change_password">
+                    <label for="currentPassword">Current Password:</label>
+                    <input type="password" id="currentPassword" name="currentPassword" required><br><br>
+                    
+                    <label for="newPassword">New Password:</label>
+                    <input type="password" id="newPassword" name="newPassword" required>
+                    <input type="checkbox" id="showNewPassword"> <label for="showNewPassword">Show Password</label><br><br>
+                    
+                    <label for="confirmPassword">Confirm New Password:</label>
+                    <input type="password" id="confirmPassword" name="confirmPassword" required>
+                    <input type="checkbox" id="showConfirmPassword"> <label for="showConfirmPassword">Show Password</label><br><br>
+                    
+                    <input type="submit" class="btn" value="Change Password">
                 </form>
             </div>
-            
-            <button type="submit" form="uploadForm" class="cta">
-            
-                <span class="span">UPLOAD</span>
-                <span class="second">
-                    <svg width="50px" height="20px" viewBox="0 0 66 43" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                    <g id="arrow" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                        <path class="one" d="M40.1543933,3.89485454 L43.9763149,0.139296592 C44.1708311,-0.0518420739 44.4826329,-0.0518571125 44.6771675,0.139262789 L65.6916134,20.7848311 C66.0855801,21.1718824 66.0911863,21.8050225 65.704135,22.1989893 C65.7000188,22.2031791 65.6958657,22.2073326 65.6916762,22.2114492 L44.677098,42.8607841 C44.4825957,43.0519059 44.1708242,43.0519358 43.9762853,42.8608513 L40.1545186,39.1069479 C39.9575152,38.9134427 39.9546793,38.5968729 40.1481845,38.3998695 C40.1502893,38.3977268 40.1524132,38.395603 40.1545562,38.3934985 L56.9937789,21.8567812 C57.1908028,21.6632968 57.193672,21.3467273 57.0001876,21.1497035 C56.9980647,21.1475418 56.9959223,21.1453995 56.9937605,21.1432767 L40.1545208,4.60825197 C39.9574869,4.41477773 39.9546013,4.09820839 40.1480756,3.90117456 C40.1501626,3.89904911 40.1522686,3.89694235 40.1543933,3.89485454 Z" fill="#FFFFFF"></path>
-                        <path class="two" d="M20.1543933,3.89485454 L23.9763149,0.139296592 C24.1708311,-0.0518420739 24.4826329,-0.0518571125 24.6771675,0.139262789 L45.6916134,20.7848311 C46.0855801,21.1718824 46.0911863,21.8050225 45.704135,22.1989893 C45.7000188,22.2031791 45.6958657,22.2073326 45.6916762,22.2114492 L24.677098,42.8607841 C24.4825957,43.0519059 24.1708242,43.0519358 23.9762853,42.8608513 L20.1545186,39.1069479 C19.9575152,38.9134427 19.9546793,38.5968729 20.1481845,38.3998695 C20.1502893,38.3977268 20.1524132,38.395603 20.1545562,38.3934985 L36.9937789,21.8567812 C37.1908028,21.6632968 37.193672,21.3467273 37.0001876,21.1497035 C36.9980647,21.1475418 36.9959223,21.1453995 36.9937605,21.1432767 L20.1545208,4.60825197 C19.9574869,4.41477773 19.9546013,4.09820839 20.1480756,3.90117456 C20.1501626,3.89904911 20.1522686,3.89694235 20.1543933,3.89485454 Z" fill="#FFFFFF"></path>
-                        <path class="three" d="M0.154393339,3.89485454 L3.97631488,0.139296592 C4.17083111,-0.0518420739 4.48263286,-0.0518571125 4.67716753,0.139262789 L25.6916134,20.7848311 C26.0855801,21.1718824 26.0911863,21.8050225 25.704135,22.1989893 C25.7000188,22.2031791 25.6958657,22.2073326 25.6916762,22.2114492 L4.67709797,42.8607841 C4.48259567,43.0519059 4.17082418,43.0519358 3.97628526,42.8608513 L0.154518591,39.1069479 C-0.0424848215,38.9134427 -0.0453206733,38.5968729 0.148184538,38.3998695 C0.150289256,38.3977268 0.152413239,38.395603 0.154556228,38.3934985 L16.9937789,21.8567812 C17.1908028,21.6632968 17.193672,21.3467273 17.0001876,21.1497035 C16.9980647,21.1475418 16.9959223,21.1453995 16.9937605,21.1432767 L0.15452076,4.60825197 C-0.0425130651,4.41477773 -0.0453986756,4.09820839 0.148075568,3.90117456 C0.150162624,3.89904911 0.152268631,3.89694235 0.154393339,3.89485454 Z" fill="#FFFFFF"></path>
-                    </g>
-                    </svg>
-                </span> 
-            </button>
-                
         </div>
-    </div> 
-
-    <div id="success-overlay" class="success-overlay">
-        <div class="success-panel">
-            <div class="panel-content">
-                <h1>Please wait while your file is being processed</h1>
-                <h2 id="processingStatus">‎</h2>
-                <div class="loader"></div>
+        <div id="nameModal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeModal()">&times;</span>
+                <h2>Change Name</h2>
+                <label for="username">Current name:</label>
+            <span id="usernamelabel">{{ session['UserName'] }}</span>
+                <form id="changeNameForm" method="post">
+                    <label for="newName12">New name:</label>
+                    <input type="text" id="newName" name="newName"><br><br>
+                    <input type="submit" class="btn" value="Submit">
+                </form>
             </div>
         </div>
-    </div>
+        
+        <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
-    <div id="popup-overlay" class="popup-overlay">
-        <div class="popup-prompt">
-            <button class="close-btn" onclick="closePopup()">&times;</button>
-
-            <div class="popup-content">
-                <h2>What kind of file do you want to upload?</h2>
-                <button onclick="chooseOption('text')">Text-based</button>
-                <button onclick="chooseOption('video')">Video-based</button>
-                <input type="text" placeholder="Insert YouTube video URL" id="YT_link">
-                <button type="submit" onclick="chooseOption('link')">Send Link</button>
-            </div>
-        </div>
-    </div>
-    <div id="PasswordModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closePasswordModal()">&times;</span>
-            <h2>Change Password</h2>
-    
-            <form id="changePasswordForm" method="post" action="/change_password">
-                <label for="currentPassword">Current Password:</label>
-                <input type="password" id="currentPassword" name="currentPassword" required><br><br>
-                
-                <label for="newPassword">New Password:</label>
-                <input type="password" id="newPassword" name="newPassword" required>
-                <input type="checkbox" id="showNewPassword"> <label for="showNewPassword">Show Password</label><br><br>
-                
-                <label for="confirmPassword">Confirm New Password:</label>
-                <input type="password" id="confirmPassword" name="confirmPassword" required>
-                <input type="checkbox" id="showConfirmPassword"> <label for="showConfirmPassword">Show Password</label><br><br>
-                
-                <input type="submit" class="btn" value="Change Password">
-            </form>
-        </div>
-    </div>
-    <div id="nameModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeModal()">&times;</span>
-            <h2>Change Name</h2>
-             <label for="username">Current name:</label>
-        <span id="usernamelabel">{{ session['UserName'] }}</span>
-            <form id="changeNameForm" method="post">
-                <label for="newName12">New name:</label>
-                <input type="text" id="newName" name="newName"><br><br>
-                <input type="submit" class="btn" value="Submit">
-            </form>
-        </div>
-    </div>
-    
-    <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-
-    <script src="{{ url_for('static', filename='js/uploadDoc.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/Avatar.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/popUpHandler.js') }}"></script>
-</body>
+        <script src="{{ url_for('static', filename='js/uploadDoc.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/Avatar.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/popUpHandler.js') }}"></script>
+    </body>
 </html>
