@@ -324,20 +324,6 @@ class Questions_Repo:
             if not os.path.exists(self.output_mcqs_hard):
                 self.output_mcqs_hard = None
             self.addDocumentQuestionsToFirestore()
-            time.sleep(2)
-            Questions_Repo.close_file_if_open("mainServerTest/assets/input_files/text-based/"+Questions_Repo.getFileNameFromPathWithOutExtension(file_path)+".pdf")
-            Questions_Repo.close_file_if_open("mainServerTest/assets/input_files/text-based/"+Questions_Repo.getFileNameFromPathWithOutExtension(file_path)+".ppt")
-            Questions_Repo.close_file_if_open("mainServerTest/assets/input_files/text-based/"+Questions_Repo.getFileNameFromPathWithOutExtension(file_path)+".pptx")
-            Questions_Repo.close_file_if_open("mainServerTest/assets/input_files/text-based/"+Questions_Repo.getFileNameFromPathWithOutExtension(file_path)+".doc")
-            Questions_Repo.close_file_if_open("mainServerTest/assets/input_files/text-based/"+Questions_Repo.getFileNameFromPathWithOutExtension(file_path)+".docx")
-            Questions_Repo.close_file_if_open("mainServerTest/assets/output_files/flashcards/"+Questions_Repo.getFileNameFromPathWithOutExtension(file_path)+".json")
-            Questions_Repo.close_file_if_open("mainServerTest/assets/output_files/mcq/"+Questions_Repo.getFileNameFromPathWithOutExtension(file_path)+"easy.json")
-            Questions_Repo.close_file_if_open("mainServerTest/assets/output_files/mcq/"+Questions_Repo.getFileNameFromPathWithOutExtension(file_path)+"medium.json")
-            Questions_Repo.close_file_if_open("mainServerTest/assets/output_files/mcq/"+Questions_Repo.getFileNameFromPathWithOutExtension(file_path)+"hard.json")
-            
-            Questions_Repo.close_file_if_open("mainServerTest/assets/output_files/summaries/"+Questions_Repo.getFileNameFromPathWithOutExtension(file_path)+".json") 
-   
-   
   
       else:
         transcript_text = self.read_text_file(file_path)
@@ -381,23 +367,6 @@ class Questions_Repo:
             if not os.path.exists(self.output_mcqs_hard):
                 self.output_mcqs_hard = None
             self.addVideoQuestionsToFirestore()
-            time.sleep(2)
-            Questions_Repo.close_file_if_open("mainServerTest/assets/input_files/video/"+Questions_Repo.getFileNameFromPathWithOutExtension(file_path)+".mp4")
-            Questions_Repo.close_file_if_open("mainServerTest/assets/input_files/video-based/"+Questions_Repo.getFileNameFromPathWithOutExtension(file_path)+".mp4")
-
-            Questions_Repo.close_file_if_open("mainServerTest/assets/output_files/audio/"+Questions_Repo.getFileNameFromPathWithOutExtension(file_path)+".mp3")
-            Questions_Repo.close_file_if_open("mainServerTest/assets/output_files/Chapters/"+Questions_Repo.getFileNameFromPathWithOutExtension(file_path)+".json")
-            Questions_Repo.close_file_if_open("mainServerTest/assets/output_files/Processed_Chapters/"+Questions_Repo.getFileNameFromPathWithOutExtension(file_path)+".json")
-            Questions_Repo.close_file_if_open("mainServerTest/assets/output_files/flashcards/"+Questions_Repo.getFileNameFromPathWithOutExtension(file_path)+".json")
-            Questions_Repo.close_file_if_open("mainServerTest/assets/output_files/mcq/"+Questions_Repo.getFileNameFromPathWithOutExtension(file_path)+"easy_transcript.json")
-            Questions_Repo.close_file_if_open("mainServerTest/assets/output_files/mcq/"+Questions_Repo.getFileNameFromPathWithOutExtension(file_path)+"medium_transcript.json")
-            Questions_Repo.close_file_if_open("mainServerTest/assets/output_files/mcq/"+Questions_Repo.getFileNameFromPathWithOutExtension(file_path)+"hard_transcript.json")
-            
-            Questions_Repo.close_file_if_open("mainServerTest/assets/output_files/summaries/"+Questions_Repo.getFileNameFromPathWithOutExtension(file_path)+".json") 
-   
-   
-             
-    
  
     @staticmethod
     def updateUserLevelInFirestore(user_id, new_level):

@@ -1,7 +1,4 @@
 var chosenFile;
-let socketID = undefined;
-
-let inputFile; // Define formData globally
 let input;
 
 function handleFileSelection() {
@@ -26,7 +23,7 @@ function handleFileSelection() {
     }
 }
 
-
+let socketID = undefined;
 
 document.addEventListener('DOMContentLoaded', function() {
 
@@ -34,8 +31,8 @@ document.addEventListener('DOMContentLoaded', function() {
     var socket = io.connect(`http://127.0.0.1:5000/`);
 
     socket.on("connect", function () {
-        let socketID = socket.id;
-        console.log('Socket ID Established: ', socketID)
+        socketID = socket.id;
+        console.log('Established Socket ID: ', socketID)
     });
 
     var processedVideo;

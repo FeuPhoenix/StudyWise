@@ -507,10 +507,24 @@ async def upload_file():
             
             # Send a completion update message to the client
             socketio.emit('update', {'message': 'Processing completed'}, to=socketID)
-
-            print('\n!!! :) !!! Files generated and uploaded to Firebase. !!! :) !!!\n',
+            
+            # Delete temporary generated files
+            if file_name : 
+                print('\n!!! :) !!! [DOCUMENT] Files generated and uploaded to Firebase. !!! :) !!!\n',
                   'Firebase File name: ', file_name,
                   'Firebase doc ID: ', material_id)
+                
+                # Delete temporary generated files
+                close_file_if_open("mainServerTest/assets/input_files/text-based/"+file_name+".pdf")
+                close_file_if_open("mainServerTest/assets/input_files/text-based/"+file_name+".ppt")
+                close_file_if_open("mainServerTest/assets/input_files/text-based/"+file_name+".pptx")
+                close_file_if_open("mainServerTest/assets/input_files/text-based/"+file_name+".doc")
+                close_file_if_open("mainServerTest/assets/input_files/text-based/"+file_name+".docx")
+                close_file_if_open("mainServerTest/assets/output_files/flashcards/"+file_name+".json")
+                close_file_if_open("mainServerTest/assets/output_files/mcq/"+file_name+"easy.json")
+                close_file_if_open("mainServerTest/assets/output_files/mcq/"+file_name+"medium.json")
+                close_file_if_open("mainServerTest/assets/output_files/mcq/"+file_name+"hard.json")
+                close_file_if_open("mainServerTest/assets/output_files/summaries/"+file_name+".json")
 
             return jsonify({'message': f'Document {file_name} uploaded successfully. ~DIDO', 'filename': file_name}), 200
         
@@ -542,8 +556,22 @@ async def upload_file():
             # Send a completion update message to the client
             socketio.emit('update', {'message': 'Processing completed'}, to=socketID)
 
-            print('\n!!! :) !!! Files generated and uploaded to Firebase. !!! :) !!!\n',
+            
+            if processed_video : 
+
+                print('\n!!! :) !!! [VIDEO] Files generated and uploaded to Firebase. !!! :) !!!\n',
                   'Firebase File name: ', processed_video)
+                # Delete temporary generated files
+                close_file_if_open("mainServerTest/assets/input_files/video/"+processed_video+".mp4")
+                close_file_if_open("mainServerTest/assets/input_files/video-based/"+processed_video+".mp4")
+                close_file_if_open("mainServerTest/assets/output_files/audio/"+processed_video+".mp3")
+                close_file_if_open("mainServerTest/assets/output_files/Chapters/"+processed_video+".json")
+                close_file_if_open("mainServerTest/assets/output_files/Processed_Chapters/"+processed_video+".json")
+                close_file_if_open("mainServerTest/assets/output_files/flashcards/"+processed_video+".json")
+                close_file_if_open("mainServerTest/assets/output_files/mcq/"+processed_video+"easy_transcript.json")
+                close_file_if_open("mainServerTest/assets/output_files/mcq/"+processed_video+"medium_transcript.json")
+                close_file_if_open("mainServerTest/assets/output_files/mcq/"+processed_video+"hard_transcript.json")
+                close_file_if_open("mainServerTest/assets/output_files/summaries/"+processed_video+".json")
 
             return jsonify({'message': f'Video: {file.filename} processed. ~DIDO', 'filename': processed_video}), 200
         else:
@@ -565,12 +593,42 @@ async def upload_file():
 
         # Send a completion update message to the client
         socketio.emit('update', {'message': 'Processing completed'}, to=socketID)
+
+        if processed_link :
+            print('\n!!! :) !!! [VIDEO LINK] Files generated and uploaded to Firebase. !!! :) !!!\n',
+                  'Firebase File name: ', processed_video)
+            
+            # Delete temporary generated files
+            close_file_if_open("mainServerTest/assets/input_files/video/"+processed_link+".mp4")
+            close_file_if_open("mainServerTest/assets/input_files/video-based/"+processed_link+".mp4")
+            close_file_if_open("mainServerTest/assets/output_files/audio/"+processed_link+".mp3")
+            close_file_if_open("mainServerTest/assets/output_files/Chapters/"+processed_link+".json")
+            close_file_if_open("mainServerTest/assets/output_files/Processed_Chapters/"+processed_link+".json")
+            close_file_if_open("mainServerTest/assets/output_files/flashcards/"+processed_link+".json")
+            close_file_if_open("mainServerTest/assets/output_files/mcq/"+processed_link+"easy_transcript.json")
+            close_file_if_open("mainServerTest/assets/output_files/mcq/"+processed_link+"medium_transcript.json")
+            close_file_if_open("mainServerTest/assets/output_files/mcq/"+processed_link+"hard_transcript.json")
+            close_file_if_open("mainServerTest/assets/output_files/summaries/"+processed_link+".json")
+        
         return jsonify({'message': f'Link: {processed_link} processed. ~DIDO', 'filename': processed_link}), 200
-
-
-
+    
     else :
         return jsonify({'message': 'No file detected ~DIDO'}), 406
+
+def close_file_if_open(file_path):
+        try:
+                # Open the file to close it if it's open
+                with open(file_path, 'r') as file:
+                    file.close()
+                    print(f"Closed the file {file_path} before deleting.")
+
+                # Now delete the file
+                os.remove(file_path)
+                print(f"Deleted the file {file_path} successfully.")
+        except FileNotFoundError:
+                print(f"No files for {file_path} found. (for deletion)")
+        except Exception as e:
+                print(f"An error occurred: {e}")
 
 @app.route('/filename', methods=['POST'])
 def receive_filename():
@@ -583,35 +641,6 @@ def receive_filename():
 
 
 # PDF CHAT ========================================================================
-@app.route('/upload', methods=['POST'])
-def upload():
-    file = request.files.get('file')
-    if not file:
-        return jsonify({'error': 'No file uploaded'}), 400
-
-    if allowed_file(file.filename):
-        filename = secure_filename(file.filename)
-        filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-        file.save(filepath)
-
-        # Extract text from the uploaded file
-        try:
-            if filename.lower().endswith('.pdf'):
-                pdf_text = extract_text_from_pdf(filepath)
-            elif filename.lower().endswith('.txt'):
-                pdf_text = extract_text_from_txt(filepath)
-            session['pdf_text'] = pdf_text  # Store extracted text in session
-        except Exception as e:
-            return jsonify({'error': f'Failed to extract text from file: {e}'}), 500
-
-        file_url = url_for('uploaded_file', filename=filename, _external=True)
-        return jsonify({'status': 'success', 'fileUrl': file_url})
-    else:
-        return jsonify({'error': 'Invalid file type'}), 400
-
-@app.route('/uploads/<filename>')
-def uploaded_file(filename):
-    return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
 
 # Route to handle chat interaction
 @app.route('/chat/<file>', methods=['POST'])
@@ -634,7 +663,7 @@ def chat(file):
     return jsonify({'response': response_text})
 
 def extract_text_from_pdf(filepath):
-    filepath=re.sub(r'\\', '/', filepath)
+    filepath = re.sub(r'\\', '/', filepath)
     try:
         text = ''
         with fitz.open(filepath) as doc:

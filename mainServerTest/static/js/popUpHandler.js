@@ -6,7 +6,10 @@ function popupPrompt() {
 let socketID = undefined;
 
 document.addEventListener('DOMContentLoaded', function () {
+
+    // Establish WebSocket connection
     var socket = io.connect(`http://127.0.0.1:5000/`);
+
     socket.on("connect", function() {
         socketID = socket.id;
         console.log('Socket ID Established: ', socketID)
