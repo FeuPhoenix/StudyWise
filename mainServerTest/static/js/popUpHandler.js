@@ -3,22 +3,22 @@ function popupPrompt() {
     document.getElementById('popup-overlay').style.display = 'block';
 }
 
-let socketID = undefined;
+let socketID_1 = undefined;
 
 document.addEventListener('DOMContentLoaded', function () {
 
     // Establish WebSocket connection
-    var socket = io.connect(`http://127.0.0.1:5000/`);
+    var socket_1 = io.connect(`http://127.0.0.1:5000/`);
 
-    socket.on("connect", function() {
-        socketID = socket.id;
-        console.log('Socket ID Established: ', socketID)
+    socket_1.on("connect", function() {
+        socketID_1 = socket_1.id;
+        console.log('socket_1 ID Established: ', socketID_1)
     });
 
     var processedLink;
     
         // Server Update Listener
-        socket.on('update', function(data) {
+        socket_1.on('update', function(data) {
             console.log('Update from server:', data.message);
             var statusElement = document.getElementById('processingStatus');
             statusElement.innerHTML = data.message;
@@ -45,9 +45,9 @@ document.addEventListener('DOMContentLoaded', function () {
             var form = document.getElementById('uploadForm');
             var formData = new FormData(form);
 
-            // Append Socket ID to formData
-            formData.append('socketID', socketID);
-            console.log('Fetching with Socket ID: ', socketID)
+            // Append socket_1 ID to formData
+            formData.append('socketID_1', socketID_1);
+            console.log('Fetching with socket_1 ID: ', socketID_1)
             
             fetch('/upload-file', {
                 method: 'POST',
@@ -146,14 +146,3 @@ function toggleSummary(btn) {
         document.getElementById('main-frame').style.maxWidth = '60%';
     }
 }
-
-document.getElementById('toggleButton').addEventListener('click', function() {
-    var videoIndexesDiv = document.getElementById('videoIndexes');
-    videoIndexesDiv.classList.toggle('expanded');
-    this.classList.toggle('collapsed');
-
-    if (document.getElementById('toggleButton').title == "Show Chapters")
-        document.getElementById('toggleButton').title = "Hide Chapters";
-    else 
-        document.getElementById('toggleButton').title = "Show Chapters";
-});

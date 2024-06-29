@@ -22,6 +22,10 @@ function closePasswordModal() {
 }
 
 $(document).ready(function() {
+    // Set Username in Navbar
+    avatar = document.querySelector('.navbar-avatar-frame');
+    avatar.style.setProperty('--before-content', `'${localStorage.getItem('UserName')}'`);
+
     $('#changeNameForm').submit(function(event) {
         event.preventDefault(); // Prevent default form submission
 

@@ -7,6 +7,23 @@ document.addEventListener("DOMContentLoaded", function() {
 
     const audioplayer = new Plyr('#audio', {});
 
+    // Transcript Dark mode listener
+    document.getElementById('TC-theme').addEventListener('click', function() {
+        document.getElementById('transcript').classList.toggle('TC-dark');
+    });
+
+    // Video index drawer listener
+    document.getElementById('toggleButton').addEventListener('click', function() {
+        var videoIndexesDiv = document.getElementById('videoIndexes');
+        videoIndexesDiv.classList.toggle('expanded');
+        this.classList.toggle('collapsed');
+    
+        if (document.getElementById('toggleButton').title == "Show Chapters")
+            document.getElementById('toggleButton').title = "Hide Chapters";
+        else 
+            document.getElementById('toggleButton').title = "Show Chapters";
+    });
+
     if (fileName) {
         document.getElementById("content-title").innerHTML = fileName;
 
@@ -149,10 +166,6 @@ document.addEventListener("DOMContentLoaded", function() {
             console.error('Error fetching JSON:', error);
         });
     }
-
-    document.getElementById('TC-theme').addEventListener('click', function() {
-        document.getElementById('transcript').classList.toggle('TC-dark');
-    });
 });
 
 function toggleAudio() {
@@ -266,17 +279,6 @@ function toggleSideViewer(btn) {
         btn.classList.remove('collapsed');
     }
 }
-
-document.getElementById('toggleButton').addEventListener('click', function() {
-    var videoIndexesDiv = document.getElementById('videoIndexes');
-    videoIndexesDiv.classList.toggle('expanded');
-    this.classList.toggle('collapsed');
-
-    if (document.getElementById('toggleButton').title == "Show Chapters")
-        document.getElementById('toggleButton').title = "Hide Chapters";
-    else 
-        document.getElementById('toggleButton').title = "Show Chapters";
-});
 
 // CHAT FOR VIDEO COMING SOON
 function goToChat() {

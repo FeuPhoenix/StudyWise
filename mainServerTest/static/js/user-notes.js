@@ -282,7 +282,7 @@ $(document).ready(function() {
 
     $("#add_new").click(newNote);
 
-    window.onload = load_notes(); // Load notes when the page loads
+    load_notes(); // Load notes when the page loads
 
     // Save notes when the user leaves the page
     window.addEventListener('beforeunload', function() {

@@ -9,9 +9,7 @@ window.onload = function() {
         })
         .then(response => response.json())
         .then(data => {
-            avatar = document.querySelector('.navbar-avatar-frame');
             localStorage.setItem('UserName', data.userName);
-            avatar.style.setProperty('--before-content', `'${localStorage.getItem('UserName')}'`);
         })
         .then(
             fetch('/load-user-content-JSON', {
