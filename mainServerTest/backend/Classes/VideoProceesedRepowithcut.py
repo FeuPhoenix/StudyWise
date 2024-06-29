@@ -407,6 +407,7 @@ class VideoProcessed_Repo_Cut:
                     if self.Video_Cut:
                         self.file_path = self.material.replace(" ", "_")
                         os.rename(self.material, self.file_path)
+                        time.sleep(1)
                         print(self.file_path)
                         audio_cutter = AudioCutter(self.file_path)
                         output_file = audio_cutter.run_audio_cutter()

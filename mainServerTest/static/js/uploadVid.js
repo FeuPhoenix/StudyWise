@@ -82,7 +82,6 @@ document.addEventListener('DOMContentLoaded', function() {
             console.log(`Uploading video: ${fileName}\n`, `audiocut: False`)
             formData.append('audiocut', 'False'); // Append audiocut = 'false' to formData
         }
-    
         fetch('/upload-file', {
             method: 'POST',
             body: formData
@@ -97,24 +96,6 @@ document.addEventListener('DOMContentLoaded', function() {
         .then(data => {
             console.log('File uploaded successfully.', data);
             processedVideo = data.filename;
-    
-            fetch('/filename', {
-                method: 'POST',
-                body: JSON.stringify({ filename: fileName }),
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            })
-            .then(response => {
-                if (response.ok) {
-                    console.log('The file name below was sent to server. \nFile name:', fileName);
-                } else {
-                    console.error('Failed to send file name to server. \nFile name:', fileName);
-                }
-            })
-            .catch(error => {
-                console.error('Error during sending file name:', error);
-            });
         })
         .catch(error => {
             console.error('Error during file upload:', error);

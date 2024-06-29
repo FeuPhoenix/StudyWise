@@ -537,7 +537,7 @@ async def upload_file():
             file.save(filepath)       
 
             if request.form.get('audiocut') == 'True' :
-                print(f'Starting processing on video (Audiocut) {file.filename}\n')
+                print(f'Starting processing on video (Audiocut) {file.filename} ==================\n')
             
                 # Send an initiation update message to the client
                 socketio.emit('update', {'message': f'Processing {file.filename}...'}, to=socketID)
@@ -546,7 +546,7 @@ async def upload_file():
                 processed_video = Video_Processed_Controller.upload_video_cut(filepath, userID)
             
             elif request.form.get('audiocut') == 'False' :
-                print(f'Starting processing on video (NON Audiocut) {file.filename}\n')
+                print(f'Starting processing on video (NON Audiocut) {file.filename} ==================\n')
             
                 # Send an initiation update message to the client
                 socketio.emit('update', {'message': f'Processing {file.filename}...'}, to=socketID)
@@ -563,8 +563,9 @@ async def upload_file():
                 print('\n!!! :) !!! [VIDEO] Files generated and uploaded to Firebase. !!! :) !!!\n',
                   'Firebase File name: ', processed_video)
                 # Delete temporary generated files
-                close_file_if_open("mainServerTest/assets/input_files/video/"+processed_video+".mp4")
                 close_file_if_open("mainServerTest/assets/input_files/video-based/"+processed_video+".mp4")
+                close_file_if_open("mainServerTest/assets/output_files/video/"+processed_video+".mp4")
+                close_file_if_open("mainServerTest/assets/input_files/video-based/"+file.filename+".mp4")
                 close_file_if_open("mainServerTest/assets/output_files/audio/"+processed_video+".mp3")
                 close_file_if_open("mainServerTest/assets/output_files/Chapters/"+processed_video+".json")
                 close_file_if_open("mainServerTest/assets/output_files/Processed_Chapters/"+processed_video+".json")

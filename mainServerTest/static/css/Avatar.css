@@ -128,6 +128,7 @@
     max-width: 10em;
     overflow-wrap: break-word;
     pointer-events: none;
+    text-align: end;
 }
 .navbar-user-avatar-SVG {
     position: relative;
