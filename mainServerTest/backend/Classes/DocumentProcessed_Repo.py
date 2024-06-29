@@ -14,7 +14,6 @@ from docx import Document
 import subprocess
 import uuid
 import fitz  # PyMuPDF
-from dotenv import load_dotenv
 from langdetect import detect
 # from spire.presentation import *
 # from spire.presentation.common import*
@@ -506,7 +505,7 @@ class DocumentProcessed:
     
     @staticmethod
     def get_Long_summary(text):
-        openai.api_key = "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"
+        openai.api_key = os.getenv('OPENAI_API_KEY')
 
 
         summaries = []

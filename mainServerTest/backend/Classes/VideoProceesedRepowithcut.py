@@ -24,7 +24,6 @@ from backend.Classes.audiocutter import AudioCutter
 
 from dotenv import load_dotenv
 
-
 load_dotenv()
 
 
@@ -349,7 +348,7 @@ class VideoProcessed_Repo_Cut:
     def generate_concise_title(headline):
         while True:
             try:
-                        openai.api_key ="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"
+                        openai.api_key = os.getenv('OPENAI_API_KEY')
 
 
                          
