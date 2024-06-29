@@ -478,13 +478,15 @@ def serve_indexes(filename):
 @app.route('/upload-file', methods=['POST'])
 async def upload_file():
     file = request.files.get('file')
-    session['uploadedFileType'] = request.form.get('FileType')
     videoLink = request.form.get('YT_link')
-    print('Got File Type:', session['uploadedFileType'])
+    
     userID = session.get('UserID')
 
-    if session['uploadedFileType'] : 
-        fileType = session.get('uploadedFileType', '').lower()
+    if request.form.get('FileType') : 
+        fileType = request.form.get('FileType').lower()
+        print('Got File Type:', fileType)
+    else :
+        print('!!!No File Type!!!')
     
     
     if file :
@@ -575,7 +577,7 @@ async def upload_file():
             return jsonify({'message': f'Video: {file.filename} processed. ~DIDO', 'filename': processed_video}), 200
         else:
             return jsonify({'message': 'Invalid file type. ~DIDO'}), 400
-    
+
     # Check if Link is detected
     elif videoLink and re.match(r'(https?://)?(www.)?(youtube.com|youtu.?be)/.+$', videoLink) : 
         # Get Socket ID from client
@@ -595,7 +597,7 @@ async def upload_file():
 
         if processed_link :
             print('\n!!! :) !!! [VIDEO LINK] Files generated and uploaded to Firebase. !!! :) !!!\n',
-                  'Firebase File name: ', processed_video)
+                  'Firebase File name: ', processed_link)
             
             # Delete temporary generated files
             close_file_if_open("mainServerTest/assets/input_files/video/"+processed_link+".mp4")

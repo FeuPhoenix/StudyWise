@@ -201,10 +201,10 @@ content: "";
 #TC-theme:hover {
 	opacity: 0.6;
 }
-#TC-theme i {
+#transcript #TC-theme i {
     transition: transform 0.2s ease-in-out;
 }
-#TC-theme:hover i {
+#transcript.TC-dark #TC-theme i {
     transform: rotateY(180deg);
     transition: transform 0.2s ease-in-out;
 }

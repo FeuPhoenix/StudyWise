@@ -85,14 +85,6 @@ function closePopup() {
     document.getElementById('popup-overlay').style.display = 'none';
 }
 
-// Close popup when clicking outside
-window.onclick = function(event) {
-    var popup = document.querySelector('.popup-overlay');
-    if (event.target == popup) {
-        closePopup();
-    }
-}
-
 // Close popup when pressing Escape key
 document.onkeydown = function(evt) {
     evt = evt || window.event;

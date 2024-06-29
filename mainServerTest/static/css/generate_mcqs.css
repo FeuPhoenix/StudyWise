@@ -49,7 +49,7 @@ body {
     transition: all 0.3s ease;
 }
 
-#user-points {
+#user-points-filtered {
     font-size: 24px;
     margin-bottom: 20px;
     color: #4CAF50;
@@ -87,6 +87,44 @@ body {
 .incorrect {
     background-color: #ef9a9a;
     animation: incorrectOptionAnimation 0.5s ease-in-out;
+}
+
+#countdown-timer {
+    width: 110px;
+    height: 55px;
+    background-color: black;
+    color: white;
+    font-size: 30px;
+    text-align: center;
+    line-height: 50px;
+    position: fixed;
+    bottom: 40%;
+    right: 10px;
+    border-radius: 5px;
+    opacity: 0.8;
+}
+
+#quiz-section-filtered {
+    display: flex;
+    flex-direction: column;
+}
+
+#filtered-mcq-submit {
+    background-color: #00b7ff;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 10px 20px;
+    font-size: 24px;
+    width: 150px;
+    cursor: pointer;
+    align-self: center;
+    transition: all 0.2s ease;
+}
+#filtered-mcq-submit:hover {
+    scale: 1.02;
+    opacity: 0.8;
+    transition: all 0.2s ease;
 }
 
 #to-leaderboard {

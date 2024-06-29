@@ -2,14 +2,15 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='assets/images/Studywise_Logo.png') }}" type="image/x-icon">
     <title>MCQ Quiz</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/generate_mcqs.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/pop-up-style.css') }}">
 </head>
 <body>
     <div class="tab">
-        <button class="tablinks" onclick="openTab(event, 'General')">General Questions</button>
-        <button class="tablinks" onclick="openTab(event, 'Filtered')"> Questions Based on Points</button>
+        <button id="mcq-general-tab" class="tablinks" onclick="openTab(event, 'General')">General Questions</button>
+        <button id="mcq-filtered-tab" class="tablinks" onclick="openTab(event, 'Filtered')"> Questions Based on Points</button>
     </div>
 
     <div id="General" class="tabcontent">
@@ -20,9 +21,9 @@
 
     <div id="Filtered" class="tabcontent">
         <div id="quiz-section-filtered">
-            <div id="user-points">Points: 0</div>
+            <div id="user-points-filtered">Points: 0</div>
             <div id="mcq-container-filtered"></div> <!-- Filtered MCQs will be injected here -->
-            
+            <button id="filtered-mcq-submit">Submit</button>
         </div>
     </div>
 

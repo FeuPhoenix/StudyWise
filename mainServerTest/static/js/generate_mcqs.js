@@ -17,6 +17,7 @@ const allMcqs = [...mcqsE, ...mcqsM, ...mcqsH];
 let userPoints = 0; // Initialize user points
 let fetchTimeout;
 let answeredCount = 0; // Variable to track the number of answered questions
+let timerInterval;
 
 async function fetchMCQs() {
     try {
@@ -123,11 +124,45 @@ function handleOptionClick(selectedOption, correctAnswer, optionDiv, optionsDiv)
 }
 
 
-
 document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('mcq-general-tab').click();
+    addCountdownTimer();
     fetchMCQs();
     fetchAllMCQs();
 });
+
+function startTimer(duration, display) {
+    let timer = duration, minutes, seconds;
+    clearInterval(timerInterval);
+    timerInterval = setInterval(function () {
+        minutes = parseInt(timer / 60, 10);
+        seconds = parseInt(timer % 60, 10);
+
+        minutes = minutes < 10 ? "0" + minutes : minutes;
+        seconds = seconds < 10 ? "0" + seconds : seconds;
+
+        display.textContent = minutes + ":" + seconds;
+
+        if (--timer < 0) {
+            clearInterval(timerInterval);
+        }
+    }, 1000);
+}
+
+function addCountdownTimer() {
+    let timerElement = document.getElementById('countdown-timer');
+    if (!timerElement) {
+        container = document.getElementById('Filtered');
+        timerElement = document.createElement('div');
+        timerElement.id = 'countdown-timer';
+        container.appendChild(timerElement);
+    }
+    else {
+        clearInterval(timerInterval);
+    }
+    const threeMinutes = 60 * 3;
+    startTimer(threeMinutes, timerElement);
+}
 
 // Filtered MCQs
 async function fetchFilteredMCQs() {
@@ -219,14 +254,22 @@ function handleFilteredOptionClick(selectedOption, correctAnswer, optionDiv, opt
         optionDiv.classList.add('incorrect');
         updateFilteredUserPoints(false); // Decrease points for incorrect answer
     }
-
-    clearTimeout(fetchTimeout);
-    fetchTimeout = setTimeout(fetchFilteredMCQs, 5000);
 }
 
 document.addEventListener('DOMContentLoaded', function() {
     fetchFilteredMCQs();
+    // MCQ Submit Listener
+    document.getElementById('filtered-mcq-submit').addEventListener('click', function () {
+        fetchFilteredMCQs();
+        addCountdownTimer();
+    });
+    // MCQ Filtered Timer Listener
+    document.getElementById('mcq-filtered-tab').addEventListener('click', function () {
+        addCountdownTimer();
+    });
 });
+
+
 
 function openTab(evt, tabName) {
     var i, tabcontent, tablinks;

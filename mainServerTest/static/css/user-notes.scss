@@ -394,10 +394,10 @@ a:focus {
 #NB-theme:hover {
 	opacity: 0.9;
 }
-#NB-theme i {
+#board #NB-theme i {
     transition: transform 0.2s ease-in-out;
 }
-#NB-theme:hover i {
+#board.NB-dark #NB-theme i {
     transform: rotateY(180deg);
     transition: transform 0.2s ease-in-out;
 }
